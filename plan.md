@@ -132,7 +132,7 @@ Firebase Console 的「Authorized domains」是網站可進行登入的來源網
 - 問卷文件保留 `observedAt`（觀察時間）、`createdAt`（系統建立時間）與 `updatedAt`（最後更新）；防治紀錄中每個 event 另保留自己的 `time`。目前無伺服器端草稿送出流程，因此不另存 `submittedAt`。
 - 問卷地點以 WGS84 的 `latitude` 與 `longitude` 儲存，地址與行政區放在同一文件的獨立欄位。交給 MapLibre 時轉成 GeoJSON Point，座標順序固定為 `[longitude, latitude]`；公開資料另產生獨立 projection，依當時政策輸出精確點、區域化座標或彙整網格，絕不直接公開原始文件。
 - `riskLevel` 與 `confidenceLevel` 必須是不同欄位。
-- 不覆寫防治歷史；`controlRecords.events` 只能經授權流程新增，不就地刪除或改寫舊 event，修正另追加 `correction` action。
+- 不覆寫防治歷史；`baitRecords.events` 只能經授權流程新增，不就地刪除或改寫舊 event，修正另追加 `correction` action。
 - 系統產生欄位只能由後端寫入，不能信任瀏覽器傳來的 role、confidence、公開狀態或風險分數。
 - 所有公開內容都要有 `sourceUpdatedAt`、`publishedAt`、`modelVersion`／`methodVersion` 與可閱讀的 `reasonCodes`。
 - Firestore 沒有欄位級讀取保護；含 UID、地址或精確座標的文件絕不與公開 projection 共用 collection。
@@ -140,7 +140,7 @@ Firebase Console 的「Authorized domains」是網站可進行登入的來源網
 
 ### 3.2 Firestore collections
 
-通報頁依登入角色顯示不同問卷：`citizen` 只看到「市民通報鼠跡」；`official` 與 `admin` 看到兩個 tab：「鼠跡調查」與「防治／投藥紀錄」。前端顯示不是安全邊界，Firestore 與 Storage Security Rules 仍必須依 custom claim 限制各 collection 的讀寫。
+通報頁依登入角色顯示不同問卷：`citizen` 只看到「市民通報鼠跡」；`official` 與 `admin` 看到「鼠跡調查」與「投藥紀錄」兩個 tab；研究治理 gate 通過後才多一個「採樣紀錄」tab。前端顯示不是安全邊界，Firestore 與 Storage Security Rules 仍必須依 custom claim 限制各 collection 的讀寫。
 
 #### `users/{uid}`
 
@@ -209,7 +209,7 @@ type CitizenReport = {
 }
 ```
 
-`observedAt` 由市民填寫；`createdAt` 與 `updatedAt` 使用 Firebase server timestamp。`photoPaths` 直接保存 Firebase Storage path，不另建 media ID 關聯。`reportType` 為必填：`rat` 表示看到老鼠、死鼠或鼠跡，`bait` 表示看到餌劑、餌站或疑似投藥；兩類對應見鼠地圖的資料分類，讓匯入資料與平台通報可放在同一套圖層比較。除此之外，市民通報不儲存細部 observation category、數量、公開狀態或審核狀態。`bait` 通報是市民觀察，不等同市府 `controlRecords`，也不能證明投藥者或藥劑種類。
+`observedAt` 由市民填寫；`createdAt` 與 `updatedAt` 使用 Firebase server timestamp。`photoPaths` 直接保存 Firebase Storage path，不另建 media ID 關聯。`reportType` 為必填：`rat` 表示看到老鼠、死鼠或鼠跡，`bait` 表示看到餌劑、餌站或疑似投藥；兩類對應見鼠地圖的資料分類，讓匯入資料與平台通報可放在同一套圖層比較。除此之外，市民通報不儲存細部 observation category、數量、公開狀態或審核狀態。`bait` 通報是市民觀察，不等同市府 `baitRecords`，也不能證明投藥者或藥劑種類。
 
 照片在 MVP 為選填；若選擇上傳，只接受鼠類、死鼠或鼠跡相關照片，不接受人像。`bait` 通報則接受餌劑、餌站或警示標示照片。介面應提醒使用者不要為了拍攝接近、追逐或接觸老鼠，不要觸碰或移動餌劑、餌站，也不要拍入他人臉部或私人住宅內部。自動檢測只能輔助攔截，發布前仍需人工審核。
 
@@ -373,7 +373,8 @@ type BaitRecord = {
 - `operatorId`：執行該次作業事件的人員 UID。
 - `events`：按照作業時間記錄每次行動。
 - `actions`：同一次到場可同時執行多項措施。
-- `product`：記錄該次作業使用的藥劑或產品。
+- `product`：記錄該次作業使用的藥劑或產品；選了 `bait_placed` 時必填，`productType` 區分殺鼠劑、生育控制與其他。
+- 範圍：`baitRecords` 只記餌劑與餌站作業。巡查與捕鼠器屬調查／採樣，記於 `sampleRecords`；環境清理與封堵入口目前不記錄於這兩個 collection，是否另設欄位待產品確認。
 - `photoPaths`：照片歸屬於所屬 Event，自然對應該 Event 的 `time`。
 - `linkedOfficialObservationId`、`linkedCitizenReportId`：選填，不要求防治作業一定來自既有通報或調查。
 
@@ -680,7 +681,7 @@ Collection 邊界統一如下，避免把現場作業、個體、檢體和推估
 ```text
 citizenReports/           # 市民通報
 officialObservations/     # 官方鼠跡調查
-controlRecords/           # 防治作業（原討論中的 baitRecords 概念已併入此處）
+baitRecords/              # 投藥／餌站作業（原 controlRecords，2026-10-23 更名）
 sampleRecords/            # 採樣週期、事件、CMR 捕捉遭遇
 ratIndividuals/           # 跨採樣事件的個體身分
 geneticSamples/           # 實體基因檢體與實驗室流程
@@ -934,7 +935,8 @@ MVP 先輸出 `observedActivity`（觀察到的鼠跡／處置訊號）、`dataC
 - 地點步驟提供：地址／地標搜尋、地圖拖曳 pin、使用目前位置。顯示定位精度，禁止在使用者尚未確認前自動送出 GPS。
 - 照片上傳在選檔後立即顯示壓縮結果、上傳進度與刪除按鈕。
 - 成功頁顯示通報編號、審核狀態與公開前會進行去識別處理。
-- Official 表單依 `eventType` 顯示相關欄位；「投放」、「查核」、「補充」、「移除」是不同事件，不用一個狀態欄覆寫歷史。
+- Official 表單有「鼠跡調查」「投藥紀錄」兩個 tab，採樣紀錄 tab 待研究治理 gate 通過後啟用。投藥紀錄的行動為「設置餌站、投放餌劑、查核、補充、移除、更正」，只有「投放餌劑」要填藥劑資訊（產品名稱、藥劑種類、有效成分、許可證字號）；「設置」、「查核」、「補充」、「移除」是不同事件，不用一個狀態欄覆寫歷史。
+- 採樣紀錄（設計稿草稿）：採樣方式；事件行動為設置捕鼠器、檢查、移除、採集樣本、更正；樣本類型與數量；採樣努力量（捕鼠器數、工作時數，未採樣不能記為零捕獲）；捕捉遭遇（個體編號、首次／再捕捉／無法判定、疑似鼠種、性別、體重、是否標記與放回）。基因檢體、親緣分析與親緣線圖層不在 MVP 設計範圍。
 
 ### 6.4 地圖頁
 
@@ -1033,6 +1035,27 @@ type LiteratureLink =
 
 MVP 建議：地點搜尋選用可合法永久保存結果的 geocoder，或只把使用者最後確認的座標／文字視為使用者輸入保存；在隱私政策列出供應商與資料種類。後端對 geocoding 加 per-user／per-day rate limit、全站每日上限與月費警示，正式配額在 Phase 0 用預估通報量與單次成本計算。
 
+### 7.3 Firebase 服務分工、最小可信任後端與成本防護
+
+Firebase 不是單一資料庫。資料應依性質分流：Firestore 保存結構化營運資料（帳號 profile、membership、通報、調查、防治、審核及公開 projection）；Cloud Storage 保存原始照片與處理後衍生檔；Authentication 保存登入身分與驗證狀態。前端可在 Security Rules 允許的範圍內直接寫入自己的市民通報與私有 staging 上傳，但不能自行設定角色、信任未驗證的檔案、產生公開資料或改寫稽核歷史。
+
+因此，MVP 仍需要最小化的 Cloud Functions，而不是把所有業務邏輯放到前端。Functions 是唯一可使用 Admin SDK 的可信任環境，負責：
+
+- 建立／啟用／撤銷 official 邀請與 `citizen`／`official`／`admin` custom claims，並撤銷 refresh tokens、寫入 `auditLogs`。
+- 驗證照片檔案與大小、重新編碼、移除 EXIF／GPS、建立 media metadata，且只在人工審核後建立公開衍生檔。
+- 以來源 allowlist 產生不含 UID、地址或原始座標的公開 projection；client 不可直接發布。
+- 對官方可寫的 append-only event、跨 collection reference 與需使用 Admin SDK 的治理操作執行伺服器端授權與 transaction 驗證。
+
+不需 Functions 的情境只有不含上述安全要求的純靜態展示或簡單、私有資料 CRUD；不符合本專案既定的 official 邀請制、公開去識別與稽核需求。Functions 不應代理所有正常讀取：公開地圖與登入者可讀資料仍由 Firestore／Storage Rules 直接服務，以減少延遲與費用。
+
+**dev Firebase 專案設定：**先建立唯一的 `taipei-urban-rat-lab-dev`。Firestore、Cloud Storage 與 Functions 固定在 `asia-east1`（Taiwan）；不可在建立 default Firestore database 後任意搬遷區域。Functions 使用第 2 代與 Node.js 22；dev 的全域預設為 `minInstances: 0`、保守的 `maxInstances: 2`、明確 timeout／memory、禁止未審核的高併發設定。這些限制在開發期優先控制爆量與成本，production 另依壓測結果決定。
+
+**Blaze 與衍生成本：**Cloud Functions 需要 Blaze（連結 Cloud Billing）。低流量 dev 若 Functions 閒置且落在 Cloud Run functions 免費額度內，通常不會有執行費；但仍要留意 Functions 觸發的 Cloud Build、Artifact Registry 容器映像、Cloud Logging、Eventarc、外網輸出及 Storage 讀寫費。每次 Functions 部署都會產生 container image；設定 Artifact Registry cleanup policy，避免舊映像持續佔用空間。Cloud Logging 的 dev log 採 structured、避免寫入個資與大量 debug payload，`_Default` log bucket 保留 30 天，不設延長留存。建立 Billing budget notification 與 Cloud Run functions spend cap；budget notification 只告警，不會自動停止費用，spend cap 才會暫停新增使用量。
+
+**App Check（Web）：**新 Web 整合採 reCAPTCHA Enterprise provider；本機 Emulator／CI 使用 App Check debug token，不產生正式 assessment。dev Hosting 網域註冊 Enterprise key 後，先只觀測 App Check 指標，再對 Firestore、Storage 與 callable Functions 分服務啟用 enforcement，避免未註冊的開發環境被誤擋。每 organization 前 10,000 assessments／月免費；目前超過後，在已綁 Billing 的 Premium 情境，10,001–100,000 assessments 為月費 US$8，100,000 以上為 US$1／1,000 assessments。額度是 organization 共享而非每 project 獨立，需監控而非假設 dev 永遠免費。
+
+**Authentication：**維持 email-enumeration protection；此保護不直接計費，但 UI 與 API 不得透過「此信箱是否存在／使用何種 provider」洩露帳號。不得用 `fetchSignInMethodsForEmail()` 做 identifier-first 分流，登入、重設密碼與驗證信一律顯示中性回覆。Email/Password 與 Google 登入在 Firebase Authentication 基礎服務內不另依此保護收費；若日後升級 Identity Platform，Email／Social MAU 超過其免費額度才依 MAU 計費。驗證信需遵守 Auth 日寄送配額與 rate limit，防止濫用。
+
 ## 8. 隱私、安全與資料治理
 
 - 病例健康資料屬高度敏感個資。公開產品只接受合法、去識別且無法回推個人的彙整資料；精確居住／工作／活動點不進公開 Firestore collection。
@@ -1060,7 +1083,7 @@ taipei-urban-rat-lab/
 │   │       │   ├── auth/
 │   │       │   ├── citizen-reports/
 │   │       │   ├── official-observations/
-│   │       │   ├── control-records/
+│   │       │   ├── bait-records/
 │   │       │   ├── research-sampling/
 │   │       │   ├── map/
 │   │       │   ├── risk/
@@ -1071,7 +1094,7 @@ taipei-urban-rat-lab/
 │           ├── auth/
 │           ├── media/
 │           ├── publication/
-│           ├── control-records/
+│           ├── bait-records/
 │           └── research-sampling/
 ├── packages/
 │   ├── contracts/                   # schema、enum、validator、converter
@@ -1125,9 +1148,9 @@ taipei-urban-rat-lab/
 | 比對範圍 | 網站現況 | 本計畫決策／需修正內容 | 衝突等級 |
 |---|---|---|---|
 | 專案結構 | `apps/web`＋`apps/staff`、`packages/shared` | 改為單一 `apps/web`、`apps/functions`、`packages/contracts`、`packages/ui`；不可建立第二套 staff frontend | 已決定採 plan |
-| 資料 collections | `reports`、`ratSurveys`、`baiting`、`attachments` 等舊命名 | 以本文件定義的 `citizenReports`、`officialObservations`、`controlRecords`、`media`、`memberships`、公開 projections、採樣／來源／稽核資料為準 | 已決定採 plan |
+| 資料 collections | `reports`、`ratSurveys`、`baiting`、`attachments` 等舊命名 | 以本文件定義的 `citizenReports`、`officialObservations`、`baitRecords`、`media`、`memberships`、公開 projections、採樣／來源／稽核資料為準 | 已決定採 plan |
 | 市民通報表單 | 要求 `observationTypes` 複選 | 使用者已明確要求從 `citizenReports` 移除該欄位；MVP 只保留照片、地點、日期與可選描述；另加必填 `reportType: 'rat' \| 'bait'` 對應見鼠地圖資料（單選大類，不是 observationTypes 複選） | 已決定採 plan |
-| 市府表單 | 以 `ratSurveys` 與 `baiting` 分表 | 改為 `officialObservations` 與 `controlRecords`；防治歷程使用 `events[].actions`，包含 `contraceptive` | 已決定採 plan |
+| 市府表單 | 以 `ratSurveys` 與 `baiting` 分表 | 改為 `officialObservations` 與 `baitRecords`；餌劑作業歷程使用 `events[].actions`，生育控制餌以 `product.productType: 'contraceptive'` 表示；捕鼠器與採樣改記於 `sampleRecords` | 已決定採 plan |
 | Authentication／角色 | citizen／staff，主要描述前端分流 | 統一稱 `citizen`／`official`／`admin`；domain 只可作 official 候選條件，仍須邀請或人工核准；角色由 custom claims 強制執行，Firestore 保存 membership／profile／稽核資料 | 已決定採 plan |
 | Firebase 與 Hosting | 兩個前端 app、兩個 Hosting targets | MVP 為一個 Web App＋Functions backend；補 Emulator、App Check、dev／staging／production 分離、Rules tests 與環境變數管理 | 已決定採 plan |
 | 「我的通報」與後台審核 | 市民需看處理狀態，市府可更新狀態 | 與先前移除 `citizenReports.status` 的決定衝突；不得擅自把欄位加回原始通報 | 待產品決策 |
@@ -1164,7 +1187,7 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 ### Phase 1：資訊架構與 mobile-first 原型
 
-**產出：**首頁、登入選擇、市民通報鼠跡、市府鼠跡調查、市府防治／投藥紀錄、地圖與文獻頁的桌機／手機 wireframes，以及可用性測試腳本。
+**產出：**首頁、登入選擇、市民通報鼠跡、市府鼠跡調查、市府投藥紀錄、（研究治理 gate 通過後的）採樣紀錄、地圖與文獻頁的桌機／手機 wireframes，以及可用性測試腳本。
 
 - [x] 完成第一輪首頁稿的點擊暗示、層級、導覽與響應式評審；實作前仍需補互動 states 與無障礙標註稿。
 - [ ] 依 `docs/design/design-system.md` 產出 responsive components 與完整 default／hover／pressed／focus／disabled／error states；L1–L4 暫不作正式風險文案。
@@ -1185,7 +1208,10 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 - [ ] 建立 `tests/rules`、`tests/integration`、`tests/e2e` 的 Vitest／RTL、Playwright、Emulator Rules tests 與無障礙檢查。
 - [ ] 建立 `firebase/firestore.rules`、`firebase/firestore.indexes.json`、`firebase/storage.rules` 與根目錄 `firebase.json`，並確認 Emulator 指向正確路徑。
 - [ ] 保留 `docs/design/design-system.md`、`docs/design/references/` 與 `docs/research/source-register.md` 現有資產，並建立 `docs/product/product-spec.md`、`docs/product/data-schema.md`、`docs/product/security-spec.md`、`docs/product/privacy-publication-policy.md`、`docs/map/map-spec.md` 與 `docs/demo-script.md`，每份文件只負責第 9 節定義的職責。
-- [ ] 建立 dev／staging／production Firebase projects；禁止 production secrets 出現在 repo。
+- [ ] 先建立 `taipei-urban-rat-lab-dev`，將 default Firestore database、Cloud Storage 與 Functions 設為 `asia-east1`；以 `.firebaserc` 與不含密鑰的 `.env.example` 管理 project alias，禁止 production secrets 出現在 repo。staging／production 在 dev 驗證後另建，不複用 dev 資料或 bucket。
+- [ ] dev 連結 Blaze 後，為 Cloud Run functions 設 Billing budget notification 與 spend cap；設定 Artifact Registry cleanup policy、30 日 dev log retention、Functions `minInstances: 0`、`maxInstances: 2` 與明確 memory／timeout。Emulator-first 開發，不以反覆雲端部署取代測試。
+- [ ] 註冊 dev Web App Check 的 reCAPTCHA Enterprise provider；本機／CI 使用 debug token，先監控再逐服務 enforcement，並監測 organization 共用的 monthly assessment 額度。
+- [ ] 開啟並保留 Firebase Authentication email-enumeration protection；登入、重設與驗證流程採中性訊息，禁止以 `fetchSignInMethodsForEmail()` 或前端訊息枚舉帳號。
 - [ ] 建立 `AGENTS.md`，只記錄 repo 工作規則、驗證指令與安全約束，不複製 product spec。
 - [ ] 將 Rat Project Steps 網站同步為本計畫第 9.1 節的結構、collection、角色與驗收條件，並標示同步日期；同步完成前不執行網站中的舊指令。
 - [ ] 先寫首頁、workspace package boundary 與路由 smoke tests，再實作最小 layout。
@@ -1198,6 +1224,7 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 - [ ] 先寫角色矩陣的 Rules tests，包含偽造 client role、停權 official、跨使用者讀取、未驗證 email、偽造 domain 與未受邀政府信箱。
 - [ ] 實作市民註冊（Email/Password、Google）、共用登入、email verification，以及 admin 邀請 official 的流程；不做 official 自助申請。
+- [ ] 以 email-enumeration protection 相容的中性登入／重設／驗證訊息實作 Auth UI；不得根據 email 是否存在切換 provider 或顯示不同錯誤。
 - [ ] 實作 admin 專用的邀請、撤銷與停權腳本（或受保護 Cloud Function）：正規化 email、建立邀請與 `official/pending` membership、撤銷 refresh tokens 與 custom claim、寫入 `auditLogs`，並以 Rules／function 測試涵蓋撤銷後立即失去權限；不做管理畫面。
 - [ ] 實作帳號狀態頁（信箱未驗證、沒有權限／403）與登入後依狀態導向的規則。
 - [ ] 後端精確比對正規化 domain＋邀請／人工核准後，才以 Admin SDK 設定 `official` claim；`admin` 不可由 domain 自動指派。
@@ -1223,14 +1250,14 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 **產出：**市府鼠跡調查表單、防治紀錄＋只可追加的 action events、採樣／CMR／基因檢體紀錄、查核到期、通報審核與公開投影。
 
 - [ ] 先寫事件狀態測試，特別測試「removed 不等於 safe」、更正不刪歷史、不同單位不可互改。
-- [ ] 實作 official 的「鼠跡調查」與「防治／投藥紀錄」兩個 tab；防治紀錄以 `events[].actions` 複選當次行動，照片寫入該 event 的 `photoPaths`。
+- [ ] 實作 official 的「鼠跡調查」與「投藥紀錄」兩個 tab（採樣紀錄 tab 在研究治理 gate 通過後才啟用）；投藥紀錄以 `events[].actions` 複選當次行動，照片寫入該 event 的 `photoPaths`。
 - [ ] 先寫研究資料關聯測試：`eventId` 建立後保持穩定、`firstCapture` 指向存在的 record＋event、`captureStatus` 不因缺少標記自動判為首次捕捉、未採樣時段不可建立零捕獲。
 - [ ] 在 Phase 0 研究治理 gate 通過後，實作 `sampleRecords.events[].captures`、`ratIndividuals` 與 `geneticSamples` 的 official-only 建立／讀取流程；個體首次捕捉與選填的單一基因檢體關聯由受保護後端 transaction 驗證，client 不可自行建立互相矛盾的雙向 reference。
 - [ ] MVP 不實作族群數量估算、正式親緣推論或 `geneticAnalyses`／`geneticRelationships` 寫入流程；若 demo 需要，以隔離的 mock fixtures 與清楚標示的 projection 驗證 UI。
 - [ ] Phase 0 核准資料契約後，實作 review queue、duplicate merge、needs-info、verified／rejected 與理由；內部狀態與市民可見狀態分離。
 - [ ] 由受保護函式依來源別 allowlist 產生公開 projection，並用 fixture 測試敏感 key 永不出現在公開文件。
 
-**驗收：**能依 `controlRecords.events` 完整重建防治行動歷史，且新增事件不會覆寫既有事件；能由有效採樣時段重建個體 Capture History，且所有 record／event／individual／sample reference 通過完整性檢查；公開資料與內部資料有自動化欄位差異測試。
+**驗收：**能依 `baitRecords.events` 完整重建投藥／餌站行動歷史，且新增事件不會覆寫既有事件；能由有效採樣時段重建個體 Capture History，且所有 record／event／individual／sample reference 通過完整性檢查；公開資料與內部資料有自動化欄位差異測試。
 
 ### Phase 6：GIS ETL 與地圖
 
@@ -1270,7 +1297,7 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 **產出：**安全、隱私、無障礙、效能、備份／回復與營運手冊。
 
-- [ ] 進行 Rules／IAM／App Check／API restrictions／濫用與成本檢查。
+- [ ] 進行 Rules／IAM／App Check／API restrictions／濫用與成本檢查；驗證 Functions instance limits、Billing budget notification、Cloud Run functions spend cap、Artifact Registry cleanup、log retention，以及 reCAPTCHA Enterprise assessment 用量監控。
 - [ ] 進行 WCAG 2.2 AA、鍵盤、螢幕閱讀器、色盲與 360／768／1280 px 視窗測試。
 - [ ] 測試離線／斷線、定位拒絕、上傳中斷、資料同步失敗、MapLibre 底圖／tile provider 或其他第三方服務 unavailable。
 - [ ] 定義 SLO、錯誤告警、資料更新失敗告警、預算告警、備份與復原演練。
