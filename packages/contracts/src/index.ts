@@ -91,6 +91,31 @@ export const MembershipSchema = z.object({
 export type Membership = z.infer<typeof MembershipSchema>;
 export const MembershipConverter = createFirestoreConverter(MembershipSchema);
 
+export const OfficialInviteStatusSchema = z.enum(['pending', 'accepted', 'revoked', 'expired']);
+export type OfficialInviteStatus = z.infer<typeof OfficialInviteStatusSchema>;
+
+export const OfficialInviteSchema = z.object({
+  emailNormalized: z.string(),
+  emailDomain: z.string(),
+  organizationId: z.string().optional(),
+  agencyType: z.string().optional(),
+  employmentType: EmploymentTypeSchema.optional(),
+  jurisdictions: z.array(z.string()),
+  assignments: z.array(z.string()),
+  invitedByUid: z.string(),
+  invitedAt: TimestampSchema,
+  expiresAt: TimestampSchema,
+  status: OfficialInviteStatusSchema,
+  acceptedByUid: z.string().optional(),
+  acceptedAt: TimestampSchema.optional(),
+  revokedAt: TimestampSchema.optional(),
+  revokedByUid: z.string().optional(),
+  revocationReason: z.string().optional(),
+  schemaVersion: z.literal(1),
+}).strict();
+export type OfficialInvite = z.infer<typeof OfficialInviteSchema>;
+export const OfficialInviteConverter = createFirestoreConverter(OfficialInviteSchema);
+
 export const ReportTypeSchema = z.enum(['rat', 'bait']);
 export type ReportType = z.infer<typeof ReportTypeSchema>;
 
@@ -383,3 +408,37 @@ export const GeneticSampleSchema = z.object({
 }).strict();
 export type GeneticSample = z.infer<typeof GeneticSampleSchema>;
 export const GeneticSampleConverter = createFirestoreConverter(GeneticSampleSchema);
+
+export const AuditActionSchema = z.enum([
+  'official_invited', 'official_invite_revoked', 'official_invite_accepted',
+  'role_granted', 'role_revoked',
+  'membership_suspended', 'membership_reactivated',
+  'report_reviewed',
+  'public_projection_published', 'public_projection_withdrawn',
+  'model_version_changed',
+]);
+export type AuditAction = z.infer<typeof AuditActionSchema>;
+
+export const AuditActorRoleSchema = z.enum(['admin', 'official', 'system']);
+export type AuditActorRole = z.infer<typeof AuditActorRoleSchema>;
+
+export const AuditTargetTypeSchema = z.enum([
+  'membership', 'officialInvite', 'user',
+  'citizenReport', 'officialObservation', 'baitRecord', 'sampleRecord',
+  'publicProjection', 'modelVersion',
+]);
+export type AuditTargetType = z.infer<typeof AuditTargetTypeSchema>;
+
+export const AuditLogSchema = z.object({
+  action: AuditActionSchema,
+  actorUid: z.string(),
+  actorRole: AuditActorRoleSchema,
+  targetType: AuditTargetTypeSchema,
+  targetId: z.string(),
+  reason: z.string().optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
+  createdAt: TimestampSchema,
+  schemaVersion: z.literal(1),
+}).strict();
+export type AuditLog = z.infer<typeof AuditLogSchema>;
+export const AuditLogConverter = createFirestoreConverter(AuditLogSchema);

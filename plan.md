@@ -186,6 +186,36 @@ type Membership = {
 
 一般 client 不得建立或修改 membership。市民首次完成登入後，由受保護後端建立 `citizen/active`；official 由 admin 發出邀請時建立 `official/pending` membership，被邀請者完成 email 驗證並由後端核對邀請與 domain 後，才更新為 `active`、設定 custom claim 並寫入 audit log。Admin 角色只能由既有 admin 指派。
 
+#### `officialInvites/{inviteId}`
+
+受邀者接受邀請前尚未擁有 Firebase UID，因此一次性邀請無法直接鍵在 `memberships/{uid}` 下；`inviteId` 本身即為隨機、不可猜測的一次性 token（由後端產生，作為邀請連結的一部分）。
+
+```ts
+type OfficialInviteStatus = 'pending' | 'accepted' | 'revoked' | 'expired'
+
+type OfficialInvite = {
+  emailNormalized: string
+  emailDomain: string
+  organizationId?: string
+  agencyType?: string
+  employmentType?: 'government' | 'contractor'
+  jurisdictions: string[]
+  assignments: string[]
+  invitedByUid: string
+  invitedAt: Timestamp
+  expiresAt: Timestamp
+  status: OfficialInviteStatus
+  acceptedByUid?: string
+  acceptedAt?: Timestamp
+  revokedAt?: Timestamp
+  revokedByUid?: string
+  revocationReason?: string
+  schemaVersion: 1
+}
+```
+
+一般 client 不得建立、讀取或修改 `officialInvites`；只有受保護的 admin 邀請流程（§2.3 步驟 3）可寫入。接受邀請時，後端以 `emailNormalized` 比對已驗證信箱，status 由 `pending` 轉 `accepted` 並寫入 `acceptedByUid`／`acceptedAt`，同時才建立或啟用對應的 `memberships/{uid}`；過期或撤銷的邀請一律視為無效，不得延用建立 membership。每次狀態轉換都寫入 `auditLogs`。
+
 #### `citizenReports/{reportId}`
 
 ```ts
@@ -706,7 +736,35 @@ geneticRelationships/     # 特定分析版本產生的個體配對關係
 - `evidenceRuns`／`riskRuns`：run metadata、輸入資料版本、method／model checksum、有效期間、產製與發布狀態；大型結果 geometry 存 immutable tile artifact。
 - `activePublications`：每類公開圖層目前使用的 artifact／run pointer；rollback 只切換指標，不改寫歷史結果。
 - 來源別公開 projection（例如 `publicCitizenObservations`、`publicControlNotices`）：只含逐 schema allowlist 核准的最小欄位；不含 uid、原圖路徑、精確病例點或敏感營運細節。市民通報 MVP 暫定經審核後公開精確點，另存 `publicPrecision: exact | area | grid` 與 `precisionReason`，讓 reviewer 可因私領域或辨識風險降為區域／網格，日後也能整批調整政策。
-- `auditLogs`：角色變更、審核、發布、撤回與模型變更；一般使用者不可寫入或刪除。
+- `officialInvites/{inviteId}`：admin 核發的一次性 official 邀請，欄位定義見 §3.2 `officialInvites`；一般 client 不可讀寫。
+- `auditLogs/{logId}`：角色變更、審核、發布、撤回與模型變更；一般使用者不可寫入或刪除。欄位：
+
+  ```ts
+  type AuditAction =
+    | 'official_invited' | 'official_invite_revoked' | 'official_invite_accepted'
+    | 'role_granted' | 'role_revoked'
+    | 'membership_suspended' | 'membership_reactivated'
+    | 'report_reviewed'
+    | 'public_projection_published' | 'public_projection_withdrawn'
+    | 'model_version_changed'
+
+  type AuditLog = {
+    action: AuditAction
+    actorUid: string
+    actorRole: 'admin' | 'official' | 'system'
+    targetType:
+      | 'membership' | 'officialInvite' | 'user'
+      | 'citizenReport' | 'officialObservation' | 'baitRecord' | 'sampleRecord'
+      | 'publicProjection' | 'modelVersion'
+    targetId: string
+    reason?: string
+    metadata?: Record<string, unknown>
+    createdAt: Timestamp
+    schemaVersion: 1
+  }
+  ```
+
+  `metadata` 只放結構化、非敏感的摘要欄位（例如變更前後的 role／status），不得存放完整個資或原始通報內容；`auditLogs` 本身不可被一般使用者刪除，保存政策見第 8 節。
 
 ### 3.3 照片大小建議
 

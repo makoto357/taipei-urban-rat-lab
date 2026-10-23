@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  AuditLogSchema,
   BaitEventSchema,
   CitizenReportConverter,
   CitizenReportSchema,
+  OfficialInviteSchema,
   SampleRecordSchema,
 } from '../src/index.js';
 
@@ -73,5 +75,37 @@ describe('shared Firestore contracts', () => {
     };
 
     expect(SampleRecordSchema.parse(record)).toEqual(record);
+  });
+
+  it('parses a pending official invite keyed by a one-time token id', () => {
+    const invite = {
+      emailNormalized: 'official@gov.taipei',
+      emailDomain: 'gov.taipei',
+      jurisdictions: ['信義區'],
+      assignments: [],
+      invitedByUid: 'admin-1',
+      invitedAt: timestamp,
+      expiresAt: timestamp,
+      status: 'pending',
+      schemaVersion: 1,
+    };
+
+    expect(OfficialInviteSchema.parse(invite)).toEqual(invite);
+    expect(() => OfficialInviteSchema.parse({ ...invite, status: 'unknown' })).toThrow();
+  });
+
+  it('requires a known action/actorRole/targetType triple for an audit log entry', () => {
+    const log = {
+      action: 'official_invite_accepted',
+      actorUid: 'system',
+      actorRole: 'system',
+      targetType: 'officialInvite',
+      targetId: 'invite-1',
+      createdAt: timestamp,
+      schemaVersion: 1,
+    };
+
+    expect(AuditLogSchema.parse(log)).toEqual(log);
+    expect(() => AuditLogSchema.parse({ ...log, action: 'not_a_real_action' })).toThrow();
   });
 });
