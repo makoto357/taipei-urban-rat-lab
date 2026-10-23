@@ -38,6 +38,7 @@
 - 公開個別病例點位、個資、完整內部投藥細節或未審核市民照片。
 - 未經專家審查就由 AI 自動發布文獻分類或健康結論。
 - 從少量採樣資料推論鼠群地理邊界，或將通報密度直接等同鼠群密度。
+- 完整的 CMR 族群估算或正式族群遺傳分析；MVP 只保留可擴充的採樣事件、標記個體與基因檢體關聯，研究結果須另經方法與資料品質審查。
 - 為了視覺效果而把所有圖層預設同時開啟。
 
 ## 1. 目前 brief 中需要修正或補充的地方
@@ -131,7 +132,7 @@ Firebase Console 的「Authorized domains」是網站可進行登入的來源網
 - 問卷文件保留 `observedAt`（觀察時間）、`createdAt`（系統建立時間）與 `updatedAt`（最後更新）；防治紀錄中每個 event 另保留自己的 `time`。目前無伺服器端草稿送出流程，因此不另存 `submittedAt`。
 - 問卷地點以 WGS84 的 `latitude` 與 `longitude` 儲存，地址與行政區放在同一文件的獨立欄位。交給 MapLibre 時轉成 GeoJSON Point，座標順序固定為 `[longitude, latitude]`；公開資料另產生獨立 projection，依當時政策輸出精確點、區域化座標或彙整網格，絕不直接公開原始文件。
 - `riskLevel` 與 `confidenceLevel` 必須是不同欄位。
-- 不覆寫防治歷史；`controlRecords.events` 只能經授權流程新增，不就地刪除或改寫舊 event，修正另追加 `correction` action。
+- 不覆寫防治歷史；`baitRecords.events` 只能經授權流程新增，不就地刪除或改寫舊 event，修正另追加 `correction` action。
 - 系統產生欄位只能由後端寫入，不能信任瀏覽器傳來的 role、confidence、公開狀態或風險分數。
 - 所有公開內容都要有 `sourceUpdatedAt`、`publishedAt`、`modelVersion`／`methodVersion` 與可閱讀的 `reasonCodes`。
 - Firestore 沒有欄位級讀取保護；含 UID、地址或精確座標的文件絕不與公開 projection 共用 collection。
@@ -139,7 +140,7 @@ Firebase Console 的「Authorized domains」是網站可進行登入的來源網
 
 ### 3.2 Firestore collections
 
-通報頁依登入角色顯示不同問卷：`citizen` 只看到「市民通報鼠跡」；`official` 與 `admin` 看到兩個 tab：「鼠跡調查」與「防治／投藥紀錄」。前端顯示不是安全邊界，Firestore 與 Storage Security Rules 仍必須依 custom claim 限制各 collection 的讀寫。
+通報頁依登入角色顯示不同問卷：`citizen` 只看到「市民通報鼠跡」；`official` 與 `admin` 看到「鼠跡調查」與「投藥紀錄」兩個 tab；研究治理 gate 通過後才多一個「採樣紀錄」tab。前端顯示不是安全邊界，Firestore 與 Storage Security Rules 仍必須依 custom claim 限制各 collection 的讀寫。
 
 #### `users/{uid}`
 
@@ -208,7 +209,7 @@ type CitizenReport = {
 }
 ```
 
-`observedAt` 由市民填寫；`createdAt` 與 `updatedAt` 使用 Firebase server timestamp。`photoPaths` 直接保存 Firebase Storage path，不另建 media ID 關聯。`reportType` 為必填：`rat` 表示看到老鼠、死鼠或鼠跡，`bait` 表示看到餌劑、餌站或疑似投藥；兩類對應見鼠地圖的資料分類，讓匯入資料與平台通報可放在同一套圖層比較。除此之外，市民通報不儲存細部 observation category、數量、公開狀態或審核狀態。`bait` 通報是市民觀察，不等同市府 `controlRecords`，也不能證明投藥者或藥劑種類。
+`observedAt` 由市民填寫；`createdAt` 與 `updatedAt` 使用 Firebase server timestamp。`photoPaths` 直接保存 Firebase Storage path，不另建 media ID 關聯。`reportType` 為必填：`rat` 表示看到老鼠、死鼠或鼠跡，`bait` 表示看到餌劑、餌站或疑似投藥；兩類對應見鼠地圖的資料分類，讓匯入資料與平台通報可放在同一套圖層比較。除此之外，市民通報不儲存細部 observation category、數量、公開狀態或審核狀態。`bait` 通報是市民觀察，不等同市府 `baitRecords`，也不能證明投藥者或藥劑種類。
 
 照片在 MVP 為選填；若選擇上傳，只接受鼠類、死鼠或鼠跡相關照片，不接受人像。`bait` 通報則接受餌劑、餌站或警示標示照片。介面應提醒使用者不要為了拍攝接近、追逐或接觸老鼠，不要觸碰或移動餌劑、餌站，也不要拍入他人臉部或私人住宅內部。自動檢測只能輔助攔截，發布前仍需人工審核。
 
@@ -300,7 +301,11 @@ type MediaRecord = {
 
 照片先放私有 staging path；原檔保持私有。處理函式在受限環境檢查 magic bytes、像素與解碼資源上限，重新編碼、移除 EXIF／GPS，再經人臉／門牌／車牌等辨識資訊審核後，建立獨立 sanitized derivative。公開服務不得沿用 staging download token，撤回／更正時要能使公開 URL／CDN 快取失效。
 
-#### `controlRecords/{recordId}`
+#### `baitRecords/{recordId}`
+
+記錄防治人員進行的投藥、餌站設置、補充、查核與移除作業。
+
+一筆 `BaitRecord` 代表一個地點的一次防治作業週期，透過 `events` 追蹤不同時間的操作。
 
 ```ts
 type PlaceType =
@@ -310,38 +315,36 @@ type PlaceType =
   | 'market'
   | 'other'
 
-type ActionType =
-  | 'inspection'
-  | 'trap_placed'
+type BaitActionType =
   | 'bait_station_placed'
-  | 'rodenticide_placed'
-  | 'contraceptive_placed'
+  | 'bait_placed'
   | 'checked'
   | 'replenished'
   | 'removed'
-  | 'environment_cleaned'
-  | 'entry_point_sealed'
   | 'correction'
 
-type ControlEvent = {
+type BaitEvent = {
   time: Timestamp
-  actions: ActionType[]
+  operatorId: string
+  actions: BaitActionType[]
   photoPaths: string[]
-  product?: {
-    productName?: string
-    productType?: string
+  product?: { // must have if 'bait_placed' is selected
+    productName: string
+    productType: 'rodenticide' | 'contraceptive' | 'other'
     activeIngredient?: string
     registrationNumber?: string
   }
   notes?: string
 }
 
-type ControlRecord = {
+type BaitRecord = {
   reporterId: string
   organizationId: string
   contractorOrganizationId?: string
+
   createdAt: Timestamp
   updatedAt: Timestamp
+
   location: {
     latitude: number
     longitude: number
@@ -350,21 +353,355 @@ type ControlRecord = {
   district: string
   blockId?: string | null
   blockVersion?: string | null
+
   placeType: PlaceType
+
   linkedOfficialObservationId?: string
   linkedCitizenReportId?: string
-  events: ControlEvent[]
+
+  events: BaitEvent[]
+
   schemaVersion: 1
 }
 ```
 
-`events` 以時間記錄每次行動，同一次到場可同時有多個 actions。照片放在所屬 event 的 `photoPaths`，因此自然對應該 event 的 `time`，不另存照片時間 mapping。最後查核時間可由最新一筆含 `checked` 的 event 推導；「已移除」只表示有 `removed` action，不代表現場已無殘餌、其他來源餌劑或中毒鼠隻風險。
+**資料規則**
 
-MVP 先使用單一文件內的 event array。若未來單一紀錄的長期追蹤量增大，再遷移為 `controlRecords/{recordId}/events/{eventId}` subcollection，避免接近 Firestore 單一文件 1 MiB 上限。
+- `reporterId`：建立防治紀錄的人員 Firebase UID。
+- `organizationId`：負責防治的單位。
+- `contractorOrganizationId`：選填，實際執行的委外廠商。
+- `operatorId`：執行該次作業事件的人員 UID。
+- `events`：按照作業時間記錄每次行動。
+- `actions`：同一次到場可同時執行多項措施。
+- `product`：記錄該次作業使用的藥劑或產品；選了 `bait_placed` 時必填，`productType` 區分殺鼠劑、生育控制與其他。
+- 範圍：`baitRecords` 只記餌劑與餌站作業。巡查與捕鼠器屬調查／採樣，記於 `sampleRecords`；環境清理與封堵入口目前不記錄於這兩個 collection，是否另設欄位待產品確認。
+- `photoPaths`：照片歸屬於所屬 Event，自然對應該 Event 的 `time`。
+- `linkedOfficialObservationId`、`linkedCitizenReportId`：選填，不要求防治作業一定來自既有通報或調查。
+
+最後查核時間可由最新一筆包含 `checked` 的 Event 推導。
+
+`removed` 僅表示有執行移除作業，不代表現場已無殘餌、其他來源餌劑或中毒鼠隻風險。
+
+MVP 先使用單一文件內的 `events` array。未來若追蹤資料增加，可遷移為：
+`baitRecords/{recordId}/events/{eventId}`以避免接近 Firestore 單一文件 1 MiB 上限。
+
+---
+
+#### `sampleRecords/{recordId}`
+
+記錄調查或研究人員進行的實體採樣與監測作業，例如設置調查用捕鼠器、檢查捕獲結果、採集鼠隻或環境檢體。
+
+一筆 `SampleRecord` 代表一個地點的一次採樣作業週期，透過 `events` 記錄採樣歷程。
+
+```ts
+type SampleMethod =
+  | 'live_trapping'
+  | 'snap_trapping'
+  | 'carcass_collection'
+  | 'environmental_sampling'
+  | 'other'
+
+type SampleType =
+  | 'live_rat'
+  | 'dead_rat'
+  | 'rat_droppings'
+  | 'other'
+
+type SampleActionType =
+  | 'trap_placed'
+  | 'trap_checked'
+  | 'trap_removed'
+  | 'sample_collected'
+  | 'correction'
+
+type CaptureEncounter = {
+  ratId?: string
+  markCode?: string
+  trapId?: string
+
+  captureStatus: 'first_capture' | 'recapture' | 'unknown'
+
+  species?: SuspectedSpecies
+  sex?: 'male' | 'female' | 'unknown'
+  weightG?: number
+
+  marked?: boolean
+  released?: boolean
+  location?: {
+    latitude: number
+    longitude: number
+  }
+  notes?: string
+}
+
+type SampleEvent = {
+  eventId: string
+  time: Timestamp
+  operatorId: string
+  actions: SampleActionType[]
+  photoPaths: string[]
+
+  sampleType?: SampleType
+  sampleCount?: number
+
+  captures?: CaptureEncounter[]
+  samplingEffort?: {
+    trapCount: number
+    durationHours: number
+  }
+  location?: {
+    latitude: number
+    longitude: number
+  }
+
+  notes?: string
+}
+
+type SampleRecord = {
+  reporterId: string
+  organizationId: string
+
+  createdAt: Timestamp
+  updatedAt: Timestamp
+
+  location: {
+    latitude: number
+    longitude: number
+  }
+  addressText: string
+  district: string
+  blockId?: string | null
+  blockVersion?: string | null
+
+  placeType: PlaceType
+  sampleMethod: SampleMethod
+
+  linkedOfficialObservationId?: string
+  linkedCitizenReportId?: string
+
+  events: SampleEvent[]
+
+  schemaVersion: 1
+}
+```
+
+**資料規則**
+
+- `reporterId`：建立採樣紀錄的人員 Firebase UID。
+- `organizationId`：負責採樣的單位。
+- `sampleMethod`：本次採樣使用的主要方法。
+- `eventId`：建立 Event 時產生的穩定 ID，不可由 `events` array index 推導；供個體首次捕捉與基因檢體精確關聯。
+- `operatorId`：執行該次採樣事件的人員 UID。
+- `actions`：記錄捕鼠器設置、查核、移除或採集樣本。
+- `sampleType`：採集的樣本類型。
+- `sampleCount`：本次採集的樣本數量，不等於該地點的鼠隻族群數量。
+- `captures`：同一事件中零至多筆捕捉遭遇；`ratId` 關聯 `ratIndividuals`，無法確認個體時可省略。
+- `captureStatus`：描述本次是首次捕捉、再捕捉或無法判定；沒有讀到標記不代表一定是首次捕捉，因為可能有標記遺失。
+- `samplingEffort`：捕鼠器數與有效工作時數。只有在某一時段確實進行有效採樣而未捕獲時，才可在捕捉歷史中記為 `0`；未採樣不能當成零捕獲。
+- `CaptureEncounter.location`：個別捕捉或捕鼠器的精確位置；同一 Event 涵蓋多個 trap 時優先使用此欄位。Event 的 `location` 可作為整個事件的共用位置或 fallback。跨地點移動分析不可只依賴 `SampleRecord` 的固定座標。
+- `photoPaths`：照片歸屬於所屬 Event。
+- `linkedOfficialObservationId`、`linkedCitizenReportId`：選填，可關聯既有官方調查或市民通報。
+
+`sampleCount` 不等於捕獲率，也不能直接用於推估鼠口密度。CMR 的捕捉歷史由各有效採樣時段的捕獲／零捕獲結果形成，但族群估算仍須處理捕捉努力量、偵測率、標記遺失與研究設計，不能只將 `captures` 加總。
+
+以下只示範事件如何累積，不是實際研究資料：
+
+| 日期 | 採樣地點 | 個體 ID | 捕捉狀態 |
+| --- | --- | --- | --- |
+| 10/23 | Site A | R001 | `first_capture` |
+| 10/25 | Site A | R002 | `first_capture` |
+| 10/27 | Site B | R001 | `recapture` |
+| 10/29 | Site A | R001 | `recapture` |
+
+若四個日期都是事先定義且確實完成的有效採樣時段，R001 的 Capture History 可寫成 `1, 0, 1, 1`：`1` 表示該時段捕獲，`0` 表示有採樣但未捕獲。若 10/25 沒有進行有效採樣，就不能把它記為 `0`。這也是 `samplingEffort` 與零捕獲紀錄不可省略的原因。
+
+MVP 將 `CaptureEncounter` 保留在 `events` array，以維持簡單結構。由於 Firestore 不易跨文件查詢巢狀 array 中的 `ratId`，正式研究系統若需要長期 CMR 查詢或個體層級稽核，再將 encounter 遷移成獨立文件並加入穩定 `encounterId`。屆時 `RatIndividual.firstCapture` 可再增加 `captureEncounterId`。
+
+MVP 先使用單一文件內的 `events` array。未來可遷移為：
+
+`sampleRecords/{recordId}/events/{eventId}`
+
+以支援長期追蹤與更細緻的事件管理。
+
+#### `ratIndividuals/{ratId}`
+
+CMR 同時包含「某次採樣發生的捕捉事件」與「跨事件共用的鼠隻個體身分」。同一隻鼠可能在不同時間或地點被捕捉，因此不可用 `sampleRecords` 的文件 ID 代表個體。
+
+```ts
+type MarkType = 'ear_tag' | 'pit_tag' | 'fur_mark' | 'other'
+
+type RatIndividual = {
+  markCode?: string
+  markType?: MarkType
+
+  species?: SuspectedSpecies
+  sex?: 'male' | 'female' | 'unknown'
+
+  firstCapturedAt: Timestamp
+  firstCapture: {
+    sampleRecordId: string
+    sampleEventId: string
+  }
+
+  geneticSampleId?: string
+
+  createdAt: Timestamp
+  updatedAt: Timestamp
+  schemaVersion: 1
+}
+```
+
+`firstCapture.sampleEventId` 比只存 `firstCapture.sampleRecordId` 精確，但兩者應一起保存：前者定位實際首次捕捉事件，後者定位其所屬採樣作業。MVP 尚未加入 encounter ID，因此一個 Event 捕獲多隻鼠時，這組 reference 只能定位事件；需要個體遭遇層級的完整追溯時再擴充。
+
+每次捕捉的量測與釋放紀錄只保存在 `SampleEvent.captures`，不複製進 `RatIndividual`。MVP 假設每隻已識別個體最多對應一份基因檢體，因此使用單一 `geneticSampleId`，不另存容易與之不一致的 `geneticSampleCollected` boolean。未來若需要重複採樣、品質檢測或多種組織檢體，再改以 `geneticSamples.ratId` 查詢一對多關聯。
+
+#### `geneticSamples/{sampleId}`
+
+每筆文件代表一份實際採集的基因檢體。基因追蹤不是另一種現場作業：現場來源仍是 `sampleRecords`，檢體與實驗室資訊則獨立保存。
+
+```ts
+type GeneticSampleType =
+  | 'tissue'
+  | 'blood'
+  | 'hair'
+  | 'feces'
+  | 'swab'
+  | 'other'
+
+type GeneticSample = {
+  sampleId: string
+
+  sampleRecordId: string
+  sampleEventId?: string
+  ratId?: string
+
+  collectedAt: Timestamp
+  collectedByUid: string
+  sampleType: GeneticSampleType
+
+  storageLocation?: string
+  laboratoryId?: string
+
+  analysisStatus: 'not_submitted' | 'pending' | 'completed' | 'failed'
+  geneticProfileId?: string
+  notes?: string
+
+  createdAt: Timestamp
+  updatedAt: Timestamp
+  schemaVersion: 1
+}
+```
+
+- `sampleRecordId` 關聯採樣作業與原始地點；`sampleEventId` 關聯具有穩定 `eventId` 的特定事件。
+- `ratId` 必須選填，因為糞便、毛髮或其他環境檢體可能無法確認來自哪一隻鼠。完成定序也不代表必然能辨識個體，仍取決於遺傳標記與品質控制。
+- `geneticProfileId` 指向分析產生的 profile／artifact 索引，不把 DNA 原始序列直接塞進 Firestore。
+- `storageLocation` 指實體檢體保存位置，不是 Cloud Storage 檔案路徑。
+
+#### `geneticAnalyses/{analysisId}`（Future）
+
+記錄多份檢體共同分析的批次與 artifact metadata；MVP 可先不建立。
+
+```ts
+type GeneticAnalysis = {
+  name: string
+  sampleIds: string[]
+  analysisVersion: string
+
+  analysisType:
+    | 'individual_identification'
+    | 'relatedness'
+    | 'population_structure'
+    | 'gene_flow'
+  markerType: 'SNP' | 'microsatellite' | 'other'
+  method?: string
+  uncertaintyNotes?: string
+
+  resultFilePath?: string
+
+  createdAt: Timestamp
+  updatedAt: Timestamp
+  schemaVersion: 1
+}
+```
+
+大型分析結果存版本化檔案，Firestore 只存索引、方法、版本與 metadata。個體辨識、親緣、族群結構與基因交流是不同分析問題；推估結果都必須附方法與不確定性，不能把推估親緣直接寫成已確認家族關係。
+
+| `analysisType` | 可回答的研究問題 |
+| --- | --- |
+| `individual_identification` | 兩份檢體是否可能來自同一隻鼠？ |
+| `relatedness` | 兩隻鼠是否可能具有親子、全手足或半手足關係？ |
+| `population_structure` | 不同街廓的鼠隻是否呈現不同遺傳群集？ |
+| `gene_flow` | 不同區域之間是否有族群層級的基因交流證據？ |
+
+對臺北街廓研究，可進一步比較遺傳分化與路寬、河川、土地使用等環境因子的空間關聯；但遺傳群集跨不過某條道路，不足以單獨證明該道路造成鼠群隔離，也無法只靠目前分布判定分化發生時間。
+
+#### `geneticRelationships/{relationshipId}`（Future）
+
+親緣是兩個個體之間、由特定分析批次產生的關係，不屬於任一 `RatIndividual` 或 `GeneticSample`，因此另存配對文件。
+
+```ts
+type GeneticRelationship = {
+  ratIdA: string
+  ratIdB: string
+
+  relationshipType:
+    | 'parent_offspring'
+    | 'full_sibling'
+    | 'half_sibling'
+    | 'other_related'
+    | 'uncertain'
+  relatednessCoefficient?: number
+
+  analysisId: string
+  confidence?: 'low' | 'medium' | 'high'
+  schemaVersion: 1
+}
+```
+
+示意文件如下；`0.25` 只是資料格式範例，不是實測結果，也不是可以脫離方法直接套用的分類門檻：
+
+```json
+{
+  "ratIdA": "R001",
+  "ratIdB": "R003",
+  "relationshipType": "half_sibling",
+  "relatednessCoefficient": 0.25,
+  "analysisId": "analysis_001",
+  "confidence": "high",
+  "schemaVersion": 1
+}
+```
+
+建立文件前先將 `ratIdA`、`ratIdB` 排序，禁止個體與自己配對，並以「排序後 pair＋analysisId／analysis version」形成唯一鍵，避免 A–B／B–A 重複，同時保留不同分析版本。`relatednessCoefficient` 必須標明實際採用的統計定義；不得與 kinship coefficient 混用。
+
+整體資料流為：`採樣作業 → 基因檢體 → 基因分析 → 個體辨識／親緣與族群研究`。CMR 與基因資料可以共用 `ratId`，但兩者不必同時進行，也不另建 `geneticTrackingRecords`。
+
+Collection 邊界統一如下，避免把現場作業、個體、檢體和推估結果混成同一文件：
+
+```text
+citizenReports/           # 市民通報
+officialObservations/     # 官方鼠跡調查
+baitRecords/              # 投藥／餌站作業（原 controlRecords，2026-10-23 更名）
+sampleRecords/            # 採樣週期、事件、CMR 捕捉遭遇
+ratIndividuals/           # 跨採樣事件的個體身分
+geneticSamples/           # 實體基因檢體與實驗室流程
+
+# Future
+geneticAnalyses/          # 多樣本分析批次與結果 artifact
+geneticRelationships/     # 特定分析版本產生的個體配對關係
+```
+
+| 比較 | CMR | Genetic tracking |
+| --- | --- | --- |
+| 個體識別 | 實體標記 | 遺傳指紋 |
+| 是否需要重複捕捉 | 是，才有再捕捉歷史 | 不一定 |
+| 個體移動 | 可比較再捕捉位置 | 通常不能直接記錄 |
+| 親緣關係 | 無法直接判斷 | 可在模型假設下推估 |
+| 族群空間結構 | 可輔助研究 | 主要應用之一 |
+| 主要限制 | 捕捉努力量、偵測率、標記遺失 | 採樣偏差、標記解析度、分析假設 |
 
 #### 其他 collections
 
-- `samplingEvents`：物種、方法、努力量、樣點、採樣期間、捕獲／零捕獲、檢驗結果與資料來源。
 - `sourceDatasets`：資料集名稱、機關、授權、原始 URL、座標系統、更新頻率、最後同步、checksum、ETL 版本。
 - `evidenceRuns`／`riskRuns`：run metadata、輸入資料版本、method／model checksum、有效期間、產製與發布狀態；大型結果 geometry 存 immutable tile artifact。
 - `activePublications`：每類公開圖層目前使用的 artifact／run pointer；rollback 只切換指標，不改寫歷史結果。
@@ -426,6 +763,7 @@ MVP 先使用單一文件內的 event array。若未來單一紀錄的長期追�
 | 環境因子 | 攤販、清潔箱、垃圾熱點 | 小型 POI 或密度網格 | 不以紅色暗示單一設施造成鼠患 |
 | 地下設施 | 污／雨水下水道、人孔 | 線與點 | 只在較高 zoom 顯示，避免壓過主要資訊 |
 | 公共衛生 | 去識別病例／檢驗彙整 | 行政區或網格統計 | 小樣本抑制，不顯示個案點，不宣稱感染地 |
+| 研究探索 | 個體捕捉位置、推估親緣關係 | 個體點＋關係線 | 預設關閉；只顯示核准分析版本，mock 資料須明確標示 |
 
 互動細節：
 
@@ -436,7 +774,78 @@ MVP 先使用單一文件內的 event array。若未來單一紀錄的長期追�
 - 同時開啟過多圖層時提示使用者，並提供「重設為建議檢視」。
 - 熱圖只用於探索大量同質點，不能把熱圖顏色直接標成風險。正式風險圖優先使用有明確分母與方法的網格／街廓分級。
 
-### 4.4 可參考的網站案例
+### 4.4 CMR 與基因親緣研究圖層
+
+CMR 與基因親緣資料屬研究探索圖層，不與公開鼠患風險混為一談。Individual Relationships（個體親緣網絡）以鼠隻的實際採樣／捕捉位置作為點，將同一 `geneticRelationships` 分析版本中的配對轉成 GeoJSON `LineString`；Population Structure（族群遺傳結構）則按街廓或採樣區域呈現群集與遺傳分化。兩者必須分層，因為個體親緣網絡不等於族群間基因交流網絡。
+
+親緣線兩端的座標必須取自有明確規則的實際 `CaptureEncounter.location`，若缺少才依核准規則 fallback 到 `SampleEvent.location`；不可在 `ratIndividuals` 任意存一個固定座標。同一隻鼠有多次捕捉位置時，projection 必須保留所採用的 `sampleRecordId`、`sampleEventId`、未來的 `captureEncounterId`（若有）與規則版本，使線段可重現。
+
+後端或資料轉換層將核准的配對與兩端事件位置投影成 GeoJSON；座標順序固定為 `[longitude, latitude]`：
+
+```ts
+const geneticLinks = {
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      properties: {
+        ratIdA: 'R001',
+        ratIdB: 'R003',
+        relationshipType: 'half_sibling',
+        analysisId: 'analysis_001',
+        sampleRecordIdA: 'record_a',
+        sampleEventIdA: 'event_a',
+        sampleRecordIdB: 'record_b',
+        sampleEventIdB: 'event_b',
+        isMock: true
+      },
+      geometry: {
+        type: 'LineString',
+        coordinates: [
+          [121.512, 25.043],
+          [121.515, 25.045]
+        ]
+      }
+    }
+  ]
+}
+
+map.addSource('genetic-links', {
+  type: 'geojson',
+  data: geneticLinks
+})
+
+map.addLayer({
+  id: 'genetic-links-layer',
+  type: 'line',
+  source: 'genetic-links',
+  paint: {
+    'line-color': '#E06442',
+    'line-width': 2,
+    'line-opacity': 0.7
+  }
+})
+```
+
+實作時可用 `relationshipType` 控制線型或顏色，但不能只靠顏色表達類別；popup 同時顯示 relationship、confidence、analysis version 與兩端採樣事件。上述 ID、關係與座標全為示意資料。
+
+建議互動：
+
+- 點擊個體，顯示該分析版本中所有已知親緣配對。
+- 依親緣類型、confidence、地理距離與分析版本篩選。
+- 提供「只顯示跨街廓配對」，但同時顯示各街廓樣本數與採樣期間，避免忽略分母。
+- 線條一律標為「推估親緣關係」，不可標為「移動路徑」。沒有親緣線也不代表沒有交流，可能只是採樣不足或分析未辨識。
+
+若 hackathon demo 尚無真實分析結果，可以兩個採樣點與一筆模擬 `GeneticRelationship` 驗證 MapLibre 點線互動，但圖層、圖例與 popup 都必須標示 `Mock Genetic Data`，不可混入正式觀測或研究結論。
+
+研究依據與適用限制：
+
+- Etherington（2011）的 Kinship Links 方法以採樣點間的線呈現 pair-wise genetic relatedness，並可依關係強度篩選或符號化；本專案只借用「點與關係線」的探索性視覺語法，不代表已採用該研究的分析工具或門檻。
+- Byers et al. 的 Vancouver 研究對 605 隻溝鼠、1,495 個 SNP 位點進行分析，得到 1,246 對推估親緣配對，其中 13 對（約 1%）跨街廓。這說明跨街廓配對值得探索，但該研究集中於單一城市區域，採樣時段差異也可能低估街廓間移動，不能直接把比例套用到臺北。
+- 親緣配對只能支持空間關聯與可能的移動／基因交流假說，不能指出哪一隻鼠移動、何時移動，或實際行走路徑；未採到的親代也可能解釋觀察到的跨區關係。
+- Combs et al. 的跨城市結果顯示都市內遺傳結構會隨在地環境而異，因此其他城市的道路、街廓或距離門檻不可直接移植到臺北。
+
+### 4.5 可參考的網站案例
 
 1. [NYC Rat Information Portal](https://a816-dohbesp.nyc.gov/IndicatorPublic/rats/)：最接近本題；可參考地址搜尋、最近一次查核狀態、歷史紀錄、過久資料顯示灰色，以及「通報後查核」與「主動調查」並存的說明方式。
 2. [Mapbox：GeoJSON 點位聚合](https://docs.mapbox.com/mapbox-gl-js/example/cluster/)：可參考低 zoom 聚合與高 zoom 展開點位。
@@ -526,7 +935,8 @@ MVP 先輸出 `observedActivity`（觀察到的鼠跡／處置訊號）、`dataC
 - 地點步驟提供：地址／地標搜尋、地圖拖曳 pin、使用目前位置。顯示定位精度，禁止在使用者尚未確認前自動送出 GPS。
 - 照片上傳在選檔後立即顯示壓縮結果、上傳進度與刪除按鈕。
 - 成功頁顯示通報編號、審核狀態與公開前會進行去識別處理。
-- Official 表單依 `eventType` 顯示相關欄位；「投放」、「查核」、「補充」、「移除」是不同事件，不用一個狀態欄覆寫歷史。
+- Official 表單有「鼠跡調查」「投藥紀錄」兩個 tab，採樣紀錄 tab 待研究治理 gate 通過後啟用。投藥紀錄的行動為「設置餌站、投放餌劑、查核、補充、移除、更正」，只有「投放餌劑」要填藥劑資訊（產品名稱、藥劑種類、有效成分、許可證字號）；「設置」、「查核」、「補充」、「移除」是不同事件，不用一個狀態欄覆寫歷史。
+- 採樣紀錄（設計稿草稿）：採樣方式；事件行動為設置捕鼠器、檢查、移除、採集樣本、更正；樣本類型與數量；採樣努力量（捕鼠器數、工作時數，未採樣不能記為零捕獲）；捕捉遭遇（個體編號、首次／再捕捉／無法判定、疑似鼠種、性別、體重、是否標記與放回）。基因檢體、親緣分析與親緣線圖層不在 MVP 設計範圍。
 
 ### 6.4 地圖頁
 
@@ -625,6 +1035,27 @@ type LiteratureLink =
 
 MVP 建議：地點搜尋選用可合法永久保存結果的 geocoder，或只把使用者最後確認的座標／文字視為使用者輸入保存；在隱私政策列出供應商與資料種類。後端對 geocoding 加 per-user／per-day rate limit、全站每日上限與月費警示，正式配額在 Phase 0 用預估通報量與單次成本計算。
 
+### 7.3 Firebase 服務分工、最小可信任後端與成本防護
+
+Firebase 不是單一資料庫。資料應依性質分流：Firestore 保存結構化營運資料（帳號 profile、membership、通報、調查、防治、審核及公開 projection）；Cloud Storage 保存原始照片與處理後衍生檔；Authentication 保存登入身分與驗證狀態。前端可在 Security Rules 允許的範圍內直接寫入自己的市民通報與私有 staging 上傳，但不能自行設定角色、信任未驗證的檔案、產生公開資料或改寫稽核歷史。
+
+因此，MVP 仍需要最小化的 Cloud Functions，而不是把所有業務邏輯放到前端。Functions 是唯一可使用 Admin SDK 的可信任環境，負責：
+
+- 建立／啟用／撤銷 official 邀請與 `citizen`／`official`／`admin` custom claims，並撤銷 refresh tokens、寫入 `auditLogs`。
+- 驗證照片檔案與大小、重新編碼、移除 EXIF／GPS、建立 media metadata，且只在人工審核後建立公開衍生檔。
+- 以來源 allowlist 產生不含 UID、地址或原始座標的公開 projection；client 不可直接發布。
+- 對官方可寫的 append-only event、跨 collection reference 與需使用 Admin SDK 的治理操作執行伺服器端授權與 transaction 驗證。
+
+不需 Functions 的情境只有不含上述安全要求的純靜態展示或簡單、私有資料 CRUD；不符合本專案既定的 official 邀請制、公開去識別與稽核需求。Functions 不應代理所有正常讀取：公開地圖與登入者可讀資料仍由 Firestore／Storage Rules 直接服務，以減少延遲與費用。
+
+**dev Firebase 專案設定：**先建立唯一的 `taipei-urban-rat-lab-dev`。Firestore、Cloud Storage 與 Functions 固定在 `asia-east1`（Taiwan）；不可在建立 default Firestore database 後任意搬遷區域。Functions 使用第 2 代與 Node.js 22；dev 的全域預設為 `minInstances: 0`、保守的 `maxInstances: 2`、明確 timeout／memory、禁止未審核的高併發設定。這些限制在開發期優先控制爆量與成本，production 另依壓測結果決定。
+
+**Blaze 與衍生成本：**Cloud Functions 需要 Blaze（連結 Cloud Billing）。低流量 dev 若 Functions 閒置且落在 Cloud Run functions 免費額度內，通常不會有執行費；但仍要留意 Functions 觸發的 Cloud Build、Artifact Registry 容器映像、Cloud Logging、Eventarc、外網輸出及 Storage 讀寫費。每次 Functions 部署都會產生 container image；設定 Artifact Registry cleanup policy，避免舊映像持續佔用空間。Cloud Logging 的 dev log 採 structured、避免寫入個資與大量 debug payload，`_Default` log bucket 保留 30 天，不設延長留存。建立 Billing budget notification 與 Cloud Run functions spend cap；budget notification 只告警，不會自動停止費用，spend cap 才會暫停新增使用量。
+
+**App Check（Web）：**新 Web 整合採 reCAPTCHA Enterprise provider；本機 Emulator／CI 使用 App Check debug token，不產生正式 assessment。dev Hosting 網域註冊 Enterprise key 後，先只觀測 App Check 指標，再對 Firestore、Storage 與 callable Functions 分服務啟用 enforcement，避免未註冊的開發環境被誤擋。每 organization 前 10,000 assessments／月免費；目前超過後，在已綁 Billing 的 Premium 情境，10,001–100,000 assessments 為月費 US$8，100,000 以上為 US$1／1,000 assessments。額度是 organization 共享而非每 project 獨立，需監控而非假設 dev 永遠免費。
+
+**Authentication：**維持 email-enumeration protection；此保護不直接計費，但 UI 與 API 不得透過「此信箱是否存在／使用何種 provider」洩露帳號。不得用 `fetchSignInMethodsForEmail()` 做 identifier-first 分流，登入、重設密碼與驗證信一律顯示中性回覆。Email/Password 與 Google 登入在 Firebase Authentication 基礎服務內不另依此保護收費；若日後升級 Identity Platform，Email／Social MAU 超過其免費額度才依 MAU 計費。驗證信需遵守 Auth 日寄送配額與 rate limit，防止濫用。
+
 ## 8. 隱私、安全與資料治理
 
 - 病例健康資料屬高度敏感個資。公開產品只接受合法、去識別且無法回推個人的彙整資料；精確居住／工作／活動點不進公開 Firestore collection。
@@ -652,7 +1083,8 @@ taipei-urban-rat-lab/
 │   │       │   ├── auth/
 │   │       │   ├── citizen-reports/
 │   │       │   ├── official-observations/
-│   │       │   ├── control-records/
+│   │       │   ├── bait-records/
+│   │       │   ├── research-sampling/
 │   │       │   ├── map/
 │   │       │   ├── risk/
 │   │       │   └── literature/
@@ -662,7 +1094,8 @@ taipei-urban-rat-lab/
 │           ├── auth/
 │           ├── media/
 │           ├── publication/
-│           └── control-records/
+│           ├── bait-records/
+│           └── research-sampling/
 ├── packages/
 │   ├── contracts/                   # schema、enum、validator、converter
 │   └── ui/                          # tokens 與跨頁共用元件
@@ -715,9 +1148,9 @@ taipei-urban-rat-lab/
 | 比對範圍 | 網站現況 | 本計畫決策／需修正內容 | 衝突等級 |
 |---|---|---|---|
 | 專案結構 | `apps/web`＋`apps/staff`、`packages/shared` | 改為單一 `apps/web`、`apps/functions`、`packages/contracts`、`packages/ui`；不可建立第二套 staff frontend | 已決定採 plan |
-| 資料 collections | `reports`、`ratSurveys`、`baiting`、`attachments` 等舊命名 | 以本文件定義的 `citizenReports`、`officialObservations`、`controlRecords`、`media`、`memberships`、公開 projections、採樣／來源／稽核資料為準 | 已決定採 plan |
+| 資料 collections | `reports`、`ratSurveys`、`baiting`、`attachments` 等舊命名 | 以本文件定義的 `citizenReports`、`officialObservations`、`baitRecords`、`media`、`memberships`、公開 projections、採樣／來源／稽核資料為準 | 已決定採 plan |
 | 市民通報表單 | 要求 `observationTypes` 複選 | 使用者已明確要求從 `citizenReports` 移除該欄位；MVP 只保留照片、地點、日期與可選描述；另加必填 `reportType: 'rat' \| 'bait'` 對應見鼠地圖資料（單選大類，不是 observationTypes 複選） | 已決定採 plan |
-| 市府表單 | 以 `ratSurveys` 與 `baiting` 分表 | 改為 `officialObservations` 與 `controlRecords`；防治歷程使用 `events[].actions`，包含 `contraceptive` | 已決定採 plan |
+| 市府表單 | 以 `ratSurveys` 與 `baiting` 分表 | 改為 `officialObservations` 與 `baitRecords`；餌劑作業歷程使用 `events[].actions`，生育控制餌以 `product.productType: 'contraceptive'` 表示；捕鼠器與採樣改記於 `sampleRecords` | 已決定採 plan |
 | Authentication／角色 | citizen／staff，主要描述前端分流 | 統一稱 `citizen`／`official`／`admin`；domain 只可作 official 候選條件，仍須邀請或人工核准；角色由 custom claims 強制執行，Firestore 保存 membership／profile／稽核資料 | 已決定採 plan |
 | Firebase 與 Hosting | 兩個前端 app、兩個 Hosting targets | MVP 為一個 Web App＋Functions backend；補 Emulator、App Check、dev／staging／production 分離、Rules tests 與環境變數管理 | 已決定採 plan |
 | 「我的通報」與後台審核 | 市民需看處理狀態，市府可更新狀態 | 與先前移除 `citizenReports.status` 的決定衝突；不得擅自把欄位加回原始通報 | 待產品決策 |
@@ -746,6 +1179,7 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 - [ ] 決定未成年人政策、第三方 Mapbox／geocoder 的契約與永久儲存條件、月費上限及服務配額。
 - [ ] 決定「我的通報」可見的處理狀態、狀態轉移與保存位置；評估 `reportModeration/{reportId}`＋市民安全 projection，且不得把內部審核欄位加回 `citizenReports`。
 - [ ] 定義 pet-safety use case：飼主能看到的區域級提醒、有效期間、處置類型、安全注意事項與疑似誤食的官方聯絡來源。
+- [ ] 若 MVP 啟用動物捕捉或基因檢體功能，先由研究 owner 核准採樣設計、動物處置／倫理要求、標記方法、檢體管理、實驗室交接、資料存取範圍與可公開層級；未完成前只可使用明確標示的 mock fixtures。
 - [ ] 為每一資料源記錄 owner、license、schema、CRS、更新頻率、缺值、可公開欄位與品質限制。
 - [ ] 完成資料保留、管理員撤回、照片公開與個資事件處理政策；MVP 不做自動刪除，但必須保有緊急停止公開能力。
 
@@ -753,7 +1187,7 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 ### Phase 1：資訊架構與 mobile-first 原型
 
-**產出：**首頁、登入選擇、市民通報鼠跡、市府鼠跡調查、市府防治／投藥紀錄、地圖與文獻頁的桌機／手機 wireframes，以及可用性測試腳本。
+**產出：**首頁、登入選擇、市民通報鼠跡、市府鼠跡調查、市府投藥紀錄、（研究治理 gate 通過後的）採樣紀錄、地圖與文獻頁的桌機／手機 wireframes，以及可用性測試腳本。
 
 - [x] 完成第一輪首頁稿的點擊暗示、層級、導覽與響應式評審；實作前仍需補互動 states 與無障礙標註稿。
 - [ ] 依 `docs/design/design-system.md` 產出 responsive components 與完整 default／hover／pressed／focus／disabled／error states；L1–L4 暫不作正式風險文案。
@@ -769,12 +1203,15 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 - [ ] 建立根目錄 `package.json`、`pnpm-workspace.yaml`、`pnpm-lock.yaml` 與 `tsconfig.base.json`，workspace 只包含 `apps/*` 與 `packages/*`。
 - [ ] 建立 `apps/web`、`apps/functions`、`packages/contracts` 與 `packages/ui`；不建立 `apps/staff`。
-- [ ] 在 `packages/contracts` 建立三份問卷的 TypeScript types、enum、runtime validators 與 Firestore converters，並由 `apps/web` 與 `apps/functions` 共用。
+- [ ] 在 `packages/contracts` 建立三份問卷及已核准研究資料（`sampleRecords`、`ratIndividuals`、`geneticSamples`）的 TypeScript types、enum、runtime validators 與 Firestore converters，並由 `apps/web` 與 `apps/functions` 共用；Future collections 不因預留 schema 就自動納入 MVP。
 - [ ] 在 `apps/web` 建立 `/`、`/map`、`/report`、`/literature`、`/login`、`/official`、`/official/review` 路由與 lazy loading。
 - [ ] 建立 `tests/rules`、`tests/integration`、`tests/e2e` 的 Vitest／RTL、Playwright、Emulator Rules tests 與無障礙檢查。
 - [ ] 建立 `firebase/firestore.rules`、`firebase/firestore.indexes.json`、`firebase/storage.rules` 與根目錄 `firebase.json`，並確認 Emulator 指向正確路徑。
 - [ ] 保留 `docs/design/design-system.md`、`docs/design/references/` 與 `docs/research/source-register.md` 現有資產，並建立 `docs/product/product-spec.md`、`docs/product/data-schema.md`、`docs/product/security-spec.md`、`docs/product/privacy-publication-policy.md`、`docs/map/map-spec.md` 與 `docs/demo-script.md`，每份文件只負責第 9 節定義的職責。
-- [ ] 建立 dev／staging／production Firebase projects；禁止 production secrets 出現在 repo。
+- [ ] 先建立 `taipei-urban-rat-lab-dev`，將 default Firestore database、Cloud Storage 與 Functions 設為 `asia-east1`；以 `.firebaserc` 與不含密鑰的 `.env.example` 管理 project alias，禁止 production secrets 出現在 repo。staging／production 在 dev 驗證後另建，不複用 dev 資料或 bucket。
+- [ ] dev 連結 Blaze 後，為 Cloud Run functions 設 Billing budget notification 與 spend cap；設定 Artifact Registry cleanup policy、30 日 dev log retention、Functions `minInstances: 0`、`maxInstances: 2` 與明確 memory／timeout。Emulator-first 開發，不以反覆雲端部署取代測試。
+- [ ] 註冊 dev Web App Check 的 reCAPTCHA Enterprise provider；本機／CI 使用 debug token，先監控再逐服務 enforcement，並監測 organization 共用的 monthly assessment 額度。
+- [ ] 開啟並保留 Firebase Authentication email-enumeration protection；登入、重設與驗證流程採中性訊息，禁止以 `fetchSignInMethodsForEmail()` 或前端訊息枚舉帳號。
 - [ ] 建立 `AGENTS.md`，只記錄 repo 工作規則、驗證指令與安全約束，不複製 product spec。
 - [ ] 將 Rat Project Steps 網站同步為本計畫第 9.1 節的結構、collection、角色與驗收條件，並標示同步日期；同步完成前不執行網站中的舊指令。
 - [ ] 先寫首頁、workspace package boundary 與路由 smoke tests，再實作最小 layout。
@@ -787,6 +1224,7 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 - [ ] 先寫角色矩陣的 Rules tests，包含偽造 client role、停權 official、跨使用者讀取、未驗證 email、偽造 domain 與未受邀政府信箱。
 - [ ] 實作市民註冊（Email/Password、Google）、共用登入、email verification，以及 admin 邀請 official 的流程；不做 official 自助申請。
+- [ ] 以 email-enumeration protection 相容的中性登入／重設／驗證訊息實作 Auth UI；不得根據 email 是否存在切換 provider 或顯示不同錯誤。
 - [ ] 實作 admin 專用的邀請、撤銷與停權腳本（或受保護 Cloud Function）：正規化 email、建立邀請與 `official/pending` membership、撤銷 refresh tokens 與 custom claim、寫入 `auditLogs`，並以 Rules／function 測試涵蓋撤銷後立即失去權限；不做管理畫面。
 - [ ] 實作帳號狀態頁（信箱未驗證、沒有權限／403）與登入後依狀態導向的規則。
 - [ ] 後端精確比對正規化 domain＋邀請／人工核准後，才以 Admin SDK 設定 `official` claim；`admin` 不可由 domain 自動指派。
@@ -807,16 +1245,19 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 **驗收：**以 Playwright／DevTools Fast 3G profile 測試，上傳介面在整段傳輸中持續顯示進度或可理解狀態；重試不重複建立通報；未審核照片與精確位置不會被公開讀取。
 
-### Phase 5：市府防治事件與審核後台
+### Phase 5：市府防治、研究採樣與審核後台
 
-**產出：**市府鼠跡調查表單、防治紀錄＋只可追加的 action events、查核到期、通報審核與公開投影。
+**產出：**市府鼠跡調查表單、防治紀錄＋只可追加的 action events、採樣／CMR／基因檢體紀錄、查核到期、通報審核與公開投影。
 
 - [ ] 先寫事件狀態測試，特別測試「removed 不等於 safe」、更正不刪歷史、不同單位不可互改。
-- [ ] 實作 official 的「鼠跡調查」與「防治／投藥紀錄」兩個 tab；防治紀錄以 `events[].actions` 複選當次行動，照片寫入該 event 的 `photoPaths`。
+- [ ] 實作 official 的「鼠跡調查」與「投藥紀錄」兩個 tab（採樣紀錄 tab 在研究治理 gate 通過後才啟用）；投藥紀錄以 `events[].actions` 複選當次行動，照片寫入該 event 的 `photoPaths`。
+- [ ] 先寫研究資料關聯測試：`eventId` 建立後保持穩定、`firstCapture` 指向存在的 record＋event、`captureStatus` 不因缺少標記自動判為首次捕捉、未採樣時段不可建立零捕獲。
+- [ ] 在 Phase 0 研究治理 gate 通過後，實作 `sampleRecords.events[].captures`、`ratIndividuals` 與 `geneticSamples` 的 official-only 建立／讀取流程；個體首次捕捉與選填的單一基因檢體關聯由受保護後端 transaction 驗證，client 不可自行建立互相矛盾的雙向 reference。
+- [ ] MVP 不實作族群數量估算、正式親緣推論或 `geneticAnalyses`／`geneticRelationships` 寫入流程；若 demo 需要，以隔離的 mock fixtures 與清楚標示的 projection 驗證 UI。
 - [ ] Phase 0 核准資料契約後，實作 review queue、duplicate merge、needs-info、verified／rejected 與理由；內部狀態與市民可見狀態分離。
 - [ ] 由受保護函式依來源別 allowlist 產生公開 projection，並用 fixture 測試敏感 key 永不出現在公開文件。
 
-**驗收：**能依 `controlRecords.events` 完整重建防治行動歷史，且新增事件不會覆寫既有事件；公開資料與內部資料有自動化欄位差異測試。
+**驗收：**能依 `baitRecords.events` 完整重建投藥／餌站行動歷史，且新增事件不會覆寫既有事件；能由有效採樣時段重建個體 Capture History，且所有 record／event／individual／sample reference 通過完整性檢查；公開資料與內部資料有自動化欄位差異測試。
 
 ### Phase 6：GIS ETL 與地圖
 
@@ -826,6 +1267,7 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 - [ ] 將小型點資料轉 GeoJSON；將建物、街廓、管線轉 vector tiles／PMTiles。
 - [ ] 測試經緯度順序、台北 bounding box、空 geometry、重複 ID、錯誤 CRS 與極大 feature。
 - [ ] 實作 cluster、zoom-dependent visibility、layer panel、時間／來源／可信度篩選與 mobile bottom sheet。
+- [ ] 若 demo 啟用研究圖層，使用同一分析版本產生親緣 LineString projection，保存兩端所採用的 Sample Event reference，並在所有 mock 資料上顯示不可忽略的標示。
 - [ ] 實作資料過期／同步失敗提示，不用舊資料假裝即時。
 
 **驗收：**Phase 0 定義代表性資料量與一台基準 Android 裝置；在該條件下量測首次可互動時間與 pan／zoom frame rate 並訂預算。可用性測試中，受試者能正確回答「活動、涵蓋率、證據可信度是否相同」；未達門檻前不得標示正式風險。
@@ -855,7 +1297,7 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 **產出：**安全、隱私、無障礙、效能、備份／回復與營運手冊。
 
-- [ ] 進行 Rules／IAM／App Check／API restrictions／濫用與成本檢查。
+- [ ] 進行 Rules／IAM／App Check／API restrictions／濫用與成本檢查；驗證 Functions instance limits、Billing budget notification、Cloud Run functions spend cap、Artifact Registry cleanup、log retention，以及 reCAPTCHA Enterprise assessment 用量監控。
 - [ ] 進行 WCAG 2.2 AA、鍵盤、螢幕閱讀器、色盲與 360／768／1280 px 視窗測試。
 - [ ] 測試離線／斷線、定位拒絕、上傳中斷、資料同步失敗、MapLibre 底圖／tile provider 或其他第三方服務 unavailable。
 - [ ] 定義 SLO、錯誤告警、資料更新失敗告警、預算告警、備份與復原演練。
@@ -870,6 +1312,7 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 3. **地理資料錯誤：**TWD97 當 WGS84、lat/lng 對調、geometry 超出台北範圍時，ETL 必須失敗並告警。
 4. **錯誤風險語意：**無資料、舊資料、只有通報、已投藥與已移除，不得被顯示成已確認安全。
 5. **不受信任內容：**照片、外部 URL 與 PDF 都視為不受信任；需格式驗證、審核與輸出轉義。
+6. **研究關聯完整性：**`eventId` 穩定且不依賴 array index；`firstCapture` 同時指向存在的 record 與 event；基因關係不得自我配對或重複建立反向 pair，且地圖座標可追溯到實際採樣事件。
 
 ## 12. 主要決策與待確認事項
 
@@ -887,6 +1330,7 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 - GeoJSON 用於小型／原型圖層；大型 SHP 轉 vector tiles／PMTiles；Firestore 不當 GIS 檔案倉庫。
 - 照片原檔每張硬上限 8 MB，client 目標壓至 2 MB 以下，每次最多 3 張。
 - 文獻 17 筆人工整理內容 MVP 當靜態 JSON 隨前端發布，不存 Firestore（2026-10-23 決定）；MVP 不提供民眾提交連結或自動分析功能。
+- CMR 捕捉事件留在 `sampleRecords.events[].captures`，個體身分另存 `ratIndividuals`；首次捕捉同時保存 record 與穩定 event reference。基因檢體另存 `geneticSamples`，分析與親緣配對列為 Future，不建立含混的 `geneticTrackingRecords`。
 
 ### 尚待補資料或外部 owner 確認
 
@@ -927,6 +1371,9 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 - [Mapbox：Search Box API](https://docs.mapbox.com/api/search/search-box/)
 - [Mapbox：Privacy Policy](https://www.mapbox.com/legal/privacy)
 - [NYC Health：Rat Information Portal](https://a816-dohbesp.nyc.gov/IndicatorPublic/rats/)
+- [Etherington：Python based GIS tools for landscape genetics: visualising genetic relatedness and measuring landscape connectivity](https://onlinelibrary.wiley.com/doi/10.1111/j.2041-210X.2010.00048.x)
+- [Byers et al.：Using genetic relatedness to understand heterogeneous distributions of urban rat-associated pathogens](https://pmc.ncbi.nlm.nih.gov/articles/PMC7819557/)
+- [Combs et al.：Urban rat races: spatial population genomics of brown rats compared across multiple cities](https://pmc.ncbi.nlm.nih.gov/articles/PMC6015871/)
 
 ---
 
