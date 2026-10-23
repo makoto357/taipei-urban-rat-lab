@@ -197,4 +197,86 @@ describe('Firestore Rules smoke tests', () => {
       schemaVersion: 1,
     }))).resolves.toBeUndefined();
   });
+
+  // plan.md Phase 3: 「先寫角色矩陣的 Rules tests，包含偽造 client role、
+  // 停權 official、跨使用者讀取…」— 以下四個測試涵蓋 Firestore Rules 可以
+  // 直接驗證的部分；domain/邀請偽造屬於 apps/functions 的職責，不是 Rules。
+  it('denies a citizen forging an elevated role by writing their own users/{uid} document', async () => {
+    const client = testEnvironment.authenticatedContext('citizen-1', { role: 'citizen' }).firestore();
+
+    await expect(assertFails(setDoc(doc(client, 'users', 'citizen-1'), {
+      role: 'admin',
+      status: 'active',
+      displayName: 'Citizen One',
+      emailNormalized: 'citizen-1@example.com',
+      emailVerified: true,
+      authProviders: ['password'],
+      createdAt: now(),
+      updatedAt: now(),
+      schemaVersion: 1,
+    }))).resolves.toBeDefined();
+  });
+
+  it('denies a citizen forging an elevated role by writing their own memberships/{uid} document', async () => {
+    const client = testEnvironment.authenticatedContext('citizen-1', { role: 'citizen' }).firestore();
+
+    await expect(assertFails(setDoc(doc(client, 'memberships', 'citizen-1'), {
+      ...officialMembership,
+      role: 'admin',
+    }))).resolves.toBeDefined();
+  });
+
+  it('denies a suspended official from creating an officialObservations document', async () => {
+    await testEnvironment.withSecurityRulesDisabled(async (context) => {
+      await setDoc(doc(context.firestore(), 'memberships', 'official-1'), {
+        ...officialMembership,
+        status: 'suspended',
+      });
+    });
+    const client = testEnvironment.authenticatedContext('official-1', { role: 'official' }).firestore();
+
+    await expect(assertFails(setDoc(doc(client, 'officialObservations', 'observation-1'), {
+      reporterId: 'official-1',
+      organizationId: 'environmental-protection',
+      observedAt: now(),
+      createdAt: now(),
+      updatedAt: now(),
+      location: { latitude: 25.033, longitude: 121.565 },
+      addressText: 'Smoke test address',
+      district: 'Da-an',
+      surveyMethod: 'visual_inspection',
+      surveyResult: 'evidence_found',
+      observationTypes: ['rat_droppings'],
+      photoPaths: [],
+      schemaVersion: 1,
+    }))).resolves.toBeDefined();
+  });
+
+  it('denies a citizen from reading another citizen\'s citizenReports document', async () => {
+    await testEnvironment.withSecurityRulesDisabled(async (context) => {
+      await setDoc(doc(context.firestore(), 'citizenReports', 'report-1'), citizenReport('citizen-1'));
+    });
+    const client = testEnvironment.authenticatedContext('citizen-2', { role: 'citizen' }).firestore();
+
+    await expect(assertFails(getDoc(doc(client, 'citizenReports', 'report-1')))).resolves.toBeDefined();
+  });
+
+  it('denies a citizen from reading another citizen\'s private media document', async () => {
+    await testEnvironment.withSecurityRulesDisabled(async (context) => {
+      await setDoc(doc(context.firestore(), 'media', 'media-1'), {
+        ownerUid: 'citizen-1',
+        storagePath: 'staging/citizen-1/media-1',
+        originalContentType: 'image/jpeg',
+        originalBytes: 1,
+        scanStatus: 'pending',
+        moderationStatus: 'private',
+        exifStripped: false,
+        createdAt: now(),
+        schemaVersion: 1,
+      });
+    });
+    const client = testEnvironment.authenticatedContext('citizen-2', { role: 'citizen' }).firestore();
+
+    await expect(assertFails(getDoc(doc(client, 'media', 'media-1')))).resolves.toBeDefined();
+  });
 });

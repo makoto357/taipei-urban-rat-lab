@@ -60,9 +60,15 @@ importers:
 
   apps/web:
     dependencies:
+      '@taipei-rat-lab/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
       '@taipei-rat-lab/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      firebase:
+        specifier: ^10.14.1
+        version: 10.14.1
       react:
         specifier: ^18.3.1
         version: 18.3.1

@@ -1,22 +1,27 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
+import { useAuth } from "../features/auth/AuthProvider";
 import { REPORT_STEPS, REPORT_TYPE_LABEL, SAFETY_NOTE, type ReportType } from "../features/report/steps";
 
 /**
- * 通報頁對應 Claude Artifact Report.dc.html：未登入時顯示 gate（示意，真正的
- * 登入閘門待整合 apps/web 的 auth context），登入後是三步驟表單，送出後顯示完成畫面。
- * 地點步驟的地圖標記、照片上傳/壓縮狀態目前都是靜態示意，尚未接 MapLibre 與
- * Cloud Storage 上傳管線（見 plan.md §3 media 與 apps/functions processUpload）。
+ * 通報頁對應 Claude Artifact Report.dc.html：未登入時顯示 gate，登入後是
+ * 三步驟表單，送出後顯示完成畫面。目前「送出通報」只在前端模擬完成畫面，
+ * 還沒有真的寫入 Firestore `citizenReports`（待 apps/functions 與 Storage
+ * 上傳管線）；地點步驟的地圖標記、照片上傳/壓縮狀態也都是靜態示意，尚未接
+ * MapLibre 與 Cloud Storage 上傳管線（見 plan.md §3 media 與 apps/functions
+ * processUpload）。
  */
 export function ReportPage() {
-  const [started, setStarted] = useState(false);
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [reportType, setReportType] = useState<ReportType | null>(null);
   const [agreed, setAgreed] = useState(false);
   const [done, setDone] = useState(false);
 
-  const signedIn = started;
+  const signedIn = Boolean(user);
   const canNext = step !== 1 || reportType !== null;
 
   function restart() {
@@ -26,9 +31,11 @@ export function ReportPage() {
     setReportType(null);
   }
 
+  if (loading) return null;
+
   return (
     <>
-      <SiteHeader signedIn={signedIn} />
+      <SiteHeader />
       <main className="mx-auto flex w-full max-w-container flex-col gap-7 px-10 pb-16 pt-8">
         <div className="flex flex-wrap items-end gap-x-8 gap-y-2 border-b-2 border-ink pb-5">
           <div>
@@ -45,7 +52,7 @@ export function ReportPage() {
 
           <div className="min-w-0 flex-[999_1_560px] max-w-[720px]">
             {!signedIn ? (
-              <GateCard onStart={() => setStarted(true)} />
+              <GateCard onStart={() => navigate("/login")} />
             ) : done ? (
               <DoneCard reportType={reportType} onRestart={restart} />
             ) : (

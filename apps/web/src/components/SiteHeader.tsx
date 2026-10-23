@@ -1,4 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../features/auth/AuthProvider";
 
 const NAV_ITEMS = [
   { num: "01", label: "地圖", to: "/map" },
@@ -6,8 +7,15 @@ const NAV_ITEMS = [
   { num: "03", label: "知識", to: "/literature" },
 ] as const;
 
-export function SiteHeader({ signedIn = false }: { signedIn?: boolean }) {
+export function SiteHeader() {
   const { pathname } = useLocation();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  async function handleSignOut() {
+    await signOut();
+    navigate("/");
+  }
 
   return (
     <header className="mx-auto w-full max-w-container px-10 pt-7">
@@ -38,13 +46,14 @@ export function SiteHeader({ signedIn = false }: { signedIn?: boolean }) {
               </span>
             );
           })}
-          {signedIn ? (
-            <Link
-              to="/"
-              className="ml-2 inline-flex min-h-11 items-center justify-center rounded-full border-[1.5px] border-ink px-5 text-[15px] text-accent-text no-underline"
+          {user ? (
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className="ml-2 inline-flex min-h-11 items-center justify-center rounded-full border-[1.5px] border-ink bg-transparent px-5 font-heading text-[15px] text-accent-text"
             >
               登出
-            </Link>
+            </button>
           ) : (
             <Link
               to="/login"

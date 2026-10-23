@@ -1,24 +1,36 @@
+import { lazy, Suspense, type ReactNode } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import { RootLayout } from "./RootLayout";
-import { HomePage } from "../pages/HomePage";
-import { MapPage } from "../pages/MapPage";
-import { LoginPage } from "../pages/LoginPage";
-import { ReportPage } from "../pages/ReportPage";
+
+const HomePage = lazy(() => import("../pages/HomePage").then((m) => ({ default: m.HomePage })));
+const MapPage = lazy(() => import("../pages/MapPage").then((m) => ({ default: m.MapPage })));
+const LoginPage = lazy(() => import("../pages/LoginPage").then((m) => ({ default: m.LoginPage })));
+const SignupPage = lazy(() => import("../pages/SignupPage").then((m) => ({ default: m.SignupPage })));
+const AccountStatusPage = lazy(() =>
+  import("../pages/AccountStatusPage").then((m) => ({ default: m.AccountStatusPage })),
+);
+const ReportPage = lazy(() => import("../pages/ReportPage").then((m) => ({ default: m.ReportPage })));
+
+function Lazy({ children }: { children: ReactNode }) {
+  return <Suspense fallback={null}>{children}</Suspense>;
+}
 
 /**
- * 目前路由涵蓋首頁、地圖、登入、通報（本次使用者請求範圍）。
- * /literature、/signup、/official、/official/review 依 plan.md Phase 2
- * 待 Phase 0 的資料治理與權限決策核准後再加入；登入/通報頁目前都還沒接
- * 真正的 Firebase Authentication，是純 UI。
+ * 目前路由涵蓋首頁、地圖、登入、註冊、帳號狀態、通報，各頁都用 React.lazy
+ * 做 code splitting（Firebase SDK 等依賴只在需要的頁面才載入）。登入/註冊/
+ * 通報已接上真正的 Firebase Authentication（見 features/auth/AuthProvider）。
+ * /literature、/official、/official/review 依 plan.md Phase 5/8 待實作。
  */
 export const router = createBrowserRouter([
   {
     element: <RootLayout />,
     children: [
-      { path: "/", element: <HomePage /> },
-      { path: "/map", element: <MapPage /> },
-      { path: "/login", element: <LoginPage /> },
-      { path: "/report", element: <ReportPage /> },
+      { path: "/", element: <Lazy><HomePage /></Lazy> },
+      { path: "/map", element: <Lazy><MapPage /></Lazy> },
+      { path: "/login", element: <Lazy><LoginPage /></Lazy> },
+      { path: "/signup", element: <Lazy><SignupPage /></Lazy> },
+      { path: "/account-status", element: <Lazy><AccountStatusPage /></Lazy> },
+      { path: "/report", element: <Lazy><ReportPage /></Lazy> },
     ],
   },
 ]);
