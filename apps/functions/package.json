@@ -8,13 +8,12 @@
   },
   "main": "./lib/index.js",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --target=node22 --format=esm --outfile=lib/index.js --external:firebase-admin --external:firebase-functions --external:sharp",
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node22 --format=esm --outfile=lib/index.js --alias:@taipei-rat-lab/contracts=../../packages/contracts/src/index.ts --external:firebase-admin --external:firebase-functions --external:sharp",
     "test": "vitest run",
     "test:integration": "vitest run --config ../../tests/integration/vitest.config.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@taipei-rat-lab/contracts": "workspace:*",
     "firebase-admin": "^13.0.2",
     "firebase-functions": "^6.2.0",
     "sharp": "^0.33.5"

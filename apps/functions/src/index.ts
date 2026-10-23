@@ -2,6 +2,7 @@
 // plan.md §2.3、§3 與 Phase 0 的安全／隱私決策實作。
 export {};
 export { acceptInvite } from './auth/acceptInvite.js';
+export { bootstrapCitizen } from './auth/bootstrapCitizen.js';
 export { inviteOfficial } from './auth/inviteOfficial.js';
 export { revokeOfficial } from './auth/revokeOfficial.js';
 export { processUpload } from './media/processUpload.js';

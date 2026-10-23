@@ -32,9 +32,6 @@ importers:
 
   apps/functions:
     dependencies:
-      '@taipei-rat-lab/contracts':
-        specifier: workspace:*
-        version: link:../../packages/contracts
       firebase-admin:
         specifier: ^13.0.2
         version: 13.10.0(@firebase/app-compat@0.2.43)(@firebase/app@0.10.13)
