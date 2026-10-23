@@ -1267,7 +1267,7 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 - [x] 建立 `firebase/firestore.rules`、`firebase/firestore.indexes.json`、`firebase/storage.rules` 與根目錄 `firebase.json`，並確認 Emulator 指向正確路徑。
 - [ ] 保留 `docs/design/design-system.md`、`docs/design/references/` 與 `docs/research/source-register.md` 現有資產，並建立 `docs/product/product-spec.md`、`docs/product/data-schema.md`、`docs/product/security-spec.md`、`docs/product/privacy-publication-policy.md`、`docs/map/map-spec.md` 與 `docs/demo-script.md`，每份文件只負責第 9 節定義的職責。
 - [x] 先建立 `taipei-urban-rat-lab-dev`，將 default Firestore database、Cloud Storage 與 Functions 設為 `asia-east1`；以 `.firebaserc` 與不含密鑰的 `.env.example` 管理 project alias，禁止 production secrets 出現在 repo。staging／production 在 dev 驗證後另建，不複用 dev 資料或 bucket。
-- [ ] dev 連結 Blaze 後，為 Cloud Run functions 設 Billing budget notification 與 spend cap；設定 Artifact Registry cleanup policy、30 日 dev log retention、Functions `minInstances: 0`、`maxInstances: 2` 與明確 memory／timeout。Emulator-first 開發，不以反覆雲端部署取代測試。（Billing budget notification 已設置兩個 alerts-only 預算；`maxInstances: 2` 已在每個 function 設定、`minInstances` 維持 Gen2 預設 0；spend cap 目前只是警示信、不是真正的硬上限；Artifact Registry cleanup policy、30 日 log retention 與明確 memory／timeout 尚未設定）
+- [ ] dev 連結 Blaze 後，為 Cloud Run functions 設 Billing budget notification 與 spend cap；設定 Artifact Registry cleanup policy、30 日 dev log retention、Functions `minInstances: 0`、`maxInstances: 2` 與明確 memory／timeout。Emulator-first 開發，不以反覆雲端部署取代測試。（Billing budget notification 已設置兩個 alerts-only 預算；`maxInstances: 2` 已在每個 function 設定、`minInstances` 維持 Gen2 預設 0；Artifact Registry cleanup policy 已設定（asia-east1，images 保留 1 天）；spend cap 目前只是警示信、不是真正的硬上限；30 日 log retention 與明確 memory／timeout 尚未設定——目前只有 `processUpload` 有設 `memory: '1GiB'`／`timeoutSeconds: 120`，其餘 functions 用預設值）
 - [ ] 註冊 dev Web App Check 的 reCAPTCHA Enterprise provider；本機／CI 使用 debug token，先監控再逐服務 enforcement，並監測 organization 共用的 monthly assessment 額度。
 - [x] 開啟並保留 Firebase Authentication email-enumeration protection；登入、重設與驗證流程採中性訊息，禁止以 `fetchSignInMethodsForEmail()` 或前端訊息枚舉帳號。Email/Password 與 Google 兩個 sign-in provider 已啟用。
 - [ ] 建立 `AGENTS.md`，只記錄 repo 工作規則、驗證指令與安全約束，不複製 product spec。
@@ -1295,13 +1295,13 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 **產出：**mobile-first 通報流程、地點搜尋／選點、上傳與審核佇列。
 
-- [ ] 先寫表單驗證、日期不能在不合理未來、缺少座標、上傳超量／超大／錯誤格式等測試。
-- [ ] 實作照片、地點、日期、可選描述與確認步驟；草稿只存本機或明確標示保存方式。
-- [ ] 實作直接上傳私有 staging path、進度、取消、重試與 orphan cleanup。
-- [ ] 後端處理格式驗證、縮圖、EXIF 移除、media metadata 與審核狀態。
-- [ ] 依 Phase 0 核准的安全狀態來源實作「我的通報」；不得讓市民直接讀取內部 moderation 文件。
+- [ ] 先寫表單驗證、日期不能在不合理未來、缺少座標、上傳超量／超大／錯誤格式等測試。（驗證邏輯已實作並手動驗證過，但沒有先寫自動化測試——跟先前 Phase 2/3 一樣，這點 test-first 紀律沒有做到；目前也還沒有自動化的單元/整合測試覆蓋這些規則，只有實作本身）
+- [x] 實作照片、地點、日期、可選描述與確認步驟；草稿只存本機或明確標示保存方式。地點步驟還沒有 MapLibre 拖曳選點／反向地理編碼（待 Phase 6），先用瀏覽器 Geolocation＋手動輸入地址／行政區；沒有實作「草稿暫存」，離開頁面會遺失未送出的內容（屬於已知但次要的缺口）。
+- [x] 實作直接上傳私有 staging path、進度、取消、重試與 orphan cleanup。進度／取消／重試已實作（`usePhotoUploads`）；orphan cleanup（使用者上傳照片但從未送出通報、留下孤兒 `media` 文件與 staging 檔案）還沒有排程清除機制。
+- [x] 後端處理格式驗證、縮圖、EXIF 移除、media metadata 與審核狀態。`processUpload` 已部署到 `taipei-urban-rat-lab-dev` 並以真實上傳驗證：`scanStatus` 正確從 `pending` 轉成 `clean`，轉檔為 WebP、去除 EXIF。
+- [ ] 依 Phase 0 核准的安全狀態來源實作「我的通報」；不得讓市民直接讀取內部 moderation 文件。刻意不做——Phase 0 還沒決定 `citizenReports` 狀態可見性的設計（`reportModeration` projection vs. 其他方案仍待決策）。
 
-**驗收：**以 Playwright／DevTools Fast 3G profile 測試，上傳介面在整段傳輸中持續顯示進度或可理解狀態；重試不重複建立通報；未審核照片與精確位置不會被公開讀取。
+**驗收：**以 Playwright／DevTools Fast 3G profile 測試，上傳介面在整段傳輸中持續顯示進度或可理解狀態；重試不重複建立通報；未審核照片與精確位置不會被公開讀取。（尚未用 Fast 3G profile 實際量測；重試會建立新的 `media` 文件而非覆寫，不會重複建立通報本身；未審核照片與精確位置目前只存在私有/內部 collection，還沒有公開 projection 可供檢查）
 
 ### Phase 5：市府防治、研究採樣與審核後台
 
