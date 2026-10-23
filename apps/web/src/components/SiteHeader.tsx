@@ -6,7 +6,7 @@ const NAV_ITEMS = [
   { num: "03", label: "知識", to: "/literature" },
 ] as const;
 
-export function SiteHeader() {
+export function SiteHeader({ signedIn = false }: { signedIn?: boolean }) {
   const { pathname } = useLocation();
 
   return (
@@ -38,12 +38,22 @@ export function SiteHeader() {
               </span>
             );
           })}
-          <Link
-            to="/login"
-            className="ml-3 inline-flex min-h-11 items-center justify-center rounded-full bg-ink px-[22px] text-[15px] text-card no-underline"
-          >
-            登入
-          </Link>
+          {signedIn ? (
+            <Link
+              to="/"
+              className="ml-2 inline-flex min-h-11 items-center justify-center rounded-full border-[1.5px] border-ink px-5 text-[15px] text-accent-text no-underline"
+            >
+              登出
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              aria-current={pathname === "/login" ? "page" : undefined}
+              className="ml-3 inline-flex min-h-11 items-center justify-center rounded-full bg-ink px-[22px] text-[15px] text-card no-underline"
+            >
+              登入
+            </Link>
+          )}
         </nav>
       </div>
       <div className="mt-[3px] h-px bg-ink" />
