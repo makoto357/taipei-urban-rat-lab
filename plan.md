@@ -77,7 +77,7 @@
 首頁保留一個「登入」按鈕，進入後用兩張清楚的選項卡：
 
 - 「我是市民」：Email/Password 或 Google 登入。
-- 「我是市府／合作單位人員」：Email/Password 登入；email 驗證完成後仍須通過 domain 白名單與邀請／人工核准。
+- 「我是市府／合作單位人員」：Email/Password 登入；帳號只能由 admin 邀請建立（2026-10-23 決定，MVP 不開放自助申請），email 驗證完成並通過 domain 白名單與邀請紀錄後才取得 `official`。
 
 角色不是使用者自己切換的偏好，因此不應用 toggle。前端可以依角色顯示不同入口，但真正的讀寫權限必須由 Firebase custom claims、Firestore／Storage Security Rules 與後端函式執行。
 
@@ -97,8 +97,8 @@ MVP 先不在 UI 區分 `official` 與 `reviewer`，符合「市府人員先採�
 Firebase Console 的「Authorized domains」是網站可進行登入的來源網域，不是使用者 email 網域白名單。市府身分建議採以下流程：
 
 1. 市民可用 Email/Password 或 Google 建立帳號；市府／合作單位人員使用 Email/Password。
-2. Email/Password 帳號必須完成 email verification；新帳號預設為 `citizen`，申請市府身分時另記錄 `pending` membership。
-3. 管理員先建立一次性邀請或匯入核准 email 清單。
+2. Email/Password 帳號必須完成 email verification；自助註冊只開放市民，新帳號預設為 `citizen`；official 帳號由 admin 邀請建立，邀請尚未被接受或啟用時 membership 為 `pending`。
+3. 管理員先建立一次性邀請或匯入核准 email 清單（唯一的 official 入口；MVP 無「申請市府帳號」表單與審核佇列）。MVP 不做邀請、撤銷與停權的管理畫面（2026-10-23 決定），由 admin 以受保護的後端腳本或 Cloud Function 執行，同樣寫入 `auditLogs`；管理畫面列為 MVP 之後的項目。
 4. 後端正規化 email、解析完整 domain，驗證 `email_verified`、domain 白名單與邀請／人工核准紀錄。
 5. 核准後由 Admin SDK 設定 `official` custom claim；`admin` 只能由既有 admin 透過受保護流程指派，不可只靠 domain 自動升級。
 6. Membership 另記錄 `organizationId`、`jurisdictions`、`assignments`、有效期限、核准者與承包商身分；後端每次高權限操作都檢查其資料範圍，不只看 `official` claim。
@@ -184,7 +184,7 @@ type Membership = {
 }
 ```
 
-一般 client 不得建立或修改 membership。市民首次完成登入後，由受保護後端建立 `citizen/active`；official 申請先建立 `citizen` profile 與 `official/pending` 審核狀態，核准後才更新 membership、custom claim 與 audit log。Admin 角色只能由既有 admin 指派。
+一般 client 不得建立或修改 membership。市民首次完成登入後，由受保護後端建立 `citizen/active`；official 由 admin 發出邀請時建立 `official/pending` membership，被邀請者完成 email 驗證並由後端核對邀請與 domain 後，才更新為 `active`、設定 custom claim 並寫入 audit log。Admin 角色只能由既有 admin 指派。
 
 #### `citizenReports/{reportId}`
 
@@ -194,6 +194,7 @@ type CitizenReport = {
   observedAt: Timestamp
   createdAt: Timestamp
   updatedAt: Timestamp
+  reportType: 'rat' | 'bait'
   location: {
     latitude: number
     longitude: number
@@ -208,9 +209,9 @@ type CitizenReport = {
 }
 ```
 
-`observedAt` 由市民填寫；`createdAt` 與 `updatedAt` 使用 Firebase server timestamp。`photoPaths` 直接保存 Firebase Storage path，不另建 media ID 關聯。市民通報不儲存 observation category、數量、公開狀態或審核狀態。
+`observedAt` 由市民填寫；`createdAt` 與 `updatedAt` 使用 Firebase server timestamp。`photoPaths` 直接保存 Firebase Storage path，不另建 media ID 關聯。`reportType` 為必填：`rat` 表示看到老鼠、死鼠或鼠跡，`bait` 表示看到餌劑、餌站或疑似投藥；兩類對應見鼠地圖的資料分類，讓匯入資料與平台通報可放在同一套圖層比較。除此之外，市民通報不儲存細部 observation category、數量、公開狀態或審核狀態。`bait` 通報是市民觀察，不等同市府 `controlRecords`，也不能證明投藥者或藥劑種類。
 
-照片在 MVP 為選填；若選擇上傳，只接受鼠類、死鼠或鼠跡相關照片，不接受人像。介面應提醒使用者不要為了拍攝接近、追逐或接觸老鼠，也不要拍入他人臉部或私人住宅內部。自動檢測只能輔助攔截，發布前仍需人工審核。
+照片在 MVP 為選填；若選擇上傳，只接受鼠類、死鼠或鼠跡相關照片，不接受人像。`bait` 通報則接受餌劑、餌站或警示標示照片。介面應提醒使用者不要為了拍攝接近、追逐或接觸老鼠，不要觸碰或移動餌劑、餌站，也不要拍入他人臉部或私人住宅內部。自動檢測只能輔助攔截，發布前仍需人工審核。
 
 #### `officialObservations/{observationId}`
 
@@ -704,7 +705,6 @@ geneticRelationships/     # 特定分析版本產生的個體配對關係
 - `evidenceRuns`／`riskRuns`：run metadata、輸入資料版本、method／model checksum、有效期間、產製與發布狀態；大型結果 geometry 存 immutable tile artifact。
 - `activePublications`：每類公開圖層目前使用的 artifact／run pointer；rollback 只切換指標，不改寫歷史結果。
 - 來源別公開 projection（例如 `publicCitizenObservations`、`publicControlNotices`）：只含逐 schema allowlist 核准的最小欄位；不含 uid、原圖路徑、精確病例點或敏感營運細節。市民通報 MVP 暫定經審核後公開精確點，另存 `publicPrecision: exact | area | grid` 與 `precisionReason`，讓 reviewer 可因私領域或辨識風險降為區域／網格，日後也能整批調整政策。
-- `literature`：來源 metadata、摘要、主題標籤、證據等級、公開狀態、分析版本。
 - `auditLogs`：角色變更、審核、發布、撤回與模型變更；一般使用者不可寫入或刪除。
 
 ### 3.3 照片大小建議
@@ -757,8 +757,8 @@ geneticRelationships/     # 特定分析版本產生的個體配對關係
 | 群組 | 資料 | 呈現方式 | 顯示規則 |
 | --- | --- | --- | --- |
 | 綜合判讀 | evidence／risk tile artifact | 街廓／六角網格分級色塊 | 顏色表達活動或已核准風險；斜線或透明度表達低涵蓋／低可信度 |
-| 鼠跡 | 市民通報、市府調查、採樣 | 低 zoom 聚合圓；高 zoom 分類符號 | 來源用形狀，查核狀態用描邊，時間衰減用透明度 |
-| 防治行動 | 捕鼠籠、餌站、投藥、查核、移除 | 分類 icon＋時間軸 | 依 3.4 節顯示精確點或區域；「移除」不可用安全綠勾 |
+| 鼠跡 | 市民通報（`rat`）、市府調查、採樣 | 低 zoom 聚合圓；高 zoom 分類符號 | 來源用形狀，查核狀態用描邊，時間衰減用透明度 |
+| 防治行動 | 捕鼠籠、餌站、投藥、查核、移除；市民餌劑通報（`bait`）另用「市民觀察」符號，不與市府紀錄混用 | 分類 icon＋時間軸 | 依 3.4 節顯示精確點或區域；「移除」不可用安全綠勾 |
 | 環境因子 | 攤販、清潔箱、垃圾熱點 | 小型 POI 或密度網格 | 不以紅色暗示單一設施造成鼠患 |
 | 地下設施 | 污／雨水下水道、人孔 | 線與點 | 只在較高 zoom 顯示，避免壓過主要資訊 |
 | 公共衛生 | 去識別病例／檢驗彙整 | 行政區或網格統計 | 小樣本抑制，不顯示個案點，不宣稱感染地 |
@@ -889,9 +889,9 @@ MVP 先輸出 `observedActivity`（觀察到的鼠跡／處置訊號）、`dataC
 
 ### 6.1 全站導覽
 
-- 桌機：左側 logo；中央「地圖、通報、文獻」；右側登入／個人選單。使用目前頁面底線、背景或 `aria-current` 明確標示 active tab。
-- 手機：頂部精簡品牌列＋底部導覽「首頁、地圖、通報、文獻」；登入與市府功能放個人選單。
-- 正式名稱統一用「文獻」，修正 brief 中的「文憲」。
+- 桌機：左側 logo；中央「地圖、通報、知識」；右側登入／個人選單。使用目前頁面底線、背景或 `aria-current` 明確標示 active tab。
+- 手機：頂部精簡品牌列＋底部導覽「首頁、地圖、通報、知識」；登入與市府功能放個人選單。
+- 導覽名稱統一用「知識」（2026-10-22 決定），修正 brief 中的「文憲」；頁面內容仍是文獻列表與人工整理重點，資料模型與路由沿用 `literature`。
 - 公開內容不要求登入；只有送出通報、查看自己的紀錄與工作人員功能才要求登入。
 
 ### 6.2 首頁
@@ -911,16 +911,26 @@ MVP 先輸出 `observedActivity`（觀察到的鼠跡／處置訊號）、`dataC
 
 1. Hero：一句明確價值主張＋簡短限制說明；主 CTA「探索鼠患地圖」，次 CTA「通報鼠跡」。
 2. 即時摘要：最後更新、近期已查核鼠跡數、資料涵蓋期間；沒有可靠資料時不顯示看似精確的統計。
-3. 三張入口卡：地圖、通報、文獻；整張卡可點擊，具 hover／focus／pressed 狀態與動詞型文案。
+3. 三張入口卡：地圖、通報、知識；整張卡可點擊，具 hover／focus／pressed 狀態與動詞型文案。
 4. 「如何判讀」：用小範例說明風險、可信度與資料日期。
 5. Footer：資料來源、方法、隱私權、無障礙、聯絡方式與版本。
 
 登入不放市民／市府 toggle；使用單一登入按鈕開啟角色入口。所有可點擊元素要有一致的顏色、游標、focus ring 與觸控尺寸，不能只依賴卡片陰影讓使用者猜。
 
+### 6.2.1 註冊與帳號狀態
+
+- **市民註冊**：只開放市民，欄位為 Email、密碼、隱私說明勾選；也可用 Google 註冊。頁面註明「市府／合作單位人員帳號由管理員邀請建立，不開放自行註冊」。勾選前送出按鈕為停用。送出後導向帳號狀態頁。
+- **帳號狀態頁**（一頁、兩種狀態）：
+  - 信箱未驗證：說明已寄出驗證信，提供「重寄驗證信」；實際驗證連結由 Firebase 內建流程處理，不另做驗證頁。
+  - 沒有權限（403）：說明帳號無作業平台權限（尚未被邀請開通或已停用），提供「改用市民身分通報」、回首頁與管理員聯絡方式。
+  兩種狀態都提供回首頁與登出。
+- 不做：獨立 email 驗證頁、official 申請頁、「審核中」進度頁、忘記密碼頁（沿用 Firebase 內建流程）。
+- 登入頁的 official 卡片說明「帳號由管理員邀請建立，需完成信箱驗證」，不顯示註冊連結。
+
 ### 6.3 通報頁
 
 - 先選「市民通報」或由已核准 official 進入「工作紀錄」；未具 official claim 的帳號不顯示可自行選角色的入口。
-- 市民流程採 3 步：`鼠跡與照片 → 地點 → 日期與確認`。
+- 市民流程採 3 步：`通報類型與照片 → 地點 → 日期與確認`。第一步先以兩張整張可點擊的選項卡選 `reportType`：「看到老鼠／鼠跡」（`rat`）或「看到餌劑／餌站」（`bait`），未選不可進下一步；照片提示與安全提醒依類型切換（`bait` 顯示勿觸碰餌劑、讓寵物遠離）。確認頁與成功頁顯示所選類型，可返回第一步修改。
 - 地點步驟提供：地址／地標搜尋、地圖拖曳 pin、使用目前位置。顯示定位精度，禁止在使用者尚未確認前自動送出 GPS。
 - 照片上傳在選檔後立即顯示壓縮結果、上傳進度與刪除按鈕。
 - 成功頁顯示通報編號、審核狀態與公開前會進行去識別處理。
@@ -933,43 +943,87 @@ MVP 先輸出 `observedActivity`（觀察到的鼠跡／處置訊號）、`dataC
 - 預設時間範圍、資料日期與資料限制在首屏可見。
 - 提供「這個風險怎麼算」入口，展開因子、可信度與方法版本。
 
-### 6.5 文獻頁
+### 6.5 知識頁（文獻列表與單篇）
 
-- 列表支援主題、年代、文獻類型、證據等級與「是否與台北直接相關」篩選。
-- 每篇顯示題名、作者／機構、年份、原始連結、人工整理的關鍵重點、整理者與最後更新。
+- 資料來自靜態 `literature.json`（見 7.1）。
+- **列表**：搜尋（題名、fullTitle、作者、標籤）；篩選含文獻類型、年代（2024 以後／2020–2023／2019 以前／無年份）、4 個標籤群組（標籤旁顯示篇數）與「清除所有篩選」；顯示「SHOWING n / 17」。卡片顯示類型標、年份、標題、作者、標籤與第一條核心發現（`researchNotes.fields['Main Findings']` 第一行；`researchNotes` 為 `null` 時取第二個 section 的前幾行）。`resourceType === 'policy_data_inventory'` 的卡片加「待查證」標。
+- **單篇（同一頁內切換，不另開路由畫面）**：頂部「← 回文獻列表」；標題區（類型、年份、標題、fullTitle、作者、出處、標籤）；本文為 `contentHtml` 完整內容，依原順序呈現所有 sections（研究方法數字卡、FWAH 框、案例卡、表格、路徑卡、政策時間軸、研究摘要、綜合評析、原始來源）；右側為原始來源連結與可跳轉的章節目錄（`sections[].id`）；底部提示「人工整理，非原文全文，也非醫療或防治建議」。實作時全部 17 篇都渲染 `contentHtml`；設計稿目前只完整展示「Reconsidering the “War on Rats”」與「台北市鼠患防治制度與資料盤點」，其餘 15 篇暫以研究摘要欄位示意。
+- **待查證**：`policy_data_inventory` 單篇頂部顯示黃色「待查證」橫幅，寫出整理與來源核對日期（來自 `publicationText`）並說明政策與資料集尚未重新查證，引用前須回官方來源確認。其他類型沿用 7.1 的 `contentAsOf` 說明，不另加橫幅。
+- 站內來源按鈕（`allLinks` 的 `resourceId`／`sectionId`）應跳至對應 section；上一篇／下一篇依 `navigation` 顯示。（設計稿暫未實作此二項。）
 - 摘要與重點不是原文全文；保留頁碼／段落定位並遵守著作權與來源條款。
 
 ### 6.6 Design system 基準
 
-使用者提供的 `UI reference.jpg` 已保存為 `docs/design/references/design-system-v01-reference.jpg`，並轉寫為 `docs/design/design-system.md`。後續頁面設計以該文件的 paper／ink／accent／teal 色彩、Noto Sans TC＋IBM Plex Mono 字體分工、44px controls、4–32px spacing、2px icon stroke、表單 states、地圖符號、卡片與警示語言為共同基準。
+主要基準是 Claude Artifact 的 Design canvas（`Main`／`Map`／`Report`／`Staff`／`Login`／`Style` 六塊 artboard），已轉寫為 [`docs/design/design-system.md`](docs/design/design-system.md)；使用者最初提供的 `UI reference.jpg` 仍保存於 `docs/design/references/design-system-v01-reference.jpg`，但僅作早期構圖對照，不再是色票與元件規格的主要來源。Artifact 匯出、可直接在程式碼中使用的 SVG／PNG 素材存於 [`docs/design/assets/`](docs/design/assets/)（icons、map-markers、illustrations）。
 
-參考圖中的 L1–L4 是 visual proposal，不會凌駕第 5 節的方法門檻。MVP 仍顯示「觀測活動／資料涵蓋／證據可信度」；正式風險模型通過校準與簽核後，才可啟用對應的風險名稱與色帶。任何頁面若需要偏離 design system，須在設計稿註明原因，並仍符合 WCAG 2.2 AA、鍵盤操作與 44 × 44px 觸控目標。
+後續頁面設計以 design-system.md 目前版本為共同基準，包含：`paper`／`ink`／`accent`／`accent-text`／`unknown` 等色彩 token、Imbue（Logo）＋Antonio（編號／標籤）＋Noto Serif TC（標題／按鈕）＋Noto Sans TC（表單／介面）字體分工、44–48px controls、4–72px spacing scale、按鈕與輸入框四態（default／hover／focus／error or pressed／disabled）、地圖圖例點位語言、Public Desk 卡片與 footer 警示語言。**此文件若因 Artifact 改版而更新，本節與 6.1–6.5 中引用到的色彩、字體或元件名稱須同步檢查。**
+
+觀測活動色帶（`L1–L4`，見 design-system.md 第 2 節）是 visual proposal，不會凌駕第 5 節的方法門檻。MVP 仍顯示「觀測活動／資料涵蓋／證據可信度」；正式風險模型通過校準與簽核後，才可啟用對應的風險名稱與色帶。任何頁面若需要偏離 design system，須在設計稿註明原因，並仍符合 WCAG 2.2 AA、鍵盤操作與 44 × 44px 觸控目標。
+
+**導覽命名已定案（2026-10-22）**：全站導覽、入口卡與 footer 統一用「知識」，與 Artifact 一致；6.1／6.5 已同步。頁面內容仍是文獻列表，`literature` collection、`/literature` 路由與 `features/literature` 目錄名稱不變。
 
 ## 7. 文獻儲存與人工整理
 
-### 7.1 是否把文獻連結存 Firestore
+### 7.1 文獻資料：MVP 作為靜態資料，不存 Firestore
 
-建議存，而且不只存 URL。Firestore 適合保存可查詢的 metadata、人工標籤、摘要與審核狀態；完整 PDF／HTML 快照若有合法保存必要，放 Cloud Storage，Firestore 只存路徑、checksum 與授權資訊。
+2026-10-23 決定：`literature.json`（Urban Rat Research Database，17 筆人工整理文獻，繁中＋英文）MVP 先當**靜態內容**隨前端打包，不建立 Firestore `literature` collection，也沒有線上編輯、發布審核或 Storage 快照流程。內容更新走 repo 的 PR 審查。因此第 4 節的 `literature` collection 與 Phase 8 的線上人工維護流程暫緩；若日後需要由 official 線上編輯，再把同一份 schema 搬進 Firestore。
+
+原始檔目前存於 [`docs/data/literature.json`](docs/data/literature.json)；實作階段（Phase 8）再從該檔複製或在 build 時匯入 `apps/web/src/features/literature/data/`，並由 `packages/contracts` 的 zod schema 驗證。列表頁只載入 `LiteratureSummary`（建置時由全文衍生，不含 `sections`、`contentHtml`）；單篇頁才載入全文。
 
 ```ts
+type ResourceType =
+  | 'review'
+  | 'research_article'
+  | 'technical_manual'
+  | 'program_evaluation'
+  | 'policy_data_inventory'
+
+type TagGroup = '鼠類生態' | '防治措施' | '監測與資料' | '健康與治理'
+
 type Literature = {
-  canonicalUrl: string
+  id: string                       // 穩定 UUID，更新時保留；不代表顯示順序
+  resourceType: ResourceType
+  tags: string[]                   // 取自 tagGroups，通常 1–3 個
   title: string
-  authors?: string[]
-  publisher?: string
-  publishedAt?: Timestamp
-  sourceType: 'journal' | 'report' | 'government' | 'news' | 'other'
-  topics: string[]
-  taipeiRelevance: 'direct' | 'indirect' | 'background'
-  evidenceLevel: string
-  keyPoints: Array<{ text: string; locator?: string }>
-  reviewedByUid?: string
-  reviewedAt?: Timestamp
-  publicationStatus: 'draft' | 'published' | 'withdrawn'
-  createdAt: Timestamp
-  updatedAt: Timestamp
+  fullTitle: string
+  authorsText: string              // 保留原作者行，不補寫 et al.
+  year: number | null
+  publicationText: string          // 期刊／卷期／發表日等原文
+  doi: string | null
+  sourceLinks: LiteratureLink[]     // 多為外部連結；台北制度盤點含站內連結
+  sections: LiteratureSection[]    // 依原順序的完整人工整理
+  contentHtml: string              // 文章主體 HTML；內部引用用 data-resource-id／data-section-id
+  researchNotes: {
+    text: string
+    fields: Record<string, string> // Research Question、Method、Main Findings、Limitations、Relevance to Taipei、Evidence Type
+  } | null
+  navigation: Array<{ relation: 'prev' | 'next'; resourceId: string; title: string }>
+  allLinks: LiteratureLink[]
 }
+
+type LiteratureSection = {
+  id: string                       // 例：key-findings、methods、limitations、taipei、sources
+  title: string
+  text: string
+  subheadings: Array<{ level: number; text: string }>
+  tables: Array<{ caption: string; headers: string[]; rows: string[][] }>
+  lists: Array<{ ordered: boolean; items: string[] }>
+  links: LiteratureLink[]
+  figures: Array<{ title: string; caption: string; text: string; accessibleDescriptions: string[] }>
+}
+
+type LiteratureLink =
+  | { label: string; url: string; href: string }                         // 外部
+  | { label: string; resourceId: string; sectionId?: string }            // 站內
 ```
+
+資料備註：
+
+- 全站共 5 種 `resourceType`（8 篇研究論文、6 篇回顧、手冊、計畫評估、台北制度盤點各 1）與 4 個標籤群組、14 個標籤；標籤群組只組織詞彙，不代表文獻分類。
+- `year`、`doi` 對非論文項目（例如手冊、台北制度盤點）可為 `null`；台北制度盤點的 `researchNotes` 也是 `null`，列表摘要改取第二個 section 的前幾行；整理與來源核對日期寫在 `publicationText`，政策與資料集尚未重新查證，頁面要顯示該日期。
+- 圖表是依文獻概念重繪的示意，不是原始圖表，`caption` 已說明限制；圖表必須保留 `accessibleDescriptions` 與 caption。
+- `contentHtml` 為自家維護內容，可由 build 時 sanitize 後以 `dangerouslySetInnerHTML` 渲染；不得載入外部 script／style。
+- 本檔沒有 `taipeiRelevance`、`evidenceLevel`；第 6.5 節原有的「證據等級」「是否與台北直接相關」篩選改用 `resourceType` 與 `researchNotes.fields['Evidence Type'] / ['Relevance to Taipei']` 顯示，不另當篩選欄位。
 
 ### 7.2 「第三方供應商處理資料」是什麼意思
 
@@ -1072,7 +1126,7 @@ taipei-urban-rat-lab/
 |---|---|---|---|
 | 專案結構 | `apps/web`＋`apps/staff`、`packages/shared` | 改為單一 `apps/web`、`apps/functions`、`packages/contracts`、`packages/ui`；不可建立第二套 staff frontend | 已決定採 plan |
 | 資料 collections | `reports`、`ratSurveys`、`baiting`、`attachments` 等舊命名 | 以本文件定義的 `citizenReports`、`officialObservations`、`controlRecords`、`media`、`memberships`、公開 projections、採樣／來源／稽核資料為準 | 已決定採 plan |
-| 市民通報表單 | 要求 `observationTypes` 複選 | 使用者已明確要求從 `citizenReports` 移除該欄位；MVP 只保留照片、地點、日期與可選描述 | 已決定採 plan |
+| 市民通報表單 | 要求 `observationTypes` 複選 | 使用者已明確要求從 `citizenReports` 移除該欄位；MVP 只保留照片、地點、日期與可選描述；另加必填 `reportType: 'rat' \| 'bait'` 對應見鼠地圖資料（單選大類，不是 observationTypes 複選） | 已決定採 plan |
 | 市府表單 | 以 `ratSurveys` 與 `baiting` 分表 | 改為 `officialObservations` 與 `controlRecords`；防治歷程使用 `events[].actions`，包含 `contraceptive` | 已決定採 plan |
 | Authentication／角色 | citizen／staff，主要描述前端分流 | 統一稱 `citizen`／`official`／`admin`；domain 只可作 official 候選條件，仍須邀請或人工核准；角色由 custom claims 強制執行，Firestore 保存 membership／profile／稽核資料 | 已決定採 plan |
 | Firebase 與 Hosting | 兩個前端 app、兩個 Hosting targets | MVP 為一個 Web App＋Functions backend；補 Emulator、App Check、dev／staging／production 分離、Rules tests 與環境變數管理 | 已決定採 plan |
@@ -1143,7 +1197,9 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 **產出：**市民 Email/Password／Google 登入、official Email/Password 登入與邀請／核准／撤銷、custom claims、Security Rules 與管理稽核。
 
 - [ ] 先寫角色矩陣的 Rules tests，包含偽造 client role、停權 official、跨使用者讀取、未驗證 email、偽造 domain 與未受邀政府信箱。
-- [ ] 實作共用 Email/Password 登入、市民 Google 登入、email verification 與 official 核准工作流程。
+- [ ] 實作市民註冊（Email/Password、Google）、共用登入、email verification，以及 admin 邀請 official 的流程；不做 official 自助申請。
+- [ ] 實作 admin 專用的邀請、撤銷與停權腳本（或受保護 Cloud Function）：正規化 email、建立邀請與 `official/pending` membership、撤銷 refresh tokens 與 custom claim、寫入 `auditLogs`，並以 Rules／function 測試涵蓋撤銷後立即失去權限；不做管理畫面。
+- [ ] 實作帳號狀態頁（信箱未驗證、沒有權限／403）與登入後依狀態導向的規則。
 - [ ] 後端精確比對正規化 domain＋邀請／人工核准後，才以 Admin SDK 設定 `official` claim；`admin` 不可由 domain 自動指派。
 - [ ] 實作 Custom claims 同步、token refresh、403／無資料 UI 與撤銷測試。
 - [ ] 所有角色與發布操作寫入 `auditLogs`。
@@ -1200,15 +1256,15 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 **驗收：**任一公開級別都能由輸入資料、版本規則與 checksum 重現；「無資料」永不自動等於低活動或低風險；未完成校準時 UI 不出現正式風險字樣。
 
-### Phase 8：文獻庫與人工整理
+### Phase 8：知識頁（靜態文獻）
 
-**產出：**文獻列表、人工維護流程、來源定位、授權資訊與發布審核。
+**產出：**由 `literature.json` 驅動的知識列表與單篇頁；Firestore 線上維護流程暫緩（見 7.1）。
 
-- [ ] 先匯出既有文獻網站內容並做 canonical URL 去重與授權盤點。
-- [ ] 建立人工新增／編輯流程、必填來源 URL、頁碼／段落定位、授權與重複 URL 檢查。
-- [ ] 只有 official／admin 可建立、編輯與發布文獻重點；一般市民只能閱讀已發布內容。
+- [ ] 從 `docs/data/literature.json` 取得資料（複製或 build 時匯入）至 `apps/web/src/features/literature/data/`，以 zod schema 驗證 id 唯一、標籤屬於 tagGroups、站內連結與 prev／next 指向存在的 id。
+- [ ] 實作列表（搜尋、類型、年代、標籤群組篩選）與單篇頁（研究摘要、來源連結、目錄、上一篇／下一篇）；列表只載入 `LiteratureSummary`。
+- [ ] `contentHtml` 建置時 sanitize；圖表保留 caption 與 `accessibleDescriptions`。
 
-**驗收：**每個已發布重點都有原始來源、定位資訊、整理者與審核狀態；市民端沒有提交連結或自動分析入口。
+**驗收：**17 筆資料全數通過 schema 驗證並可在列表與單篇頁開啟；每篇都有原始來源連結；沒有任何寫入或提交入口。
 
 ### Phase 9：整合與全臺北 MVP 上線前檢查
 
@@ -1246,7 +1302,7 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 - 不設 MVP 自動刪除排程，但保留管理員停止公開、更正與處理個資／安全事件的能力。
 - GeoJSON 用於小型／原型圖層；大型 SHP 轉 vector tiles／PMTiles；Firestore 不當 GIS 檔案倉庫。
 - 照片原檔每張硬上限 8 MB，client 目標壓至 2 MB 以下，每次最多 3 張。
-- 文獻 metadata 與人工整理重點存 Firestore；受授權的原始檔存 Storage；MVP 不提供民眾提交連結或自動分析功能。
+- 文獻 17 筆人工整理內容 MVP 當靜態 JSON 隨前端發布，不存 Firestore（2026-10-23 決定）；MVP 不提供民眾提交連結或自動分析功能。
 - CMR 捕捉事件留在 `sampleRecords.events[].captures`，個體身分另存 `ratIndividuals`；首次捕捉同時保存 record 與穩定 event reference。基因檢體另存 `geneticSamples`，分析與親緣配對列為 Future，不建立含混的 `geneticTrackingRecords`。
 
 ### 尚待補資料或外部 owner 確認
