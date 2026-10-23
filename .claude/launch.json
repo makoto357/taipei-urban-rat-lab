@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "taipei-rat-lab-web",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@taipei-rat-lab/web", "dev"],
+      "port": 5173
+    }
+  ]
+}
