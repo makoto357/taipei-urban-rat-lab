@@ -6,9 +6,11 @@
   "engines": {
     "node": "22"
   },
-  "main": "./src/index.ts",
+  "main": "./lib/index.js",
   "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node22 --format=esm --outfile=lib/index.js --external:firebase-admin --external:firebase-functions --external:sharp",
     "test": "vitest run",
+    "test:integration": "vitest run --config ../../tests/integration/vitest.config.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -19,6 +21,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
+    "esbuild": "^0.24.0",
     "typescript": "^5.6.3",
     "vitest": "^2.1.9"
   }
