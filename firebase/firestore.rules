@@ -1,0 +1,357 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function hasRole(role) {
+      return isSignedIn() && request.auth.token.role == role;
+    }
+
+    function isCitizen() {
+      return hasRole('citizen');
+    }
+
+    function isOfficialOrAdmin() {
+      return hasRole('official') || hasRole('admin');
+    }
+
+    function isAdmin() {
+      return hasRole('admin');
+    }
+
+    function hasActiveOfficialMembership(organizationId) {
+      return hasRole('official')
+        && get(/databases/$(database)/documents/memberships/$(request.auth.uid)).data.role == 'official'
+        && get(/databases/$(database)/documents/memberships/$(request.auth.uid)).data.status == 'active'
+        && get(/databases/$(database)/documents/memberships/$(request.auth.uid)).data.organizationId == organizationId;
+    }
+
+    function canWriteForOrganization(organizationId) {
+      return isAdmin() || hasActiveOfficialMembership(organizationId);
+    }
+
+    function isServerTimestamp(timestamp) {
+      return timestamp == request.time;
+    }
+
+    function hasOnlyCitizenReportFields() {
+      return request.resource.data.keys().hasOnly([
+        'reporterId',
+        'observedAt',
+        'createdAt',
+        'updatedAt',
+        'reportType',
+        'location',
+        'addressText',
+        'district',
+        'blockId',
+        'blockVersion',
+        'description',
+        'photoPaths',
+        'schemaVersion'
+      ]);
+    }
+
+    function hasRequiredCitizenReportFields() {
+      return request.resource.data.keys().hasAll([
+        'reporterId',
+        'observedAt',
+        'createdAt',
+        'updatedAt',
+        'reportType',
+        'location',
+        'addressText',
+        'district',
+        'photoPaths',
+        'schemaVersion'
+      ]);
+    }
+
+    function hasOnlyMediaFields() {
+      return request.resource.data.keys().hasOnly([
+        'ownerUid',
+        'reportId',
+        'storagePath',
+        'originalContentType',
+        'processedContentType',
+        'originalBytes',
+        'processedBytes',
+        'width',
+        'height',
+        'scanStatus',
+        'moderationStatus',
+        'exifStripped',
+        'createdAt',
+        'schemaVersion'
+      ]);
+    }
+
+    function hasRequiredMediaFields() {
+      return request.resource.data.keys().hasAll([
+        'ownerUid',
+        'storagePath',
+        'originalContentType',
+        'originalBytes',
+        'scanStatus',
+        'moderationStatus',
+        'exifStripped',
+        'createdAt',
+        'schemaVersion'
+      ]);
+    }
+
+    function hasOnlyOfficialObservationFields() {
+      return request.resource.data.keys().hasOnly([
+        'reporterId',
+        'organizationId',
+        'observedAt',
+        'createdAt',
+        'updatedAt',
+        'location',
+        'addressText',
+        'district',
+        'blockId',
+        'blockVersion',
+        'surveyMethod',
+        'surveyResult',
+        'observationTypes',
+        'suspectedSpecies',
+        'speciesConfidence',
+        'linkedCitizenReportId',
+        'description',
+        'recommendedActions',
+        'photoPaths',
+        'schemaVersion'
+      ]);
+    }
+
+    function hasRequiredOfficialObservationFields() {
+      return request.resource.data.keys().hasAll([
+        'reporterId',
+        'organizationId',
+        'observedAt',
+        'createdAt',
+        'updatedAt',
+        'location',
+        'addressText',
+        'district',
+        'surveyMethod',
+        'surveyResult',
+        'observationTypes',
+        'photoPaths',
+        'schemaVersion'
+      ]);
+    }
+
+    function hasOnlyBaitRecordFields() {
+      return request.resource.data.keys().hasOnly([
+        'reporterId',
+        'organizationId',
+        'contractorOrganizationId',
+        'createdAt',
+        'updatedAt',
+        'location',
+        'addressText',
+        'district',
+        'blockId',
+        'blockVersion',
+        'placeType',
+        'linkedOfficialObservationId',
+        'linkedCitizenReportId',
+        'events',
+        'schemaVersion'
+      ]);
+    }
+
+    function hasRequiredBaitRecordFields() {
+      return request.resource.data.keys().hasAll([
+        'reporterId',
+        'organizationId',
+        'createdAt',
+        'updatedAt',
+        'location',
+        'addressText',
+        'district',
+        'placeType',
+        'events',
+        'schemaVersion'
+      ]);
+    }
+
+    function hasOnlySampleRecordFields() {
+      return request.resource.data.keys().hasOnly([
+        'reporterId',
+        'organizationId',
+        'createdAt',
+        'updatedAt',
+        'location',
+        'addressText',
+        'district',
+        'blockId',
+        'blockVersion',
+        'placeType',
+        'sampleMethod',
+        'linkedOfficialObservationId',
+        'linkedCitizenReportId',
+        'events',
+        'schemaVersion'
+      ]);
+    }
+
+    function hasRequiredSampleRecordFields() {
+      return request.resource.data.keys().hasAll([
+        'reporterId',
+        'organizationId',
+        'createdAt',
+        'updatedAt',
+        'location',
+        'addressText',
+        'district',
+        'placeType',
+        'sampleMethod',
+        'events',
+        'schemaVersion'
+      ]);
+    }
+
+    match /users/{uid} {
+      allow get: if isSignedIn() && (request.auth.uid == uid || isAdmin());
+      allow list: if isAdmin();
+      // Profiles, roles, and statuses are created and maintained by trusted backend code.
+      allow write: if false;
+    }
+
+    match /memberships/{uid} {
+      allow get: if isSignedIn() && (request.auth.uid == uid || isAdmin());
+      allow list: if isAdmin();
+      // Membership approval, revocation, and every role/status change require Admin SDK code.
+      allow write: if false;
+    }
+
+    match /citizenReports/{reportId} {
+      allow create: if isCitizen()
+        && request.resource.data.reporterId == request.auth.uid
+        && request.resource.data.schemaVersion == 1
+        && isServerTimestamp(request.resource.data.createdAt)
+        && isServerTimestamp(request.resource.data.updatedAt)
+        && hasOnlyCitizenReportFields()
+        && hasRequiredCitizenReportFields();
+      allow get: if isSignedIn()
+        && (resource.data.reporterId == request.auth.uid || isOfficialOrAdmin());
+      allow list: if isOfficialOrAdmin()
+        || (isCitizen() && resource.data.reporterId == request.auth.uid);
+      // Client updates would permit unreviewed changes to original evidence; trusted workflows own them.
+      allow update, delete: if false;
+    }
+
+    match /officialObservations/{observationId} {
+      allow read: if isOfficialOrAdmin();
+      allow create: if canWriteForOrganization(request.resource.data.organizationId)
+        && request.resource.data.reporterId == request.auth.uid
+        && request.resource.data.schemaVersion == 1
+        && isServerTimestamp(request.resource.data.createdAt)
+        && isServerTimestamp(request.resource.data.updatedAt)
+        && hasOnlyOfficialObservationFields()
+        && hasRequiredOfficialObservationFields();
+      allow update: if canWriteForOrganization(resource.data.organizationId)
+        && request.resource.data.reporterId == resource.data.reporterId
+        && request.resource.data.organizationId == resource.data.organizationId
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.schemaVersion == 1
+        && isServerTimestamp(request.resource.data.updatedAt)
+        && hasOnlyOfficialObservationFields()
+        && hasRequiredOfficialObservationFields();
+      // Deletes are not allowed from clients; audit-preserving corrections use new records.
+      allow delete: if false;
+    }
+
+    match /baitRecords/{recordId} {
+      allow read: if isOfficialOrAdmin();
+      // Client creation establishes only an empty, auditable work cycle. The first
+      // and all later events are appended by the protected backend transaction.
+      allow create: if canWriteForOrganization(request.resource.data.organizationId)
+        && request.resource.data.reporterId == request.auth.uid
+        && request.resource.data.schemaVersion == 1
+        && isServerTimestamp(request.resource.data.createdAt)
+        && isServerTimestamp(request.resource.data.updatedAt)
+        && request.resource.data.events.size() == 0
+        && hasOnlyBaitRecordFields()
+        && hasRequiredBaitRecordFields();
+      // Rules cannot prove an events array is append-only. Existing event history is
+      // therefore never updated directly by a client; Cloud Functions transactions
+      // append events, preserve actor attribution, and enforce correction-only changes.
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    match /sampleRecords/{recordId} {
+      allow read: if isOfficialOrAdmin();
+      // Client creation establishes only an empty, auditable work cycle. The first
+      // and all later events are appended by the protected backend transaction.
+      allow create: if canWriteForOrganization(request.resource.data.organizationId)
+        && request.resource.data.reporterId == request.auth.uid
+        && request.resource.data.schemaVersion == 1
+        && isServerTimestamp(request.resource.data.createdAt)
+        && isServerTimestamp(request.resource.data.updatedAt)
+        && request.resource.data.events.size() == 0
+        && hasOnlySampleRecordFields()
+        && hasRequiredSampleRecordFields();
+      // Rules cannot prove an events array is append-only. Existing event history is
+      // therefore never updated directly by a client; Cloud Functions transactions
+      // append events, preserve actor attribution, and enforce correction-only changes.
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    match /ratIndividuals/{ratId} {
+      // The protected backend verifies first-capture and genetic references atomically.
+      allow read, write: if false;
+    }
+
+    match /geneticSamples/{sampleId} {
+      // Genetic sample links and laboratory workflow are maintained by trusted backend code.
+      allow read, write: if false;
+    }
+
+    match /media/{mediaId} {
+      allow create: if isSignedIn()
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.storagePath == 'staging/' + request.auth.uid + '/' + mediaId
+        && request.resource.data.schemaVersion == 1
+        && request.resource.data.scanStatus == 'pending'
+        && request.resource.data.moderationStatus == 'private'
+        && isServerTimestamp(request.resource.data.createdAt)
+        && hasOnlyMediaFields()
+        && hasRequiredMediaFields();
+      allow get: if isSignedIn()
+        && (resource.data.ownerUid == request.auth.uid || isOfficialOrAdmin());
+      allow list: if isOfficialOrAdmin();
+      // Client code cannot change scanStatus, moderationStatus, or any media metadata.
+      allow update, delete: if false;
+    }
+
+    // Public projections contain only backend-approved, de-identified fields.
+    match /publicCitizenObservations/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /publicControlNotices/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // The public client resolves only the currently published projection pointer.
+    match /activePublications/{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
