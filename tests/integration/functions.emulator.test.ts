@@ -33,8 +33,11 @@ it('rejects an unauthenticated inviteOfficial callable request through the Funct
     },
   );
 
+  // requireAdmin() (apps/functions/src/auth/authorization.ts) intentionally collapses
+  // "not signed in" and "signed in but not admin" into a single permission-denied
+  // response, rather than distinguishing unauthenticated vs. unauthorized.
   await expect(response.json()).resolves.toMatchObject({
-    error: { status: 'UNAUTHENTICATED' },
+    error: { status: 'PERMISSION_DENIED' },
   });
-  expect(response.status).toBe(401);
+  expect(response.status).toBe(403);
 });
