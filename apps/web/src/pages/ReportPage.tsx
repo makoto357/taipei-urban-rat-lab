@@ -1,37 +1,144 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { addDoc, collection, serverTimestamp, Timestamp } from "firebase/firestore";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
 import { useAuth } from "../features/auth/AuthProvider";
-import { REPORT_STEPS, REPORT_TYPE_LABEL, SAFETY_NOTE, type ReportType } from "../features/report/steps";
+import { db } from "../lib/firebase";
+import { usePhotoUploads, type PhotoUpload } from "../features/report/usePhotoUploads";
+import { photoFileError, isObservedAtReasonable } from "../features/report/validation";
+import { DISTRICTS, REPORT_STEPS, REPORT_TYPE_LABEL, SAFETY_NOTE, type ReportType } from "../features/report/steps";
+
+interface LocationState {
+  latitude: number;
+  longitude: number;
+  accuracyMeters: number | null;
+}
 
 /**
  * 通報頁對應 Claude Artifact Report.dc.html：未登入時顯示 gate，登入後是
- * 三步驟表單，送出後顯示完成畫面。目前「送出通報」只在前端模擬完成畫面，
- * 還沒有真的寫入 Firestore `citizenReports`（待 apps/functions 與 Storage
- * 上傳管線）；地點步驟的地圖標記、照片上傳/壓縮狀態也都是靜態示意，尚未接
- * MapLibre 與 Cloud Storage 上傳管線（見 plan.md §3 media 與 apps/functions
- * processUpload）。
+ * 三步驟表單，送出後寫入真正的 Firestore `citizenReports` 文件並顯示完成畫面。
+ * 照片走 Cloud Storage staging 上傳 + apps/functions processUpload 的真實管線
+ * （見 features/report/usePhotoUploads）。地點步驟還沒有接 MapLibre（Phase 6），
+ * 先用「使用目前位置」（瀏覽器 Geolocation）取得座標、手動輸入地址與行政區；
+ * 地圖標記拖曳與反向地理編碼留到 Phase 6。
  */
 export function ReportPage() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [reportType, setReportType] = useState<ReportType | null>(null);
+  const [description, setDescription] = useState("");
+  const [location, setLocation] = useState<LocationState | null>(null);
+  const [locating, setLocating] = useState(false);
+  const [locationError, setLocationError] = useState<string | null>(null);
+  const [addressText, setAddressText] = useState("");
+  const [district, setDistrict] = useState("");
+  const [observedDate, setObservedDate] = useState(() => new Date().toISOString().slice(0, 10));
+  const [observedTime, setObservedTime] = useState(() => new Date().toTimeString().slice(0, 5));
   const [agreed, setAgreed] = useState(false);
-  const [done, setDone] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submittedReportId, setSubmittedReportId] = useState<string | null>(null);
+
+  const photoUploads = usePhotoUploads(user?.uid ?? null);
 
   const signedIn = Boolean(user);
-  const canNext = step !== 1 || reportType !== null;
+  const canNextStep1 = reportType !== null;
+  const canNextStep2 = location !== null && addressText.trim() !== "" && district !== "";
+  const canNext = step === 1 ? canNextStep1 : step === 2 ? canNextStep2 : true;
+
+  function useCurrentLocation() {
+    setLocationError(null);
+    if (!("geolocation" in navigator)) {
+      setLocationError("這個瀏覽器不支援定位，請手動輸入地址。");
+      return;
+    }
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          accuracyMeters: position.coords.accuracy,
+        });
+        setLocating(false);
+      },
+      () => {
+        setLocationError("無法取得目前位置，請確認已允許定位權限，或手動輸入地址。");
+        setLocating(false);
+      },
+      { enableHighAccuracy: true, timeout: 10_000 },
+    );
+  }
+
+  function handlePhotoSelect(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+    const error = photoFileError(file);
+    if (error) {
+      setSubmitError(error);
+      return;
+    }
+    void photoUploads.addPhoto(file);
+  }
+
+  async function handleSubmit() {
+    if (!user || !reportType || !location || submitting) return;
+    if (!photoUploads.allSettled) {
+      setSubmitError("照片還在處理中，請稍候再送出。");
+      return;
+    }
+    const observedAt = new Date(`${observedDate}T${observedTime}:00`);
+    if (Number.isNaN(observedAt.getTime())) {
+      setSubmitError("觀察日期或時間格式不正確。");
+      return;
+    }
+    if (!isObservedAtReasonable(observedAt)) {
+      setSubmitError("觀察日期／時間不能是未來的時間。");
+      return;
+    }
+
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      const reference = await addDoc(collection(db, "citizenReports"), {
+        reporterId: user.uid,
+        observedAt: Timestamp.fromDate(observedAt),
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        reportType,
+        location: { latitude: location.latitude, longitude: location.longitude },
+        addressText: addressText.trim(),
+        district,
+        ...(description.trim() ? { description: description.trim() } : {}),
+        photoPaths: photoUploads.cleanStoragePaths,
+        schemaVersion: 1,
+      });
+      setSubmittedReportId(reference.id);
+    } catch {
+      setSubmitError("送出失敗，請確認網路連線後再試一次。");
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   function restart() {
     setStep(1);
     setAgreed(false);
-    setDone(false);
+    setSubmittedReportId(null);
     setReportType(null);
+    setDescription("");
+    setLocation(null);
+    setAddressText("");
+    setDistrict("");
+    setSubmitError(null);
   }
 
   if (loading) return null;
+
+  const done = submittedReportId !== null;
 
   return (
     <>
@@ -54,20 +161,38 @@ export function ReportPage() {
             {!signedIn ? (
               <GateCard onStart={() => navigate("/login")} />
             ) : done ? (
-              <DoneCard reportType={reportType} onRestart={restart} />
+              <DoneCard reportType={reportType} reportId={submittedReportId} onRestart={restart} />
             ) : (
               <ReportForm
                 step={step}
                 reportType={reportType}
                 setReportType={setReportType}
+                description={description}
+                setDescription={setDescription}
+                photos={photoUploads.photos}
+                onPhotoSelect={handlePhotoSelect}
+                onRemovePhoto={photoUploads.removePhoto}
+                location={location}
+                locating={locating}
+                locationError={locationError}
+                onUseCurrentLocation={useCurrentLocation}
+                addressText={addressText}
+                setAddressText={setAddressText}
+                district={district}
+                setDistrict={setDistrict}
+                observedDate={observedDate}
+                setObservedDate={setObservedDate}
+                observedTime={observedTime}
+                setObservedTime={setObservedTime}
                 agreed={agreed}
                 setAgreed={setAgreed}
                 canNext={canNext}
+                submitting={submitting}
+                submitError={submitError}
+                allPhotosSettled={photoUploads.allSettled}
                 onNext={() => setStep((s) => s + 1)}
                 onBack={() => setStep((s) => s - 1)}
-                onSubmit={() => {
-                  if (agreed) setDone(true);
-                }}
+                onSubmit={handleSubmit}
               />
             )}
           </div>
@@ -139,9 +264,29 @@ function ReportForm({
   step,
   reportType,
   setReportType,
+  description,
+  setDescription,
+  photos,
+  onPhotoSelect,
+  onRemovePhoto,
+  location,
+  locating,
+  locationError,
+  onUseCurrentLocation,
+  addressText,
+  setAddressText,
+  district,
+  setDistrict,
+  observedDate,
+  setObservedDate,
+  observedTime,
+  setObservedTime,
   agreed,
   setAgreed,
   canNext,
+  submitting,
+  submitError,
+  allPhotosSettled,
   onNext,
   onBack,
   onSubmit,
@@ -149,20 +294,38 @@ function ReportForm({
   step: number;
   reportType: ReportType | null;
   setReportType: (t: ReportType) => void;
+  description: string;
+  setDescription: (v: string) => void;
+  photos: PhotoUpload[];
+  onPhotoSelect: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onRemovePhoto: (mediaId: string) => void;
+  location: LocationState | null;
+  locating: boolean;
+  locationError: string | null;
+  onUseCurrentLocation: () => void;
+  addressText: string;
+  setAddressText: (v: string) => void;
+  district: string;
+  setDistrict: (v: string) => void;
+  observedDate: string;
+  setObservedDate: (v: string) => void;
+  observedTime: string;
+  setObservedTime: (v: string) => void;
   agreed: boolean;
   setAgreed: (v: boolean) => void;
   canNext: boolean;
+  submitting: boolean;
+  submitError: string | null;
+  allPhotosSettled: boolean;
   onNext: () => void;
   onBack: () => void;
   onSubmit: () => void;
 }) {
   const typeLabel = reportType ? REPORT_TYPE_LABEL[reportType] : REPORT_TYPE_LABEL.rat;
+  const canSubmit = agreed && allPhotosSettled && !submitting;
 
   return (
-    <form
-      onSubmit={(e) => e.preventDefault()}
-      className="flex flex-col gap-6 border-2 border-ink bg-card px-8 py-7"
-    >
+    <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-6 border-2 border-ink bg-card px-8 py-7">
       {step === 1 && (
         <section className="flex flex-col gap-[18px]">
           <h2 className="m-0 text-[26px] font-black">1. 通報類型與照片</h2>
@@ -195,15 +358,25 @@ function ReportForm({
               照片 <span className="font-body text-[13px] font-normal text-[#4A463C]">（選填，最多 3 張；JPEG／PNG／WebP，每張 8 MB 以內）</span>
             </p>
             <div className="grid grid-cols-3 gap-3 font-body">
-              <label className="relative flex aspect-square cursor-pointer flex-col items-center justify-center gap-1.5 border-2 border-dashed border-ink bg-paper text-center">
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth={1.8} aria-hidden="true">
-                  <rect x="3" y="6" width="18" height="14" rx="1" />
-                  <circle cx="12" cy="13" r="3.5" />
-                  <path d="M8 6 L9.5 3.5 H14.5 L16 6" />
-                </svg>
-                <span className="text-sm font-medium">拍照或選擇照片</span>
-                <input type="file" accept="image/jpeg,image/png,image/webp" className="absolute h-px w-px opacity-0" />
-              </label>
+              {photos.map((photo) => (
+                <PhotoTile key={photo.mediaId} photo={photo} onRemove={() => onRemovePhoto(photo.mediaId)} />
+              ))}
+              {photos.length < 3 && (
+                <label className="relative flex aspect-square cursor-pointer flex-col items-center justify-center gap-1.5 border-2 border-dashed border-ink bg-paper text-center">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth={1.8} aria-hidden="true">
+                    <rect x="3" y="6" width="18" height="14" rx="1" />
+                    <circle cx="12" cy="13" r="3.5" />
+                    <path d="M8 6 L9.5 3.5 H14.5 L16 6" />
+                  </svg>
+                  <span className="text-sm font-medium">拍照或選擇照片</span>
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    onChange={onPhotoSelect}
+                    className="absolute h-px w-px opacity-0"
+                  />
+                </label>
+              )}
             </div>
             <p className="m-0 font-body text-xs text-[#4A463C]">上傳失敗時可以重試；照片處理完成前無法送出通報。</p>
           </div>
@@ -211,6 +384,8 @@ function ReportForm({
             描述 <span className="font-body text-[13px] font-normal text-[#4A463C]">（選填）</span>
             <textarea
               rows={3}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="例如：晚上在巷口垃圾集中處看到一隻老鼠跑進水溝"
               className="rounded-none border-[1.5px] border-ink bg-paper px-3 py-2.5 font-body text-[15px] font-normal leading-[1.6]"
             />
@@ -227,19 +402,41 @@ function ReportForm({
                 <circle cx="11" cy="11" r="7" />
                 <path d="M16.5 16.5 L21 21" />
               </svg>
-              <span className="sr-only">搜尋地址或地標</span>
-              <input type="search" placeholder="搜尋地址或地標" className="min-w-0 flex-1 border-0 bg-transparent text-[15px] outline-none" />
+              <span className="sr-only">輸入地址或地標</span>
+              <input
+                type="text"
+                value={addressText}
+                onChange={(e) => setAddressText(e.target.value)}
+                placeholder="輸入地址或地標"
+                className="min-w-0 flex-1 border-0 bg-transparent text-[15px] outline-none"
+              />
+            </label>
+            <label className="flex min-h-11 flex-[1_1_160px] items-center border-[1.5px] border-ink bg-paper px-3 font-body">
+              <select
+                value={district}
+                onChange={(e) => setDistrict(e.target.value)}
+                className="w-full border-0 bg-transparent text-[15px] outline-none"
+              >
+                <option value="">選擇行政區</option>
+                {DISTRICTS.map((d) => (
+                  <option key={d} value={d}>
+                    {d}
+                  </option>
+                ))}
+              </select>
             </label>
             <button
               type="button"
-              className="inline-flex min-h-11 items-center gap-2 border-[1.5px] border-ink bg-card px-4 font-heading text-[15px] font-bold"
+              onClick={onUseCurrentLocation}
+              disabled={locating}
+              className="inline-flex min-h-11 items-center gap-2 border-[1.5px] border-ink bg-card px-4 font-heading text-[15px] font-bold disabled:opacity-60"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth={2} aria-hidden="true">
                 <circle cx="12" cy="12" r="7" />
                 <circle cx="12" cy="12" r="2.5" fill="#000000" />
                 <path d="M12 2v3M12 19v3M2 12h3M19 12h3" />
               </svg>
-              使用目前位置
+              {locating ? "定位中…" : "使用目前位置"}
             </button>
           </div>
           <div
@@ -249,14 +446,25 @@ function ReportForm({
           >
             <p className="m-0 font-body text-sm text-muted">地圖區域（尺寸預留）</p>
             <p className="absolute left-3 top-3 m-0 border-[1.5px] border-ink bg-card px-2.5 py-1.5 font-body text-xs">
-              拖曳地圖，把標記對準發現鼠跡的位置
+              目前尚未支援拖曳地圖選點，請用「使用目前位置」或輸入地址
             </p>
           </div>
+          {locationError && (
+            <p className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.6]">
+              {locationError}
+            </p>
+          )}
           <div className="flex flex-wrap justify-between gap-x-4 gap-y-1.5 font-body text-[13px]">
             <p className="m-0">
-              <strong className="font-medium">地址：</strong>[依標記位置帶入的地址]・[行政區]
+              <strong className="font-medium">地址：</strong>
+              {addressText || "尚未輸入"}・{district || "尚未選擇行政區"}
             </p>
-            <p className="m-0 text-[#4A463C]">定位精度約 ±[N] 公尺</p>
+            {location && (
+              <p className="m-0 text-[#4A463C]">
+                座標：{location.latitude.toFixed(5)}, {location.longitude.toFixed(5)}
+                {location.accuracyMeters !== null && `（精度約 ±${Math.round(location.accuracyMeters)} 公尺）`}
+              </p>
+            )}
           </div>
           <p className="m-0 font-body text-xs text-[#4A463C]">你確認地點前，我們不會送出任何定位資料。</p>
         </section>
@@ -268,18 +476,33 @@ function ReportForm({
           <div className="flex flex-wrap gap-3 font-body">
             <label className="flex flex-[1_1_160px] flex-col gap-1.5 text-[13px]">
               觀察日期
-              <input type="date" defaultValue="2026-10-22" className="min-h-11 border-[1.5px] border-ink bg-paper px-2.5 text-[15px]" />
+              <input
+                type="date"
+                value={observedDate}
+                max={new Date().toISOString().slice(0, 10)}
+                onChange={(e) => setObservedDate(e.target.value)}
+                className="min-h-11 border-[1.5px] border-ink bg-paper px-2.5 text-[15px]"
+              />
             </label>
             <label className="flex flex-[1_1_140px] flex-col gap-1.5 text-[13px]">
               大約時間
-              <input type="time" defaultValue="21:30" className="min-h-11 border-[1.5px] border-ink bg-paper px-2.5 text-[15px]" />
+              <input
+                type="time"
+                value={observedTime}
+                onChange={(e) => setObservedTime(e.target.value)}
+                className="min-h-11 border-[1.5px] border-ink bg-paper px-2.5 text-[15px]"
+              />
             </label>
           </div>
           <dl className="m-0 grid grid-cols-[96px_1fr] gap-x-4 gap-y-2.5 border-[1.5px] border-ink bg-paper px-[18px] py-4 font-body text-sm">
             <dt className="font-medium">類型</dt>
             <dd className="m-0">{typeLabel}</dd>
+            <dt className="font-medium">照片</dt>
+            <dd className="m-0">{photos.length > 0 ? `${photos.length} 張` : "無"}</dd>
             <dt className="font-medium">地點</dt>
-            <dd className="m-0">[地址]・[行政區]</dd>
+            <dd className="m-0">
+              {addressText}・{district}
+            </dd>
           </dl>
           <div className="flex flex-col gap-2.5 border-2 border-ink bg-card px-[18px] py-4">
             <p className="m-0 text-base font-black">公開方式</p>
@@ -294,6 +517,11 @@ function ReportForm({
               我了解公開方式
             </label>
           </div>
+          {submitError && (
+            <p className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.6]">
+              {submitError}
+            </p>
+          )}
         </section>
       )}
 
@@ -324,16 +552,68 @@ function ReportForm({
           <button
             type="button"
             onClick={onSubmit}
-            disabled={!agreed}
+            disabled={!canSubmit}
             className={`min-h-[52px] border-2 px-10 font-heading text-base font-bold ${
-              agreed ? "border-ink bg-ink text-card" : "cursor-not-allowed border-unknown bg-unknown text-muted"
+              canSubmit ? "border-ink bg-ink text-card" : "cursor-not-allowed border-unknown bg-unknown text-muted"
             }`}
           >
-            送出通報
+            {submitting ? "送出中…" : "送出通報"}
           </button>
         )}
       </div>
     </form>
+  );
+}
+
+function PhotoTile({ photo, onRemove }: { photo: PhotoUpload; onRemove: () => void }) {
+  const label =
+    photo.status === "uploading"
+      ? `上傳中 ${photo.progress}%`
+      : photo.status === "processing"
+        ? "處理中…"
+        : photo.status === "clean"
+          ? "上傳完成"
+          : photo.status === "rejected"
+            ? "照片未通過檢查"
+            : "上傳失敗";
+
+  return (
+    <div className="flex flex-col gap-1.5">
+      <div
+        className={`relative flex aspect-square flex-col items-center justify-center gap-2 border-[1.5px] p-2 text-center ${
+          photo.status === "rejected" || photo.status === "upload_error"
+            ? "border-accent-text bg-paper"
+            : "border-ink bg-unknown"
+        }`}
+      >
+        {photo.status === "uploading" && (
+          <div
+            role="progressbar"
+            aria-label={`${photo.fileName} 上傳進度`}
+            aria-valuenow={photo.progress}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            className="h-2 w-full border border-ink bg-card"
+          >
+            <div className="h-full bg-ink" style={{ width: `${photo.progress}%` }} />
+          </div>
+        )}
+        {photo.status === "processing" && <span className="text-xs text-[#4A463C]">處理中…</span>}
+        {(photo.status === "rejected" || photo.status === "upload_error") && (
+          <span className="text-[13px] font-bold text-accent-text">{label}</span>
+        )}
+        {photo.status === "clean" && <span className="text-xs text-[#4A463C]">已處理完成</span>}
+        <button
+          type="button"
+          onClick={onRemove}
+          aria-label={`移除 ${photo.fileName}`}
+          className="absolute right-1.5 top-1.5 flex h-8 w-8 items-center justify-center rounded-full border-[1.5px] border-ink bg-card text-lg leading-none"
+        >
+          ×
+        </button>
+      </div>
+      <p className="m-0 flex items-center justify-between text-xs">{label}</p>
+    </div>
   );
 }
 
@@ -359,7 +639,15 @@ function ReportTypeCard({
   );
 }
 
-function DoneCard({ reportType, onRestart }: { reportType: ReportType | null; onRestart: () => void }) {
+function DoneCard({
+  reportType,
+  reportId,
+  onRestart,
+}: {
+  reportType: ReportType | null;
+  reportId: string | null;
+  onRestart: () => void;
+}) {
   return (
     <div className="flex flex-col gap-[18px] border-2 border-ink bg-card px-9 py-10">
       <p className="m-0 font-label text-[14px] tracking-[0.1em] text-accent-text">REPORT RECEIVED</p>
@@ -368,7 +656,7 @@ function DoneCard({ reportType, onRestart }: { reportType: ReportType | null; on
         <dt className="font-medium">通報類型</dt>
         <dd className="m-0">{reportType ? REPORT_TYPE_LABEL[reportType] : REPORT_TYPE_LABEL.rat}</dd>
         <dt className="font-medium">通報編號</dt>
-        <dd className="m-0 font-label text-lg tracking-[0.06em]">RPT-[編號]</dd>
+        <dd className="m-0 font-label text-lg tracking-[0.06em]">{reportId ?? "—"}</dd>
         <dt className="font-medium">目前狀態</dt>
         <dd className="m-0">
           <span className="border-[1.5px] border-ink bg-activity-l1 px-2.5 py-0.5 text-[13px]">待審核</span>
