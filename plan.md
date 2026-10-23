@@ -1259,20 +1259,20 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 **產出：**pnpm workspace monorepo、React／TypeScript Web App、Firebase Functions、共用 contracts／UI packages、路由、測試、Firebase Emulator、CI 與環境設定範例。
 
-- [ ] 建立根目錄 `package.json`、`pnpm-workspace.yaml`、`pnpm-lock.yaml` 與 `tsconfig.base.json`，workspace 只包含 `apps/*` 與 `packages/*`。
-- [ ] 建立 `apps/web`、`apps/functions`、`packages/contracts` 與 `packages/ui`；不建立 `apps/staff`。
-- [ ] 在 `packages/contracts` 建立三份問卷及已核准研究資料（`sampleRecords`、`ratIndividuals`、`geneticSamples`）的 TypeScript types、enum、runtime validators 與 Firestore converters，並由 `apps/web` 與 `apps/functions` 共用；Future collections 不因預留 schema 就自動納入 MVP。
-- [ ] 在 `apps/web` 建立 `/`、`/map`、`/report`、`/literature`、`/login`、`/official`、`/official/review` 路由與 lazy loading。
-- [ ] 建立 `tests/rules`、`tests/integration`、`tests/e2e` 的 Vitest／RTL、Playwright、Emulator Rules tests 與無障礙檢查。
-- [ ] 建立 `firebase/firestore.rules`、`firebase/firestore.indexes.json`、`firebase/storage.rules` 與根目錄 `firebase.json`，並確認 Emulator 指向正確路徑。
+- [x] 建立根目錄 `package.json`、`pnpm-workspace.yaml`、`pnpm-lock.yaml` 與 `tsconfig.base.json`，workspace 只包含 `apps/*` 與 `packages/*`。
+- [x] 建立 `apps/web`、`apps/functions`、`packages/contracts` 與 `packages/ui`；不建立 `apps/staff`。
+- [x] 在 `packages/contracts` 建立三份問卷及已核准研究資料（`sampleRecords`、`ratIndividuals`、`geneticSamples`）的 TypeScript types、enum、runtime validators 與 Firestore converters，並由 `apps/web` 與 `apps/functions` 共用；Future collections 不因預留 schema 就自動納入 MVP。另補上 `officialInvites`、`auditLogs` 兩份原本缺的 schema。
+- [ ] 在 `apps/web` 建立 `/`、`/map`、`/report`、`/literature`、`/login`、`/official`、`/official/review` 路由與 lazy loading。（已完成 `/`、`/map`、`/report`、`/login`；`/literature`、`/official`、`/official/review` 與 lazy loading 尚未做）
+- [ ] 建立 `tests/rules`、`tests/integration`、`tests/e2e` 的 Vitest／RTL、Playwright、Emulator Rules tests 與無障礙檢查。（Rules／integration／e2e 骨架與案例已建立且通過；RTL 元件測試與無障礙檢查尚未做）
+- [x] 建立 `firebase/firestore.rules`、`firebase/firestore.indexes.json`、`firebase/storage.rules` 與根目錄 `firebase.json`，並確認 Emulator 指向正確路徑。
 - [ ] 保留 `docs/design/design-system.md`、`docs/design/references/` 與 `docs/research/source-register.md` 現有資產，並建立 `docs/product/product-spec.md`、`docs/product/data-schema.md`、`docs/product/security-spec.md`、`docs/product/privacy-publication-policy.md`、`docs/map/map-spec.md` 與 `docs/demo-script.md`，每份文件只負責第 9 節定義的職責。
-- [ ] 先建立 `taipei-urban-rat-lab-dev`，將 default Firestore database、Cloud Storage 與 Functions 設為 `asia-east1`；以 `.firebaserc` 與不含密鑰的 `.env.example` 管理 project alias，禁止 production secrets 出現在 repo。staging／production 在 dev 驗證後另建，不複用 dev 資料或 bucket。
-- [ ] dev 連結 Blaze 後，為 Cloud Run functions 設 Billing budget notification 與 spend cap；設定 Artifact Registry cleanup policy、30 日 dev log retention、Functions `minInstances: 0`、`maxInstances: 2` 與明確 memory／timeout。Emulator-first 開發，不以反覆雲端部署取代測試。
+- [x] 先建立 `taipei-urban-rat-lab-dev`，將 default Firestore database、Cloud Storage 與 Functions 設為 `asia-east1`；以 `.firebaserc` 與不含密鑰的 `.env.example` 管理 project alias，禁止 production secrets 出現在 repo。staging／production 在 dev 驗證後另建，不複用 dev 資料或 bucket。
+- [ ] dev 連結 Blaze 後，為 Cloud Run functions 設 Billing budget notification 與 spend cap；設定 Artifact Registry cleanup policy、30 日 dev log retention、Functions `minInstances: 0`、`maxInstances: 2` 與明確 memory／timeout。Emulator-first 開發，不以反覆雲端部署取代測試。（Billing budget notification 已設置兩個 alerts-only 預算；`maxInstances: 2` 已在每個 function 設定、`minInstances` 維持 Gen2 預設 0；spend cap 目前只是警示信、不是真正的硬上限；Artifact Registry cleanup policy、30 日 log retention 與明確 memory／timeout 尚未設定）
 - [ ] 註冊 dev Web App Check 的 reCAPTCHA Enterprise provider；本機／CI 使用 debug token，先監控再逐服務 enforcement，並監測 organization 共用的 monthly assessment 額度。
-- [ ] 開啟並保留 Firebase Authentication email-enumeration protection；登入、重設與驗證流程採中性訊息，禁止以 `fetchSignInMethodsForEmail()` 或前端訊息枚舉帳號。
+- [x] 開啟並保留 Firebase Authentication email-enumeration protection；登入、重設與驗證流程採中性訊息，禁止以 `fetchSignInMethodsForEmail()` 或前端訊息枚舉帳號。Email/Password 與 Google 兩個 sign-in provider 已啟用。
 - [ ] 建立 `AGENTS.md`，只記錄 repo 工作規則、驗證指令與安全約束，不複製 product spec。
 - [ ] 將 Rat Project Steps 網站同步為本計畫第 9.1 節的結構、collection、角色與驗收條件，並標示同步日期；同步完成前不執行網站中的舊指令。
-- [ ] 先寫首頁、workspace package boundary 與路由 smoke tests，再實作最小 layout。
+- [ ] 先寫首頁、workspace package boundary 與路由 smoke tests，再實作最小 layout。（smoke test 已存在並通過，但是在頁面做完後才補上，不是先寫測試再實作）
 
 **驗收：**根目錄單一指令可完成全 workspace 的型別檢查、lint、unit、rules 與基本 E2E；`apps/web` 與 `apps/functions` 都使用 `packages/contracts` 而非複製 schema。
 
@@ -1281,13 +1281,13 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 **產出：**市民 Email/Password／Google 登入、official Email/Password 登入與邀請／核准／撤銷、custom claims、Security Rules 與管理稽核。
 
 - [ ] 先寫角色矩陣的 Rules tests，包含偽造 client role、停權 official、跨使用者讀取、未驗證 email、偽造 domain 與未受邀政府信箱。
-- [ ] 實作市民註冊（Email/Password、Google）、共用登入、email verification，以及 admin 邀請 official 的流程；不做 official 自助申請。
+- [ ] 實作市民註冊（Email/Password、Google）、共用登入、email verification，以及 admin 邀請 official 的流程；不做 official 自助申請。（後端 `inviteOfficial`／`acceptInvite`／`revokeOfficial` 已實作；市民註冊與前端登入都還是 UI mockup，尚未接上真正的 Firebase Auth SDK）
+- [ ] 實作 admin 專用的邀請、撤銷與停權腳本（或受保護 Cloud Function）：正規化 email、建立邀請與 `official/pending` membership、撤銷 refresh tokens 與 custom claim、寫入 `auditLogs`，並以 Rules／function 測試涵蓋撤銷後立即失去權限；不做管理畫面。（已實作 `inviteOfficial`／`acceptInvite`／`revokeOfficial`，含 integration test；尚缺完整的 Rules／function 測試覆蓋撤銷後立即失權）
 - [ ] 以 email-enumeration protection 相容的中性登入／重設／驗證訊息實作 Auth UI；不得根據 email 是否存在切換 provider 或顯示不同錯誤。
-- [ ] 實作 admin 專用的邀請、撤銷與停權腳本（或受保護 Cloud Function）：正規化 email、建立邀請與 `official/pending` membership、撤銷 refresh tokens 與 custom claim、寫入 `auditLogs`，並以 Rules／function 測試涵蓋撤銷後立即失去權限；不做管理畫面。
 - [ ] 實作帳號狀態頁（信箱未驗證、沒有權限／403）與登入後依狀態導向的規則。
 - [ ] 後端精確比對正規化 domain＋邀請／人工核准後，才以 Admin SDK 設定 `official` claim；`admin` 不可由 domain 自動指派。
 - [ ] 實作 Custom claims 同步、token refresh、403／無資料 UI 與撤銷測試。
-- [ ] 所有角色與發布操作寫入 `auditLogs`。
+- [ ] 所有角色與發布操作寫入 `auditLogs`。（`inviteOfficial`／`acceptInvite`／`revokeOfficial` 已寫入；其餘角色與發布操作的 Functions 尚未實作）
 
 **驗收：**隱藏按鈕不是唯一防線；直接呼叫 Firebase SDK 也無法越權。
 
