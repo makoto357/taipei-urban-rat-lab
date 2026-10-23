@@ -1262,7 +1262,7 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 - [x] 建立根目錄 `package.json`、`pnpm-workspace.yaml`、`pnpm-lock.yaml` 與 `tsconfig.base.json`，workspace 只包含 `apps/*` 與 `packages/*`。
 - [x] 建立 `apps/web`、`apps/functions`、`packages/contracts` 與 `packages/ui`；不建立 `apps/staff`。
 - [x] 在 `packages/contracts` 建立三份問卷及已核准研究資料（`sampleRecords`、`ratIndividuals`、`geneticSamples`）的 TypeScript types、enum、runtime validators 與 Firestore converters，並由 `apps/web` 與 `apps/functions` 共用；Future collections 不因預留 schema 就自動納入 MVP。另補上 `officialInvites`、`auditLogs` 兩份原本缺的 schema。
-- [ ] 在 `apps/web` 建立 `/`、`/map`、`/report`、`/literature`、`/login`、`/official`、`/official/review` 路由與 lazy loading。（已完成 `/`、`/map`、`/report`、`/login`；`/literature`、`/official`、`/official/review` 與 lazy loading 尚未做）
+- [ ] 在 `apps/web` 建立 `/`、`/map`、`/report`、`/literature`、`/login`、`/official`、`/official/review` 路由與 lazy loading。（已完成 `/`、`/map`、`/report`、`/login`、`/signup`、`/account-status`，皆用 `React.lazy` 做 code splitting；`/literature`、`/official`、`/official/review` 尚未做）
 - [ ] 建立 `tests/rules`、`tests/integration`、`tests/e2e` 的 Vitest／RTL、Playwright、Emulator Rules tests 與無障礙檢查。（Rules／integration／e2e 骨架與案例已建立且通過；RTL 元件測試與無障礙檢查尚未做）
 - [x] 建立 `firebase/firestore.rules`、`firebase/firestore.indexes.json`、`firebase/storage.rules` 與根目錄 `firebase.json`，並確認 Emulator 指向正確路徑。
 - [ ] 保留 `docs/design/design-system.md`、`docs/design/references/` 與 `docs/research/source-register.md` 現有資產，並建立 `docs/product/product-spec.md`、`docs/product/data-schema.md`、`docs/product/security-spec.md`、`docs/product/privacy-publication-policy.md`、`docs/map/map-spec.md` 與 `docs/demo-script.md`，每份文件只負責第 9 節定義的職責。
@@ -1280,13 +1280,13 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 **產出：**市民 Email/Password／Google 登入、official Email/Password 登入與邀請／核准／撤銷、custom claims、Security Rules 與管理稽核。
 
-- [ ] 先寫角色矩陣的 Rules tests，包含偽造 client role、停權 official、跨使用者讀取、未驗證 email、偽造 domain 與未受邀政府信箱。
-- [ ] 實作市民註冊（Email/Password、Google）、共用登入、email verification，以及 admin 邀請 official 的流程；不做 official 自助申請。（後端 `inviteOfficial`／`acceptInvite`／`revokeOfficial` 已實作；市民註冊與前端登入都還是 UI mockup，尚未接上真正的 Firebase Auth SDK）
-- [ ] 實作 admin 專用的邀請、撤銷與停權腳本（或受保護 Cloud Function）：正規化 email、建立邀請與 `official/pending` membership、撤銷 refresh tokens 與 custom claim、寫入 `auditLogs`，並以 Rules／function 測試涵蓋撤銷後立即失去權限；不做管理畫面。（已實作 `inviteOfficial`／`acceptInvite`／`revokeOfficial`，含 integration test；尚缺完整的 Rules／function 測試覆蓋撤銷後立即失權）
-- [ ] 以 email-enumeration protection 相容的中性登入／重設／驗證訊息實作 Auth UI；不得根據 email 是否存在切換 provider 或顯示不同錯誤。
-- [ ] 實作帳號狀態頁（信箱未驗證、沒有權限／403）與登入後依狀態導向的規則。
+- [ ] 先寫角色矩陣的 Rules tests，包含偽造 client role、停權 official、跨使用者讀取、未驗證 email、偽造 domain 與未受邀政府信箱。（已補上偽造 client role、停權 official、跨使用者讀取三類的 Rules tests；未驗證 email 目前不是 Firestore Rules 擋的、是前端登入流程導向帳號狀態頁處理，偽造 domain／未受邀政府信箱屬於 apps/functions 的職責，尚無對應測試）
+- [x] 實作市民註冊（Email/Password、Google）、共用登入、email verification，以及 admin 邀請 official 的流程；不做 official 自助申請。前端已接上真正的 Firebase Auth SDK（`AuthProvider`）：市民可用 Email/Password 或 Google 註冊／登入，signup 會寄驗證信；official 僅 Email/Password 登入。
+- [ ] 實作 admin 專用的邀請、撤銷與停權腳本（或受保護 Cloud Function）：正規化 email、建立邀請與 `official/pending` membership、撤銷 refresh tokens 與 custom claim、寫入 `auditLogs`，並以 Rules／function 測試涵蓋撤銷後立即失去權限；不做管理畫面。（已實作 `inviteOfficial`／`acceptInvite`／`revokeOfficial`，含 integration test；尚缺完整的 Rules／function 測試覆蓋撤銷後立即失權，前端也還沒有「接受邀請」的頁面）
+- [x] 以 email-enumeration protection 相容的中性登入／重設／驗證訊息實作 Auth UI；不得根據 email 是否存在切換 provider 或顯示不同錯誤。LoginPage／SignupPage 的錯誤訊息一律中性（見 `authErrors.ts`），不區分帳號是否存在；「忘記密碼」連結還沒接上真正的 reset flow。
+- [x] 實作帳號狀態頁（信箱未驗證、沒有權限／403）與登入後依狀態導向的規則。`AccountStatusPage` 依真實的 `emailVerified`／membership 狀態顯示，登入成功後依狀態導向。
 - [ ] 後端精確比對正規化 domain＋邀請／人工核准後，才以 Admin SDK 設定 `official` claim；`admin` 不可由 domain 自動指派。
-- [ ] 實作 Custom claims 同步、token refresh、403／無資料 UI 與撤銷測試。
+- [ ] 實作 Custom claims 同步、token refresh、403／無資料 UI 與撤銷測試。（前端已用 `onIdTokenChanged` 同步 token 變化；403／無資料 UI 已做；撤銷後是否立即失權的測試還沒有）
 - [ ] 所有角色與發布操作寫入 `auditLogs`。（`inviteOfficial`／`acceptInvite`／`revokeOfficial` 已寫入；其餘角色與發布操作的 Functions 尚未實作）
 
 **驗收：**隱藏按鈕不是唯一防線；直接呼叫 Firebase SDK 也無法越權。
