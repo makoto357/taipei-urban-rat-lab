@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { addDoc, collection, serverTimestamp, Timestamp } from "firebase/firestore";
 import { httpsCallable } from "firebase/functions";
@@ -130,6 +130,13 @@ function LocationFields({
     },
     onLocated: onPick,
   });
+  // 按「使用目前位置」後，等定位結果進來再反查地址並填入。
+  const awaitingCurrentLocation = useRef(false);
+  useEffect(() => {
+    if (!awaitingCurrentLocation.current || !location) return;
+    awaitingCurrentLocation.current = false;
+    void geocoder.lookupAddress(location.latitude, location.longitude);
+  }, [location, geocoder.lookupAddress]);
   return (
     <section className="flex flex-col gap-3">
       <h2 className="m-0 font-heading text-xl font-black">地點與時間</h2>
@@ -172,7 +179,10 @@ function LocationFields({
         </select>
         <button
           type="button"
-          onClick={onUseCurrentLocation}
+          onClick={() => {
+            awaitingCurrentLocation.current = true;
+            onUseCurrentLocation();
+          }}
           disabled={locating}
           className="inline-flex min-h-11 items-center gap-2 border-[1.5px] border-ink bg-card px-4 font-heading text-[15px] font-bold disabled:opacity-60"
         >

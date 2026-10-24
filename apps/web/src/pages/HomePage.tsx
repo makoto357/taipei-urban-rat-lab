@@ -179,7 +179,7 @@ function DataSnapshot() {
         </div>
       </dl>
       <p className="m-0 flex-[1_1_100%] font-body text-xs text-[#4A463C]">
-        「已查核」指經市府人員現場確認的鼠跡；資料不足時，這裡不顯示數字。
+        「已查核」指經市府人員現場確認的鼠跡。數字是目前已登錄的筆數，不代表全市實際狀況。
         {empty && "目前還沒有可公開的查核資料。"}
       </p>
     </section>
