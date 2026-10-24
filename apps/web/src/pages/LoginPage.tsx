@@ -77,6 +77,9 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
   // dev 時瀏覽器常把市府測試帳號記住並自動填進市民表單，所以市民表單在 dev 關閉自動填入；
   // production 保留，讓真正的市民可以用密碼管理員。
   const noAutofill = import.meta.env.DEV && isCitizen;
+  // Chrome 會無視 autocomplete="off"，但不會自動填入 readonly 欄位：聚焦（使用者要輸入）前先設成 readonly。
+  const [armed, setArmed] = useState(!noAutofill);
+  const arm = () => setArmed(true);
   const [email, setEmail] = useState(prefill ? (import.meta.env.VITE_DEV_PREFILL_OFFICIAL_EMAIL ?? "") : "");
   const [password, setPassword] = useState(prefill ? (import.meta.env.VITE_DEV_PREFILL_OFFICIAL_PASSWORD ?? "") : "");
   const [error, setError] = useState<string | null>(null);
@@ -166,6 +169,8 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
           <input
             type="email"
             autoComplete={noAutofill ? "off" : "email"}
+            readOnly={!armed}
+            onFocus={arm}
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -176,7 +181,9 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
           <span className="font-label text-[11px] tracking-[0.1em]">PASSWORD</span>
           <input
             type="password"
-            autoComplete={noAutofill ? "off" : "current-password"}
+            autoComplete={noAutofill ? "new-password" : "current-password"}
+            readOnly={!armed}
+            onFocus={arm}
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}

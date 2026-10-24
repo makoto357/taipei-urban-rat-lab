@@ -150,7 +150,11 @@ export function ReportPage() {
     setLocation(null);
     setAddressText("");
     setDistrict("");
+    setObservedDate(new Date().toISOString().slice(0, 10));
+    setObservedTime(new Date().toTimeString().slice(0, 5));
+    setLocationError(null);
     setSubmitError(null);
+    photoUploads.clearPhotos();
   }
 
   if (loading) return null;
@@ -357,6 +361,8 @@ function ReportForm({
   onBack: () => void;
   onSubmit: () => void;
 }) {
+  // 只有使用者手動選行政區才移動地圖；由地址反查帶出的行政區不該把地圖拉走。
+  const [focusDistrict, setFocusDistrict] = useState("");
   const typeLabel = reportType ? REPORT_TYPE_LABEL[reportType] : REPORT_TYPE_LABEL.rat;
   const canSubmit = agreed && allPhotosSettled && !submitting;
 
@@ -464,7 +470,10 @@ function ReportForm({
             <label className="flex min-h-11 flex-[1_1_160px] items-center border-[1.5px] border-ink bg-paper px-3 font-body">
               <select
                 value={district}
-                onChange={(e) => setDistrict(e.target.value)}
+                onChange={(e) => {
+                  setDistrict(e.target.value);
+                  setFocusDistrict(e.target.value);
+                }}
                 className="w-full border-0 bg-transparent text-[15px] outline-none"
               >
                 <option value="">選擇行政區</option>
@@ -491,6 +500,7 @@ function ReportForm({
           </div>
           <LocationPicker
             value={location}
+            focusDistrict={focusDistrict}
             onChange={(picked) => {
               setLocation({ ...picked, accuracyMeters: null });
               void geocoder.lookupAddress(picked.latitude, picked.longitude);

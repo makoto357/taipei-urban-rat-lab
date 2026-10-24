@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import * as maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { DISTRICT_VIEWS } from "./districtViews";
 
 export interface PickedLocation {
   latitude: number;
@@ -18,10 +19,13 @@ export function LocationPicker({
   value,
   onChange,
   className,
+  focusDistrict,
 }: {
   value: PickedLocation | null;
   onChange: (location: PickedLocation) => void;
   className?: string;
+  /** 選了行政區就把地圖移到該區；不會動標記。 */
+  focusDistrict?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -77,6 +81,11 @@ export function LocationPicker({
     }
     map.easeTo({ center: lngLat, zoom: Math.max(map.getZoom(), 15) });
   }, [value?.latitude, value?.longitude]);
+
+  useEffect(() => {
+    const view = focusDistrict ? DISTRICT_VIEWS[focusDistrict] : undefined;
+    if (view) mapRef.current?.easeTo({ center: view.center, zoom: view.zoom });
+  }, [focusDistrict]);
 
   return (
     <div className={className ?? "relative h-[300px] border-[1.5px] border-ink"}>

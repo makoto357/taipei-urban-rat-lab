@@ -61,6 +61,17 @@ export function usePhotoUploads(uid: string | null) {
     setPhotos((current) => current.filter((p) => p.mediaId !== mediaId));
   }, [revokePreview]);
 
+  /** 「再通報一筆」用：取消進行中的上傳、停止訂閱、釋放預覽並清空清單。 */
+  const clearPhotos = useCallback(() => {
+    tasksRef.current.forEach((task) => task.cancel());
+    tasksRef.current.clear();
+    unsubscribersRef.current.forEach((unsubscribe) => unsubscribe());
+    unsubscribersRef.current.clear();
+    previewUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+    previewUrlsRef.current.clear();
+    setPhotos([]);
+  }, []);
+
   const addPhoto = useCallback(
     async (file: File) => {
       if (!uid) return;
@@ -149,5 +160,5 @@ export function usePhotoUploads(uid: string | null) {
   const allSettled = photos.every((p) => p.status === "clean" || p.status === "rejected" || p.status === "upload_error");
   const cleanStoragePaths = photos.filter((p) => p.status === "clean").map((p) => p.storagePath);
 
-  return { photos, addPhoto, removePhoto, retryPhoto, allSettled, cleanStoragePaths };
+  return { photos, addPhoto, removePhoto, clearPhotos, retryPhoto, allSettled, cleanStoragePaths };
 }

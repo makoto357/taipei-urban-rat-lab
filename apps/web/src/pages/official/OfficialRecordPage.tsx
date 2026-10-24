@@ -123,6 +123,8 @@ function LocationFields({
   onUseCurrentLocation: () => void;
   onPick: (l: { latitude: number; longitude: number }) => void;
 }) {
+  // 只有使用者手動選行政區才移動地圖；由地址反查帶出的行政區不該把地圖拉走。
+  const [focusDistrict, setFocusDistrict] = useState("");
   const geocoder = useGeocoder({
     onAddress: ({ addressText: text, district: found }) => {
       setAddressText(text);
@@ -167,7 +169,10 @@ function LocationFields({
         </label>
         <select
           value={district}
-          onChange={(e) => setDistrict(e.target.value)}
+          onChange={(e) => {
+            setDistrict(e.target.value);
+            setFocusDistrict(e.target.value);
+          }}
           className="min-h-11 border-[1.5px] border-ink bg-paper px-2.5 font-body text-[15px]"
         >
           <option value="">選擇行政區</option>
@@ -191,6 +196,7 @@ function LocationFields({
       </div>
       <LocationPicker
         value={location}
+        focusDistrict={focusDistrict}
         onChange={(picked) => {
           onPick(picked);
           void geocoder.lookupAddress(picked.latitude, picked.longitude);
