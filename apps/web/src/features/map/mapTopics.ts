@@ -373,10 +373,10 @@ const TOPICS: MapTopic[] = [
 
 export const MAP_TOPICS: MapTopic[] = [
   TOPICS[4]!,
+  TOPICS[0]!,
   TOPICS[1]!,
   TOPICS[2]!,
   TOPICS[3]!,
-  TOPICS[0]!,
   TOPICS[5]!,
 ];
 

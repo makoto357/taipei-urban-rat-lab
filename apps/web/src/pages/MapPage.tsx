@@ -172,8 +172,8 @@ export function MapPage() {
           })}
         </div>
 
-        <div className="relative min-h-[720px] overflow-hidden border-2 border-ink bg-card md:flex md:min-h-[620px] md:flex-wrap md:overflow-visible">
-          <aside className="absolute inset-x-0 bottom-0 z-10 flex max-h-[52%] flex-col gap-[22px] overflow-y-auto border-t-2 border-ink bg-card px-[22px] py-5 shadow-[0_-5px_0_rgb(0_0_0_/_18%)] md:static md:max-h-none md:max-w-[320px] md:flex-[1_1_280px] md:overflow-visible md:border-r-2 md:border-t-0 md:shadow-none">
+        <div className="relative h-[720px] overflow-hidden border-2 border-ink bg-card md:flex md:h-[680px]">
+          <aside className="absolute inset-x-0 bottom-0 z-10 flex max-h-[52%] min-h-0 flex-col gap-[22px] overflow-y-auto overscroll-contain border-t-2 border-ink bg-card px-[22px] py-5 shadow-[0_-5px_0_rgb(0_0_0_/_18%)] md:static md:h-full md:max-h-full md:w-[320px] md:max-w-[320px] md:flex-[0_0_320px] md:border-r-2 md:border-t-0 md:shadow-none">
             <div className="m-0 flex flex-col gap-1.5">
               {topic.riskLevels && (
                 <div className="mb-5 flex flex-col gap-2.5">
@@ -306,7 +306,7 @@ export function MapPage() {
           </aside>
 
           <section
-            className="absolute inset-0 overflow-hidden bg-[#E4E2DC] md:relative md:inset-auto md:min-h-[520px] md:flex-[999_1_560px]"
+            className="absolute inset-0 overflow-hidden bg-[#E4E2DC] md:relative md:inset-auto md:h-full md:min-h-0 md:min-w-0 md:flex-1"
             aria-label="台北都市鼠患互動地圖"
           >
             <InteractiveMap
