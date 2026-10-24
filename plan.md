@@ -1345,9 +1345,9 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 **產出：**由 `literature.json` 驅動的知識列表與單篇頁；Firestore 線上維護流程暫緩（見 7.1）。
 
-- [ ] 從 `docs/data/literature.json` 取得資料（複製或 build 時匯入）至 `apps/web/src/features/literature/data/`，以 zod schema 驗證 id 唯一、標籤屬於 tagGroups、站內連結與 prev／next 指向存在的 id。
-- [ ] 實作列表（搜尋、類型、年代、標籤群組篩選）與單篇頁（研究摘要、來源連結、目錄、上一篇／下一篇）；列表只載入 `LiteratureSummary`。
-- [ ] `contentHtml` 建置時 sanitize；圖表保留 caption 與 `accessibleDescriptions`。
+- [x] 從 `docs/data/literature.json` 取得資料（實作：build 時由 `apps/web/scripts/build-literature.mts` 驗證並產生 gitignored 的 `public/literature/`；schema 在 `packages/contracts/src/literature.ts`），以 zod schema 驗證 id 唯一、標籤屬於 tagGroups、站內連結與 prev／next 指向存在的 id。
+- [x] 實作列表（搜尋、類型、年代、標籤群組篩選）與單篇頁（研究摘要、來源連結、目錄、上一篇／下一篇）；列表只載入 `LiteratureSummary`。
+- [x] `contentHtml` 建置時 sanitize（移除需 script 的互動小工具）；圖表保留 caption 與 `accessibleDescriptions`。
 
 **驗收：**17 筆資料全數通過 schema 驗證並可在列表與單篇頁開啟；每篇都有原始來源連結；沒有任何寫入或提交入口。
 
