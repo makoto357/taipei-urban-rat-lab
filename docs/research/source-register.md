@@ -2,6 +2,8 @@
 
 本清冊記錄使用者提供的原始資料與設計參考。`data/raw` 與 `docs/design/references` 內的檔案視為 immutable source：後續轉檔、壓縮或清理應輸出到其他目錄，不直接覆寫。
 
+候選與已使用的公開資料集、來源網址、格式、授權及使用限制，另見 [`data-sources.md`](data-sources.md)。
+
 | 類型 | 原始檔名 | 專案內路徑 | SHA-256 | 狀態／用途 |
 | --- | --- | --- | --- | --- |
 | 清潔箱資料 | `7226e5cdf0e98ffe5f7084a53bc45eba_export.json` | `data/raw/taipei-cleaning-boxes/cleaning-boxes-summary.raw.json` | `cb9ca211cf32be1e30cbb01b9176f690bdbd6133c27b80d58c040365e8ae299a` | 130 筆聚合／摘要型點位；正式名稱、日期、授權待確認 |
@@ -14,4 +16,3 @@
 
 - 兩份清潔箱資料的官方資料集名稱、來源 URL、產製／更新日期、授權及彼此關係。
 - 首頁稿與 design-system 圖的作者／版本日期；目前按使用者提供內容視為專案參考資產。
-
