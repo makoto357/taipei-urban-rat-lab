@@ -1,6 +1,10 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
+import { PublicSnapshotSchema, type PublicSnapshot } from "@taipei-rat-lab/contracts";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
+import { db } from "../lib/firebase";
 import { KnowledgeDeskIcon, MapDeskIcon, ReportDeskIcon } from "../features/home/DeskIcons";
 
 const DESK_ITEMS = [
@@ -45,12 +49,6 @@ const DESK_ITEMS = [
   },
 ] as const;
 
-const HOW_TO_READ = [
-  { en: "ACTIVITY", zh: "觀測活動", body: "這裡觀察到多少鼠跡或處置紀錄。" },
-  { en: "COVERAGE", zh: "資料涵蓋", body: "這裡被調查得多完整、多近期。" },
-  { en: "EVIDENCE", zh: "證據可信度", body: "資料來源與查核方式，能不能支持這個判讀。" },
-] as const;
-
 export function HomePage() {
   return (
     <>
@@ -59,7 +57,6 @@ export function HomePage() {
         <Hero />
         <DataSnapshot />
         <PublicDesk />
-        <HowToRead />
         <About />
       </main>
       <SiteFooter />
@@ -112,7 +109,38 @@ function Hero() {
   );
 }
 
+const pad = (n: number) => String(n).padStart(2, "0");
+const formatMonth = (date: Date) => `${date.getFullYear()}/${pad(date.getMonth() + 1)}`;
+const formatDay = (date: Date) => `${formatMonth(date)}/${pad(date.getDate())}`;
+
+type SnapshotState = { status: "loading" } | { status: "ready"; data: PublicSnapshot | null };
+
+/** 讀 publicStats/snapshot（Functions 彙總的計數，任何人可讀）；沒有文件或讀取失敗就顯示「尚無資料」。 */
+function usePublicSnapshot(): SnapshotState {
+  const [state, setState] = useState<SnapshotState>({ status: "loading" });
+  useEffect(() => {
+    let live = true;
+    getDoc(doc(db, "publicStats", "snapshot"))
+      .then((snapshot) => {
+        const parsed = snapshot.exists() ? PublicSnapshotSchema.safeParse(snapshot.data()) : null;
+        if (live) setState({ status: "ready", data: parsed?.success ? parsed.data : null });
+      })
+      .catch(() => live && setState({ status: "ready", data: null }));
+    return () => {
+      live = false;
+    };
+  }, []);
+  return state;
+}
+
 function DataSnapshot() {
+  const state = usePublicSnapshot();
+  const data = state.status === "ready" ? state.data : null;
+  const empty = state.status === "ready" && data === null;
+  const placeholder = state.status === "loading" ? "載入中…" : "尚無資料";
+  const start = data?.coverageStart?.toDate();
+  const end = data?.coverageEnd?.toDate();
+
   return (
     <section
       aria-labelledby="snapshot"
@@ -128,20 +156,31 @@ function DataSnapshot() {
         <div className="border-[1.5px] border-ink bg-card px-[18px] py-3.5">
           <dt className="font-body text-[13px]">近 30 天已查核鼠跡</dt>
           <dd className="m-0 mt-1.5 text-[28px] font-black">
-            [數量] <span className="text-[15px] font-bold">筆</span>
+            {data ? (
+              <>
+                {data.verifiedTraces30d.toLocaleString("zh-TW")} <span className="text-[15px] font-bold">筆</span>
+              </>
+            ) : (
+              <span className="text-[22px] text-muted">{placeholder}</span>
+            )}
           </dd>
         </div>
         <div className="border-[1.5px] border-ink bg-card px-[18px] py-3.5">
           <dt className="font-body text-[13px]">資料涵蓋期間</dt>
-          <dd className="m-0 mt-1.5 text-[22px] font-black leading-[1.6]">[YYYY/MM] – [YYYY/MM]</dd>
+          <dd className="m-0 mt-1.5 text-[22px] font-black leading-[1.6]">
+            {start && end ? `${formatMonth(start)} – ${formatMonth(end)}` : <span className="text-muted">{placeholder}</span>}
+          </dd>
         </div>
         <div className="border-[1.5px] border-ink bg-card px-[18px] py-3.5">
           <dt className="font-body text-[13px]">最後更新</dt>
-          <dd className="m-0 mt-1.5 text-[22px] font-black leading-[1.6]">[YYYY/MM/DD]</dd>
+          <dd className="m-0 mt-1.5 text-[22px] font-black leading-[1.6]">
+            {data ? formatDay(data.updatedAt.toDate()) : <span className="text-muted">{placeholder}</span>}
+          </dd>
         </div>
       </dl>
       <p className="m-0 flex-[1_1_100%] font-body text-xs text-[#4A463C]">
         「已查核」指經市府人員現場確認的鼠跡；資料不足時，這裡不顯示數字。
+        {empty && "目前還沒有可公開的查核資料。"}
       </p>
     </section>
   );
@@ -179,56 +218,6 @@ function PublicDesk() {
           </Link>
         ))}
       </div>
-    </section>
-  );
-}
-
-function HowToRead() {
-  return (
-    <section aria-labelledby="howto" className="flex flex-col gap-7 border-b-2 border-ink py-14">
-      <div className="flex items-baseline gap-3.5">
-        <h2 id="howto" className="m-0 text-[38px] font-black">
-          如何判讀
-        </h2>
-        <span className="font-label text-sm tracking-[0.1em]">HOW TO READ</span>
-      </div>
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-5">
-        {HOW_TO_READ.map((item) => (
-          <div key={item.en} className="flex flex-col gap-2 border-t-2 border-ink px-[22px] py-5">
-            <span className="font-label text-[13px] tracking-[0.1em] text-accent-text">{item.en}</span>
-            <h3 className="m-0 text-[22px] font-black">{item.zh}</h3>
-            <p className="m-0 font-body text-sm leading-[1.75]">{item.body}</p>
-          </div>
-        ))}
-      </div>
-      <div className="flex flex-wrap gap-x-8 gap-y-5 border-2 border-ink bg-card px-6 py-[22px]">
-        <div className="flex flex-[1_1_320px] flex-col gap-2.5">
-          <span className="self-start border-[1.5px] border-ink px-2.5 py-0.5 font-label text-xs tracking-[0.1em]">
-            EXAMPLE 範例
-          </span>
-          <p className="m-0 text-[17px] font-bold leading-[1.7]">
-            某街廓近 30 天有 2 筆已查核鼠跡，但最近一次全面調查距今 8 個月。
-          </p>
-          <p className="m-0 font-body text-sm leading-[1.75]">解讀：這裡確實有鼠跡，但調查不夠新，無法判斷整體狀況是否改善。</p>
-        </div>
-        <dl className="m-0 grid flex-[1_1_260px] grid-cols-[auto_1fr] content-center gap-x-4 gap-y-2 font-body text-sm">
-          <dt className="font-medium">觀測活動</dt>
-          <dd className="m-0">有紀錄</dd>
-          <dt className="font-medium">資料涵蓋</dt>
-          <dd className="m-0">低</dd>
-          <dt className="font-medium">證據可信度</dt>
-          <dd className="m-0">中</dd>
-        </dl>
-      </div>
-      <ul className="m-0 list-disc pl-5 font-body text-sm leading-[1.9]">
-        <li>
-          <strong className="font-medium">沒有資料，不代表沒有老鼠</strong>，可能只是還沒被調查。
-        </li>
-        <li>
-          <strong className="font-medium">「已移除」只代表該次處置完成</strong>，不代表現場已經安全。
-        </li>
-        <li>每筆資料都會標示來源與日期，請一併參考。</li>
-      </ul>
     </section>
   );
 }

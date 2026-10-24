@@ -443,3 +443,16 @@ export const AuditLogSchema = z.object({
 export type AuditLog = z.infer<typeof AuditLogSchema>;
 export const AuditLogConverter = createFirestoreConverter(AuditLogSchema);
 export * from './literature.js';
+
+/**
+ * 首頁「即時摘要」用的公開彙總（publicStats/snapshot）：只有計數與日期，不含任何位置或個別紀錄。
+ * 由 apps/functions 的 refreshPublicSnapshot 在 officialObservations 變動時重算，client 只能讀。
+ */
+export const PublicSnapshotSchema = z.object({
+  verifiedTraces30d: z.number().int().nonnegative(),
+  coverageStart: TimestampSchema.nullable(),
+  coverageEnd: TimestampSchema.nullable(),
+  updatedAt: TimestampSchema,
+  schemaVersion: z.literal(1),
+}).strict();
+export type PublicSnapshot = z.infer<typeof PublicSnapshotSchema>;

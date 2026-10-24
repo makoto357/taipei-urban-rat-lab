@@ -93,6 +93,13 @@ describe('Firestore Rules smoke tests', () => {
     await expect(assertFails(setDoc(doc(client, 'publicControlNotices', 'projection-1'), {}))).resolves.toBeDefined();
   });
 
+  it('allows anonymous reads but denies client writes for publicStats', async () => {
+    const client = testEnvironment.unauthenticatedContext().firestore();
+
+    await expect(assertSucceeds(getDoc(doc(client, 'publicStats', 'snapshot')))).resolves.toBeDefined();
+    await expect(assertFails(setDoc(doc(client, 'publicStats', 'snapshot'), {}))).resolves.toBeDefined();
+  });
+
   it('allows anonymous reads but denies client writes for activePublications', async () => {
     const client = testEnvironment.unauthenticatedContext().firestore();
 

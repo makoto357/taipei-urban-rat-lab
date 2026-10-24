@@ -7,3 +7,4 @@ export { inviteOfficial } from './auth/inviteOfficial.js';
 export { revokeOfficial } from './auth/revokeOfficial.js';
 export { appendBaitEvent } from './bait-records/appendBaitEvent.js';
 export { processUpload } from './media/processUpload.js';
+export { refreshPublicSnapshot } from './public-stats/refreshPublicSnapshot.js';
