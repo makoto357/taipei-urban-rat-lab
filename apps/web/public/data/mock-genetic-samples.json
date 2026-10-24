@@ -1,0 +1,3291 @@
+{
+  "collection": "geneticSamples",
+  "provenance": "synthetic_mock",
+  "generatedAt": "2026-10-23T00:00:00+08:00",
+  "schemaVersion": 1,
+  "coordinateReferenceSystem": "OGC:CRS84",
+  "notes": [
+    "All operational, capture, specimen and analysis contents are synthetic.",
+    "Locations inherit validated interior points from mock-official-observations.json.",
+    "The source object is fixture metadata and must not be written into Firestore document data.",
+    "Known-individual and unknown-individual environmental specimens are both represented.",
+    "Storage locations and genetic profile IDs are synthetic identifiers only.",
+    "2026-10-23 appended 50 deterministic Daan genetic-sampling records: 38 captured individuals and 12 environmental samples, including five compact three-site family clusters.",
+    "2026-10-23 deterministic spatial revision uses EPSG:3826 calculations and retains synthetic_mock provenance.",
+    "Genetic specimens overlap 45 of 60 CMR encounters: all 30 first captures and 15 deterministic recaptures; environmental specimens remain identity-free."
+  ],
+  "documents": [
+    {
+      "id": "mock-genetic-sample-001",
+      "source": {
+        "sampleRecordId": "mock-sample-record-001",
+        "sampleEventId": "mock-sample-record-001-event-checked",
+        "ratId": "mock-rat-001"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-001",
+        "sampleRecordId": "mock-sample-record-001",
+        "sampleEventId": "mock-sample-record-001-event-checked",
+        "ratId": "mock-rat-001",
+        "collectedAt": "2026-01-22T09:18:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 001",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-001",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-01-22T11:18:00.000+08:00",
+        "updatedAt": "2026-02-05T09:18:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-002",
+      "source": {
+        "sampleRecordId": "mock-sample-record-001",
+        "sampleEventId": "mock-sample-record-001-event-checked",
+        "ratId": "mock-rat-002"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-002",
+        "sampleRecordId": "mock-sample-record-001",
+        "sampleEventId": "mock-sample-record-001-event-checked",
+        "ratId": "mock-rat-002",
+        "collectedAt": "2026-01-22T09:18:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 002",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-002",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-01-22T11:18:00.000+08:00",
+        "updatedAt": "2026-02-05T09:18:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-003",
+      "source": {
+        "sampleRecordId": "mock-sample-record-002",
+        "sampleEventId": "mock-sample-record-002-event-checked",
+        "ratId": "mock-rat-003"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-003",
+        "sampleRecordId": "mock-sample-record-002",
+        "sampleEventId": "mock-sample-record-002-event-checked",
+        "ratId": "mock-rat-003",
+        "collectedAt": "2026-01-25T12:39:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 003",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-003",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-01-25T14:39:00.000+08:00",
+        "updatedAt": "2026-02-08T12:39:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-004",
+      "source": {
+        "sampleRecordId": "mock-sample-record-002",
+        "sampleEventId": "mock-sample-record-002-event-checked",
+        "ratId": "mock-rat-004"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-004",
+        "sampleRecordId": "mock-sample-record-002",
+        "sampleEventId": "mock-sample-record-002-event-checked",
+        "ratId": "mock-rat-004",
+        "collectedAt": "2026-01-25T12:39:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 004",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-004",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-01-25T14:39:00.000+08:00",
+        "updatedAt": "2026-02-08T12:39:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-005",
+      "source": {
+        "sampleRecordId": "mock-sample-record-003",
+        "sampleEventId": "mock-sample-record-003-event-checked",
+        "ratId": "mock-rat-005"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-005",
+        "sampleRecordId": "mock-sample-record-003",
+        "sampleEventId": "mock-sample-record-003-event-checked",
+        "ratId": "mock-rat-005",
+        "collectedAt": "2026-01-29T16:07:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 005",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-005",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-01-29T18:07:00.000+08:00",
+        "updatedAt": "2026-02-12T16:07:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-006",
+      "source": {
+        "sampleRecordId": "mock-sample-record-003",
+        "sampleEventId": "mock-sample-record-003-event-checked",
+        "ratId": "mock-rat-006"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-006",
+        "sampleRecordId": "mock-sample-record-003",
+        "sampleEventId": "mock-sample-record-003-event-checked",
+        "ratId": "mock-rat-006",
+        "collectedAt": "2026-01-29T16:07:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 006",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-006",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-01-29T18:07:00.000+08:00",
+        "updatedAt": "2026-02-12T16:07:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-007",
+      "source": {
+        "sampleRecordId": "mock-sample-record-004",
+        "sampleEventId": "mock-sample-record-004-event-checked",
+        "ratId": "mock-rat-007"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-007",
+        "sampleRecordId": "mock-sample-record-004",
+        "sampleEventId": "mock-sample-record-004-event-checked",
+        "ratId": "mock-rat-007",
+        "collectedAt": "2026-02-02T11:35:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 007",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-007",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-02-02T13:35:00.000+08:00",
+        "updatedAt": "2026-02-16T11:35:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-008",
+      "source": {
+        "sampleRecordId": "mock-sample-record-004",
+        "sampleEventId": "mock-sample-record-004-event-checked",
+        "ratId": "mock-rat-008"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-008",
+        "sampleRecordId": "mock-sample-record-004",
+        "sampleEventId": "mock-sample-record-004-event-checked",
+        "ratId": "mock-rat-008",
+        "collectedAt": "2026-02-02T11:35:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 008",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-008",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-02-02T13:35:00.000+08:00",
+        "updatedAt": "2026-02-16T11:35:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-009",
+      "source": {
+        "sampleRecordId": "mock-sample-record-005",
+        "sampleEventId": "mock-sample-record-005-event-checked",
+        "ratId": "mock-rat-009"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-009",
+        "sampleRecordId": "mock-sample-record-005",
+        "sampleEventId": "mock-sample-record-005-event-checked",
+        "ratId": "mock-rat-009",
+        "collectedAt": "2026-02-07T16:10:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 009",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-009",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-02-07T18:10:00.000+08:00",
+        "updatedAt": "2026-02-21T16:10:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-010",
+      "source": {
+        "sampleRecordId": "mock-sample-record-005",
+        "sampleEventId": "mock-sample-record-005-event-checked",
+        "ratId": "mock-rat-010"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-010",
+        "sampleRecordId": "mock-sample-record-005",
+        "sampleEventId": "mock-sample-record-005-event-checked",
+        "ratId": "mock-rat-010",
+        "collectedAt": "2026-02-07T16:10:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 010",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-010",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-02-07T18:10:00.000+08:00",
+        "updatedAt": "2026-02-21T16:10:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-011",
+      "source": {
+        "sampleRecordId": "mock-sample-record-006",
+        "sampleEventId": "mock-sample-record-006-event-checked",
+        "ratId": "mock-rat-011"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-011",
+        "sampleRecordId": "mock-sample-record-006",
+        "sampleEventId": "mock-sample-record-006-event-checked",
+        "ratId": "mock-rat-011",
+        "collectedAt": "2026-02-10T10:31:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 011",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-011",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-02-10T12:31:00.000+08:00",
+        "updatedAt": "2026-02-24T10:31:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-012",
+      "source": {
+        "sampleRecordId": "mock-sample-record-006",
+        "sampleEventId": "mock-sample-record-006-event-checked",
+        "ratId": "mock-rat-012"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-012",
+        "sampleRecordId": "mock-sample-record-006",
+        "sampleEventId": "mock-sample-record-006-event-checked",
+        "ratId": "mock-rat-012",
+        "collectedAt": "2026-02-10T10:31:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 012",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-012",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-02-10T12:31:00.000+08:00",
+        "updatedAt": "2026-02-24T10:31:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-013",
+      "source": {
+        "sampleRecordId": "mock-sample-record-007",
+        "sampleEventId": "mock-sample-record-007-event-checked",
+        "ratId": "mock-rat-013"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-013",
+        "sampleRecordId": "mock-sample-record-007",
+        "sampleEventId": "mock-sample-record-007-event-checked",
+        "ratId": "mock-rat-013",
+        "collectedAt": "2026-02-14T14:59:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 013",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-013",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-02-14T16:59:00.000+08:00",
+        "updatedAt": "2026-02-28T14:59:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-014",
+      "source": {
+        "sampleRecordId": "mock-sample-record-007",
+        "sampleEventId": "mock-sample-record-007-event-checked",
+        "ratId": "mock-rat-014"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-014",
+        "sampleRecordId": "mock-sample-record-007",
+        "sampleEventId": "mock-sample-record-007-event-checked",
+        "ratId": "mock-rat-014",
+        "collectedAt": "2026-02-14T14:59:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 014",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-014",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-02-14T16:59:00.000+08:00",
+        "updatedAt": "2026-02-28T14:59:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-015",
+      "source": {
+        "sampleRecordId": "mock-sample-record-008",
+        "sampleEventId": "mock-sample-record-008-event-checked",
+        "ratId": "mock-rat-015"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-015",
+        "sampleRecordId": "mock-sample-record-008",
+        "sampleEventId": "mock-sample-record-008-event-checked",
+        "ratId": "mock-rat-015",
+        "collectedAt": "2026-02-18T09:27:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 015",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-015",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-02-18T11:27:00.000+08:00",
+        "updatedAt": "2026-03-04T09:27:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-016",
+      "source": {
+        "sampleRecordId": "mock-sample-record-008",
+        "sampleEventId": "mock-sample-record-008-event-checked",
+        "ratId": "mock-rat-016"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-016",
+        "sampleRecordId": "mock-sample-record-008",
+        "sampleEventId": "mock-sample-record-008-event-checked",
+        "ratId": "mock-rat-016",
+        "collectedAt": "2026-02-18T09:27:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 016",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-016",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-02-18T11:27:00.000+08:00",
+        "updatedAt": "2026-03-04T09:27:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-017",
+      "source": {
+        "sampleRecordId": "mock-sample-record-009",
+        "sampleEventId": "mock-sample-record-009-event-checked",
+        "ratId": "mock-rat-017"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-017",
+        "sampleRecordId": "mock-sample-record-009",
+        "sampleEventId": "mock-sample-record-009-event-checked",
+        "ratId": "mock-rat-017",
+        "collectedAt": "2026-02-23T14:02:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 017",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-017",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-02-23T16:02:00.000+08:00",
+        "updatedAt": "2026-03-09T14:02:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-018",
+      "source": {
+        "sampleRecordId": "mock-sample-record-009",
+        "sampleEventId": "mock-sample-record-009-event-checked",
+        "ratId": "mock-rat-018"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-018",
+        "sampleRecordId": "mock-sample-record-009",
+        "sampleEventId": "mock-sample-record-009-event-checked",
+        "ratId": "mock-rat-018",
+        "collectedAt": "2026-02-23T14:02:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 018",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-018",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-02-23T16:02:00.000+08:00",
+        "updatedAt": "2026-03-09T14:02:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-019",
+      "source": {
+        "sampleRecordId": "mock-sample-record-010",
+        "sampleEventId": "mock-sample-record-010-event-checked",
+        "ratId": "mock-rat-019"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-019",
+        "sampleRecordId": "mock-sample-record-010",
+        "sampleEventId": "mock-sample-record-010-event-checked",
+        "ratId": "mock-rat-019",
+        "collectedAt": "2026-02-27T09:30:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 019",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-019",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-02-27T11:30:00.000+08:00",
+        "updatedAt": "2026-03-13T09:30:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-020",
+      "source": {
+        "sampleRecordId": "mock-sample-record-010",
+        "sampleEventId": "mock-sample-record-010-event-checked",
+        "ratId": "mock-rat-020"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-020",
+        "sampleRecordId": "mock-sample-record-010",
+        "sampleEventId": "mock-sample-record-010-event-checked",
+        "ratId": "mock-rat-020",
+        "collectedAt": "2026-02-27T09:30:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 1 / Box 020",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-020",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-02-27T11:30:00.000+08:00",
+        "updatedAt": "2026-03-13T09:30:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-021",
+      "source": {
+        "sampleRecordId": "mock-sample-record-011",
+        "sampleEventId": "mock-sample-record-011-event-checked",
+        "ratId": "mock-rat-021"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-021",
+        "sampleRecordId": "mock-sample-record-011",
+        "sampleEventId": "mock-sample-record-011-event-checked",
+        "ratId": "mock-rat-021",
+        "collectedAt": "2026-03-02T12:51:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 021",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-021",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-02T14:51:00.000+08:00",
+        "updatedAt": "2026-03-16T12:51:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-022",
+      "source": {
+        "sampleRecordId": "mock-sample-record-011",
+        "sampleEventId": "mock-sample-record-011-event-checked",
+        "ratId": "mock-rat-022"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-022",
+        "sampleRecordId": "mock-sample-record-011",
+        "sampleEventId": "mock-sample-record-011-event-checked",
+        "ratId": "mock-rat-022",
+        "collectedAt": "2026-03-02T12:51:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 022",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-022",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-02T14:51:00.000+08:00",
+        "updatedAt": "2026-03-16T12:51:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-023",
+      "source": {
+        "sampleRecordId": "mock-sample-record-012",
+        "sampleEventId": "mock-sample-record-012-event-checked",
+        "ratId": "mock-rat-023"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-023",
+        "sampleRecordId": "mock-sample-record-012",
+        "sampleEventId": "mock-sample-record-012-event-checked",
+        "ratId": "mock-rat-023",
+        "collectedAt": "2026-03-05T15:12:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 023",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-023",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-05T17:12:00.000+08:00",
+        "updatedAt": "2026-03-19T15:12:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-024",
+      "source": {
+        "sampleRecordId": "mock-sample-record-012",
+        "sampleEventId": "mock-sample-record-012-event-checked",
+        "ratId": "mock-rat-024"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-024",
+        "sampleRecordId": "mock-sample-record-012",
+        "sampleEventId": "mock-sample-record-012-event-checked",
+        "ratId": "mock-rat-024",
+        "collectedAt": "2026-03-05T15:12:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 024",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-024",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-05T17:12:00.000+08:00",
+        "updatedAt": "2026-03-19T15:12:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-025",
+      "source": {
+        "sampleRecordId": "mock-sample-record-013",
+        "sampleEventId": "mock-sample-record-013-event-checked",
+        "ratId": "mock-rat-025"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-025",
+        "sampleRecordId": "mock-sample-record-013",
+        "sampleEventId": "mock-sample-record-013-event-checked",
+        "ratId": "mock-rat-025",
+        "collectedAt": "2026-03-11T12:54:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 025",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-025",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-11T14:54:00.000+08:00",
+        "updatedAt": "2026-03-25T12:54:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-026",
+      "source": {
+        "sampleRecordId": "mock-sample-record-013",
+        "sampleEventId": "mock-sample-record-013-event-checked",
+        "ratId": "mock-rat-026"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-026",
+        "sampleRecordId": "mock-sample-record-013",
+        "sampleEventId": "mock-sample-record-013-event-checked",
+        "ratId": "mock-rat-026",
+        "collectedAt": "2026-03-11T12:54:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 026",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-026",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-11T14:54:00.000+08:00",
+        "updatedAt": "2026-03-25T12:54:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-027",
+      "source": {
+        "sampleRecordId": "mock-sample-record-014",
+        "sampleEventId": "mock-sample-record-014-event-checked",
+        "ratId": "mock-rat-027"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-027",
+        "sampleRecordId": "mock-sample-record-014",
+        "sampleEventId": "mock-sample-record-014-event-checked",
+        "ratId": "mock-rat-027",
+        "collectedAt": "2026-03-15T16:22:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 027",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-027",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-15T18:22:00.000+08:00",
+        "updatedAt": "2026-03-29T16:22:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-028",
+      "source": {
+        "sampleRecordId": "mock-sample-record-014",
+        "sampleEventId": "mock-sample-record-014-event-checked",
+        "ratId": "mock-rat-028"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-028",
+        "sampleRecordId": "mock-sample-record-014",
+        "sampleEventId": "mock-sample-record-014-event-checked",
+        "ratId": "mock-rat-028",
+        "collectedAt": "2026-03-15T16:22:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 028",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-028",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-15T18:22:00.000+08:00",
+        "updatedAt": "2026-03-29T16:22:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-029",
+      "source": {
+        "sampleRecordId": "mock-sample-record-015",
+        "sampleEventId": "mock-sample-record-015-event-checked",
+        "ratId": "mock-rat-029"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-029",
+        "sampleRecordId": "mock-sample-record-015",
+        "sampleEventId": "mock-sample-record-015-event-checked",
+        "ratId": "mock-rat-029",
+        "collectedAt": "2026-03-18T10:43:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 029",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-029",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-18T12:43:00.000+08:00",
+        "updatedAt": "2026-04-01T10:43:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-030",
+      "source": {
+        "sampleRecordId": "mock-sample-record-015",
+        "sampleEventId": "mock-sample-record-015-event-checked",
+        "ratId": "mock-rat-030"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-030",
+        "sampleRecordId": "mock-sample-record-015",
+        "sampleEventId": "mock-sample-record-015-event-checked",
+        "ratId": "mock-rat-030",
+        "collectedAt": "2026-03-18T10:43:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 030",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-030",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-18T12:43:00.000+08:00",
+        "updatedAt": "2026-04-01T10:43:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-031",
+      "source": {
+        "sampleRecordId": "mock-sample-record-016",
+        "sampleEventId": "mock-sample-record-016-event-checked",
+        "ratId": "mock-rat-031"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-031",
+        "sampleRecordId": "mock-sample-record-016",
+        "sampleEventId": "mock-sample-record-016-event-checked",
+        "ratId": "mock-rat-031",
+        "collectedAt": "2026-03-22T14:11:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 031",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-031",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-22T16:11:00.000+08:00",
+        "updatedAt": "2026-04-05T14:11:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-032",
+      "source": {
+        "sampleRecordId": "mock-sample-record-016",
+        "sampleEventId": "mock-sample-record-016-event-checked",
+        "ratId": "mock-rat-032"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-032",
+        "sampleRecordId": "mock-sample-record-016",
+        "sampleEventId": "mock-sample-record-016-event-checked",
+        "ratId": "mock-rat-032",
+        "collectedAt": "2026-03-22T14:11:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 032",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-032",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-22T16:11:00.000+08:00",
+        "updatedAt": "2026-04-05T14:11:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-033",
+      "source": {
+        "sampleRecordId": "mock-sample-record-017",
+        "sampleEventId": "mock-sample-record-017-event-checked",
+        "ratId": "mock-rat-033"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-033",
+        "sampleRecordId": "mock-sample-record-017",
+        "sampleEventId": "mock-sample-record-017-event-checked",
+        "ratId": "mock-rat-033",
+        "collectedAt": "2026-03-29T12:00:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 033",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-033",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-29T14:00:00.000+08:00",
+        "updatedAt": "2026-04-12T12:00:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-034",
+      "source": {
+        "sampleRecordId": "mock-sample-record-017",
+        "sampleEventId": "mock-sample-record-017-event-checked",
+        "ratId": "mock-rat-034"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-034",
+        "sampleRecordId": "mock-sample-record-017",
+        "sampleEventId": "mock-sample-record-017-event-checked",
+        "ratId": "mock-rat-034",
+        "collectedAt": "2026-03-29T12:00:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 034",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-034",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-29T14:00:00.000+08:00",
+        "updatedAt": "2026-04-12T12:00:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-035",
+      "source": {
+        "sampleRecordId": "mock-sample-record-018",
+        "sampleEventId": "mock-sample-record-018-event-checked",
+        "ratId": "mock-rat-035"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-035",
+        "sampleRecordId": "mock-sample-record-018",
+        "sampleEventId": "mock-sample-record-018-event-checked",
+        "ratId": "mock-rat-035",
+        "collectedAt": "2026-03-31T14:14:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 035",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-035",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-31T16:14:00.000+08:00",
+        "updatedAt": "2026-04-14T14:14:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-036",
+      "source": {
+        "sampleRecordId": "mock-sample-record-018",
+        "sampleEventId": "mock-sample-record-018-event-checked",
+        "ratId": "mock-rat-036"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-036",
+        "sampleRecordId": "mock-sample-record-018",
+        "sampleEventId": "mock-sample-record-018-event-checked",
+        "ratId": "mock-rat-036",
+        "collectedAt": "2026-03-31T14:14:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 036",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-036",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-03-31T16:14:00.000+08:00",
+        "updatedAt": "2026-04-14T14:14:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-037",
+      "source": {
+        "sampleRecordId": "mock-sample-record-019",
+        "sampleEventId": "mock-sample-record-019-event-checked",
+        "ratId": "mock-rat-037"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-037",
+        "sampleRecordId": "mock-sample-record-019",
+        "sampleEventId": "mock-sample-record-019-event-checked",
+        "ratId": "mock-rat-037",
+        "collectedAt": "2026-04-04T09:42:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 037",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-037",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-04-04T11:42:00.000+08:00",
+        "updatedAt": "2026-04-18T09:42:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-038",
+      "source": {
+        "sampleRecordId": "mock-sample-record-019",
+        "sampleEventId": "mock-sample-record-019-event-checked",
+        "ratId": "mock-rat-038"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-038",
+        "sampleRecordId": "mock-sample-record-019",
+        "sampleEventId": "mock-sample-record-019-event-checked",
+        "ratId": "mock-rat-038",
+        "collectedAt": "2026-04-04T09:42:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 038",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-038",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-04-04T11:42:00.000+08:00",
+        "updatedAt": "2026-04-18T09:42:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-039",
+      "source": {
+        "sampleRecordId": "mock-sample-record-020",
+        "sampleEventId": "mock-sample-record-020-event-checked",
+        "ratId": "mock-rat-039"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-039",
+        "sampleRecordId": "mock-sample-record-020",
+        "sampleEventId": "mock-sample-record-020-event-checked",
+        "ratId": "mock-rat-039",
+        "collectedAt": "2026-04-07T12:03:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 039",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-039",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-04-07T14:03:00.000+08:00",
+        "updatedAt": "2026-04-21T12:03:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-040",
+      "source": {
+        "sampleRecordId": "mock-sample-record-020",
+        "sampleEventId": "mock-sample-record-020-event-checked",
+        "ratId": "mock-rat-040"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-040",
+        "sampleRecordId": "mock-sample-record-020",
+        "sampleEventId": "mock-sample-record-020-event-checked",
+        "ratId": "mock-rat-040",
+        "collectedAt": "2026-04-07T12:03:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 2 / Box 040",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-040",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-04-07T14:03:00.000+08:00",
+        "updatedAt": "2026-04-21T12:03:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-041",
+      "source": {
+        "sampleRecordId": "mock-sample-record-021",
+        "sampleEventId": "mock-sample-record-021-event-checked",
+        "ratId": "mock-rat-041"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-041",
+        "sampleRecordId": "mock-sample-record-021",
+        "sampleEventId": "mock-sample-record-021-event-checked",
+        "ratId": "mock-rat-041",
+        "collectedAt": "2026-04-14T10:52:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 041",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-041",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-04-14T12:52:00.000+08:00",
+        "updatedAt": "2026-04-28T10:52:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-042",
+      "source": {
+        "sampleRecordId": "mock-sample-record-021",
+        "sampleEventId": "mock-sample-record-021-event-checked",
+        "ratId": "mock-rat-042"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-042",
+        "sampleRecordId": "mock-sample-record-021",
+        "sampleEventId": "mock-sample-record-021-event-checked",
+        "ratId": "mock-rat-042",
+        "collectedAt": "2026-04-14T10:52:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 042",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-042",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-04-14T12:52:00.000+08:00",
+        "updatedAt": "2026-04-28T10:52:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-043",
+      "source": {
+        "sampleRecordId": "mock-sample-record-022",
+        "sampleEventId": "mock-sample-record-022-event-checked",
+        "ratId": "mock-rat-043"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-043",
+        "sampleRecordId": "mock-sample-record-022",
+        "sampleEventId": "mock-sample-record-022-event-checked",
+        "ratId": "mock-rat-043",
+        "collectedAt": "2026-04-16T12:06:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 043",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-043",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-04-16T14:06:00.000+08:00",
+        "updatedAt": "2026-04-30T12:06:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-044",
+      "source": {
+        "sampleRecordId": "mock-sample-record-022",
+        "sampleEventId": "mock-sample-record-022-event-checked",
+        "ratId": "mock-rat-044"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-044",
+        "sampleRecordId": "mock-sample-record-022",
+        "sampleEventId": "mock-sample-record-022-event-checked",
+        "ratId": "mock-rat-044",
+        "collectedAt": "2026-04-16T12:06:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 044",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-044",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-04-16T14:06:00.000+08:00",
+        "updatedAt": "2026-04-30T12:06:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-045",
+      "source": {
+        "sampleRecordId": "mock-sample-record-023",
+        "sampleEventId": "mock-sample-record-023-event-checked",
+        "ratId": "mock-rat-045"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-045",
+        "sampleRecordId": "mock-sample-record-023",
+        "sampleEventId": "mock-sample-record-023-event-checked",
+        "ratId": "mock-rat-045",
+        "collectedAt": "2026-04-20T16:34:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 045",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-045",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-04-20T18:34:00.000+08:00",
+        "updatedAt": "2026-05-04T16:34:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-046",
+      "source": {
+        "sampleRecordId": "mock-sample-record-023",
+        "sampleEventId": "mock-sample-record-023-event-checked",
+        "ratId": "mock-rat-046"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-046",
+        "sampleRecordId": "mock-sample-record-023",
+        "sampleEventId": "mock-sample-record-023-event-checked",
+        "ratId": "mock-rat-046",
+        "collectedAt": "2026-04-20T16:34:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 046",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-046",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-04-20T18:34:00.000+08:00",
+        "updatedAt": "2026-05-04T16:34:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-047",
+      "source": {
+        "sampleRecordId": "mock-sample-record-024",
+        "sampleEventId": "mock-sample-record-024-event-checked",
+        "ratId": "mock-rat-047"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-047",
+        "sampleRecordId": "mock-sample-record-024",
+        "sampleEventId": "mock-sample-record-024-event-checked",
+        "ratId": "mock-rat-047",
+        "collectedAt": "2026-04-23T10:55:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 047",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-047",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-04-23T12:55:00.000+08:00",
+        "updatedAt": "2026-05-07T10:55:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-048",
+      "source": {
+        "sampleRecordId": "mock-sample-record-024",
+        "sampleEventId": "mock-sample-record-024-event-checked",
+        "ratId": "mock-rat-048"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-048",
+        "sampleRecordId": "mock-sample-record-024",
+        "sampleEventId": "mock-sample-record-024-event-checked",
+        "ratId": "mock-rat-048",
+        "collectedAt": "2026-04-23T10:55:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 048",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-genetic-profile-048",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-04-23T12:55:00.000+08:00",
+        "updatedAt": "2026-05-07T10:55:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-049",
+      "source": {
+        "sampleRecordId": "mock-sample-record-025",
+        "sampleEventId": "mock-sample-record-025-event-checked",
+        "ratId": "mock-rat-049"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-049",
+        "sampleRecordId": "mock-sample-record-025",
+        "sampleEventId": "mock-sample-record-025-event-checked",
+        "ratId": "mock-rat-049",
+        "collectedAt": "2026-04-28T15:30:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 049",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-04-28T17:30:00.000+08:00",
+        "updatedAt": "2026-04-30T15:30:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-050",
+      "source": {
+        "sampleRecordId": "mock-sample-record-025",
+        "sampleEventId": "mock-sample-record-025-event-checked",
+        "ratId": "mock-rat-050"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-050",
+        "sampleRecordId": "mock-sample-record-025",
+        "sampleEventId": "mock-sample-record-025-event-checked",
+        "ratId": "mock-rat-050",
+        "collectedAt": "2026-04-28T15:30:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 050",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-04-28T17:30:00.000+08:00",
+        "updatedAt": "2026-04-30T15:30:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-051",
+      "source": {
+        "sampleRecordId": "mock-sample-record-026",
+        "sampleEventId": "mock-sample-record-026-event-checked",
+        "ratId": "mock-rat-051"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-051",
+        "sampleRecordId": "mock-sample-record-026",
+        "sampleEventId": "mock-sample-record-026-event-checked",
+        "ratId": "mock-rat-051",
+        "collectedAt": "2026-05-02T10:58:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 051",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-05-02T12:58:00.000+08:00",
+        "updatedAt": "2026-05-04T10:58:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-052",
+      "source": {
+        "sampleRecordId": "mock-sample-record-026",
+        "sampleEventId": "mock-sample-record-026-event-checked",
+        "ratId": "mock-rat-052"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-052",
+        "sampleRecordId": "mock-sample-record-026",
+        "sampleEventId": "mock-sample-record-026-event-checked",
+        "ratId": "mock-rat-052",
+        "collectedAt": "2026-05-02T10:58:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 052",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-05-02T12:58:00.000+08:00",
+        "updatedAt": "2026-05-04T10:58:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-053",
+      "source": {
+        "sampleRecordId": "mock-sample-record-027",
+        "sampleEventId": "mock-sample-record-027-event-checked",
+        "ratId": "mock-rat-053"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-053",
+        "sampleRecordId": "mock-sample-record-027",
+        "sampleEventId": "mock-sample-record-027-event-checked",
+        "ratId": "mock-rat-053",
+        "collectedAt": "2026-05-05T13:19:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 053",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-05-05T15:19:00.000+08:00",
+        "updatedAt": "2026-05-07T13:19:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-054",
+      "source": {
+        "sampleRecordId": "mock-sample-record-027",
+        "sampleEventId": "mock-sample-record-027-event-checked",
+        "ratId": "mock-rat-054"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-054",
+        "sampleRecordId": "mock-sample-record-027",
+        "sampleEventId": "mock-sample-record-027-event-checked",
+        "ratId": "mock-rat-054",
+        "collectedAt": "2026-05-05T13:19:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 054",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-05-05T15:19:00.000+08:00",
+        "updatedAt": "2026-05-07T13:19:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-055",
+      "source": {
+        "sampleRecordId": "mock-sample-record-028",
+        "sampleEventId": "mock-sample-record-028-event-checked",
+        "ratId": "mock-rat-055"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-055",
+        "sampleRecordId": "mock-sample-record-028",
+        "sampleEventId": "mock-sample-record-028-event-checked",
+        "ratId": "mock-rat-055",
+        "collectedAt": "2026-05-08T16:40:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 055",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "not_submitted",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-05-08T18:40:00.000+08:00",
+        "updatedAt": "2026-05-10T16:40:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-056",
+      "source": {
+        "sampleRecordId": "mock-sample-record-028",
+        "sampleEventId": "mock-sample-record-028-event-checked",
+        "ratId": "mock-rat-056"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-056",
+        "sampleRecordId": "mock-sample-record-028",
+        "sampleEventId": "mock-sample-record-028-event-checked",
+        "ratId": "mock-rat-056",
+        "collectedAt": "2026-05-08T16:40:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 056",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "not_submitted",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-05-08T18:40:00.000+08:00",
+        "updatedAt": "2026-05-10T16:40:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-057",
+      "source": {
+        "sampleRecordId": "mock-sample-record-029",
+        "sampleEventId": "mock-sample-record-029-event-checked",
+        "ratId": "mock-rat-057"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-057",
+        "sampleRecordId": "mock-sample-record-029",
+        "sampleEventId": "mock-sample-record-029-event-checked",
+        "ratId": "mock-rat-057",
+        "collectedAt": "2026-05-12T11:08:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 057",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "not_submitted",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-05-12T13:08:00.000+08:00",
+        "updatedAt": "2026-05-14T11:08:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-058",
+      "source": {
+        "sampleRecordId": "mock-sample-record-029",
+        "sampleEventId": "mock-sample-record-029-event-checked",
+        "ratId": "mock-rat-058"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-058",
+        "sampleRecordId": "mock-sample-record-029",
+        "sampleEventId": "mock-sample-record-029-event-checked",
+        "ratId": "mock-rat-058",
+        "collectedAt": "2026-05-12T11:08:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "blood",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 058",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "not_submitted",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-05-12T13:08:00.000+08:00",
+        "updatedAt": "2026-05-14T11:08:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-059",
+      "source": {
+        "sampleRecordId": "mock-sample-record-030",
+        "sampleEventId": "mock-sample-record-030-event-checked",
+        "ratId": "mock-rat-059"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-059",
+        "sampleRecordId": "mock-sample-record-030",
+        "sampleEventId": "mock-sample-record-030-event-checked",
+        "ratId": "mock-rat-059",
+        "collectedAt": "2026-05-16T15:36:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "tissue",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 059",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "not_submitted",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-05-16T17:36:00.000+08:00",
+        "updatedAt": "2026-05-18T15:36:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-060",
+      "source": {
+        "sampleRecordId": "mock-sample-record-030",
+        "sampleEventId": "mock-sample-record-030-event-checked",
+        "ratId": "mock-rat-060"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-060",
+        "sampleRecordId": "mock-sample-record-030",
+        "sampleEventId": "mock-sample-record-030-event-checked",
+        "ratId": "mock-rat-060",
+        "collectedAt": "2026-05-16T15:36:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "swab",
+        "storageLocation": "Mock Freezer A / Rack 3 / Box 060",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "not_submitted",
+        "notes": "合成資料：此檢體不存在實體樣本。",
+        "createdAt": "2026-05-16T17:36:00.000+08:00",
+        "updatedAt": "2026-05-18T15:36:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-061",
+      "source": {
+        "sampleRecordId": "mock-sample-record-001",
+        "sampleEventId": "mock-sample-record-001-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-061",
+        "sampleRecordId": "mock-sample-record-001",
+        "sampleEventId": "mock-sample-record-001-event-environment-sample",
+        "collectedAt": "2026-01-22T11:18:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Environmental Box 001",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-environment-profile-001",
+        "notes": "合成資料：環境檢體，個體來源未知。",
+        "createdAt": "2026-01-22T12:18:00.000+08:00",
+        "updatedAt": "2026-02-05T11:18:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-062",
+      "source": {
+        "sampleRecordId": "mock-sample-record-007",
+        "sampleEventId": "mock-sample-record-007-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-062",
+        "sampleRecordId": "mock-sample-record-007",
+        "sampleEventId": "mock-sample-record-007-event-environment-sample",
+        "collectedAt": "2026-02-14T16:59:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Environmental Box 002",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-environment-profile-002",
+        "notes": "合成資料：環境檢體，個體來源未知。",
+        "createdAt": "2026-02-14T17:59:00.000+08:00",
+        "updatedAt": "2026-02-28T16:59:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-063",
+      "source": {
+        "sampleRecordId": "mock-sample-record-013",
+        "sampleEventId": "mock-sample-record-013-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-063",
+        "sampleRecordId": "mock-sample-record-013",
+        "sampleEventId": "mock-sample-record-013-event-environment-sample",
+        "collectedAt": "2026-03-11T14:54:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Environmental Box 003",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-environment-profile-003",
+        "notes": "合成資料：環境檢體，個體來源未知。",
+        "createdAt": "2026-03-11T15:54:00.000+08:00",
+        "updatedAt": "2026-03-25T14:54:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-064",
+      "source": {
+        "sampleRecordId": "mock-sample-record-019",
+        "sampleEventId": "mock-sample-record-019-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-064",
+        "sampleRecordId": "mock-sample-record-019",
+        "sampleEventId": "mock-sample-record-019-event-environment-sample",
+        "collectedAt": "2026-04-04T11:42:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Environmental Box 004",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-environment-profile-004",
+        "notes": "合成資料：環境檢體，個體來源未知。",
+        "createdAt": "2026-04-04T12:42:00.000+08:00",
+        "updatedAt": "2026-04-18T11:42:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-065",
+      "source": {
+        "sampleRecordId": "mock-sample-record-025",
+        "sampleEventId": "mock-sample-record-025-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-065",
+        "sampleRecordId": "mock-sample-record-025",
+        "sampleEventId": "mock-sample-record-025-event-environment-sample",
+        "collectedAt": "2026-04-28T17:30:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Environmental Box 005",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-environment-profile-005",
+        "notes": "合成資料：環境檢體，個體來源未知。",
+        "createdAt": "2026-04-28T18:30:00.000+08:00",
+        "updatedAt": "2026-05-12T17:30:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-066",
+      "source": {
+        "sampleRecordId": "mock-sample-record-031",
+        "sampleEventId": "mock-sample-record-031-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-066",
+        "sampleRecordId": "mock-sample-record-031",
+        "sampleEventId": "mock-sample-record-031-event-environment-sample",
+        "collectedAt": "2026-05-21T13:11:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Environmental Box 006",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "completed",
+        "geneticProfileId": "mock-environment-profile-006",
+        "notes": "合成資料：環境檢體，個體來源未知。",
+        "createdAt": "2026-05-21T14:11:00.000+08:00",
+        "updatedAt": "2026-06-04T13:11:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-067",
+      "source": {
+        "sampleRecordId": "mock-sample-record-037",
+        "sampleEventId": "mock-sample-record-037-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-067",
+        "sampleRecordId": "mock-sample-record-037",
+        "sampleEventId": "mock-sample-record-037-event-environment-sample",
+        "collectedAt": "2026-06-13T18:52:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Environmental Box 007",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：環境檢體，個體來源未知。",
+        "createdAt": "2026-06-13T19:52:00.000+08:00",
+        "updatedAt": "2026-06-16T18:52:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-068",
+      "source": {
+        "sampleRecordId": "mock-sample-record-043",
+        "sampleEventId": "mock-sample-record-043-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-068",
+        "sampleRecordId": "mock-sample-record-043",
+        "sampleEventId": "mock-sample-record-043-event-environment-sample",
+        "collectedAt": "2026-07-08T16:47:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Environmental Box 008",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：環境檢體，個體來源未知。",
+        "createdAt": "2026-07-08T17:47:00.000+08:00",
+        "updatedAt": "2026-07-11T16:47:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-069",
+      "source": {
+        "sampleRecordId": "mock-sample-record-049",
+        "sampleEventId": "mock-sample-record-049-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-069",
+        "sampleRecordId": "mock-sample-record-049",
+        "sampleEventId": "mock-sample-record-049-event-environment-sample",
+        "collectedAt": "2026-08-01T13:35:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Environmental Box 009",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：環境檢體，個體來源未知。",
+        "createdAt": "2026-08-01T14:35:00.000+08:00",
+        "updatedAt": "2026-08-04T13:35:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-070",
+      "source": {
+        "sampleRecordId": "mock-sample-record-055",
+        "sampleEventId": "mock-sample-record-055-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-070",
+        "sampleRecordId": "mock-sample-record-055",
+        "sampleEventId": "mock-sample-record-055-event-environment-sample",
+        "collectedAt": "2026-09-15T11:06:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Environmental Box 010",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "failed",
+        "notes": "合成資料：環境檢體，個體來源未知。",
+        "createdAt": "2026-09-15T12:06:00.000+08:00",
+        "updatedAt": "2026-09-18T11:06:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-071",
+      "source": {
+        "sampleRecordId": "mock-sample-record-061",
+        "sampleEventId": "mock-sample-record-061-event-checked",
+        "ratId": "mock-rat-091"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-071",
+        "sampleRecordId": "mock-sample-record-061",
+        "sampleEventId": "mock-sample-record-061-event-checked",
+        "ratId": "mock-rat-091",
+        "collectedAt": "2026-09-03T09:00:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 001",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-03T10:00:00+08:00",
+        "updatedAt": "2026-09-05T11:00:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-072",
+      "source": {
+        "sampleRecordId": "mock-sample-record-062",
+        "sampleEventId": "mock-sample-record-062-event-checked",
+        "ratId": "mock-rat-092"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-072",
+        "sampleRecordId": "mock-sample-record-062",
+        "sampleEventId": "mock-sample-record-062-event-checked",
+        "ratId": "mock-rat-092",
+        "collectedAt": "2026-09-03T12:11:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 002",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-03T13:11:00+08:00",
+        "updatedAt": "2026-09-05T14:11:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-073",
+      "source": {
+        "sampleRecordId": "mock-sample-record-063",
+        "sampleEventId": "mock-sample-record-063-event-checked",
+        "ratId": "mock-rat-093"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-073",
+        "sampleRecordId": "mock-sample-record-063",
+        "sampleEventId": "mock-sample-record-063-event-checked",
+        "ratId": "mock-rat-093",
+        "collectedAt": "2026-09-04T09:22:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 003",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-04T10:22:00+08:00",
+        "updatedAt": "2026-09-06T11:22:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-074",
+      "source": {
+        "sampleRecordId": "mock-sample-record-064",
+        "sampleEventId": "mock-sample-record-064-event-checked",
+        "ratId": "mock-rat-094"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-074",
+        "sampleRecordId": "mock-sample-record-064",
+        "sampleEventId": "mock-sample-record-064-event-checked",
+        "ratId": "mock-rat-094",
+        "collectedAt": "2026-09-04T12:33:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 004",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-04T13:33:00+08:00",
+        "updatedAt": "2026-09-06T14:33:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-075",
+      "source": {
+        "sampleRecordId": "mock-sample-record-065",
+        "sampleEventId": "mock-sample-record-065-event-checked",
+        "ratId": "mock-rat-095"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-075",
+        "sampleRecordId": "mock-sample-record-065",
+        "sampleEventId": "mock-sample-record-065-event-checked",
+        "ratId": "mock-rat-095",
+        "collectedAt": "2026-09-05T09:44:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 005",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-05T10:44:00+08:00",
+        "updatedAt": "2026-09-07T11:44:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-076",
+      "source": {
+        "sampleRecordId": "mock-sample-record-066",
+        "sampleEventId": "mock-sample-record-066-event-checked",
+        "ratId": "mock-rat-096"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-076",
+        "sampleRecordId": "mock-sample-record-066",
+        "sampleEventId": "mock-sample-record-066-event-checked",
+        "ratId": "mock-rat-096",
+        "collectedAt": "2026-09-05T12:55:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 006",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-05T13:55:00+08:00",
+        "updatedAt": "2026-09-07T14:55:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-077",
+      "source": {
+        "sampleRecordId": "mock-sample-record-067",
+        "sampleEventId": "mock-sample-record-067-event-checked",
+        "ratId": "mock-rat-097"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-077",
+        "sampleRecordId": "mock-sample-record-067",
+        "sampleEventId": "mock-sample-record-067-event-checked",
+        "ratId": "mock-rat-097",
+        "collectedAt": "2026-09-06T09:06:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 007",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-06T10:06:00+08:00",
+        "updatedAt": "2026-09-08T11:06:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-078",
+      "source": {
+        "sampleRecordId": "mock-sample-record-068",
+        "sampleEventId": "mock-sample-record-068-event-checked",
+        "ratId": "mock-rat-098"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-078",
+        "sampleRecordId": "mock-sample-record-068",
+        "sampleEventId": "mock-sample-record-068-event-checked",
+        "ratId": "mock-rat-098",
+        "collectedAt": "2026-09-06T12:17:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 008",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-06T13:17:00+08:00",
+        "updatedAt": "2026-09-08T14:17:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-079",
+      "source": {
+        "sampleRecordId": "mock-sample-record-069",
+        "sampleEventId": "mock-sample-record-069-event-checked",
+        "ratId": "mock-rat-099"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-079",
+        "sampleRecordId": "mock-sample-record-069",
+        "sampleEventId": "mock-sample-record-069-event-checked",
+        "ratId": "mock-rat-099",
+        "collectedAt": "2026-09-07T09:28:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 009",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-07T10:28:00+08:00",
+        "updatedAt": "2026-09-09T11:28:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-080",
+      "source": {
+        "sampleRecordId": "mock-sample-record-070",
+        "sampleEventId": "mock-sample-record-070-event-checked",
+        "ratId": "mock-rat-100"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-080",
+        "sampleRecordId": "mock-sample-record-070",
+        "sampleEventId": "mock-sample-record-070-event-checked",
+        "ratId": "mock-rat-100",
+        "collectedAt": "2026-09-07T12:39:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 010",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-07T13:39:00+08:00",
+        "updatedAt": "2026-09-09T14:39:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-081",
+      "source": {
+        "sampleRecordId": "mock-sample-record-071",
+        "sampleEventId": "mock-sample-record-071-event-checked",
+        "ratId": "mock-rat-101"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-081",
+        "sampleRecordId": "mock-sample-record-071",
+        "sampleEventId": "mock-sample-record-071-event-checked",
+        "ratId": "mock-rat-101",
+        "collectedAt": "2026-09-08T09:50:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 011",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-08T10:50:00+08:00",
+        "updatedAt": "2026-09-10T11:50:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-082",
+      "source": {
+        "sampleRecordId": "mock-sample-record-072",
+        "sampleEventId": "mock-sample-record-072-event-checked",
+        "ratId": "mock-rat-102"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-082",
+        "sampleRecordId": "mock-sample-record-072",
+        "sampleEventId": "mock-sample-record-072-event-checked",
+        "ratId": "mock-rat-102",
+        "collectedAt": "2026-09-08T12:01:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 012",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-08T13:01:00+08:00",
+        "updatedAt": "2026-09-10T14:01:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-083",
+      "source": {
+        "sampleRecordId": "mock-sample-record-073",
+        "sampleEventId": "mock-sample-record-073-event-checked",
+        "ratId": "mock-rat-103"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-083",
+        "sampleRecordId": "mock-sample-record-073",
+        "sampleEventId": "mock-sample-record-073-event-checked",
+        "ratId": "mock-rat-103",
+        "collectedAt": "2026-09-09T09:12:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 013",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-09T10:12:00+08:00",
+        "updatedAt": "2026-09-11T11:12:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-084",
+      "source": {
+        "sampleRecordId": "mock-sample-record-074",
+        "sampleEventId": "mock-sample-record-074-event-checked",
+        "ratId": "mock-rat-104"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-084",
+        "sampleRecordId": "mock-sample-record-074",
+        "sampleEventId": "mock-sample-record-074-event-checked",
+        "ratId": "mock-rat-104",
+        "collectedAt": "2026-09-09T12:23:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 014",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-09T13:23:00+08:00",
+        "updatedAt": "2026-09-11T14:23:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-085",
+      "source": {
+        "sampleRecordId": "mock-sample-record-075",
+        "sampleEventId": "mock-sample-record-075-event-checked",
+        "ratId": "mock-rat-105"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-085",
+        "sampleRecordId": "mock-sample-record-075",
+        "sampleEventId": "mock-sample-record-075-event-checked",
+        "ratId": "mock-rat-105",
+        "collectedAt": "2026-09-10T09:34:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 015",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-10T10:34:00+08:00",
+        "updatedAt": "2026-09-12T11:34:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-086",
+      "source": {
+        "sampleRecordId": "mock-sample-record-076",
+        "sampleEventId": "mock-sample-record-076-event-checked",
+        "ratId": "mock-rat-106"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-086",
+        "sampleRecordId": "mock-sample-record-076",
+        "sampleEventId": "mock-sample-record-076-event-checked",
+        "ratId": "mock-rat-106",
+        "collectedAt": "2026-09-10T12:45:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 016",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-10T13:45:00+08:00",
+        "updatedAt": "2026-09-12T14:45:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-087",
+      "source": {
+        "sampleRecordId": "mock-sample-record-077",
+        "sampleEventId": "mock-sample-record-077-event-checked",
+        "ratId": "mock-rat-107"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-087",
+        "sampleRecordId": "mock-sample-record-077",
+        "sampleEventId": "mock-sample-record-077-event-checked",
+        "ratId": "mock-rat-107",
+        "collectedAt": "2026-09-11T09:56:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 017",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-11T10:56:00+08:00",
+        "updatedAt": "2026-09-13T11:56:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-088",
+      "source": {
+        "sampleRecordId": "mock-sample-record-078",
+        "sampleEventId": "mock-sample-record-078-event-checked",
+        "ratId": "mock-rat-108"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-088",
+        "sampleRecordId": "mock-sample-record-078",
+        "sampleEventId": "mock-sample-record-078-event-checked",
+        "ratId": "mock-rat-108",
+        "collectedAt": "2026-09-11T12:07:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 018",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-11T13:07:00+08:00",
+        "updatedAt": "2026-09-13T14:07:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-089",
+      "source": {
+        "sampleRecordId": "mock-sample-record-079",
+        "sampleEventId": "mock-sample-record-079-event-checked",
+        "ratId": "mock-rat-109"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-089",
+        "sampleRecordId": "mock-sample-record-079",
+        "sampleEventId": "mock-sample-record-079-event-checked",
+        "ratId": "mock-rat-109",
+        "collectedAt": "2026-09-12T09:18:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 019",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-12T10:18:00+08:00",
+        "updatedAt": "2026-09-14T11:18:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-090",
+      "source": {
+        "sampleRecordId": "mock-sample-record-080",
+        "sampleEventId": "mock-sample-record-080-event-checked",
+        "ratId": "mock-rat-110"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-090",
+        "sampleRecordId": "mock-sample-record-080",
+        "sampleEventId": "mock-sample-record-080-event-checked",
+        "ratId": "mock-rat-110",
+        "collectedAt": "2026-09-12T12:29:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 020",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-12T13:29:00+08:00",
+        "updatedAt": "2026-09-14T14:29:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-091",
+      "source": {
+        "sampleRecordId": "mock-sample-record-081",
+        "sampleEventId": "mock-sample-record-081-event-checked",
+        "ratId": "mock-rat-111"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-091",
+        "sampleRecordId": "mock-sample-record-081",
+        "sampleEventId": "mock-sample-record-081-event-checked",
+        "ratId": "mock-rat-111",
+        "collectedAt": "2026-09-13T09:40:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 021",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-13T10:40:00+08:00",
+        "updatedAt": "2026-09-15T11:40:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-092",
+      "source": {
+        "sampleRecordId": "mock-sample-record-082",
+        "sampleEventId": "mock-sample-record-082-event-checked",
+        "ratId": "mock-rat-112"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-092",
+        "sampleRecordId": "mock-sample-record-082",
+        "sampleEventId": "mock-sample-record-082-event-checked",
+        "ratId": "mock-rat-112",
+        "collectedAt": "2026-09-13T12:51:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 022",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-13T13:51:00+08:00",
+        "updatedAt": "2026-09-15T14:51:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-093",
+      "source": {
+        "sampleRecordId": "mock-sample-record-083",
+        "sampleEventId": "mock-sample-record-083-event-checked",
+        "ratId": "mock-rat-113"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-093",
+        "sampleRecordId": "mock-sample-record-083",
+        "sampleEventId": "mock-sample-record-083-event-checked",
+        "ratId": "mock-rat-113",
+        "collectedAt": "2026-09-14T09:02:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 023",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-14T10:02:00+08:00",
+        "updatedAt": "2026-09-16T11:02:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-094",
+      "source": {
+        "sampleRecordId": "mock-sample-record-084",
+        "sampleEventId": "mock-sample-record-084-event-checked",
+        "ratId": "mock-rat-114"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-094",
+        "sampleRecordId": "mock-sample-record-084",
+        "sampleEventId": "mock-sample-record-084-event-checked",
+        "ratId": "mock-rat-114",
+        "collectedAt": "2026-09-14T12:13:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 024",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-14T13:13:00+08:00",
+        "updatedAt": "2026-09-16T14:13:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-095",
+      "source": {
+        "sampleRecordId": "mock-sample-record-085",
+        "sampleEventId": "mock-sample-record-085-event-checked",
+        "ratId": "mock-rat-115"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-095",
+        "sampleRecordId": "mock-sample-record-085",
+        "sampleEventId": "mock-sample-record-085-event-checked",
+        "ratId": "mock-rat-115",
+        "collectedAt": "2026-09-15T09:24:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 025",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-15T10:24:00+08:00",
+        "updatedAt": "2026-09-17T11:24:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-096",
+      "source": {
+        "sampleRecordId": "mock-sample-record-086",
+        "sampleEventId": "mock-sample-record-086-event-checked",
+        "ratId": "mock-rat-116"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-096",
+        "sampleRecordId": "mock-sample-record-086",
+        "sampleEventId": "mock-sample-record-086-event-checked",
+        "ratId": "mock-rat-116",
+        "collectedAt": "2026-09-15T12:35:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 026",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-15T13:35:00+08:00",
+        "updatedAt": "2026-09-17T14:35:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-097",
+      "source": {
+        "sampleRecordId": "mock-sample-record-087",
+        "sampleEventId": "mock-sample-record-087-event-checked",
+        "ratId": "mock-rat-117"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-097",
+        "sampleRecordId": "mock-sample-record-087",
+        "sampleEventId": "mock-sample-record-087-event-checked",
+        "ratId": "mock-rat-117",
+        "collectedAt": "2026-09-16T09:46:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 027",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-16T10:46:00+08:00",
+        "updatedAt": "2026-09-18T11:46:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-098",
+      "source": {
+        "sampleRecordId": "mock-sample-record-088",
+        "sampleEventId": "mock-sample-record-088-event-checked",
+        "ratId": "mock-rat-118"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-098",
+        "sampleRecordId": "mock-sample-record-088",
+        "sampleEventId": "mock-sample-record-088-event-checked",
+        "ratId": "mock-rat-118",
+        "collectedAt": "2026-09-16T12:57:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 028",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-16T13:57:00+08:00",
+        "updatedAt": "2026-09-18T14:57:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-099",
+      "source": {
+        "sampleRecordId": "mock-sample-record-089",
+        "sampleEventId": "mock-sample-record-089-event-checked",
+        "ratId": "mock-rat-119"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-099",
+        "sampleRecordId": "mock-sample-record-089",
+        "sampleEventId": "mock-sample-record-089-event-checked",
+        "ratId": "mock-rat-119",
+        "collectedAt": "2026-09-17T09:08:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 029",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-17T10:08:00+08:00",
+        "updatedAt": "2026-09-19T11:08:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-100",
+      "source": {
+        "sampleRecordId": "mock-sample-record-090",
+        "sampleEventId": "mock-sample-record-090-event-checked",
+        "ratId": "mock-rat-120"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-100",
+        "sampleRecordId": "mock-sample-record-090",
+        "sampleEventId": "mock-sample-record-090-event-checked",
+        "ratId": "mock-rat-120",
+        "collectedAt": "2026-09-17T12:19:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 030",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-17T13:19:00+08:00",
+        "updatedAt": "2026-09-19T14:19:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-101",
+      "source": {
+        "sampleRecordId": "mock-sample-record-091",
+        "sampleEventId": "mock-sample-record-091-event-checked",
+        "ratId": "mock-rat-121"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-101",
+        "sampleRecordId": "mock-sample-record-091",
+        "sampleEventId": "mock-sample-record-091-event-checked",
+        "ratId": "mock-rat-121",
+        "collectedAt": "2026-09-18T09:30:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 031",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-18T10:30:00+08:00",
+        "updatedAt": "2026-09-20T11:30:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-102",
+      "source": {
+        "sampleRecordId": "mock-sample-record-092",
+        "sampleEventId": "mock-sample-record-092-event-checked",
+        "ratId": "mock-rat-122"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-102",
+        "sampleRecordId": "mock-sample-record-092",
+        "sampleEventId": "mock-sample-record-092-event-checked",
+        "ratId": "mock-rat-122",
+        "collectedAt": "2026-09-18T12:41:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 032",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-18T13:41:00+08:00",
+        "updatedAt": "2026-09-20T14:41:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-103",
+      "source": {
+        "sampleRecordId": "mock-sample-record-093",
+        "sampleEventId": "mock-sample-record-093-event-checked",
+        "ratId": "mock-rat-123"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-103",
+        "sampleRecordId": "mock-sample-record-093",
+        "sampleEventId": "mock-sample-record-093-event-checked",
+        "ratId": "mock-rat-123",
+        "collectedAt": "2026-09-19T09:52:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 033",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-19T10:52:00+08:00",
+        "updatedAt": "2026-09-21T11:52:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-104",
+      "source": {
+        "sampleRecordId": "mock-sample-record-094",
+        "sampleEventId": "mock-sample-record-094-event-checked",
+        "ratId": "mock-rat-124"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-104",
+        "sampleRecordId": "mock-sample-record-094",
+        "sampleEventId": "mock-sample-record-094-event-checked",
+        "ratId": "mock-rat-124",
+        "collectedAt": "2026-09-19T12:03:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 034",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-19T13:03:00+08:00",
+        "updatedAt": "2026-09-21T14:03:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-105",
+      "source": {
+        "sampleRecordId": "mock-sample-record-095",
+        "sampleEventId": "mock-sample-record-095-event-checked",
+        "ratId": "mock-rat-125"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-105",
+        "sampleRecordId": "mock-sample-record-095",
+        "sampleEventId": "mock-sample-record-095-event-checked",
+        "ratId": "mock-rat-125",
+        "collectedAt": "2026-09-20T09:14:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 035",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-20T10:14:00+08:00",
+        "updatedAt": "2026-09-22T11:14:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-106",
+      "source": {
+        "sampleRecordId": "mock-sample-record-096",
+        "sampleEventId": "mock-sample-record-096-event-checked",
+        "ratId": "mock-rat-126"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-106",
+        "sampleRecordId": "mock-sample-record-096",
+        "sampleEventId": "mock-sample-record-096-event-checked",
+        "ratId": "mock-rat-126",
+        "collectedAt": "2026-09-20T12:25:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 036",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-20T13:25:00+08:00",
+        "updatedAt": "2026-09-22T14:25:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-107",
+      "source": {
+        "sampleRecordId": "mock-sample-record-097",
+        "sampleEventId": "mock-sample-record-097-event-checked",
+        "ratId": "mock-rat-127"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-107",
+        "sampleRecordId": "mock-sample-record-097",
+        "sampleEventId": "mock-sample-record-097-event-checked",
+        "ratId": "mock-rat-127",
+        "collectedAt": "2026-09-21T09:36:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 037",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-21T10:36:00+08:00",
+        "updatedAt": "2026-09-23T11:36:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-108",
+      "source": {
+        "sampleRecordId": "mock-sample-record-098",
+        "sampleEventId": "mock-sample-record-098-event-checked",
+        "ratId": "mock-rat-128"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-108",
+        "sampleRecordId": "mock-sample-record-098",
+        "sampleEventId": "mock-sample-record-098-event-checked",
+        "ratId": "mock-rat-128",
+        "collectedAt": "2026-09-21T12:47:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / Daan Individual Box 038",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：由已標記捕獲個體取得的毛髮基因檢體。",
+        "createdAt": "2026-09-21T13:47:00+08:00",
+        "updatedAt": "2026-09-23T14:47:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-109",
+      "source": {
+        "sampleRecordId": "mock-sample-record-099",
+        "sampleEventId": "mock-sample-record-099-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-109",
+        "sampleRecordId": "mock-sample-record-099",
+        "sampleEventId": "mock-sample-record-099-event-environment-sample",
+        "collectedAt": "2026-09-21T11:58:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Daan Environmental Box 039",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：環境基因檢體，個體來源未知；不得任意指定 ratId。",
+        "createdAt": "2026-09-21T12:58:00+08:00",
+        "updatedAt": "2026-09-24T11:58:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-110",
+      "source": {
+        "sampleRecordId": "mock-sample-record-100",
+        "sampleEventId": "mock-sample-record-100-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-110",
+        "sampleRecordId": "mock-sample-record-100",
+        "sampleEventId": "mock-sample-record-100-event-environment-sample",
+        "collectedAt": "2026-09-21T14:09:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Daan Environmental Box 040",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：環境基因檢體，個體來源未知；不得任意指定 ratId。",
+        "createdAt": "2026-09-21T15:09:00+08:00",
+        "updatedAt": "2026-09-24T14:09:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-111",
+      "source": {
+        "sampleRecordId": "mock-sample-record-101",
+        "sampleEventId": "mock-sample-record-101-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-111",
+        "sampleRecordId": "mock-sample-record-101",
+        "sampleEventId": "mock-sample-record-101-event-environment-sample",
+        "collectedAt": "2026-09-22T11:20:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Daan Environmental Box 041",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：環境基因檢體，個體來源未知；不得任意指定 ratId。",
+        "createdAt": "2026-09-22T12:20:00+08:00",
+        "updatedAt": "2026-09-25T11:20:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-112",
+      "source": {
+        "sampleRecordId": "mock-sample-record-102",
+        "sampleEventId": "mock-sample-record-102-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-112",
+        "sampleRecordId": "mock-sample-record-102",
+        "sampleEventId": "mock-sample-record-102-event-environment-sample",
+        "collectedAt": "2026-09-22T14:31:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Daan Environmental Box 042",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：環境基因檢體，個體來源未知；不得任意指定 ratId。",
+        "createdAt": "2026-09-22T15:31:00+08:00",
+        "updatedAt": "2026-09-25T14:31:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-113",
+      "source": {
+        "sampleRecordId": "mock-sample-record-103",
+        "sampleEventId": "mock-sample-record-103-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-113",
+        "sampleRecordId": "mock-sample-record-103",
+        "sampleEventId": "mock-sample-record-103-event-environment-sample",
+        "collectedAt": "2026-09-23T11:42:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Daan Environmental Box 043",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：環境基因檢體，個體來源未知；不得任意指定 ratId。",
+        "createdAt": "2026-09-23T12:42:00+08:00",
+        "updatedAt": "2026-09-26T11:42:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-114",
+      "source": {
+        "sampleRecordId": "mock-sample-record-104",
+        "sampleEventId": "mock-sample-record-104-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-114",
+        "sampleRecordId": "mock-sample-record-104",
+        "sampleEventId": "mock-sample-record-104-event-environment-sample",
+        "collectedAt": "2026-09-23T14:53:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Daan Environmental Box 044",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：環境基因檢體，個體來源未知；不得任意指定 ratId。",
+        "createdAt": "2026-09-23T15:53:00+08:00",
+        "updatedAt": "2026-09-26T14:53:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-115",
+      "source": {
+        "sampleRecordId": "mock-sample-record-105",
+        "sampleEventId": "mock-sample-record-105-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-115",
+        "sampleRecordId": "mock-sample-record-105",
+        "sampleEventId": "mock-sample-record-105-event-environment-sample",
+        "collectedAt": "2026-09-24T11:04:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Daan Environmental Box 045",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：環境基因檢體，個體來源未知；不得任意指定 ratId。",
+        "createdAt": "2026-09-24T12:04:00+08:00",
+        "updatedAt": "2026-09-27T11:04:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-116",
+      "source": {
+        "sampleRecordId": "mock-sample-record-106",
+        "sampleEventId": "mock-sample-record-106-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-116",
+        "sampleRecordId": "mock-sample-record-106",
+        "sampleEventId": "mock-sample-record-106-event-environment-sample",
+        "collectedAt": "2026-09-24T14:15:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Daan Environmental Box 046",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：環境基因檢體，個體來源未知；不得任意指定 ratId。",
+        "createdAt": "2026-09-24T15:15:00+08:00",
+        "updatedAt": "2026-09-27T14:15:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-117",
+      "source": {
+        "sampleRecordId": "mock-sample-record-107",
+        "sampleEventId": "mock-sample-record-107-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-117",
+        "sampleRecordId": "mock-sample-record-107",
+        "sampleEventId": "mock-sample-record-107-event-environment-sample",
+        "collectedAt": "2026-09-25T11:26:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Daan Environmental Box 047",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：環境基因檢體，個體來源未知；不得任意指定 ratId。",
+        "createdAt": "2026-09-25T12:26:00+08:00",
+        "updatedAt": "2026-09-28T11:26:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-118",
+      "source": {
+        "sampleRecordId": "mock-sample-record-108",
+        "sampleEventId": "mock-sample-record-108-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-118",
+        "sampleRecordId": "mock-sample-record-108",
+        "sampleEventId": "mock-sample-record-108-event-environment-sample",
+        "collectedAt": "2026-09-25T14:37:00+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Daan Environmental Box 048",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：環境基因檢體，個體來源未知；不得任意指定 ratId。",
+        "createdAt": "2026-09-25T15:37:00+08:00",
+        "updatedAt": "2026-09-28T14:37:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-119",
+      "source": {
+        "sampleRecordId": "mock-sample-record-109",
+        "sampleEventId": "mock-sample-record-109-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-119",
+        "sampleRecordId": "mock-sample-record-109",
+        "sampleEventId": "mock-sample-record-109-event-environment-sample",
+        "collectedAt": "2026-09-26T11:48:00+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Daan Environmental Box 049",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：環境基因檢體，個體來源未知；不得任意指定 ratId。",
+        "createdAt": "2026-09-26T12:48:00+08:00",
+        "updatedAt": "2026-09-29T11:48:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-120",
+      "source": {
+        "sampleRecordId": "mock-sample-record-110",
+        "sampleEventId": "mock-sample-record-110-event-environment-sample",
+        "ratId": null
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-120",
+        "sampleRecordId": "mock-sample-record-110",
+        "sampleEventId": "mock-sample-record-110-event-environment-sample",
+        "collectedAt": "2026-09-26T14:59:00+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "feces",
+        "storageLocation": "Mock Freezer B / Daan Environmental Box 050",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：環境基因檢體，個體來源未知；不得任意指定 ratId。",
+        "createdAt": "2026-09-26T15:59:00+08:00",
+        "updatedAt": "2026-09-29T14:59:00+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-121",
+      "source": {
+        "sampleRecordId": "mock-sample-record-031",
+        "sampleEventId": "mock-sample-record-031-event-checked",
+        "ratId": "mock-rat-001"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-121",
+        "sampleRecordId": "mock-sample-record-031",
+        "sampleEventId": "mock-sample-record-031-event-checked",
+        "ratId": "mock-rat-001",
+        "collectedAt": "2026-05-21T11:11:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / CMR Overlap Box 001",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：於再捕捉事件取得的個體毛髮基因檢體。",
+        "createdAt": "2026-05-21T04:11:00.000Z",
+        "updatedAt": "2026-06-04T03:11:00.000Z",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-122",
+      "source": {
+        "sampleRecordId": "mock-sample-record-032",
+        "sampleEventId": "mock-sample-record-032-event-checked",
+        "ratId": "mock-rat-002"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-122",
+        "sampleRecordId": "mock-sample-record-032",
+        "sampleEventId": "mock-sample-record-032-event-checked",
+        "ratId": "mock-rat-002",
+        "collectedAt": "2026-05-24T14:32:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / CMR Overlap Box 002",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：於再捕捉事件取得的個體毛髮基因檢體。",
+        "createdAt": "2026-05-24T07:32:00.000Z",
+        "updatedAt": "2026-06-07T06:32:00.000Z",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-123",
+      "source": {
+        "sampleRecordId": "mock-sample-record-033",
+        "sampleEventId": "mock-sample-record-033-event-checked",
+        "ratId": "mock-rat-003"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-123",
+        "sampleRecordId": "mock-sample-record-033",
+        "sampleEventId": "mock-sample-record-033-event-checked",
+        "ratId": "mock-rat-003",
+        "collectedAt": "2026-05-28T09:00:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / CMR Overlap Box 003",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：於再捕捉事件取得的個體毛髮基因檢體。",
+        "createdAt": "2026-05-28T02:00:00.000Z",
+        "updatedAt": "2026-06-11T01:00:00.000Z",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-124",
+      "source": {
+        "sampleRecordId": "mock-sample-record-034",
+        "sampleEventId": "mock-sample-record-034-event-checked",
+        "ratId": "mock-rat-004"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-124",
+        "sampleRecordId": "mock-sample-record-034",
+        "sampleEventId": "mock-sample-record-034-event-checked",
+        "ratId": "mock-rat-004",
+        "collectedAt": "2026-06-02T14:35:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / CMR Overlap Box 004",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：於再捕捉事件取得的個體毛髮基因檢體。",
+        "createdAt": "2026-06-02T07:35:00.000Z",
+        "updatedAt": "2026-06-16T06:35:00.000Z",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-125",
+      "source": {
+        "sampleRecordId": "mock-sample-record-035",
+        "sampleEventId": "mock-sample-record-035-event-checked",
+        "ratId": "mock-rat-005"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-125",
+        "sampleRecordId": "mock-sample-record-035",
+        "sampleEventId": "mock-sample-record-035-event-checked",
+        "ratId": "mock-rat-005",
+        "collectedAt": "2026-06-06T09:03:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / CMR Overlap Box 005",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：於再捕捉事件取得的個體毛髮基因檢體。",
+        "createdAt": "2026-06-06T02:03:00.000Z",
+        "updatedAt": "2026-06-20T01:03:00.000Z",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-126",
+      "source": {
+        "sampleRecordId": "mock-sample-record-036",
+        "sampleEventId": "mock-sample-record-036-event-checked",
+        "ratId": "mock-rat-006"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-126",
+        "sampleRecordId": "mock-sample-record-036",
+        "sampleEventId": "mock-sample-record-036-event-checked",
+        "ratId": "mock-rat-006",
+        "collectedAt": "2026-06-10T13:31:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / CMR Overlap Box 006",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：於再捕捉事件取得的個體毛髮基因檢體。",
+        "createdAt": "2026-06-10T06:31:00.000Z",
+        "updatedAt": "2026-06-24T05:31:00.000Z",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-127",
+      "source": {
+        "sampleRecordId": "mock-sample-record-037",
+        "sampleEventId": "mock-sample-record-037-event-checked",
+        "ratId": "mock-rat-007"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-127",
+        "sampleRecordId": "mock-sample-record-037",
+        "sampleEventId": "mock-sample-record-037-event-checked",
+        "ratId": "mock-rat-007",
+        "collectedAt": "2026-06-13T16:52:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / CMR Overlap Box 007",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：於再捕捉事件取得的個體毛髮基因檢體。",
+        "createdAt": "2026-06-13T09:52:00.000Z",
+        "updatedAt": "2026-06-27T08:52:00.000Z",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-128",
+      "source": {
+        "sampleRecordId": "mock-sample-record-038",
+        "sampleEventId": "mock-sample-record-038-event-checked",
+        "ratId": "mock-rat-008"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-128",
+        "sampleRecordId": "mock-sample-record-038",
+        "sampleEventId": "mock-sample-record-038-event-checked",
+        "ratId": "mock-rat-008",
+        "collectedAt": "2026-06-19T13:34:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / CMR Overlap Box 008",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：於再捕捉事件取得的個體毛髮基因檢體。",
+        "createdAt": "2026-06-19T06:34:00.000Z",
+        "updatedAt": "2026-07-03T05:34:00.000Z",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-129",
+      "source": {
+        "sampleRecordId": "mock-sample-record-039",
+        "sampleEventId": "mock-sample-record-039-event-checked",
+        "ratId": "mock-rat-009"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-129",
+        "sampleRecordId": "mock-sample-record-039",
+        "sampleEventId": "mock-sample-record-039-event-checked",
+        "ratId": "mock-rat-009",
+        "collectedAt": "2026-06-22T16:55:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / CMR Overlap Box 009",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：於再捕捉事件取得的個體毛髮基因檢體。",
+        "createdAt": "2026-06-22T09:55:00.000Z",
+        "updatedAt": "2026-07-06T08:55:00.000Z",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-130",
+      "source": {
+        "sampleRecordId": "mock-sample-record-040",
+        "sampleEventId": "mock-sample-record-040-event-checked",
+        "ratId": "mock-rat-010"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-130",
+        "sampleRecordId": "mock-sample-record-040",
+        "sampleEventId": "mock-sample-record-040-event-checked",
+        "ratId": "mock-rat-010",
+        "collectedAt": "2026-06-27T12:30:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / CMR Overlap Box 010",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：於再捕捉事件取得的個體毛髮基因檢體。",
+        "createdAt": "2026-06-27T05:30:00.000Z",
+        "updatedAt": "2026-07-11T04:30:00.000Z",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-131",
+      "source": {
+        "sampleRecordId": "mock-sample-record-041",
+        "sampleEventId": "mock-sample-record-041-event-checked",
+        "ratId": "mock-rat-011"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-131",
+        "sampleRecordId": "mock-sample-record-041",
+        "sampleEventId": "mock-sample-record-041-event-checked",
+        "ratId": "mock-rat-011",
+        "collectedAt": "2026-06-30T15:51:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / CMR Overlap Box 011",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：於再捕捉事件取得的個體毛髮基因檢體。",
+        "createdAt": "2026-06-30T08:51:00.000Z",
+        "updatedAt": "2026-07-14T07:51:00.000Z",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-132",
+      "source": {
+        "sampleRecordId": "mock-sample-record-042",
+        "sampleEventId": "mock-sample-record-042-event-checked",
+        "ratId": "mock-rat-012"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-132",
+        "sampleRecordId": "mock-sample-record-042",
+        "sampleEventId": "mock-sample-record-042-event-checked",
+        "ratId": "mock-rat-012",
+        "collectedAt": "2026-07-05T11:26:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / CMR Overlap Box 012",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：於再捕捉事件取得的個體毛髮基因檢體。",
+        "createdAt": "2026-07-05T04:26:00.000Z",
+        "updatedAt": "2026-07-19T03:26:00.000Z",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-133",
+      "source": {
+        "sampleRecordId": "mock-sample-record-043",
+        "sampleEventId": "mock-sample-record-043-event-checked",
+        "ratId": "mock-rat-013"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-133",
+        "sampleRecordId": "mock-sample-record-043",
+        "sampleEventId": "mock-sample-record-043-event-checked",
+        "ratId": "mock-rat-013",
+        "collectedAt": "2026-07-08T14:47:00.000+08:00",
+        "collectedByUid": "mock-official-002",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / CMR Overlap Box 013",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：於再捕捉事件取得的個體毛髮基因檢體。",
+        "createdAt": "2026-07-08T07:47:00.000Z",
+        "updatedAt": "2026-07-22T06:47:00.000Z",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-134",
+      "source": {
+        "sampleRecordId": "mock-sample-record-044",
+        "sampleEventId": "mock-sample-record-044-event-checked",
+        "ratId": "mock-rat-014"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-134",
+        "sampleRecordId": "mock-sample-record-044",
+        "sampleEventId": "mock-sample-record-044-event-checked",
+        "ratId": "mock-rat-014",
+        "collectedAt": "2026-07-13T10:22:00.000+08:00",
+        "collectedByUid": "mock-official-003",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / CMR Overlap Box 014",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：於再捕捉事件取得的個體毛髮基因檢體。",
+        "createdAt": "2026-07-13T03:22:00.000Z",
+        "updatedAt": "2026-07-27T02:22:00.000Z",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-sample-135",
+      "source": {
+        "sampleRecordId": "mock-sample-record-045",
+        "sampleEventId": "mock-sample-record-045-event-checked",
+        "ratId": "mock-rat-015"
+      },
+      "data": {
+        "sampleId": "mock-genetic-sample-135",
+        "sampleRecordId": "mock-sample-record-045",
+        "sampleEventId": "mock-sample-record-045-event-checked",
+        "ratId": "mock-rat-015",
+        "collectedAt": "2026-07-16T13:43:00.000+08:00",
+        "collectedByUid": "mock-official-001",
+        "sampleType": "hair",
+        "storageLocation": "Mock Freezer A / CMR Overlap Box 015",
+        "laboratoryId": "mock-lab-taipei-001",
+        "analysisStatus": "pending",
+        "notes": "合成資料：於再捕捉事件取得的個體毛髮基因檢體。",
+        "createdAt": "2026-07-16T06:43:00.000Z",
+        "updatedAt": "2026-07-30T05:43:00.000Z",
+        "schemaVersion": 1
+      }
+    }
+  ]
+}
