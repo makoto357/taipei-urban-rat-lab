@@ -15,6 +15,7 @@ const ENGINE_LAYERS_BY_UI_KEY: Record<string, DataLayerKey[]> = {
   "control-rodenticide": ["controlRodenticide"],
   "control-unknown": ["controlUnknown"],
   market: ["markets"],
+  restaurant: ["restaurants"],
   "trash-bin": ["trashBins"],
   "garbage-stop": ["garbageStops"],
   park: ["parks"],
@@ -41,6 +42,7 @@ const ENGINE_LAYERS_BY_UI_KEY: Record<string, DataLayerKey[]> = {
   ],
   "cmp-env": [
     "markets",
+    "restaurants",
     "trashBins",
     "garbageStops",
     "parks",

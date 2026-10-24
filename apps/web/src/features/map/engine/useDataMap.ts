@@ -51,6 +51,7 @@ export type DataLayerKey =
   | "sewer"
   | "stormwater"
   | "markets"
+  | "restaurants"
   | "trashBins"
   | "garbageStops"
   | "parks"
@@ -90,6 +91,7 @@ const initialDataLayerVisibility: Record<DataLayerKey, boolean> = {
   sewer: false,
   stormwater: false,
   markets: false,
+  restaurants: false,
   trashBins: false,
   garbageStops: false,
   parks: false,
@@ -283,6 +285,14 @@ const pointDetailConfigs = {
       ["行政區", "行政區"],
       ["地址", "地址"],
       ["備註", "備註"],
+    ],
+  },
+  "environment-restaurants-triangle": {
+    title: "餐館",
+    fields: [
+      ["name", "名稱"],
+      ["address", "地址"],
+      ["businessId", "商業 ID"],
     ],
   },
   "environment-garbage-stops-star": {
@@ -730,6 +740,7 @@ export function useDataMap() {
           map,
           {
             markets: dataLayerVisibilityRef.current.markets,
+            restaurants: dataLayerVisibilityRef.current.restaurants,
             trashBins: dataLayerVisibilityRef.current.trashBins,
             garbageStops: dataLayerVisibilityRef.current.garbageStops,
             parks: dataLayerVisibilityRef.current.parks,
@@ -738,6 +749,7 @@ export function useDataMap() {
           deferredDataController.signal,
         );
         for (const layerId of [
+          "environment-restaurants-triangle",
           "environment-trash-bins-circle",
           "environment-garbage-stops-star",
         ]) {

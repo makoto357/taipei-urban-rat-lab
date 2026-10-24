@@ -5,6 +5,7 @@ export type LegendShape =
   | "ring"
   | "square"
   | "square-outline"
+  | "triangle"
   | "cell"
   | "star"
   | "pipe"
@@ -141,6 +142,14 @@ const TOPICS: MapTopic[] = [
         key: "market",
         label: "市場",
         shape: "square",
+        color: colors.map.green,
+        parentKey: "food-source",
+        indent: true,
+      },
+      {
+        key: "restaurant",
+        label: "餐館",
+        shape: "triangle",
         color: colors.map.green,
         parentKey: "food-source",
         indent: true,
@@ -398,6 +407,8 @@ export function legendSwatchClass(shape: LegendShape): string {
       return "border-[1.5px] border-ink";
     case "square-outline":
       return "border-[2px] bg-card";
+    case "triangle":
+      return "";
     case "cell":
       return "border border-ink opacity-55";
     case "star":
