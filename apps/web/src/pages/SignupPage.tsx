@@ -48,7 +48,7 @@ export function SignupPage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-[960px] flex-1 flex-col items-center gap-6 px-5 pb-18 pt-14">
+      <main className="mx-auto flex w-full max-w-[960px] flex-1 flex-col items-center gap-6 px-5 pb-[72px] pt-14">
         <div className="flex w-full max-w-[480px] flex-col gap-4">
           <Link to="/login" className="inline-flex min-h-11 items-center text-[15px] font-bold no-underline">
             ← 回登入

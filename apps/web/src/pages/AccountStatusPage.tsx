@@ -42,7 +42,7 @@ export function AccountStatusPage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-[960px] flex-1 flex-col items-center gap-6 px-5 pb-18 pt-14">
+      <main className="mx-auto flex w-full max-w-[960px] flex-1 flex-col items-center gap-6 px-5 pb-[72px] pt-14">
         <div className="flex w-full max-w-[520px] flex-col gap-5">
           <div className="box-border flex flex-col gap-4 border-2 border-ink bg-card px-9 pb-7 pt-8">
             <span className="font-label text-[13px] tracking-[0.1em] text-accent-text">{content.en}</span>

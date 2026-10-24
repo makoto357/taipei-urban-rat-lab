@@ -17,6 +17,10 @@ export function authErrorMessage(error: unknown): string {
         return "這個 Email 已經有帳號了，請改用登入。";
       case "auth/weak-password":
         return "密碼至少需要 8 碼。";
+      case "auth/popup-blocked":
+        return "瀏覽器擋住了登入視窗，請允許彈出視窗後再試。";
+      case "auth/unauthorized-domain":
+        return "這個網址尚未加入 Firebase 授權網域，Google 登入暫時無法使用。";
       case "auth/popup-closed-by-user":
         return "登入視窗已關閉，請再試一次。";
       default:

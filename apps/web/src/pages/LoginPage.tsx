@@ -18,7 +18,7 @@ export function LoginPage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-[960px] flex-1 flex-col items-center gap-8 px-5 pb-18 pt-14">
+      <main className="mx-auto flex w-full max-w-[960px] flex-1 flex-col items-center gap-8 px-5 pb-[72px] pt-14">
         {role === null ? <RoleChoice onPick={setRole} /> : <LoginForm role={role} onBack={() => setRole(null)} />}
       </main>
       <SiteFooter />
@@ -72,8 +72,10 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
   const isCitizen = role === "citizen";
   const { signInWithEmail, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // 只在 dev server 預填測試帳號（值來自 gitignored 的 .env.local），production build 不會帶入。
+  const prefill = import.meta.env.DEV && !isCitizen;
+  const [email, setEmail] = useState(prefill ? (import.meta.env.VITE_DEV_PREFILL_OFFICIAL_EMAIL ?? "") : "");
+  const [password, setPassword] = useState(prefill ? (import.meta.env.VITE_DEV_PREFILL_OFFICIAL_PASSWORD ?? "") : "");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -118,6 +120,7 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
       const user = await signInWithGoogle();
       await routeAfterSignIn(user);
     } catch (err) {
+      console.error("Google sign-in failed:", err);
       setError(authErrorMessage(err));
     }
   }

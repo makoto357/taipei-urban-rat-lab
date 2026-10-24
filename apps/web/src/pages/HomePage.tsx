@@ -235,7 +235,7 @@ function HowToRead() {
 
 function About() {
   return (
-    <section aria-labelledby="about" className="flex flex-wrap gap-x-16 gap-y-6 py-14 pb-18">
+    <section aria-labelledby="about" className="flex flex-wrap gap-x-16 gap-y-6 py-14 pb-[72px]">
       <div className="flex flex-[0_1_300px] items-baseline gap-3.5">
         <h2 id="about" className="m-0 text-[38px] font-black">
           關於這個計畫
