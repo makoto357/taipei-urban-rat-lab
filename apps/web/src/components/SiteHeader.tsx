@@ -1,4 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../features/auth/AuthProvider";
 
 const NAV_ITEMS = [
   { num: "01", label: "地圖", to: "/map" },
@@ -8,6 +9,13 @@ const NAV_ITEMS = [
 
 export function SiteHeader() {
   const { pathname } = useLocation();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  async function handleSignOut() {
+    await signOut();
+    navigate("/");
+  }
 
   return (
     <header className="mx-auto w-full max-w-container px-10 pt-7">
@@ -38,12 +46,23 @@ export function SiteHeader() {
               </span>
             );
           })}
-          <Link
-            to="/login"
-            className="ml-3 inline-flex min-h-11 items-center justify-center rounded-full bg-ink px-[22px] text-[15px] text-card no-underline"
-          >
-            登入
-          </Link>
+          {user ? (
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className="ml-2 inline-flex min-h-11 items-center justify-center rounded-full border-[1.5px] border-ink bg-transparent px-5 font-heading text-[15px] text-accent-text"
+            >
+              登出
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              aria-current={pathname === "/login" ? "page" : undefined}
+              className="ml-3 inline-flex min-h-11 items-center justify-center rounded-full bg-ink px-[22px] text-[15px] text-card no-underline"
+            >
+              登入
+            </Link>
+          )}
         </nav>
       </div>
       <div className="mt-[3px] h-px bg-ink" />

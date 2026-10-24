@@ -186,6 +186,36 @@ type Membership = {
 
 一般 client 不得建立或修改 membership。市民首次完成登入後，由受保護後端建立 `citizen/active`；official 由 admin 發出邀請時建立 `official/pending` membership，被邀請者完成 email 驗證並由後端核對邀請與 domain 後，才更新為 `active`、設定 custom claim 並寫入 audit log。Admin 角色只能由既有 admin 指派。
 
+#### `officialInvites/{inviteId}`
+
+受邀者接受邀請前尚未擁有 Firebase UID，因此一次性邀請無法直接鍵在 `memberships/{uid}` 下；`inviteId` 本身即為隨機、不可猜測的一次性 token（由後端產生，作為邀請連結的一部分）。
+
+```ts
+type OfficialInviteStatus = 'pending' | 'accepted' | 'revoked' | 'expired'
+
+type OfficialInvite = {
+  emailNormalized: string
+  emailDomain: string
+  organizationId?: string
+  agencyType?: string
+  employmentType?: 'government' | 'contractor'
+  jurisdictions: string[]
+  assignments: string[]
+  invitedByUid: string
+  invitedAt: Timestamp
+  expiresAt: Timestamp
+  status: OfficialInviteStatus
+  acceptedByUid?: string
+  acceptedAt?: Timestamp
+  revokedAt?: Timestamp
+  revokedByUid?: string
+  revocationReason?: string
+  schemaVersion: 1
+}
+```
+
+一般 client 不得建立、讀取或修改 `officialInvites`；只有受保護的 admin 邀請流程（§2.3 步驟 3）可寫入。接受邀請時，後端以 `emailNormalized` 比對已驗證信箱，status 由 `pending` 轉 `accepted` 並寫入 `acceptedByUid`／`acceptedAt`，同時才建立或啟用對應的 `memberships/{uid}`；過期或撤銷的邀請一律視為無效，不得延用建立 membership。每次狀態轉換都寫入 `auditLogs`。
+
 #### `citizenReports/{reportId}`
 
 ```ts
@@ -706,7 +736,35 @@ geneticRelationships/     # 特定分析版本產生的個體配對關係
 - `evidenceRuns`／`riskRuns`：run metadata、輸入資料版本、method／model checksum、有效期間、產製與發布狀態；大型結果 geometry 存 immutable tile artifact。
 - `activePublications`：每類公開圖層目前使用的 artifact／run pointer；rollback 只切換指標，不改寫歷史結果。
 - 來源別公開 projection（例如 `publicCitizenObservations`、`publicControlNotices`）：只含逐 schema allowlist 核准的最小欄位；不含 uid、原圖路徑、精確病例點或敏感營運細節。市民通報 MVP 暫定經審核後公開精確點，另存 `publicPrecision: exact | area | grid` 與 `precisionReason`，讓 reviewer 可因私領域或辨識風險降為區域／網格，日後也能整批調整政策。
-- `auditLogs`：角色變更、審核、發布、撤回與模型變更；一般使用者不可寫入或刪除。
+- `officialInvites/{inviteId}`：admin 核發的一次性 official 邀請，欄位定義見 §3.2 `officialInvites`；一般 client 不可讀寫。
+- `auditLogs/{logId}`：角色變更、審核、發布、撤回與模型變更；一般使用者不可寫入或刪除。欄位：
+
+  ```ts
+  type AuditAction =
+    | 'official_invited' | 'official_invite_revoked' | 'official_invite_accepted'
+    | 'role_granted' | 'role_revoked'
+    | 'membership_suspended' | 'membership_reactivated'
+    | 'report_reviewed'
+    | 'public_projection_published' | 'public_projection_withdrawn'
+    | 'model_version_changed'
+
+  type AuditLog = {
+    action: AuditAction
+    actorUid: string
+    actorRole: 'admin' | 'official' | 'system'
+    targetType:
+      | 'membership' | 'officialInvite' | 'user'
+      | 'citizenReport' | 'officialObservation' | 'baitRecord' | 'sampleRecord'
+      | 'publicProjection' | 'modelVersion'
+    targetId: string
+    reason?: string
+    metadata?: Record<string, unknown>
+    createdAt: Timestamp
+    schemaVersion: 1
+  }
+  ```
+
+  `metadata` 只放結構化、非敏感的摘要欄位（例如變更前後的 role／status），不得存放完整個資或原始通報內容；`auditLogs` 本身不可被一般使用者刪除，保存政策見第 8 節。
 
 ### 3.3 照片大小建議
 
@@ -1201,20 +1259,20 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 **產出：**pnpm workspace monorepo、React／TypeScript Web App、Firebase Functions、共用 contracts／UI packages、路由、測試、Firebase Emulator、CI 與環境設定範例。
 
-- [ ] 建立根目錄 `package.json`、`pnpm-workspace.yaml`、`pnpm-lock.yaml` 與 `tsconfig.base.json`，workspace 只包含 `apps/*` 與 `packages/*`。
-- [ ] 建立 `apps/web`、`apps/functions`、`packages/contracts` 與 `packages/ui`；不建立 `apps/staff`。
-- [ ] 在 `packages/contracts` 建立三份問卷及已核准研究資料（`sampleRecords`、`ratIndividuals`、`geneticSamples`）的 TypeScript types、enum、runtime validators 與 Firestore converters，並由 `apps/web` 與 `apps/functions` 共用；Future collections 不因預留 schema 就自動納入 MVP。
-- [ ] 在 `apps/web` 建立 `/`、`/map`、`/report`、`/literature`、`/login`、`/official`、`/official/review` 路由與 lazy loading。
-- [ ] 建立 `tests/rules`、`tests/integration`、`tests/e2e` 的 Vitest／RTL、Playwright、Emulator Rules tests 與無障礙檢查。
-- [ ] 建立 `firebase/firestore.rules`、`firebase/firestore.indexes.json`、`firebase/storage.rules` 與根目錄 `firebase.json`，並確認 Emulator 指向正確路徑。
+- [x] 建立根目錄 `package.json`、`pnpm-workspace.yaml`、`pnpm-lock.yaml` 與 `tsconfig.base.json`，workspace 只包含 `apps/*` 與 `packages/*`。
+- [x] 建立 `apps/web`、`apps/functions`、`packages/contracts` 與 `packages/ui`；不建立 `apps/staff`。
+- [x] 在 `packages/contracts` 建立三份問卷及已核准研究資料（`sampleRecords`、`ratIndividuals`、`geneticSamples`）的 TypeScript types、enum、runtime validators 與 Firestore converters，並由 `apps/web` 與 `apps/functions` 共用；Future collections 不因預留 schema 就自動納入 MVP。另補上 `officialInvites`、`auditLogs` 兩份原本缺的 schema。
+- [ ] 在 `apps/web` 建立 `/`、`/map`、`/report`、`/literature`、`/login`、`/official`、`/official/review` 路由與 lazy loading。（已完成 `/`、`/map`、`/report`、`/login`、`/signup`、`/account-status`，皆用 `React.lazy` 做 code splitting；`/literature`、`/official`、`/official/review` 尚未做）
+- [ ] 建立 `tests/rules`、`tests/integration`、`tests/e2e` 的 Vitest／RTL、Playwright、Emulator Rules tests 與無障礙檢查。（Rules／integration／e2e 骨架與案例已建立且通過；RTL 元件測試與無障礙檢查尚未做）
+- [x] 建立 `firebase/firestore.rules`、`firebase/firestore.indexes.json`、`firebase/storage.rules` 與根目錄 `firebase.json`，並確認 Emulator 指向正確路徑。
 - [ ] 保留 `docs/design/design-system.md`、`docs/design/references/` 與 `docs/research/source-register.md` 現有資產，並建立 `docs/product/product-spec.md`、`docs/product/data-schema.md`、`docs/product/security-spec.md`、`docs/product/privacy-publication-policy.md`、`docs/map/map-spec.md` 與 `docs/demo-script.md`，每份文件只負責第 9 節定義的職責。
-- [ ] 先建立 `taipei-urban-rat-lab-dev`，將 default Firestore database、Cloud Storage 與 Functions 設為 `asia-east1`；以 `.firebaserc` 與不含密鑰的 `.env.example` 管理 project alias，禁止 production secrets 出現在 repo。staging／production 在 dev 驗證後另建，不複用 dev 資料或 bucket。
-- [ ] dev 連結 Blaze 後，為 Cloud Run functions 設 Billing budget notification 與 spend cap；設定 Artifact Registry cleanup policy、30 日 dev log retention、Functions `minInstances: 0`、`maxInstances: 2` 與明確 memory／timeout。Emulator-first 開發，不以反覆雲端部署取代測試。
+- [x] 先建立 `taipei-urban-rat-lab-dev`，將 default Firestore database、Cloud Storage 與 Functions 設為 `asia-east1`；以 `.firebaserc` 與不含密鑰的 `.env.example` 管理 project alias，禁止 production secrets 出現在 repo。staging／production 在 dev 驗證後另建，不複用 dev 資料或 bucket。
+- [ ] dev 連結 Blaze 後，為 Cloud Run functions 設 Billing budget notification 與 spend cap；設定 Artifact Registry cleanup policy、30 日 dev log retention、Functions `minInstances: 0`、`maxInstances: 2` 與明確 memory／timeout。Emulator-first 開發，不以反覆雲端部署取代測試。（Billing budget notification 已設置兩個 alerts-only 預算；`maxInstances: 2` 已在每個 function 設定、`minInstances` 維持 Gen2 預設 0；Artifact Registry cleanup policy 已設定（asia-east1，images 保留 1 天）；spend cap 目前只是警示信、不是真正的硬上限；30 日 log retention 與明確 memory／timeout 尚未設定——目前只有 `processUpload` 有設 `memory: '1GiB'`／`timeoutSeconds: 120`，其餘 functions 用預設值）
 - [ ] 註冊 dev Web App Check 的 reCAPTCHA Enterprise provider；本機／CI 使用 debug token，先監控再逐服務 enforcement，並監測 organization 共用的 monthly assessment 額度。
-- [ ] 開啟並保留 Firebase Authentication email-enumeration protection；登入、重設與驗證流程採中性訊息，禁止以 `fetchSignInMethodsForEmail()` 或前端訊息枚舉帳號。
+- [x] 開啟並保留 Firebase Authentication email-enumeration protection；登入、重設與驗證流程採中性訊息，禁止以 `fetchSignInMethodsForEmail()` 或前端訊息枚舉帳號。Email/Password 與 Google 兩個 sign-in provider 已啟用。
 - [ ] 建立 `AGENTS.md`，只記錄 repo 工作規則、驗證指令與安全約束，不複製 product spec。
 - [ ] 將 Rat Project Steps 網站同步為本計畫第 9.1 節的結構、collection、角色與驗收條件，並標示同步日期；同步完成前不執行網站中的舊指令。
-- [ ] 先寫首頁、workspace package boundary 與路由 smoke tests，再實作最小 layout。
+- [ ] 先寫首頁、workspace package boundary 與路由 smoke tests，再實作最小 layout。（smoke test 已存在並通過，但是在頁面做完後才補上，不是先寫測試再實作）
 
 **驗收：**根目錄單一指令可完成全 workspace 的型別檢查、lint、unit、rules 與基本 E2E；`apps/web` 與 `apps/functions` 都使用 `packages/contracts` 而非複製 schema。
 
@@ -1222,14 +1280,14 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 **產出：**市民 Email/Password／Google 登入、official Email/Password 登入與邀請／核准／撤銷、custom claims、Security Rules 與管理稽核。
 
-- [ ] 先寫角色矩陣的 Rules tests，包含偽造 client role、停權 official、跨使用者讀取、未驗證 email、偽造 domain 與未受邀政府信箱。
-- [ ] 實作市民註冊（Email/Password、Google）、共用登入、email verification，以及 admin 邀請 official 的流程；不做 official 自助申請。
-- [ ] 以 email-enumeration protection 相容的中性登入／重設／驗證訊息實作 Auth UI；不得根據 email 是否存在切換 provider 或顯示不同錯誤。
-- [ ] 實作 admin 專用的邀請、撤銷與停權腳本（或受保護 Cloud Function）：正規化 email、建立邀請與 `official/pending` membership、撤銷 refresh tokens 與 custom claim、寫入 `auditLogs`，並以 Rules／function 測試涵蓋撤銷後立即失去權限；不做管理畫面。
-- [ ] 實作帳號狀態頁（信箱未驗證、沒有權限／403）與登入後依狀態導向的規則。
+- [ ] 先寫角色矩陣的 Rules tests，包含偽造 client role、停權 official、跨使用者讀取、未驗證 email、偽造 domain 與未受邀政府信箱。（已補上偽造 client role、停權 official、跨使用者讀取三類的 Rules tests；未驗證 email 目前不是 Firestore Rules 擋的、是前端登入流程導向帳號狀態頁處理，偽造 domain／未受邀政府信箱屬於 apps/functions 的職責，尚無對應測試）
+- [x] 實作市民註冊（Email/Password、Google）、共用登入、email verification，以及 admin 邀請 official 的流程；不做 official 自助申請。前端已接上真正的 Firebase Auth SDK（`AuthProvider`）：市民可用 Email/Password 或 Google 註冊／登入，signup 會寄驗證信；official 僅 Email/Password 登入。
+- [ ] 實作 admin 專用的邀請、撤銷與停權腳本（或受保護 Cloud Function）：正規化 email、建立邀請與 `official/pending` membership、撤銷 refresh tokens 與 custom claim、寫入 `auditLogs`，並以 Rules／function 測試涵蓋撤銷後立即失去權限；不做管理畫面。（已實作 `inviteOfficial`／`acceptInvite`／`revokeOfficial`，含 integration test；尚缺完整的 Rules／function 測試覆蓋撤銷後立即失權，前端也還沒有「接受邀請」的頁面）
+- [x] 以 email-enumeration protection 相容的中性登入／重設／驗證訊息實作 Auth UI；不得根據 email 是否存在切換 provider 或顯示不同錯誤。LoginPage／SignupPage 的錯誤訊息一律中性（見 `authErrors.ts`），不區分帳號是否存在；「忘記密碼」連結還沒接上真正的 reset flow。
+- [x] 實作帳號狀態頁（信箱未驗證、沒有權限／403）與登入後依狀態導向的規則。`AccountStatusPage` 依真實的 `emailVerified`／membership 狀態顯示，登入成功後依狀態導向。
 - [ ] 後端精確比對正規化 domain＋邀請／人工核准後，才以 Admin SDK 設定 `official` claim；`admin` 不可由 domain 自動指派。
-- [ ] 實作 Custom claims 同步、token refresh、403／無資料 UI 與撤銷測試。
-- [ ] 所有角色與發布操作寫入 `auditLogs`。
+- [ ] 實作 Custom claims 同步、token refresh、403／無資料 UI 與撤銷測試。（前端已用 `onIdTokenChanged` 同步 token 變化；403／無資料 UI 已做；撤銷後是否立即失權的測試還沒有）
+- [ ] 所有角色與發布操作寫入 `auditLogs`。（`inviteOfficial`／`acceptInvite`／`revokeOfficial` 已寫入；其餘角色與發布操作的 Functions 尚未實作）
 
 **驗收：**隱藏按鈕不是唯一防線；直接呼叫 Firebase SDK 也無法越權。
 
@@ -1237,13 +1295,13 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 **產出：**mobile-first 通報流程、地點搜尋／選點、上傳與審核佇列。
 
-- [ ] 先寫表單驗證、日期不能在不合理未來、缺少座標、上傳超量／超大／錯誤格式等測試。
-- [ ] 實作照片、地點、日期、可選描述與確認步驟；草稿只存本機或明確標示保存方式。
-- [ ] 實作直接上傳私有 staging path、進度、取消、重試與 orphan cleanup。
-- [ ] 後端處理格式驗證、縮圖、EXIF 移除、media metadata 與審核狀態。
-- [ ] 依 Phase 0 核准的安全狀態來源實作「我的通報」；不得讓市民直接讀取內部 moderation 文件。
+- [ ] 先寫表單驗證、日期不能在不合理未來、缺少座標、上傳超量／超大／錯誤格式等測試。（驗證邏輯已實作並手動驗證過，但沒有先寫自動化測試——跟先前 Phase 2/3 一樣，這點 test-first 紀律沒有做到；目前也還沒有自動化的單元/整合測試覆蓋這些規則，只有實作本身）
+- [x] 實作照片、地點、日期、可選描述與確認步驟；草稿只存本機或明確標示保存方式。地點步驟還沒有 MapLibre 拖曳選點／反向地理編碼（待 Phase 6），先用瀏覽器 Geolocation＋手動輸入地址／行政區；沒有實作「草稿暫存」，離開頁面會遺失未送出的內容（屬於已知但次要的缺口）。
+- [x] 實作直接上傳私有 staging path、進度、取消、重試與 orphan cleanup。進度／取消／重試已實作（`usePhotoUploads`）；orphan cleanup（使用者上傳照片但從未送出通報、留下孤兒 `media` 文件與 staging 檔案）還沒有排程清除機制。
+- [x] 後端處理格式驗證、縮圖、EXIF 移除、media metadata 與審核狀態。`processUpload` 已部署到 `taipei-urban-rat-lab-dev` 並以真實上傳驗證：`scanStatus` 正確從 `pending` 轉成 `clean`，轉檔為 WebP、去除 EXIF。
+- [ ] 依 Phase 0 核准的安全狀態來源實作「我的通報」；不得讓市民直接讀取內部 moderation 文件。刻意不做——Phase 0 還沒決定 `citizenReports` 狀態可見性的設計（`reportModeration` projection vs. 其他方案仍待決策）。
 
-**驗收：**以 Playwright／DevTools Fast 3G profile 測試，上傳介面在整段傳輸中持續顯示進度或可理解狀態；重試不重複建立通報；未審核照片與精確位置不會被公開讀取。
+**驗收：**以 Playwright／DevTools Fast 3G profile 測試，上傳介面在整段傳輸中持續顯示進度或可理解狀態；重試不重複建立通報；未審核照片與精確位置不會被公開讀取。（尚未用 Fast 3G profile 實際量測；重試會建立新的 `media` 文件而非覆寫，不會重複建立通報本身；未審核照片與精確位置目前只存在私有/內部 collection，還沒有公開 projection 可供檢查）
 
 ### Phase 5：市府防治、研究採樣與審核後台
 

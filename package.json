@@ -10,6 +10,20 @@
     "dev": "pnpm --filter @taipei-rat-lab/web dev",
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
-    "lint": "pnpm -r lint"
+    "lint": "pnpm -r lint",
+    "test": "pnpm run test:unit && pnpm run test:rules && pnpm run test:integration && pnpm run test:e2e",
+    "test:rules": "firebase emulators:exec --project taipei-urban-rat-lab-test --only firestore \"pnpm exec vitest run --config tests/rules/vitest.config.ts\"",
+    "test:integration": "pnpm --filter @taipei-rat-lab/functions build && firebase emulators:exec --project taipei-urban-rat-lab-test --only firestore,functions \"pnpm --filter @taipei-rat-lab/functions test:integration\"",
+    "test:e2e": "pnpm --filter @taipei-rat-lab/web test:e2e",
+    "test:unit": "pnpm -r --if-present test"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^3.0.4",
+    "@playwright/test": "^1.48.2",
+    "@types/node": "^22.10.2",
+    "firebase": "^10.14.1",
+    "firebase-admin": "^13.0.2",
+    "firebase-tools": "^13.31.2",
+    "vitest": "^2.1.9"
   }
 }
