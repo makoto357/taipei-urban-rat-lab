@@ -6,6 +6,7 @@ import { SiteFooter } from "../components/SiteFooter";
 import { useAuth } from "../features/auth/AuthProvider";
 import { db } from "../lib/firebase";
 import { LocationPicker } from "../features/map/LocationPicker";
+import { useGeocoder } from "../features/map/useGeocoder";
 import { usePhotoUploads, type PhotoUpload } from "../features/report/usePhotoUploads";
 import { photoFileError, isObservedAtReasonable } from "../features/report/validation";
 import { DISTRICTS, REPORT_STEPS, REPORT_TYPE_LABEL, SAFETY_NOTE, type ReportType } from "../features/report/steps";
@@ -43,6 +44,13 @@ export function ReportPage() {
   const [submittedReportId, setSubmittedReportId] = useState<string | null>(null);
 
   const photoUploads = usePhotoUploads(user?.uid ?? null);
+  const geocoder = useGeocoder({
+    onAddress: ({ addressText: text, district: found }) => {
+      setAddressText(text);
+      if (found) setDistrict(found);
+    },
+    onLocated: (picked) => setLocation({ ...picked, accuracyMeters: null }),
+  });
 
   const signedIn = Boolean(user);
   const canNextStep1 = reportType !== null;
@@ -64,6 +72,7 @@ export function ReportPage() {
           accuracyMeters: position.coords.accuracy,
         });
         setLocating(false);
+        void geocoder.lookupAddress(position.coords.latitude, position.coords.longitude);
       },
       () => {
         setLocationError("無法取得目前位置，請確認已允許定位權限，或手動輸入地址。");
@@ -178,6 +187,7 @@ export function ReportPage() {
                 locationError={locationError}
                 onUseCurrentLocation={useCurrentLocation}
                 setLocation={setLocation}
+                geocoder={geocoder}
                 addressText={addressText}
                 setAddressText={setAddressText}
                 district={district}
@@ -276,6 +286,7 @@ function ReportForm({
   locationError,
   onUseCurrentLocation,
   setLocation,
+  geocoder,
   addressText,
   setAddressText,
   district,
@@ -307,6 +318,7 @@ function ReportForm({
   locationError: string | null;
   onUseCurrentLocation: () => void;
   setLocation: (l: LocationState) => void;
+  geocoder: ReturnType<typeof useGeocoder>;
   addressText: string;
   setAddressText: (v: string) => void;
   district: string;
@@ -411,9 +423,23 @@ function ReportForm({
                 type="text"
                 value={addressText}
                 onChange={(e) => setAddressText(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    void geocoder.locateAddress(addressText);
+                  }
+                }}
                 placeholder="輸入地址或地標"
                 className="min-w-0 flex-1 border-0 bg-transparent text-[15px] outline-none"
               />
+              <button
+                type="button"
+                onClick={() => void geocoder.locateAddress(addressText)}
+                disabled={geocoder.busy || addressText.trim() === ""}
+                className="min-h-9 border-[1.5px] border-ink bg-card px-3 font-heading text-[13px] font-bold disabled:opacity-50"
+              >
+                在地圖上定位
+              </button>
             </label>
             <label className="flex min-h-11 flex-[1_1_160px] items-center border-[1.5px] border-ink bg-paper px-3 font-body">
               <select
@@ -445,8 +471,17 @@ function ReportForm({
           </div>
           <LocationPicker
             value={location}
-            onChange={(picked) => setLocation({ ...picked, accuracyMeters: null })}
+            onChange={(picked) => {
+              setLocation({ ...picked, accuracyMeters: null });
+              void geocoder.lookupAddress(picked.latitude, picked.longitude);
+            }}
           />
+          {geocoder.busy && <p role="status" className="m-0 font-body text-[13px]">查詢地址中…</p>}
+          {geocoder.error && (
+            <p role="alert" className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.6]">
+              {geocoder.error}
+            </p>
+          )}
           {locationError && (
             <p className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.6]">
               {locationError}
@@ -464,7 +499,7 @@ function ReportForm({
               </p>
             )}
           </div>
-          <p className="m-0 font-body text-xs text-[#4A463C]">你確認地點前，我們不會送出任何定位資料。</p>
+          <p className="m-0 font-body text-xs text-[#4A463C]">點地圖或按「在地圖上定位」時，座標或地址會傳給 OpenStreetMap 的地址服務（Nominatim）轉換；通報送出前，這些資料不會存到我們這裡。</p>
         </section>
       )}
 
@@ -584,6 +619,13 @@ function PhotoTile({ photo, onRemove }: { photo: PhotoUpload; onRemove: () => vo
             : "border-ink bg-unknown"
         }`}
       >
+        <img
+          src={photo.previewUrl}
+          alt={`已選擇的照片：${photo.fileName}`}
+          className={`absolute inset-0 h-full w-full object-cover ${
+            photo.status === "rejected" || photo.status === "upload_error" ? "opacity-40" : ""
+          }`}
+        />
         {photo.status === "uploading" && (
           <div
             role="progressbar"
@@ -591,21 +633,22 @@ function PhotoTile({ photo, onRemove }: { photo: PhotoUpload; onRemove: () => vo
             aria-valuenow={photo.progress}
             aria-valuemin={0}
             aria-valuemax={100}
-            className="h-2 w-full border border-ink bg-card"
+            className="relative h-2 w-full border border-ink bg-card"
           >
             <div className="h-full bg-ink" style={{ width: `${photo.progress}%` }} />
           </div>
         )}
-        {photo.status === "processing" && <span className="text-xs text-[#4A463C]">處理中…</span>}
-        {(photo.status === "rejected" || photo.status === "upload_error") && (
-          <span className="text-[13px] font-bold text-accent-text">{label}</span>
+        {photo.status === "processing" && (
+          <span className="relative bg-card px-2 py-0.5 text-xs text-[#4A463C]">處理中…</span>
         )}
-        {photo.status === "clean" && <span className="text-xs text-[#4A463C]">已處理完成</span>}
-        <button
+        {(photo.status === "rejected" || photo.status === "upload_error") && (
+          <span className="relative bg-card px-2 py-0.5 text-[13px] font-bold text-accent-text">{label}</span>
+        )}
+                <button
           type="button"
           onClick={onRemove}
           aria-label={`移除 ${photo.fileName}`}
-          className="absolute right-1.5 top-1.5 flex h-8 w-8 items-center justify-center rounded-full border-[1.5px] border-ink bg-card text-lg leading-none"
+          className="absolute right-1.5 top-1.5 z-10 flex h-8 w-8 items-center justify-center rounded-full border-[1.5px] border-ink bg-card text-lg leading-none"
         >
           ×
         </button>

@@ -30,6 +30,7 @@ import { photoFileError, isObservedAtReasonable } from "../../features/report/va
 import { DISTRICTS } from "../../features/report/steps";
 import { db, functions } from "../../lib/firebase";
 import { LocationPicker } from "../../features/map/LocationPicker";
+import { useGeocoder } from "../../features/map/useGeocoder";
 
 type RecordTab = "survey" | "bait";
 
@@ -122,6 +123,13 @@ function LocationFields({
   onUseCurrentLocation: () => void;
   onPick: (l: { latitude: number; longitude: number }) => void;
 }) {
+  const geocoder = useGeocoder({
+    onAddress: ({ addressText: text, district: found }) => {
+      setAddressText(text);
+      if (found) setDistrict(found);
+    },
+    onLocated: onPick,
+  });
   return (
     <section className="flex flex-col gap-3">
       <h2 className="m-0 font-heading text-xl font-black">地點與時間</h2>
@@ -132,9 +140,23 @@ function LocationFields({
             type="text"
             value={addressText}
             onChange={(e) => setAddressText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                void geocoder.locateAddress(addressText);
+              }
+            }}
             placeholder="輸入地址或地標"
             className="min-w-0 flex-1 border-0 bg-transparent text-[15px] outline-none"
           />
+          <button
+            type="button"
+            onClick={() => void geocoder.locateAddress(addressText)}
+            disabled={geocoder.busy || addressText.trim() === ""}
+            className="min-h-9 border-[1.5px] border-ink bg-card px-3 font-heading text-[13px] font-bold disabled:opacity-50"
+          >
+            在地圖上定位
+          </button>
         </label>
         <select
           value={district}
@@ -157,7 +179,16 @@ function LocationFields({
           {locating ? "定位中…" : "使用目前位置"}
         </button>
       </div>
-      <LocationPicker value={location} onChange={onPick} className="relative h-[240px] border-[1.5px] border-ink" />
+      <LocationPicker
+        value={location}
+        onChange={(picked) => {
+          onPick(picked);
+          void geocoder.lookupAddress(picked.latitude, picked.longitude);
+        }}
+        className="relative h-[240px] border-[1.5px] border-ink"
+      />
+      {geocoder.busy && <p role="status" className="m-0 font-body text-xs">查詢地址中…</p>}
+      {geocoder.error && <p role="alert" className="m-0 font-body text-xs text-accent-text">{geocoder.error}</p>}
       {locationError && <p className="m-0 font-body text-xs text-accent-text">{locationError}</p>}
       {location && (
         <p className="m-0 font-body text-xs text-[#4A463C]">
@@ -209,8 +240,9 @@ function PhotoPicker({ photos, onSelect, onRemove }: {
       {photos.length > 0 && (
         <ul className="m-0 flex list-none flex-col gap-1.5 p-0 font-body text-[13px]">
           {photos.map((p) => (
-            <li key={p.mediaId} className="flex items-center justify-between border-[1.5px] border-ink bg-paper px-3 py-1.5">
-              <span>
+            <li key={p.mediaId} className="flex items-center justify-between gap-3 border-[1.5px] border-ink bg-paper px-3 py-1.5">
+              <img src={p.previewUrl} alt={`已選擇的照片：${p.fileName}`} className="h-14 w-14 shrink-0 border border-ink object-cover" />
+              <span className="min-w-0 flex-1 break-words">
                 {p.fileName} —{" "}
                 {p.status === "uploading" ? `上傳中 ${p.progress}%` : p.status === "processing" ? "處理中" : p.status === "clean" ? "完成" : "失敗"}
               </span>

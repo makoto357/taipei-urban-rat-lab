@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { collection, doc, onSnapshot, serverTimestamp, setDoc } from "firebase/firestore";
 import { ref, uploadBytesResumable, type UploadTask } from "firebase/storage";
 import { db, storage } from "../../lib/firebase";
@@ -18,6 +18,8 @@ export interface PhotoUpload {
   mediaId: string;
   fileName: string;
   storagePath: string;
+  /** 本機預覽（blob URL），不會上傳；移除或離開頁面時釋放。 */
+  previewUrl: string;
   progress: number;
   status: PhotoUploadStatus;
 }
@@ -34,13 +36,30 @@ export function usePhotoUploads(uid: string | null) {
   const tasksRef = useRef<Map<string, UploadTask>>(new Map());
   const unsubscribersRef = useRef<Map<string, () => void>>(new Map());
 
+  const previewUrlsRef = useRef<Map<string, string>>(new Map());
+
+  const revokePreview = useCallback((mediaId: string) => {
+    const url = previewUrlsRef.current.get(mediaId);
+    if (url) URL.revokeObjectURL(url);
+    previewUrlsRef.current.delete(mediaId);
+  }, []);
+
+  useEffect(() => {
+    const urls = previewUrlsRef.current;
+    return () => {
+      urls.forEach((url) => URL.revokeObjectURL(url));
+      urls.clear();
+    };
+  }, []);
+
   const removePhoto = useCallback((mediaId: string) => {
+    revokePreview(mediaId);
     tasksRef.current.get(mediaId)?.cancel();
     tasksRef.current.delete(mediaId);
     unsubscribersRef.current.get(mediaId)?.();
     unsubscribersRef.current.delete(mediaId);
     setPhotos((current) => current.filter((p) => p.mediaId !== mediaId));
-  }, []);
+  }, [revokePreview]);
 
   const addPhoto = useCallback(
     async (file: File) => {
@@ -48,9 +67,12 @@ export function usePhotoUploads(uid: string | null) {
       const mediaId = doc(collection(db, "media")).id;
       const storagePath = `staging/${uid}/${mediaId}`;
 
+      const previewUrl = URL.createObjectURL(file);
+      previewUrlsRef.current.set(mediaId, previewUrl);
+
       setPhotos((current) => [
         ...current,
-        { mediaId, fileName: file.name, storagePath, progress: 0, status: "uploading" },
+        { mediaId, fileName: file.name, storagePath, previewUrl, progress: 0, status: "uploading" },
       ]);
 
       try {
