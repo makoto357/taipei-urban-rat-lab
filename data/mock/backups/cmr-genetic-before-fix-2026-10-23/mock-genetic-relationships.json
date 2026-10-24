@@ -1,0 +1,1240 @@
+{
+  "collection": "geneticRelationships",
+  "provenance": "synthetic_mock",
+  "generatedAt": "2026-10-23T00:00:00+08:00",
+  "schemaVersion": 1,
+  "coordinateReferenceSystem": "OGC:CRS84",
+  "notes": [
+    "All operational, capture, specimen and analysis contents are synthetic.",
+    "Locations inherit validated interior points from mock-official-observations.json.",
+    "The source object is fixture metadata and must not be written into Firestore document data.",
+    "Future/demo collection: relationship classes, coefficients and confidence are invented.",
+    "Relationship lines must never be presented as observed movement paths."
+  ],
+  "documents": [
+    {
+      "id": "mock-genetic-relationship-001",
+      "source": {
+        "ratIdA": "mock-rat-001",
+        "ratIdB": "mock-rat-002",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-001",
+        "ratIdB": "mock-rat-002",
+        "relationshipType": "parent_offspring",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-002",
+      "source": {
+        "ratIdA": "mock-rat-002",
+        "ratIdB": "mock-rat-003",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-002",
+        "ratIdB": "mock-rat-003",
+        "relationshipType": "full_sibling",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-003",
+      "source": {
+        "ratIdA": "mock-rat-003",
+        "ratIdB": "mock-rat-004",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-003",
+        "ratIdB": "mock-rat-004",
+        "relationshipType": "half_sibling",
+        "relatednessCoefficient": 0.25,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-004",
+      "source": {
+        "ratIdA": "mock-rat-004",
+        "ratIdB": "mock-rat-005",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-004",
+        "ratIdB": "mock-rat-005",
+        "relationshipType": "other_related",
+        "relatednessCoefficient": 0.125,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-005",
+      "source": {
+        "ratIdA": "mock-rat-005",
+        "ratIdB": "mock-rat-006",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-005",
+        "ratIdB": "mock-rat-006",
+        "relationshipType": "uncertain",
+        "relatednessCoefficient": 0.08,
+        "confidence": "low",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-006",
+      "source": {
+        "ratIdA": "mock-rat-006",
+        "ratIdB": "mock-rat-007",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-006",
+        "ratIdB": "mock-rat-007",
+        "relationshipType": "parent_offspring",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-007",
+      "source": {
+        "ratIdA": "mock-rat-007",
+        "ratIdB": "mock-rat-008",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-007",
+        "ratIdB": "mock-rat-008",
+        "relationshipType": "full_sibling",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-008",
+      "source": {
+        "ratIdA": "mock-rat-008",
+        "ratIdB": "mock-rat-009",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-008",
+        "ratIdB": "mock-rat-009",
+        "relationshipType": "half_sibling",
+        "relatednessCoefficient": 0.25,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-009",
+      "source": {
+        "ratIdA": "mock-rat-009",
+        "ratIdB": "mock-rat-010",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-009",
+        "ratIdB": "mock-rat-010",
+        "relationshipType": "other_related",
+        "relatednessCoefficient": 0.125,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-010",
+      "source": {
+        "ratIdA": "mock-rat-010",
+        "ratIdB": "mock-rat-011",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-010",
+        "ratIdB": "mock-rat-011",
+        "relationshipType": "uncertain",
+        "relatednessCoefficient": 0.08,
+        "confidence": "low",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-011",
+      "source": {
+        "ratIdA": "mock-rat-011",
+        "ratIdB": "mock-rat-012",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-011",
+        "ratIdB": "mock-rat-012",
+        "relationshipType": "parent_offspring",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-012",
+      "source": {
+        "ratIdA": "mock-rat-012",
+        "ratIdB": "mock-rat-013",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-012",
+        "ratIdB": "mock-rat-013",
+        "relationshipType": "full_sibling",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-013",
+      "source": {
+        "ratIdA": "mock-rat-013",
+        "ratIdB": "mock-rat-014",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-013",
+        "ratIdB": "mock-rat-014",
+        "relationshipType": "half_sibling",
+        "relatednessCoefficient": 0.25,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-014",
+      "source": {
+        "ratIdA": "mock-rat-014",
+        "ratIdB": "mock-rat-015",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-014",
+        "ratIdB": "mock-rat-015",
+        "relationshipType": "other_related",
+        "relatednessCoefficient": 0.125,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-015",
+      "source": {
+        "ratIdA": "mock-rat-015",
+        "ratIdB": "mock-rat-016",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-015",
+        "ratIdB": "mock-rat-016",
+        "relationshipType": "uncertain",
+        "relatednessCoefficient": 0.08,
+        "confidence": "low",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-016",
+      "source": {
+        "ratIdA": "mock-rat-016",
+        "ratIdB": "mock-rat-017",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-016",
+        "ratIdB": "mock-rat-017",
+        "relationshipType": "parent_offspring",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-017",
+      "source": {
+        "ratIdA": "mock-rat-017",
+        "ratIdB": "mock-rat-018",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-017",
+        "ratIdB": "mock-rat-018",
+        "relationshipType": "full_sibling",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-018",
+      "source": {
+        "ratIdA": "mock-rat-018",
+        "ratIdB": "mock-rat-019",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-018",
+        "ratIdB": "mock-rat-019",
+        "relationshipType": "half_sibling",
+        "relatednessCoefficient": 0.25,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-019",
+      "source": {
+        "ratIdA": "mock-rat-019",
+        "ratIdB": "mock-rat-020",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-019",
+        "ratIdB": "mock-rat-020",
+        "relationshipType": "other_related",
+        "relatednessCoefficient": 0.125,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-020",
+      "source": {
+        "ratIdA": "mock-rat-020",
+        "ratIdB": "mock-rat-021",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-020",
+        "ratIdB": "mock-rat-021",
+        "relationshipType": "uncertain",
+        "relatednessCoefficient": 0.08,
+        "confidence": "low",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-021",
+      "source": {
+        "ratIdA": "mock-rat-021",
+        "ratIdB": "mock-rat-022",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-021",
+        "ratIdB": "mock-rat-022",
+        "relationshipType": "parent_offspring",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-022",
+      "source": {
+        "ratIdA": "mock-rat-022",
+        "ratIdB": "mock-rat-023",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-022",
+        "ratIdB": "mock-rat-023",
+        "relationshipType": "full_sibling",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-023",
+      "source": {
+        "ratIdA": "mock-rat-023",
+        "ratIdB": "mock-rat-024",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-023",
+        "ratIdB": "mock-rat-024",
+        "relationshipType": "half_sibling",
+        "relatednessCoefficient": 0.25,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-024",
+      "source": {
+        "ratIdA": "mock-rat-024",
+        "ratIdB": "mock-rat-025",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-024",
+        "ratIdB": "mock-rat-025",
+        "relationshipType": "other_related",
+        "relatednessCoefficient": 0.125,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-025",
+      "source": {
+        "ratIdA": "mock-rat-025",
+        "ratIdB": "mock-rat-026",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-025",
+        "ratIdB": "mock-rat-026",
+        "relationshipType": "uncertain",
+        "relatednessCoefficient": 0.08,
+        "confidence": "low",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-026",
+      "source": {
+        "ratIdA": "mock-rat-026",
+        "ratIdB": "mock-rat-027",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-026",
+        "ratIdB": "mock-rat-027",
+        "relationshipType": "parent_offspring",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-027",
+      "source": {
+        "ratIdA": "mock-rat-027",
+        "ratIdB": "mock-rat-028",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-027",
+        "ratIdB": "mock-rat-028",
+        "relationshipType": "full_sibling",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-028",
+      "source": {
+        "ratIdA": "mock-rat-028",
+        "ratIdB": "mock-rat-029",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-028",
+        "ratIdB": "mock-rat-029",
+        "relationshipType": "half_sibling",
+        "relatednessCoefficient": 0.25,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-029",
+      "source": {
+        "ratIdA": "mock-rat-029",
+        "ratIdB": "mock-rat-030",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-029",
+        "ratIdB": "mock-rat-030",
+        "relationshipType": "other_related",
+        "relatednessCoefficient": 0.125,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-030",
+      "source": {
+        "ratIdA": "mock-rat-030",
+        "ratIdB": "mock-rat-031",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-030",
+        "ratIdB": "mock-rat-031",
+        "relationshipType": "uncertain",
+        "relatednessCoefficient": 0.08,
+        "confidence": "low",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-031",
+      "source": {
+        "ratIdA": "mock-rat-031",
+        "ratIdB": "mock-rat-032",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-031",
+        "ratIdB": "mock-rat-032",
+        "relationshipType": "parent_offspring",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-032",
+      "source": {
+        "ratIdA": "mock-rat-032",
+        "ratIdB": "mock-rat-033",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-032",
+        "ratIdB": "mock-rat-033",
+        "relationshipType": "full_sibling",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-033",
+      "source": {
+        "ratIdA": "mock-rat-033",
+        "ratIdB": "mock-rat-034",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-033",
+        "ratIdB": "mock-rat-034",
+        "relationshipType": "half_sibling",
+        "relatednessCoefficient": 0.25,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-034",
+      "source": {
+        "ratIdA": "mock-rat-034",
+        "ratIdB": "mock-rat-035",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-034",
+        "ratIdB": "mock-rat-035",
+        "relationshipType": "other_related",
+        "relatednessCoefficient": 0.125,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-035",
+      "source": {
+        "ratIdA": "mock-rat-035",
+        "ratIdB": "mock-rat-036",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-035",
+        "ratIdB": "mock-rat-036",
+        "relationshipType": "uncertain",
+        "relatednessCoefficient": 0.08,
+        "confidence": "low",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-036",
+      "source": {
+        "ratIdA": "mock-rat-036",
+        "ratIdB": "mock-rat-037",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-036",
+        "ratIdB": "mock-rat-037",
+        "relationshipType": "parent_offspring",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-037",
+      "source": {
+        "ratIdA": "mock-rat-037",
+        "ratIdB": "mock-rat-038",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-037",
+        "ratIdB": "mock-rat-038",
+        "relationshipType": "full_sibling",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-038",
+      "source": {
+        "ratIdA": "mock-rat-038",
+        "ratIdB": "mock-rat-039",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-038",
+        "ratIdB": "mock-rat-039",
+        "relationshipType": "half_sibling",
+        "relatednessCoefficient": 0.25,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-039",
+      "source": {
+        "ratIdA": "mock-rat-039",
+        "ratIdB": "mock-rat-040",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-039",
+        "ratIdB": "mock-rat-040",
+        "relationshipType": "other_related",
+        "relatednessCoefficient": 0.125,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-040",
+      "source": {
+        "ratIdA": "mock-rat-040",
+        "ratIdB": "mock-rat-041",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-040",
+        "ratIdB": "mock-rat-041",
+        "relationshipType": "uncertain",
+        "relatednessCoefficient": 0.08,
+        "confidence": "low",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-041",
+      "source": {
+        "ratIdA": "mock-rat-041",
+        "ratIdB": "mock-rat-042",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-041",
+        "ratIdB": "mock-rat-042",
+        "relationshipType": "parent_offspring",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-042",
+      "source": {
+        "ratIdA": "mock-rat-042",
+        "ratIdB": "mock-rat-043",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-042",
+        "ratIdB": "mock-rat-043",
+        "relationshipType": "full_sibling",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-043",
+      "source": {
+        "ratIdA": "mock-rat-043",
+        "ratIdB": "mock-rat-044",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-043",
+        "ratIdB": "mock-rat-044",
+        "relationshipType": "half_sibling",
+        "relatednessCoefficient": 0.25,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-044",
+      "source": {
+        "ratIdA": "mock-rat-044",
+        "ratIdB": "mock-rat-045",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-044",
+        "ratIdB": "mock-rat-045",
+        "relationshipType": "other_related",
+        "relatednessCoefficient": 0.125,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-045",
+      "source": {
+        "ratIdA": "mock-rat-045",
+        "ratIdB": "mock-rat-046",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-045",
+        "ratIdB": "mock-rat-046",
+        "relationshipType": "uncertain",
+        "relatednessCoefficient": 0.08,
+        "confidence": "low",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-046",
+      "source": {
+        "ratIdA": "mock-rat-046",
+        "ratIdB": "mock-rat-047",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-046",
+        "ratIdB": "mock-rat-047",
+        "relationshipType": "parent_offspring",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-047",
+      "source": {
+        "ratIdA": "mock-rat-047",
+        "ratIdB": "mock-rat-048",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-047",
+        "ratIdB": "mock-rat-048",
+        "relationshipType": "full_sibling",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-048",
+      "source": {
+        "ratIdA": "mock-rat-001",
+        "ratIdB": "mock-rat-048",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-001",
+        "ratIdB": "mock-rat-048",
+        "relationshipType": "half_sibling",
+        "relatednessCoefficient": 0.25,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-049",
+      "source": {
+        "ratIdA": "mock-rat-001",
+        "ratIdB": "mock-rat-004",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-001",
+        "ratIdB": "mock-rat-004",
+        "relationshipType": "other_related",
+        "relatednessCoefficient": 0.125,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-050",
+      "source": {
+        "ratIdA": "mock-rat-002",
+        "ratIdB": "mock-rat-005",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-002",
+        "ratIdB": "mock-rat-005",
+        "relationshipType": "uncertain",
+        "relatednessCoefficient": 0.08,
+        "confidence": "low",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-051",
+      "source": {
+        "ratIdA": "mock-rat-003",
+        "ratIdB": "mock-rat-006",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-003",
+        "ratIdB": "mock-rat-006",
+        "relationshipType": "parent_offspring",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-052",
+      "source": {
+        "ratIdA": "mock-rat-004",
+        "ratIdB": "mock-rat-007",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-004",
+        "ratIdB": "mock-rat-007",
+        "relationshipType": "full_sibling",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-053",
+      "source": {
+        "ratIdA": "mock-rat-005",
+        "ratIdB": "mock-rat-008",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-005",
+        "ratIdB": "mock-rat-008",
+        "relationshipType": "half_sibling",
+        "relatednessCoefficient": 0.25,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-054",
+      "source": {
+        "ratIdA": "mock-rat-006",
+        "ratIdB": "mock-rat-009",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-006",
+        "ratIdB": "mock-rat-009",
+        "relationshipType": "other_related",
+        "relatednessCoefficient": 0.125,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-055",
+      "source": {
+        "ratIdA": "mock-rat-007",
+        "ratIdB": "mock-rat-010",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-007",
+        "ratIdB": "mock-rat-010",
+        "relationshipType": "uncertain",
+        "relatednessCoefficient": 0.08,
+        "confidence": "low",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-056",
+      "source": {
+        "ratIdA": "mock-rat-008",
+        "ratIdB": "mock-rat-011",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-008",
+        "ratIdB": "mock-rat-011",
+        "relationshipType": "parent_offspring",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-057",
+      "source": {
+        "ratIdA": "mock-rat-009",
+        "ratIdB": "mock-rat-012",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-009",
+        "ratIdB": "mock-rat-012",
+        "relationshipType": "full_sibling",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-058",
+      "source": {
+        "ratIdA": "mock-rat-010",
+        "ratIdB": "mock-rat-013",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-010",
+        "ratIdB": "mock-rat-013",
+        "relationshipType": "half_sibling",
+        "relatednessCoefficient": 0.25,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-059",
+      "source": {
+        "ratIdA": "mock-rat-011",
+        "ratIdB": "mock-rat-014",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-011",
+        "ratIdB": "mock-rat-014",
+        "relationshipType": "other_related",
+        "relatednessCoefficient": 0.125,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-060",
+      "source": {
+        "ratIdA": "mock-rat-012",
+        "ratIdB": "mock-rat-015",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-012",
+        "ratIdB": "mock-rat-015",
+        "relationshipType": "uncertain",
+        "relatednessCoefficient": 0.08,
+        "confidence": "low",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-061",
+      "source": {
+        "ratIdA": "mock-rat-013",
+        "ratIdB": "mock-rat-016",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-013",
+        "ratIdB": "mock-rat-016",
+        "relationshipType": "parent_offspring",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-062",
+      "source": {
+        "ratIdA": "mock-rat-014",
+        "ratIdB": "mock-rat-017",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-014",
+        "ratIdB": "mock-rat-017",
+        "relationshipType": "full_sibling",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-063",
+      "source": {
+        "ratIdA": "mock-rat-015",
+        "ratIdB": "mock-rat-018",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-015",
+        "ratIdB": "mock-rat-018",
+        "relationshipType": "half_sibling",
+        "relatednessCoefficient": 0.25,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-064",
+      "source": {
+        "ratIdA": "mock-rat-016",
+        "ratIdB": "mock-rat-019",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-016",
+        "ratIdB": "mock-rat-019",
+        "relationshipType": "other_related",
+        "relatednessCoefficient": 0.125,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-065",
+      "source": {
+        "ratIdA": "mock-rat-017",
+        "ratIdB": "mock-rat-020",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-017",
+        "ratIdB": "mock-rat-020",
+        "relationshipType": "uncertain",
+        "relatednessCoefficient": 0.08,
+        "confidence": "low",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-066",
+      "source": {
+        "ratIdA": "mock-rat-018",
+        "ratIdB": "mock-rat-021",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-018",
+        "ratIdB": "mock-rat-021",
+        "relationshipType": "parent_offspring",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-067",
+      "source": {
+        "ratIdA": "mock-rat-019",
+        "ratIdB": "mock-rat-022",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-019",
+        "ratIdB": "mock-rat-022",
+        "relationshipType": "full_sibling",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-068",
+      "source": {
+        "ratIdA": "mock-rat-020",
+        "ratIdB": "mock-rat-023",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-020",
+        "ratIdB": "mock-rat-023",
+        "relationshipType": "half_sibling",
+        "relatednessCoefficient": 0.25,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-069",
+      "source": {
+        "ratIdA": "mock-rat-021",
+        "ratIdB": "mock-rat-024",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-021",
+        "ratIdB": "mock-rat-024",
+        "relationshipType": "other_related",
+        "relatednessCoefficient": 0.125,
+        "confidence": "medium",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-070",
+      "source": {
+        "ratIdA": "mock-rat-022",
+        "ratIdB": "mock-rat-025",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-022",
+        "ratIdB": "mock-rat-025",
+        "relationshipType": "uncertain",
+        "relatednessCoefficient": 0.08,
+        "confidence": "low",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-071",
+      "source": {
+        "ratIdA": "mock-rat-023",
+        "ratIdB": "mock-rat-026",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-023",
+        "ratIdB": "mock-rat-026",
+        "relationshipType": "parent_offspring",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-genetic-relationship-072",
+      "source": {
+        "ratIdA": "mock-rat-024",
+        "ratIdB": "mock-rat-027",
+        "analysisId": "mock-genetic-analysis-relatedness-v1"
+      },
+      "data": {
+        "ratIdA": "mock-rat-024",
+        "ratIdB": "mock-rat-027",
+        "relationshipType": "full_sibling",
+        "relatednessCoefficient": 0.5,
+        "confidence": "high",
+        "analysisId": "mock-genetic-analysis-relatedness-v1",
+        "schemaVersion": 1
+      }
+    }
+  ]
+}

@@ -1,4 +1,3 @@
-import { lazy, Suspense, type ReactNode } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import { RootLayout } from "./RootLayout";
 

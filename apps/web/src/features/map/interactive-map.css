@@ -1,0 +1,81 @@
+.project-map .maplibregl-ctrl-group {
+  overflow: hidden;
+  border: 1.5px solid #000;
+  border-radius: 0;
+  background: #fdf9ed;
+  box-shadow: none;
+}
+
+.project-map .maplibregl-ctrl-group button {
+  width: 44px;
+  height: 44px;
+  border-bottom: 1.5px solid #000;
+  border-radius: 0;
+  background-color: #fdf9ed;
+}
+
+.project-map .maplibregl-ctrl-group button:last-child {
+  border-bottom: 0;
+}
+
+.project-map .maplibregl-ctrl-group button:hover,
+.project-map .maplibregl-ctrl-group button:focus-visible {
+  background-color: #d65b37;
+}
+
+.project-map .maplibregl-popup-content {
+  max-width: 300px;
+  border: 1.5px solid #000;
+  border-radius: 0;
+  background: #fdf9ed;
+  padding: 14px;
+  box-shadow: 4px 4px 0 rgb(0 0 0 / 18%);
+  font-family: "Noto Sans TC", system-ui, sans-serif;
+}
+
+.project-map .report-popup {
+  display: grid;
+  gap: 7px;
+  color: #000;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.project-map .report-popup-title {
+  color: #b4472a;
+  font-family: "Noto Serif TC", serif;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.project-map .report-popup-row {
+  display: grid;
+  grid-template-columns: 5em minmax(0, 1fr);
+  gap: 8px;
+}
+
+.project-map .report-popup-label {
+  color: #6b6658;
+  font-weight: 500;
+}
+
+.project-map .report-popup-photo {
+  width: 100%;
+  max-height: 180px;
+  border: 1px solid #000;
+  object-fit: cover;
+}
+
+.project-map .mock-popup-detail {
+  white-space: pre-line;
+}
+
+.project-map .mock-popup-notice {
+  margin: 2px 0 0;
+  border: 1px solid #776a97;
+  background: #f4eedd;
+  padding: 7px;
+  color: #594e73;
+  font-size: 11px;
+  line-height: 1.5;
+}
