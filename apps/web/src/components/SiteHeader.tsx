@@ -7,9 +7,19 @@ const NAV_ITEMS = [
   { num: "03", label: "知識", to: "/literature" },
 ] as const;
 
+/** 市府人員不使用市民通報表單（Rules 只允許 citizen 建立），改由作業平台新增紀錄。 */
+const OFFICIAL_NAV_ITEMS = [
+  NAV_ITEMS[0],
+  { num: "02", label: "作業平台", to: "/official" },
+  NAV_ITEMS[2],
+] as const;
+
 export function SiteHeader() {
   const { pathname } = useLocation();
-  const { user, signOut } = useAuth();
+  const { user, membership, signOut } = useAuth();
+  const isOfficial =
+    membership?.status === "active" && (membership.role === "official" || membership.role === "admin");
+  const navItems = isOfficial ? OFFICIAL_NAV_ITEMS : NAV_ITEMS;
   const navigate = useNavigate();
 
   async function handleSignOut() {
@@ -24,8 +34,8 @@ export function SiteHeader() {
           TAIPEI RAT LAB
         </Link>
         <nav aria-label="主要頁面" className="flex flex-wrap items-center gap-x-1 gap-y-1.5 text-base font-bold">
-          {NAV_ITEMS.map((item, i) => {
-            const active = pathname === item.to;
+          {navItems.map((item, i) => {
+            const active = pathname === item.to || (item.to === "/official" && pathname.startsWith("/official"));
             return (
               <span key={item.to} className="flex items-center gap-1">
                 <Link
@@ -38,7 +48,7 @@ export function SiteHeader() {
                   <span className="font-label text-accent-text">{item.num}</span>
                   {item.label}
                 </Link>
-                {i < NAV_ITEMS.length - 1 && (
+                {i < navItems.length - 1 && (
                   <span aria-hidden="true" className="text-muted">
                     /
                   </span>

@@ -38,8 +38,15 @@ function StaffNavActions() {
       <Link to="/map" className="inline-flex min-h-11 items-center gap-1.5 px-2.5 no-underline">
         <span className="font-label text-accent-text">01</span>地圖
       </Link>
-      <Link to="/report" className="inline-flex min-h-11 items-center gap-1.5 px-2.5 no-underline">
-        <span className="font-label text-accent-text">02</span>通報
+      <Link
+        to="/official"
+        aria-current="page"
+        className="inline-flex min-h-11 items-center gap-1.5 px-2.5 no-underline underline decoration-2 underline-offset-[6px]"
+      >
+        <span className="font-label text-accent-text">02</span>作業平台
+      </Link>
+      <Link to="/literature" className="inline-flex min-h-11 items-center gap-1.5 px-2.5 no-underline">
+        <span className="font-label text-accent-text">03</span>知識
       </Link>
       <button
         type="button"

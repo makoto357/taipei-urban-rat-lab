@@ -84,11 +84,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [user?.uid]);
 
   const membershipLoading = user !== null && resolvedUid !== user.uid;
+  // 換帳號時，上一位使用者的 membership 在新快照回來前不能被當成目前使用者的。
+  const currentMembership = membershipLoading ? null : membership;
 
   const value = useMemo<AuthContextValue>(
     () => ({
       user,
-      membership,
+      membership: currentMembership,
       membershipLoading,
       loading,
       async signInWithGoogle() {
@@ -111,7 +113,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         await firebaseSignOut(auth);
       },
     }),
-    [user, membership, membershipLoading, loading],
+    [user, currentMembership, membershipLoading, loading],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

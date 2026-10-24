@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { addDoc, collection, serverTimestamp, Timestamp } from "firebase/firestore";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
@@ -26,7 +26,9 @@ interface LocationState {
  * 地圖為 MapLibre＋OSM 點擊／拖曳選點，反向地理編碼與正式 tile provider 留到 Phase 6。
  */
 export function ReportPage() {
-  const { user, loading } = useAuth();
+  const { user, membership, loading } = useAuth();
+  const isOfficial =
+    membership?.status === "active" && (membership.role === "official" || membership.role === "admin");
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [reportType, setReportType] = useState<ReportType | null>(null);
@@ -127,8 +129,13 @@ export function ReportPage() {
         schemaVersion: 1,
       });
       setSubmittedReportId(reference.id);
-    } catch {
-      setSubmitError("送出失敗，請確認網路連線後再試一次。");
+    } catch (error) {
+      const code = (error as { code?: string }).code;
+      setSubmitError(
+        code === "permission-denied"
+          ? "這個帳號沒有送出通報的權限。請確認已用一般市民帳號登入並完成信箱驗證。"
+          : "送出失敗，請確認網路連線後再試一次。",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -170,6 +177,19 @@ export function ReportPage() {
           <div className="min-w-0 flex-[999_1_560px] max-w-[720px]">
             {!signedIn ? (
               <GateCard onStart={() => navigate("/login")} />
+            ) : isOfficial ? (
+              <div className="flex flex-col gap-4 border-2 border-ink bg-card px-8 py-7">
+                <h2 className="m-0 text-[26px] font-black">市府人員請使用作業平台</h2>
+                <p className="m-0 font-body text-[15px] leading-[1.85]">
+                  這個表單是給一般市民通報用的，市府人員帳號無法送出。請到作業平台新增調查或投藥紀錄。
+                </p>
+                <Link
+                  to="/official/record"
+                  className="inline-flex min-h-12 items-center self-start border-2 border-ink bg-ink px-6 font-bold text-card no-underline hover:text-card"
+                >
+                  前往作業平台新增紀錄
+                </Link>
+              </div>
             ) : done ? (
               <DoneCard reportType={reportType} reportId={submittedReportId} onRestart={restart} />
             ) : (
