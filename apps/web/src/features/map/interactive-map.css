@@ -1,3 +1,10 @@
+/* maplibre-gl.css sets .maplibregl-map { position: relative }; when it loads after
+   Tailwind (lazy route chunk) it would collapse the absolute container to 0 height. */
+.project-map.maplibregl-map {
+  position: absolute;
+  inset: 0;
+}
+
 .project-map .maplibregl-ctrl-group {
   overflow: hidden;
   border: 1.5px solid #000;
