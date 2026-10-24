@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { doc, onSnapshot, serverTimestamp, setDoc } from "firebase/firestore";
+import { collection, doc, onSnapshot, serverTimestamp, setDoc } from "firebase/firestore";
 import { ref, uploadBytesResumable, type UploadTask } from "firebase/storage";
 import { db, storage } from "../../lib/firebase";
 
@@ -45,7 +45,7 @@ export function usePhotoUploads(uid: string | null) {
   const addPhoto = useCallback(
     async (file: File) => {
       if (!uid) return;
-      const mediaId = doc(db, "media").id;
+      const mediaId = doc(collection(db, "media")).id;
       const storagePath = `staging/${uid}/${mediaId}`;
 
       setPhotos((current) => [

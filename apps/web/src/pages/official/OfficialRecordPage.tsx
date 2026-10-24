@@ -29,6 +29,7 @@ import { usePhotoUploads } from "../../features/report/usePhotoUploads";
 import { photoFileError, isObservedAtReasonable } from "../../features/report/validation";
 import { DISTRICTS } from "../../features/report/steps";
 import { db, functions } from "../../lib/firebase";
+import { LocationPicker } from "../../features/map/LocationPicker";
 
 type RecordTab = "survey" | "bait";
 
@@ -109,6 +110,7 @@ function LocationFields({
   locating,
   locationError,
   onUseCurrentLocation,
+  onPick,
 }: {
   addressText: string;
   setAddressText: (v: string) => void;
@@ -118,6 +120,7 @@ function LocationFields({
   locating: boolean;
   locationError: string | null;
   onUseCurrentLocation: () => void;
+  onPick: (l: { latitude: number; longitude: number }) => void;
 }) {
   return (
     <section className="flex flex-col gap-3">
@@ -154,6 +157,7 @@ function LocationFields({
           {locating ? "定位中…" : "使用目前位置"}
         </button>
       </div>
+      <LocationPicker value={location} onChange={onPick} className="relative h-[240px] border-[1.5px] border-ink" />
       {locationError && <p className="m-0 font-body text-xs text-accent-text">{locationError}</p>}
       {location && (
         <p className="m-0 font-body text-xs text-[#4A463C]">
@@ -189,7 +193,7 @@ function useLocationCapture() {
     );
   }
 
-  return { location, locating, locationError, useCurrentLocation };
+  return { location, setLocation, locating, locationError, useCurrentLocation };
 }
 
 function PhotoPicker({ photos, onSelect, onRemove }: {
@@ -328,6 +332,7 @@ function SurveyForm({ organizationId }: { organizationId: string | undefined }) 
         locating={loc.locating}
         locationError={loc.locationError}
         onUseCurrentLocation={loc.useCurrentLocation}
+        onPick={loc.setLocation}
       />
       <div className="flex flex-wrap gap-3">
         <label className="flex flex-[1_1_160px] flex-col gap-1.5 text-[13px]">
@@ -569,6 +574,7 @@ function BaitForm({ organizationId }: { organizationId: string | undefined }) {
         locating={loc.locating}
         locationError={loc.locationError}
         onUseCurrentLocation={loc.useCurrentLocation}
+        onPick={loc.setLocation}
       />
       <div className="flex flex-wrap gap-3">
         <label className="flex flex-[1_1_160px] flex-col gap-1.5 text-[13px]">

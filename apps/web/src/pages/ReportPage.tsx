@@ -5,6 +5,7 @@ import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
 import { useAuth } from "../features/auth/AuthProvider";
 import { db } from "../lib/firebase";
+import { LocationPicker } from "../features/map/LocationPicker";
 import { usePhotoUploads, type PhotoUpload } from "../features/report/usePhotoUploads";
 import { photoFileError, isObservedAtReasonable } from "../features/report/validation";
 import { DISTRICTS, REPORT_STEPS, REPORT_TYPE_LABEL, SAFETY_NOTE, type ReportType } from "../features/report/steps";
@@ -21,7 +22,7 @@ interface LocationState {
  * 照片走 Cloud Storage staging 上傳 + apps/functions processUpload 的真實管線
  * （見 features/report/usePhotoUploads）。地點步驟還沒有接 MapLibre（Phase 6），
  * 先用「使用目前位置」（瀏覽器 Geolocation）取得座標、手動輸入地址與行政區；
- * 地圖標記拖曳與反向地理編碼留到 Phase 6。
+ * 地圖為 MapLibre＋OSM 點擊／拖曳選點，反向地理編碼與正式 tile provider 留到 Phase 6。
  */
 export function ReportPage() {
   const { user, loading } = useAuth();
@@ -176,6 +177,7 @@ export function ReportPage() {
                 locating={locating}
                 locationError={locationError}
                 onUseCurrentLocation={useCurrentLocation}
+                setLocation={setLocation}
                 addressText={addressText}
                 setAddressText={setAddressText}
                 district={district}
@@ -273,6 +275,7 @@ function ReportForm({
   locating,
   locationError,
   onUseCurrentLocation,
+  setLocation,
   addressText,
   setAddressText,
   district,
@@ -303,6 +306,7 @@ function ReportForm({
   locating: boolean;
   locationError: string | null;
   onUseCurrentLocation: () => void;
+  setLocation: (l: LocationState) => void;
   addressText: string;
   setAddressText: (v: string) => void;
   district: string;
@@ -439,16 +443,10 @@ function ReportForm({
               {locating ? "定位中…" : "使用目前位置"}
             </button>
           </div>
-          <div
-            role="img"
-            aria-label="選擇地點的地圖（尺寸預留，地圖引擎尚未接入）"
-            className="relative flex h-[300px] items-center justify-center border-[1.5px] border-ink bg-[#E4E2DC]"
-          >
-            <p className="m-0 font-body text-sm text-muted">地圖區域（尺寸預留）</p>
-            <p className="absolute left-3 top-3 m-0 border-[1.5px] border-ink bg-card px-2.5 py-1.5 font-body text-xs">
-              目前尚未支援拖曳地圖選點，請用「使用目前位置」或輸入地址
-            </p>
-          </div>
+          <LocationPicker
+            value={location}
+            onChange={(picked) => setLocation({ ...picked, accuracyMeters: null })}
+          />
           {locationError && (
             <p className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.6]">
               {locationError}
