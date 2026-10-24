@@ -42,6 +42,7 @@ export type DataLayerKey =
   | "riskCitizen"
   | "riskGovernment"
   | "riskFoodSource"
+  | "riskShelter"
   | "riskGroundMovement"
   | "riskUndergroundMovement"
   | "ratReports"
@@ -82,6 +83,7 @@ const initialDataLayerVisibility: Record<DataLayerKey, boolean> = {
   riskCitizen: true,
   riskGovernment: true,
   riskFoodSource: true,
+  riskShelter: true,
   riskGroundMovement: true,
   riskUndergroundMovement: true,
   ratReports: true,
@@ -119,6 +121,7 @@ const dataLayerIds: Record<DataLayerKey, readonly string[]> = {
   riskCitizen: [],
   riskGovernment: [],
   riskFoodSource: [],
+  riskShelter: [],
   riskGroundMovement: [],
   riskUndergroundMovement: [],
   ratReports: ["citizen-reports-rat-circle"],
@@ -145,7 +148,8 @@ const createDataLayerVisibility = (
 const getRiskFactorMask = (visibility: Record<DataLayerKey, boolean>) =>
   (visibility.riskCitizen ? 1 : 0) |
   (visibility.riskGovernment ? 2 : 0) |
-  (visibility.riskFoodSource ? 4 : 0);
+  (visibility.riskFoodSource ? 4 : 0) |
+  (visibility.riskShelter ? 8 : 0);
 
 const createCompositeRiskExpression = (
   visibility: Record<DataLayerKey, boolean>,
@@ -467,6 +471,7 @@ const createRatLandusePopupContent = (
     ["民眾通報因子", Number(properties.risk_citizen ?? 0).toFixed(2)],
     ["政府調查因子", Number(properties.risk_government ?? 0).toFixed(2)],
     ["食物來源因子", Number(properties.risk_food_source ?? 0).toFixed(2)],
+    ["躲藏空間因子", Number(properties.risk_shelter ?? 0).toFixed(2)],
     ["地面移動", visibility.riskGroundMovement ? "已套用" : "未套用"],
     [
       "下水道移動",

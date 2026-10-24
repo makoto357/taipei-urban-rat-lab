@@ -292,7 +292,7 @@ const TOPICS: MapTopic[] = [
         id: "environment",
         number: "02",
         label: "環境條件",
-        layerKeys: ["risk-food-source"],
+        layerKeys: ["risk-food-source", "risk-shelter"],
       },
       {
         id: "movement",
@@ -321,6 +321,12 @@ const TOPICS: MapTopic[] = [
         label: "食物來源",
         shape: "circle",
         color: colors.map.green,
+      },
+      {
+        key: "risk-shelter",
+        label: "躲藏空間",
+        shape: "circle",
+        color: "#58A960",
       },
       {
         key: "risk-ground-movement",

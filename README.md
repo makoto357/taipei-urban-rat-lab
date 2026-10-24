@@ -80,7 +80,7 @@
 
 - 真實來源但授權待確認的民眾鼠跡通報，以及模擬防治紀錄。
 - 模擬政府調查結果：確認鼠跡、已排除；無法判定不顯示。
-- 市場、垃圾桶、停留超過 30 分鐘的垃圾車停靠點。
+- 市場、餐館、垃圾桶、停留超過 30 分鐘的垃圾車停靠點。
 - 公園、雜物／閒置空間。
 - 污水及雨水下水道管線與人孔。
 - 模擬防治、標記再捕、基因樣本及親緣關係研究資料。
@@ -89,20 +89,22 @@
 
 ## 探索性風險模型
 
-模型以土地使用 polygon component 為分析單元，將三個被勾選的基礎因子等權重平均：
+模型以土地使用 polygon component 為分析單元，將四個被勾選的基礎因子依 `3:3:1:1` 加權：
 
 1. 民眾通報
 2. 政府調查
 3. 食物來源
+4. 躲藏空間
 
-民眾通報與政府調查屬於觀測證據，可以沿地面或下水道連通圖傳遞最多 2 hops。食物來源只代表當地潛在棲地適宜性，不會向其他街廓傳遞。
+民眾通報與政府調查屬於觀測證據，可以沿地面或下水道連通圖傳遞最多 2 hops。食物來源與躲藏空間只代表當地潛在環境條件，不會向其他街廓傳遞。
 
 ```text
 final_score = (
-  selected propagated_citizen_score
-  + selected propagated_government_score
+  3 × selected propagated_citizen_score
+  + 3 × selected propagated_government_score
   + selected local_food_score
-) / selected_factor_count
+  + selected local_shelter_score
+) / selected_weight_sum
 ```
 
 各因子先依面積調整，再以正分 component 的 P95 正規化。地面移動保留距離衰減與道路阻隔；污水及雨水系統分開計算，不會在同一條路徑中混接。

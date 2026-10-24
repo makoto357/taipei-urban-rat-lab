@@ -31,6 +31,7 @@ const ENGINE_LAYERS_BY_UI_KEY: Record<string, DataLayerKey[]> = {
   "risk-citizen": ["riskCitizen"],
   "risk-government": ["riskGovernment"],
   "risk-food-source": ["riskFoodSource"],
+  "risk-shelter": ["riskShelter"],
   "risk-ground-movement": ["riskGroundMovement"],
   "risk-underground-movement": ["riskUndergroundMovement"],
   "cmp-obs": ["ratReports", "officialEvidence", "officialNoEvidence"],
