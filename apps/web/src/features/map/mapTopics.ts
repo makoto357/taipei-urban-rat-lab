@@ -287,7 +287,7 @@ const TOPICS: MapTopic[] = [
       { label: "L3", description: "相對中等", color: colors.activity.l2 },
       { label: "L4", description: "相對較低", color: colors.activity.l1 },
       { label: "L5", description: "相對最低", color: colors.activity.l0 },
-      { label: "未分級", description: "No fill" },
+      { label: "unrated", description: "資料不足" },
     ],
     riskLevelNote:
       "依目前選取因子的加權分數，以有分數街廓的最高與最低值重新映射；不代表實際鼠口數量或感染風險。",
