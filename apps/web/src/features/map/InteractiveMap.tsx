@@ -34,7 +34,14 @@ const ENGINE_LAYERS_BY_UI_KEY: Record<string, DataLayerKey[]> = {
   "risk-shelter": ["riskShelter"],
   "risk-ground-movement": ["riskGroundMovement"],
   "risk-underground-movement": ["riskUndergroundMovement"],
-  "cmp-obs": ["ratReports", "officialEvidence", "officialNoEvidence"],
+  "cmp-risk": ["ratLanduse"],
+  "cmp-obs": [
+    "ratReports",
+    "officialEvidence",
+    "officialNoEvidence",
+    "riskCitizen",
+    "riskGovernment",
+  ],
   "cmp-bait": [
     "baitReports",
     "controlContraceptive",
@@ -50,7 +57,20 @@ const ENGINE_LAYERS_BY_UI_KEY: Record<string, DataLayerKey[]> = {
     "vacantSpaces",
     "sewer",
     "stormwater",
+    "riskFoodSource",
+    "riskShelter",
   ],
+  "cmp-research": [
+    "sampleRecords",
+    "captureEncounters",
+    "geneticSamples",
+    "geneticRelationshipNodes",
+    "geneticParentRelationships",
+    "geneticSiblingRelationships",
+    "geneticOtherRelationships",
+  ],
+  "cmp-ground-movement": ["riskGroundMovement"],
+  "cmp-underground-movement": ["riskUndergroundMovement"],
 };
 
 export const getEngineLayers = (uiLayerKey: string): DataLayerKey[] =>

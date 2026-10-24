@@ -23,6 +23,7 @@ export interface MapLayer {
   indent?: boolean;
   lineWidth?: number;
   disabled?: boolean;
+  requiresAnyLayerKeys?: string[];
   /** 預設關閉（對應 Artifact 腳本中的 off: true） */
   defaultOff?: boolean;
 }
@@ -38,6 +39,13 @@ export interface MapTopic {
   factorList?: boolean;
   factorSections?: Array<{
     id: "observation" | "environment" | "movement";
+    number: string;
+    label: string;
+    layerKeys: string[];
+    description?: string;
+  }>;
+  supplementalSections?: Array<{
+    id: string;
     number: string;
     label: string;
     layerKeys: string[];
@@ -347,25 +355,58 @@ const TOPICS: MapTopic[] = [
   {
     zh: "綜合比較",
     en: "COMPARISON",
+    supplementalSections: [
+      {
+        id: "movement",
+        number: "03",
+        label: "空間傳遞",
+        layerKeys: ["cmp-ground-movement", "cmp-underground-movement"],
+      },
+    ],
     layers: [
       {
+        key: "cmp-risk",
+        label: "風險模型",
+        shape: "cell",
+        color: colors.activity.l1,
+      },
+      {
         key: "cmp-obs",
-        label: "鼠跡觀測",
+        label: "鼠跡分佈",
         shape: "circle",
         color: colors.accent,
       },
       {
         key: "cmp-bait",
-        label: "餌劑通報與防治作業",
+        label: "投藥紀錄",
         shape: "circle",
-        color: colors.map.purple,
+        color: "#D90F7D",
       },
       {
         key: "cmp-env",
-        label: "下水道環境",
+        label: "環境因子",
         shape: "square",
         color: colors.map.green,
-        defaultOff: true,
+      },
+      {
+        key: "cmp-research",
+        label: "鼠群研究",
+        shape: "line-dot",
+        color: "#4388E8",
+      },
+      {
+        key: "cmp-ground-movement",
+        label: "地面移動",
+        shape: "circle",
+        color: colors.ink,
+        requiresAnyLayerKeys: ["cmp-obs"],
+      },
+      {
+        key: "cmp-underground-movement",
+        label: "下水道移動",
+        shape: "circle",
+        color: colors.ink,
+        requiresAnyLayerKeys: ["cmp-obs"],
       },
     ],
   },

@@ -38,17 +38,26 @@ export function MapPage() {
     return configured.map((layer) => {
       const disabledByObservation =
         movementKeys.has(layer.key) && !hasSelectedObservation;
+      const disabledByRequirement = Boolean(
+        layer.requiresAnyLayerKeys?.length &&
+          !layer.requiresAnyLayerKeys.some((key) => enabledByKey.get(key)),
+      );
       return {
         ...layer,
-        interactionDisabled: Boolean(layer.disabled || disabledByObservation),
+        interactionDisabled: Boolean(
+          layer.disabled || disabledByObservation || disabledByRequirement,
+        ),
         disabledReason: layer.disabled
           ? "目前沒有可用的地理資料"
           : disabledByObservation
             ? "請先選擇民眾通報或政府調查"
+            : disabledByRequirement
+              ? "請先選擇鼠跡分佈"
             : undefined,
         effectiveOn:
           layer.on &&
           !disabledByObservation &&
+          !disabledByRequirement &&
           (!layer.parentKey || enabledByKey.get(layer.parentKey) !== false),
       };
     });
@@ -67,6 +76,9 @@ export function MapPage() {
     if (selectedDistrict) visible.add("districts");
     return [...visible];
   }, [layers, selectedDistrict, topic]);
+  const supplementalLayerKeys = new Set(
+    topic.supplementalSections?.flatMap((section) => section.layerKeys) ?? [],
+  );
 
   function toggleLayer(key: string, currentlyOn: boolean) {
     const nextOn = !currentlyOn;
@@ -246,7 +258,36 @@ export function MapPage() {
                   ))}
                 </div>
               ) : (
-                layers.map(renderLayerControl)
+                <>
+                  {layers
+                    .filter((layer) => !supplementalLayerKeys.has(layer.key))
+                    .map(renderLayerControl)}
+                  {topic.supplementalSections?.map((section) => (
+                    <section
+                      key={section.id}
+                      className="mt-2 border-t border-ink/25 py-3"
+                    >
+                      <h3 className="m-0 mb-1.5 flex items-baseline gap-2 font-heading text-sm font-black">
+                        <span className="font-label text-xs tracking-[0.08em]">
+                          {section.number}
+                        </span>
+                        <span aria-hidden="true">—</span>
+                        <span>{section.label}</span>
+                      </h3>
+                      {section.layerKeys.map((key) => {
+                        const layer = layers.find(
+                          (candidate) => candidate.key === key,
+                        );
+                        return layer ? renderLayerControl(layer) : null;
+                      })}
+                      {section.description && (
+                        <p className="m-0 mt-1.5 text-xs leading-[1.55] text-muted">
+                          {section.description}
+                        </p>
+                      )}
+                    </section>
+                  ))}
+                </>
               )}
             </div>
 
