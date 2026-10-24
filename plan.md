@@ -1307,8 +1307,8 @@ Phase 不是完全線性：Phase 2 完成後，通報／權限、GIS 與文獻�
 
 **產出：**市府鼠跡調查表單、防治紀錄＋只可追加的 action events、採樣／CMR／基因檢體紀錄、查核到期、通報審核與公開投影。
 
-- [ ] 先寫事件狀態測試，特別測試「removed 不等於 safe」、更正不刪歷史、不同單位不可互改。
-- [ ] 實作 official 的「鼠跡調查」與「投藥紀錄」兩個 tab（採樣紀錄 tab 在研究治理 gate 通過後才啟用）；投藥紀錄以 `events[].actions` 複選當次行動，照片寫入該 event 的 `photoPaths`。
+- [ ] 先寫事件狀態測試，特別測試「removed 不等於 safe」、更正不刪歷史、不同單位不可互改。（僅有 `appendBaitEvent` 輸入解析的單元測試，含「removed 不產生任何安全狀態」；「不同單位不可互改」「更正不刪歷史」已在函式內以 transaction 實作並手動驗證，但沒有 emulator 層級的自動化測試；測試也是後補，非 test-first）
+- [x] 實作 official 的「鼠跡調查」與「投藥紀錄」兩個 tab（採樣紀錄 tab 在研究治理 gate 通過後才啟用）；投藥紀錄以 `events[].actions` 複選當次行動，照片寫入該 event 的 `photoPaths`。。已實作 `/official/record`（`OfficialRecordPage`）並對真實 dev 專案驗證：鼠跡調查寫入 `officialObservations`；投藥紀錄先建立空 events 的 `baitRecords`，再經新的受保護 callable `appendBaitEvent`（append-only transaction、單位比對）追加事件。採樣 tab 顯示但停用；尚無「correction」事件的 UI。
 - [ ] 先寫研究資料關聯測試：`eventId` 建立後保持穩定、`firstCapture` 指向存在的 record＋event、`captureStatus` 不因缺少標記自動判為首次捕捉、未採樣時段不可建立零捕獲。
 - [ ] 在 Phase 0 研究治理 gate 通過後，實作 `sampleRecords.events[].captures`、`ratIndividuals` 與 `geneticSamples` 的 official-only 建立／讀取流程；個體首次捕捉與選填的單一基因檢體關聯由受保護後端 transaction 驗證，client 不可自行建立互相矛盾的雙向 reference。
 - [ ] MVP 不實作族群數量估算、正式親緣推論或 `geneticAnalyses`／`geneticRelationships` 寫入流程；若 demo 需要，以隔離的 mock fixtures 與清楚標示的 projection 驗證 UI。

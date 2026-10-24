@@ -12,10 +12,10 @@ import { useAuth } from "../features/auth/AuthProvider";
  * - 其餘情況代表帳號正常，導回首頁。
  */
 export function AccountStatusPage() {
-  const { user, membership, loading, resendVerificationEmail, signOut } = useAuth();
+  const { user, membership, loading, membershipLoading, resendVerificationEmail, signOut } = useAuth();
   const [resent, setResent] = useState(false);
 
-  if (loading) return null;
+  if (loading || (user && membershipLoading)) return null;
   if (!user) return <Navigate to="/login" replace />;
 
   const status: "unverified" | "noAccess" | "ok" = !user.emailVerified

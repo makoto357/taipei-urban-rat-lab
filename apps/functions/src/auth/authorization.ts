@@ -35,3 +35,16 @@ export const requireAdmin = (request: CallableRequest<unknown>): string => {
   }
   return request.auth.uid;
 };
+
+/**
+ * Routine fieldwork writes (調查/投藥/採樣 events) require an active official
+ * or admin token, but — unlike requireAdmin — not a recent re-authentication;
+ * plan.md only calls out recent re-auth for high-privilege admin operations.
+ */
+export const requireOfficialOrAdmin = (request: CallableRequest<unknown>): string => {
+  const role = request.auth?.token.role;
+  if (request.auth === undefined || (role !== 'official' && role !== 'admin')) {
+    throw new HttpsError('permission-denied', 'Official access is required.');
+  }
+  return request.auth.uid;
+};

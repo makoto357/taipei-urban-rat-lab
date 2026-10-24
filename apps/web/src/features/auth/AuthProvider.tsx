@@ -30,6 +30,8 @@ interface AuthState {
   user: User | null;
   /** 從 memberships/{uid} 讀到的 role/status；還在載入或沒有文件時為 null。 */
   membership: Membership | null;
+  /** 已登入但 memberships/{uid} 第一次快照還沒回來。 */
+  membershipLoading: boolean;
   loading: boolean;
 }
 
@@ -46,6 +48,7 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [membership, setMembership] = useState<Membership | null>(null);
+  const [resolvedUid, setResolvedUid] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -62,27 +65,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!user) {
       setMembership(null);
+      setResolvedUid(null);
       return;
     }
     const unsubscribe = onSnapshot(
       doc(db, "memberships", user.uid),
       (snapshot) => {
-        if (!snapshot.exists()) {
-          setMembership(null);
-          return;
-        }
-        const parsed = MembershipSchema.safeParse(snapshot.data());
-        setMembership(parsed.success ? parsed.data : null);
+        const parsed = snapshot.exists() ? MembershipSchema.safeParse(snapshot.data()) : null;
+        setMembership(parsed?.success ? parsed.data : null);
+        setResolvedUid(user.uid);
       },
-      () => setMembership(null),
+      () => {
+        setMembership(null);
+        setResolvedUid(user.uid);
+      },
     );
     return unsubscribe;
-  }, [user]);
+  }, [user?.uid]);
+
+  const membershipLoading = user !== null && resolvedUid !== user.uid;
 
   const value = useMemo<AuthContextValue>(
     () => ({
       user,
       membership,
+      membershipLoading,
       loading,
       async signInWithGoogle() {
         const credential = await signInWithPopup(auth, new GoogleAuthProvider());
@@ -104,7 +111,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         await firebaseSignOut(auth);
       },
     }),
-    [user, membership, loading],
+    [user, membership, membershipLoading, loading],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -91,8 +91,7 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
       const snapshot = await getDoc(doc(db, "memberships", user.uid));
       const parsed = snapshot.exists() ? MembershipSchema.safeParse(snapshot.data()) : null;
       const active = parsed?.success && parsed.data.role === "official" && parsed.data.status === "active";
-      // TODO(plan.md Phase 5): 市府作業平台頁面尚未實作，active official 先導回首頁。
-      navigate(active ? "/" : "/account-status");
+      navigate(active ? "/official" : "/account-status");
       return;
     }
     navigate("/report");
