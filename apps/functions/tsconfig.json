@@ -2,12 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true,
-    "module": "ESNext",
-    "baseUrl": ".",
-    "paths": {
-      "@taipei-rat-lab/contracts": ["../../packages/contracts/src/index.ts"]
-    }
+    "module": "ESNext"
   },
   "include": ["src"]
 }
-
