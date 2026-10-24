@@ -18,6 +18,7 @@ import {
   normalizeScore,
   percentile95,
   propagateConnectivity,
+  remapPositiveScores,
   scorePointsByComponent,
   type ConnectivityData,
   type FactorScores,
@@ -26,6 +27,7 @@ import {
 
 type LanduseFeature = Feature<MultiPolygon, Record<string, unknown>>;
 type ReportFeature = Feature<Point, Record<string, unknown>>;
+type RiskFeature = Feature<MultiPolygon, Record<string, unknown>>;
 const EXCLUDED_LAND_USES = ["河川區", "河道用地", "行水區", "高速公路用地"];
 
 const isExcludedLanduse = (feature: LanduseFeature) => {
@@ -405,11 +407,105 @@ export const loadRatReportLanduse = async (
   const getMaximum = (values: readonly number[]) =>
     clampScore(values.length > 0 ? Math.max(...values) : 0);
 
+  const riskFieldNames = [
+    "risk_local",
+    "risk_movement",
+    "risk_underground",
+    "risk_combined_movement",
+  ].flatMap((prefix) =>
+    Array.from({ length: 15 }, (_, index) => `${prefix}_${index + 1}`),
+  );
+
+  const features: RiskFeature[] = scoredFeatures.map(
+    ({ feature, areaHectares, components }) => {
+      const localScores = components.map(
+        (component) => normalizedByComponent.get(component.componentId)!,
+      );
+      const riskFields: Record<string, number> = {};
+
+      for (let mask = 1; mask < 16; mask += 1) {
+        const scoreComponents = (
+          groundEnabled: boolean,
+          undergroundEnabled: boolean,
+        ) =>
+          components.map((component, componentIndex) => {
+            const local = localScores[componentIndex]!;
+            return calculateFinalScore({
+              mask,
+              local,
+              ground: getMovementScores(
+                component.componentId,
+                groundCitizen,
+                groundGovernment,
+              ),
+              underground: getMovementScores(
+                component.componentId,
+                undergroundCitizen,
+                undergroundGovernment,
+              ),
+              groundEnabled,
+              undergroundEnabled,
+            });
+          });
+
+        riskFields[`risk_local_${mask}`] = getMaximum(
+          scoreComponents(false, false),
+        );
+        riskFields[`risk_movement_${mask}`] = getMaximum(
+          scoreComponents(true, false),
+        );
+        riskFields[`risk_underground_${mask}`] = getMaximum(
+          scoreComponents(false, true),
+        );
+        riskFields[`risk_combined_movement_${mask}`] = getMaximum(
+          scoreComponents(true, true),
+        );
+      }
+
+      return {
+        ...feature,
+        properties: {
+          ...feature.properties,
+          area_ha: areaHectares,
+          risk_citizen: getMaximum(localScores.map(({ citizen }) => citizen)),
+          risk_government: getMaximum(
+            localScores.map(({ government }) => government),
+          ),
+          risk_food_source: getMaximum(localScores.map(({ food }) => food)),
+          risk_shelter: getMaximum(localScores.map(({ shelter }) => shelter)),
+          risk_observation: getMaximum(
+            localScores.map(
+              ({ citizen, government }) => (citizen + government) / 2,
+            ),
+          ),
+          risk_habitat: getMaximum(
+            localScores.map(({ food, shelter }) => (food + shelter) / 2),
+          ),
+          ...riskFields,
+        },
+      };
+    },
+  );
+
+  const remapRanges: Record<string, { minimum: number; maximum: number }> = {};
+  for (const field of riskFieldNames) {
+    const remapped = remapPositiveScores(
+      features.map(({ properties }) => Number(properties[field] ?? 0)),
+    );
+    remapRanges[field] = {
+      minimum: remapped.minimum,
+      maximum: remapped.maximum,
+    };
+    features.forEach((feature, index) => {
+      feature.properties[field] = remapped.scores[index] ?? 0;
+    });
+  }
+
   return {
     type: "FeatureCollection",
     metadata: {
       riskModel: {
-        version: "weighted-four-factor-v4",
+        version: "weighted-remapped-five-level-v5",
         areaAdjustmentBeta,
         factorWeights: FACTOR_WEIGHTS,
         p95References: {
@@ -418,82 +514,14 @@ export const loadRatReportLanduse = async (
           foodSource: foodSourceReference,
           shelter: shelterReference,
         },
+        weightedScoreRemap: {
+          method: "positive-min-max",
+          equalValueFallback: 0.5,
+          ranges: remapRanges,
+        },
       },
     },
-    features: scoredFeatures.map(
-      ({ feature, areaHectares, components }) => {
-        const localScores = components.map(
-          (component) => normalizedByComponent.get(component.componentId)!,
-        );
-        const riskFields: Record<string, number> = {};
-
-        for (let mask = 1; mask < 16; mask += 1) {
-          const scoreComponents = (
-            groundEnabled: boolean,
-            undergroundEnabled: boolean,
-          ) =>
-            components.map((component, componentIndex) => {
-              const local = localScores[componentIndex]!;
-              return calculateFinalScore({
-                mask,
-                local,
-                ground: getMovementScores(
-                  component.componentId,
-                  groundCitizen,
-                  groundGovernment,
-                ),
-                underground: getMovementScores(
-                  component.componentId,
-                  undergroundCitizen,
-                  undergroundGovernment,
-                ),
-                groundEnabled,
-                undergroundEnabled,
-              });
-            });
-
-          riskFields[`risk_local_${mask}`] = getMaximum(
-            scoreComponents(false, false),
-          );
-          riskFields[`risk_movement_${mask}`] = getMaximum(
-            scoreComponents(true, false),
-          );
-          riskFields[`risk_underground_${mask}`] = getMaximum(
-            scoreComponents(false, true),
-          );
-          riskFields[`risk_combined_movement_${mask}`] = getMaximum(
-            scoreComponents(true, true),
-          );
-        }
-
-        return {
-          ...feature,
-          properties: {
-            ...feature.properties,
-            area_ha: areaHectares,
-            risk_citizen: getMaximum(
-              localScores.map(({ citizen }) => citizen),
-            ),
-            risk_government: getMaximum(
-              localScores.map(({ government }) => government),
-            ),
-            risk_food_source: getMaximum(localScores.map(({ food }) => food)),
-            risk_shelter: getMaximum(
-              localScores.map(({ shelter }) => shelter),
-            ),
-            risk_observation: getMaximum(
-              localScores.map(
-                ({ citizen, government }) => (citizen + government) / 2,
-              ),
-            ),
-            risk_habitat: getMaximum(
-              localScores.map(({ food, shelter }) => (food + shelter) / 2),
-            ),
-            ...riskFields,
-          },
-        };
-      },
-    ),
+    features,
   } as FeatureCollection<MultiPolygon, Record<string, unknown>> & {
     metadata: Record<string, unknown>;
   };

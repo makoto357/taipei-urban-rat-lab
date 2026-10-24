@@ -172,12 +172,14 @@ const createRiskColorExpression = (
 ): ExpressionSpecification => [
   "step",
   score,
+  "#F8E8A8",
+  0.2,
   "#F2CC67",
-  0.25,
+  0.4,
   "#E99843",
-  0.5,
+  0.6,
   "#D65B37",
-  0.75,
+  0.8,
   "#9E352F",
 ];
 
@@ -466,8 +468,8 @@ const createRatLandusePopupContent = (
       "面積",
       `${Number(properties["area_ha"]).toLocaleString("zh-TW", { maximumFractionDigits: 2 })} ha`,
     ],
-    ["綜合分數", adjustedScore.toFixed(2)],
-    ["街廓自身分數", localScore.toFixed(2)],
+    ["綜合相對分數", adjustedScore.toFixed(2)],
+    ["街廓自身相對分數", localScore.toFixed(2)],
     ["民眾通報因子", Number(properties.risk_citizen ?? 0).toFixed(2)],
     ["政府調查因子", Number(properties.risk_government ?? 0).toFixed(2)],
     ["食物來源因子", Number(properties.risk_food_source ?? 0).toFixed(2)],

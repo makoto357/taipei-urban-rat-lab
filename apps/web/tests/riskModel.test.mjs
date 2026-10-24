@@ -246,13 +246,28 @@ test("final scores are clamped to the inclusive zero-to-one range", () => {
   }
 });
 
-test("L1-L4 thresholds remain unchanged", () => {
-  assert.equal(model.getRiskLevel(0.75), "L1");
-  assert.equal(model.getRiskLevel(0.749), "L2");
-  assert.equal(model.getRiskLevel(0.5), "L2");
-  assert.equal(model.getRiskLevel(0.499), "L3");
-  assert.equal(model.getRiskLevel(0.25), "L3");
-  assert.equal(model.getRiskLevel(0.249), "L4");
+test("positive weighted scores are min-max remapped", () => {
+  const remapped = model.remapPositiveScores([0, 2, 6, 10]);
+  assert.equal(remapped.minimum, 2);
+  assert.equal(remapped.maximum, 10);
+  assert.equal(remapped.scores[0], 0);
+  assert.equal(remapped.scores[1], model.MIN_CLASSIFIED_SCORE);
+  assert.equal(remapped.scores[2], 0.5);
+  assert.equal(remapped.scores[3], 1);
+
+  const equal = model.remapPositiveScores([0, 4, 4]);
+  assert.deepEqual(equal.scores, [0, 0.5, 0.5]);
+});
+
+test("remapped scores use five equal-width levels", () => {
+  assert.equal(model.getRiskLevel(0.8), "L1");
+  assert.equal(model.getRiskLevel(0.799), "L2");
+  assert.equal(model.getRiskLevel(0.6), "L2");
+  assert.equal(model.getRiskLevel(0.599), "L3");
+  assert.equal(model.getRiskLevel(0.4), "L3");
+  assert.equal(model.getRiskLevel(0.399), "L4");
+  assert.equal(model.getRiskLevel(0.2), "L4");
+  assert.equal(model.getRiskLevel(0.199), "L5");
   assert.equal(model.getRiskLevel(0), "unclassified");
 });
 

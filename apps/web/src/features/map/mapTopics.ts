@@ -276,11 +276,13 @@ const TOPICS: MapTopic[] = [
     riskLevels: [
       { label: "L1", description: "相對最高", color: colors.activity.l4 },
       { label: "L2", description: "相對較高", color: colors.activity.l3 },
-      { label: "L3", description: "相對較低", color: colors.activity.l2 },
-      { label: "L4", description: "相對最低", color: colors.activity.l1 },
+      { label: "L3", description: "相對中等", color: colors.activity.l2 },
+      { label: "L4", description: "相對較低", color: colors.activity.l1 },
+      { label: "L5", description: "相對最低", color: colors.activity.l0 },
       { label: "未分級", description: "No fill" },
     ],
-    riskLevelNote: "相對模型分級，不代表實際鼠口數量或感染風險。",
+    riskLevelNote:
+      "依目前選取因子的加權分數，以有分數街廓的最高與最低值重新映射；不代表實際鼠口數量或感染風險。",
     factorSections: [
       {
         id: "observation",

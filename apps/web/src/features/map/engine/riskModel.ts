@@ -46,6 +46,7 @@ export const FACTOR_WEIGHTS = {
 } as const;
 
 export const MARKET_BASE_SCORE = 3;
+export const MIN_CLASSIFIED_SCORE = 0.000001;
 
 export const SHELTER_LANDUSE_RULES = [
   { includes: "公園", score: 1 },
@@ -69,6 +70,27 @@ export const normalizeScore = (value: number, reference: number) =>
   reference > 0 && Number.isFinite(reference)
     ? clampScore(value / reference)
     : 0;
+
+export const remapPositiveScores = (values: readonly number[]) => {
+  const positive = values.filter(
+    (value) => Number.isFinite(value) && value > 0,
+  );
+  if (positive.length === 0) {
+    return { scores: values.map(() => 0), minimum: 0, maximum: 0 };
+  }
+
+  const minimum = Math.min(...positive);
+  const maximum = Math.max(...positive);
+  const scores = values.map((value) => {
+    if (!Number.isFinite(value) || value <= 0) return 0;
+    if (maximum === minimum) return 0.5;
+    return Math.max(
+      MIN_CLASSIFIED_SCORE,
+      clampScore((value - minimum) / (maximum - minimum)),
+    );
+  });
+  return { scores, minimum, maximum };
+};
 
 export const adjustScoreForArea = (
   rawScore: number,
@@ -393,13 +415,20 @@ export const calculateFinalScore = (options: FinalScoreOptions) => {
   return clampScore(weightedSum / selectedWeight);
 };
 
-export type RiskLevel = "L1" | "L2" | "L3" | "L4" | "unclassified";
+export type RiskLevel =
+  | "L1"
+  | "L2"
+  | "L3"
+  | "L4"
+  | "L5"
+  | "unclassified";
 
 export const getRiskLevel = (score: number): RiskLevel => {
   const normalized = clampScore(score);
-  if (normalized >= 0.75) return "L1";
-  if (normalized >= 0.5) return "L2";
-  if (normalized >= 0.25) return "L3";
-  if (normalized > 0) return "L4";
+  if (normalized >= 0.8) return "L1";
+  if (normalized >= 0.6) return "L2";
+  if (normalized >= 0.4) return "L3";
+  if (normalized >= 0.2) return "L4";
+  if (normalized > 0) return "L5";
   return "unclassified";
 };
