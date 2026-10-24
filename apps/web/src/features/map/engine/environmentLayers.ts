@@ -2,10 +2,16 @@ import type { ExpressionSpecification, Map as MapLibreMap } from "maplibre-gl";
 import type { FeatureCollection, Point } from "geojson";
 
 export type EnvironmentLayerKey =
-  "markets" | "trashBins" | "garbageStops" | "parks" | "vacantSpaces";
+  | "markets"
+  | "restaurants"
+  | "trashBins"
+  | "garbageStops"
+  | "parks"
+  | "vacantSpaces";
 
 export const environmentLayerIds = {
   markets: ["environment-markets-fill"],
+  restaurants: ["environment-restaurants-triangle"],
   trashBins: ["environment-trash-bins-circle"],
   garbageStops: ["environment-garbage-stops-star"],
   parks: ["environment-parks-fill"],
@@ -108,6 +114,10 @@ export const addEnvironmentLayers = async (
     type: "geojson",
     data: "/data/taipei-bins.geojson",
   });
+  map.addSource("restaurants", {
+    type: "geojson",
+    data: "/data/taipei-restaurants.geojson",
+  });
   const longGarbageStops = await loadLongGarbageStops(signal);
   if (signal.aborted) return;
 
@@ -147,6 +157,25 @@ export const addEnvironmentLayers = async (
     },
     beforeLayerId,
   );
+  map.addLayer({
+    id: "environment-restaurants-triangle",
+    type: "symbol",
+    source: "restaurants",
+    minzoom: 11,
+    layout: {
+      ...visibility(layerVisibility.restaurants),
+      "text-field": "▲",
+      "text-font": ["Noto Sans Regular"],
+      "text-size": ["interpolate", ["linear"], ["zoom"], 11, 9, 16, 17],
+      "text-allow-overlap": false,
+      "text-ignore-placement": false,
+    },
+    paint: {
+      "text-color": "#3E7B66",
+      "text-halo-color": "#000000",
+      "text-halo-width": 1,
+    },
+  });
   map.addLayer({
     id: "environment-garbage-stops-star",
     type: "symbol",

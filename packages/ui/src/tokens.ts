@@ -14,6 +14,7 @@ export const colors = {
   muted: "#6B6658",
 
   activity: {
+    l0: "#F8E8A8",
     l1: "#F2CC67",
     l2: "#E99843",
     l3: "#D65B37",

@@ -5,6 +5,7 @@ export type LegendShape =
   | "ring"
   | "square"
   | "square-outline"
+  | "triangle"
   | "cell"
   | "star"
   | "pipe"
@@ -22,6 +23,7 @@ export interface MapLayer {
   indent?: boolean;
   lineWidth?: number;
   disabled?: boolean;
+  requiresAnyLayerKeys?: string[];
   /** 預設關閉（對應 Artifact 腳本中的 off: true） */
   defaultOff?: boolean;
 }
@@ -37,6 +39,13 @@ export interface MapTopic {
   factorList?: boolean;
   factorSections?: Array<{
     id: "observation" | "environment" | "movement";
+    number: string;
+    label: string;
+    layerKeys: string[];
+    description?: string;
+  }>;
+  supplementalSections?: Array<{
+    id: string;
     number: string;
     label: string;
     layerKeys: string[];
@@ -141,6 +150,14 @@ const TOPICS: MapTopic[] = [
         key: "market",
         label: "市場",
         shape: "square",
+        color: colors.map.green,
+        parentKey: "food-source",
+        indent: true,
+      },
+      {
+        key: "restaurant",
+        label: "餐館",
+        shape: "triangle",
         color: colors.map.green,
         parentKey: "food-source",
         indent: true,
@@ -267,11 +284,13 @@ const TOPICS: MapTopic[] = [
     riskLevels: [
       { label: "L1", description: "相對最高", color: colors.activity.l4 },
       { label: "L2", description: "相對較高", color: colors.activity.l3 },
-      { label: "L3", description: "相對較低", color: colors.activity.l2 },
-      { label: "L4", description: "相對最低", color: colors.activity.l1 },
+      { label: "L3", description: "相對中等", color: colors.activity.l2 },
+      { label: "L4", description: "相對較低", color: colors.activity.l1 },
+      { label: "L5", description: "相對最低", color: colors.activity.l0 },
       { label: "未分級", description: "No fill" },
     ],
-    riskLevelNote: "相對模型分級，不代表實際鼠口數量或感染風險。",
+    riskLevelNote:
+      "依目前選取因子的加權分數，以有分數街廓的最高與最低值重新映射；不代表實際鼠口數量或感染風險。",
     factorSections: [
       {
         id: "observation",
@@ -283,7 +302,7 @@ const TOPICS: MapTopic[] = [
         id: "environment",
         number: "02",
         label: "環境條件",
-        layerKeys: ["risk-food-source"],
+        layerKeys: ["risk-food-source", "risk-shelter"],
       },
       {
         id: "movement",
@@ -314,6 +333,12 @@ const TOPICS: MapTopic[] = [
         color: colors.map.green,
       },
       {
+        key: "risk-shelter",
+        label: "躲藏空間",
+        shape: "circle",
+        color: "#58A960",
+      },
+      {
         key: "risk-ground-movement",
         label: "地面移動",
         shape: "circle",
@@ -330,25 +355,58 @@ const TOPICS: MapTopic[] = [
   {
     zh: "綜合比較",
     en: "COMPARISON",
+    supplementalSections: [
+      {
+        id: "movement",
+        number: "03",
+        label: "空間傳遞",
+        layerKeys: ["cmp-ground-movement", "cmp-underground-movement"],
+      },
+    ],
     layers: [
       {
+        key: "cmp-risk",
+        label: "風險模型",
+        shape: "cell",
+        color: colors.activity.l1,
+      },
+      {
         key: "cmp-obs",
-        label: "鼠跡觀測",
+        label: "鼠跡分佈",
         shape: "circle",
         color: colors.accent,
       },
       {
         key: "cmp-bait",
-        label: "餌劑通報與防治作業",
+        label: "投藥紀錄",
         shape: "circle",
-        color: colors.map.purple,
+        color: "#D90F7D",
       },
       {
         key: "cmp-env",
-        label: "下水道環境",
+        label: "環境因子",
         shape: "square",
         color: colors.map.green,
-        defaultOff: true,
+      },
+      {
+        key: "cmp-research",
+        label: "鼠群研究",
+        shape: "line-dot",
+        color: "#4388E8",
+      },
+      {
+        key: "cmp-ground-movement",
+        label: "地面移動",
+        shape: "circle",
+        color: colors.ink,
+        requiresAnyLayerKeys: ["cmp-obs"],
+      },
+      {
+        key: "cmp-underground-movement",
+        label: "下水道移動",
+        shape: "circle",
+        color: colors.ink,
+        requiresAnyLayerKeys: ["cmp-obs"],
       },
     ],
   },
@@ -356,10 +414,10 @@ const TOPICS: MapTopic[] = [
 
 export const MAP_TOPICS: MapTopic[] = [
   TOPICS[4]!,
+  TOPICS[0]!,
   TOPICS[1]!,
   TOPICS[2]!,
   TOPICS[3]!,
-  TOPICS[0]!,
   TOPICS[5]!,
 ];
 
@@ -398,6 +456,8 @@ export function legendSwatchClass(shape: LegendShape): string {
       return "border-[1.5px] border-ink";
     case "square-outline":
       return "border-[2px] bg-card";
+    case "triangle":
+      return "";
     case "cell":
       return "border border-ink opacity-55";
     case "star":

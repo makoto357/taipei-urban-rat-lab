@@ -13,6 +13,7 @@ export interface FactorScores {
   citizen: number;
   government: number;
   food: number;
+  shelter: number;
 }
 
 export interface MovementFactorScores {
@@ -37,6 +38,21 @@ export const FULL_SCORE_RADIUS_METERS = 3;
 export const HALF_SCORE_RADIUS_METERS = 5;
 export const MAX_PROPAGATION_HOPS = 2;
 
+export const FACTOR_WEIGHTS = {
+  citizen: 3,
+  government: 3,
+  food: 1,
+  shelter: 1,
+} as const;
+
+export const MARKET_BASE_SCORE = 3;
+export const MIN_CLASSIFIED_SCORE = 0.000001;
+
+export const SHELTER_LANDUSE_RULES = [
+  { includes: "公園", score: 1 },
+  { includes: "綠地", score: 0.75 },
+] as const;
+
 const METERS_PER_LATITUDE_DEGREE = 111_320;
 
 export const clampScore = (value: number) =>
@@ -55,6 +71,27 @@ export const normalizeScore = (value: number, reference: number) =>
     ? clampScore(value / reference)
     : 0;
 
+export const remapPositiveScores = (values: readonly number[]) => {
+  const positive = values.filter(
+    (value) => Number.isFinite(value) && value > 0,
+  );
+  if (positive.length === 0) {
+    return { scores: values.map(() => 0), minimum: 0, maximum: 0 };
+  }
+
+  const minimum = Math.min(...positive);
+  const maximum = Math.max(...positive);
+  const scores = values.map((value) => {
+    if (!Number.isFinite(value) || value <= 0) return 0;
+    if (maximum === minimum) return 0.5;
+    return Math.max(
+      MIN_CLASSIFIED_SCORE,
+      clampScore((value - minimum) / (maximum - minimum)),
+    );
+  });
+  return { scores, minimum, maximum };
+};
+
 export const adjustScoreForArea = (
   rawScore: number,
   areaHectares: number,
@@ -71,6 +108,35 @@ export const adjustScoreForArea = (
   }
   return rawScore / areaHectares ** beta;
 };
+
+export const calculateFoodRawScore = ({
+  marketIndicator,
+  restaurantPointScore,
+  binPointScore,
+  garbageStopPointScore,
+}: {
+  marketIndicator: number;
+  restaurantPointScore: number;
+  binPointScore: number;
+  garbageStopPointScore: number;
+}) =>
+  MARKET_BASE_SCORE * Math.max(0, marketIndicator) +
+  Math.max(0, restaurantPointScore) +
+  Math.max(0, binPointScore) +
+  Math.max(0, garbageStopPointScore);
+
+export const getShelterLanduseScore = (landUse: string) =>
+  SHELTER_LANDUSE_RULES.reduce(
+    (maximum, rule) =>
+      landUse.includes(rule.includes) ? Math.max(maximum, rule.score) : maximum,
+    0,
+  );
+
+/** Allocate one feature-level contribution across its components exactly once. */
+export const distributeFeatureScore = (
+  featureScore: number,
+  areaShares: readonly number[],
+) => areaShares.map((areaShare) => Math.max(0, featureScore * areaShare));
 
 export const createComponentIds = (blockIds: readonly string[]) => {
   const occurrences = new Map<string, number>();
@@ -323,31 +389,46 @@ const getObservationFactorScore = (
 };
 
 export const calculateFinalScore = (options: FinalScoreOptions) => {
-  const selectedScores: number[] = [];
+  let weightedSum = 0;
+  let selectedWeight = 0;
   if (options.mask & 1) {
-    selectedScores.push(getObservationFactorScore("citizen", options));
+    weightedSum +=
+      FACTOR_WEIGHTS.citizen * getObservationFactorScore("citizen", options);
+    selectedWeight += FACTOR_WEIGHTS.citizen;
   }
   if (options.mask & 2) {
-    selectedScores.push(getObservationFactorScore("government", options));
+    weightedSum +=
+      FACTOR_WEIGHTS.government *
+      getObservationFactorScore("government", options);
+    selectedWeight += FACTOR_WEIGHTS.government;
   }
   if (options.mask & 4) {
     // Habitat suitability remains local and is never propagated.
-    selectedScores.push(clampScore(options.local.food));
+    weightedSum += FACTOR_WEIGHTS.food * clampScore(options.local.food);
+    selectedWeight += FACTOR_WEIGHTS.food;
   }
-  if (selectedScores.length === 0) return 0;
-  return clampScore(
-    selectedScores.reduce((sum, score) => sum + score, 0) /
-      selectedScores.length,
-  );
+  if (options.mask & 8) {
+    weightedSum += FACTOR_WEIGHTS.shelter * clampScore(options.local.shelter);
+    selectedWeight += FACTOR_WEIGHTS.shelter;
+  }
+  if (selectedWeight === 0) return 0;
+  return clampScore(weightedSum / selectedWeight);
 };
 
-export type RiskLevel = "L1" | "L2" | "L3" | "L4" | "unclassified";
+export type RiskLevel =
+  | "L1"
+  | "L2"
+  | "L3"
+  | "L4"
+  | "L5"
+  | "unclassified";
 
 export const getRiskLevel = (score: number): RiskLevel => {
   const normalized = clampScore(score);
-  if (normalized >= 0.75) return "L1";
-  if (normalized >= 0.5) return "L2";
-  if (normalized >= 0.25) return "L3";
-  if (normalized > 0) return "L4";
+  if (normalized >= 0.8) return "L1";
+  if (normalized >= 0.6) return "L2";
+  if (normalized >= 0.4) return "L3";
+  if (normalized >= 0.2) return "L4";
+  if (normalized > 0) return "L5";
   return "unclassified";
 };

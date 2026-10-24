@@ -42,6 +42,7 @@ export type DataLayerKey =
   | "riskCitizen"
   | "riskGovernment"
   | "riskFoodSource"
+  | "riskShelter"
   | "riskGroundMovement"
   | "riskUndergroundMovement"
   | "ratReports"
@@ -51,6 +52,7 @@ export type DataLayerKey =
   | "sewer"
   | "stormwater"
   | "markets"
+  | "restaurants"
   | "trashBins"
   | "garbageStops"
   | "parks"
@@ -81,6 +83,7 @@ const initialDataLayerVisibility: Record<DataLayerKey, boolean> = {
   riskCitizen: true,
   riskGovernment: true,
   riskFoodSource: true,
+  riskShelter: true,
   riskGroundMovement: true,
   riskUndergroundMovement: true,
   ratReports: true,
@@ -90,6 +93,7 @@ const initialDataLayerVisibility: Record<DataLayerKey, boolean> = {
   sewer: false,
   stormwater: false,
   markets: false,
+  restaurants: false,
   trashBins: false,
   garbageStops: false,
   parks: false,
@@ -117,6 +121,7 @@ const dataLayerIds: Record<DataLayerKey, readonly string[]> = {
   riskCitizen: [],
   riskGovernment: [],
   riskFoodSource: [],
+  riskShelter: [],
   riskGroundMovement: [],
   riskUndergroundMovement: [],
   ratReports: ["citizen-reports-rat-circle"],
@@ -143,7 +148,8 @@ const createDataLayerVisibility = (
 const getRiskFactorMask = (visibility: Record<DataLayerKey, boolean>) =>
   (visibility.riskCitizen ? 1 : 0) |
   (visibility.riskGovernment ? 2 : 0) |
-  (visibility.riskFoodSource ? 4 : 0);
+  (visibility.riskFoodSource ? 4 : 0) |
+  (visibility.riskShelter ? 8 : 0);
 
 const createCompositeRiskExpression = (
   visibility: Record<DataLayerKey, boolean>,
@@ -166,12 +172,14 @@ const createRiskColorExpression = (
 ): ExpressionSpecification => [
   "step",
   score,
+  "#F8E8A8",
+  0.2,
   "#F2CC67",
-  0.25,
+  0.4,
   "#E99843",
-  0.5,
+  0.6,
   "#D65B37",
-  0.75,
+  0.8,
   "#9E352F",
 ];
 
@@ -283,6 +291,14 @@ const pointDetailConfigs = {
       ["行政區", "行政區"],
       ["地址", "地址"],
       ["備註", "備註"],
+    ],
+  },
+  "environment-restaurants-triangle": {
+    title: "餐館",
+    fields: [
+      ["name", "名稱"],
+      ["address", "地址"],
+      ["businessId", "商業 ID"],
     ],
   },
   "environment-garbage-stops-star": {
@@ -452,11 +468,12 @@ const createRatLandusePopupContent = (
       "面積",
       `${Number(properties["area_ha"]).toLocaleString("zh-TW", { maximumFractionDigits: 2 })} ha`,
     ],
-    ["綜合分數", adjustedScore.toFixed(2)],
-    ["街廓自身分數", localScore.toFixed(2)],
+    ["綜合相對分數", adjustedScore.toFixed(2)],
+    ["街廓自身相對分數", localScore.toFixed(2)],
     ["民眾通報因子", Number(properties.risk_citizen ?? 0).toFixed(2)],
     ["政府調查因子", Number(properties.risk_government ?? 0).toFixed(2)],
     ["食物來源因子", Number(properties.risk_food_source ?? 0).toFixed(2)],
+    ["躲藏空間因子", Number(properties.risk_shelter ?? 0).toFixed(2)],
     ["地面移動", visibility.riskGroundMovement ? "已套用" : "未套用"],
     [
       "下水道移動",
@@ -730,6 +747,7 @@ export function useDataMap() {
           map,
           {
             markets: dataLayerVisibilityRef.current.markets,
+            restaurants: dataLayerVisibilityRef.current.restaurants,
             trashBins: dataLayerVisibilityRef.current.trashBins,
             garbageStops: dataLayerVisibilityRef.current.garbageStops,
             parks: dataLayerVisibilityRef.current.parks,
@@ -738,6 +756,7 @@ export function useDataMap() {
           deferredDataController.signal,
         );
         for (const layerId of [
+          "environment-restaurants-triangle",
           "environment-trash-bins-circle",
           "environment-garbage-stops-star",
         ]) {

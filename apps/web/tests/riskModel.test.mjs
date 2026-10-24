@@ -24,10 +24,11 @@ const undergroundArtifact = JSON.parse(
   ),
 );
 
-const local = (citizen, government, food) => ({
+const local = (citizen, government, food, shelter = 0) => ({
   citizen,
   government,
   food,
+  shelter,
 });
 
 const assertClose = (actual, expected) =>
@@ -45,22 +46,32 @@ test("food-only selection remains local when movement is enabled", () => {
   assertClose(score, 0.4);
 });
 
-test("movement disabled uses the local equal-weight score", () => {
+test("all selected factors use weights 3:3:1:1", () => {
   const score = model.calculateFinalScore({
-    mask: 7,
-    local: local(0.2, 0.4, 0.6),
+    mask: 15,
+    local: local(0.2, 0.4, 0.6, 0.8),
     ground: { citizen: 1, government: 1 },
     underground: { citizen: 1, government: 1 },
     groundEnabled: false,
     undergroundEnabled: false,
   });
-  assertClose(score, 0.4);
+  assertClose(score, 3.2 / 8);
+});
+
+test("unchecked factors are removed from the weighted denominator", () => {
+  const score = model.calculateFinalScore({
+    mask: 9,
+    local: local(0.2, 0.9, 0.7, 0.8),
+    groundEnabled: false,
+    undergroundEnabled: false,
+  });
+  assertClose(score, 0.35);
 });
 
 test("movement has no effect without a selected observation factor", () => {
   const options = {
-    mask: 4,
-    local: local(0.8, 0.9, 0.25),
+    mask: 12,
+    local: local(0.8, 0.9, 0.25, 0.75),
     ground: { citizen: 1, government: 1 },
     underground: { citizen: 1, government: 1 },
   };
@@ -114,6 +125,41 @@ test("one observation is assigned to only one component", () => {
   const scores = model.scorePointsByComponent([left, right], [[1, 0.5]]);
   assert.deepEqual(scores, [1, 0]);
   assert.equal(scores.reduce((sum, score) => sum + score, 0), 1);
+});
+
+test("market bonus is three and restaurant points add one", () => {
+  assert.equal(
+    model.calculateFoodRawScore({
+      marketIndicator: 1,
+      restaurantPointScore: 1,
+      binPointScore: 0,
+      garbageStopPointScore: 0,
+    }),
+    4,
+  );
+
+  const polygon = [
+    [
+      [121.5, 25],
+      [121.51, 25],
+      [121.51, 25.01],
+      [121.5, 25.01],
+      [121.5, 25],
+    ],
+  ];
+  assert.deepEqual(
+    model.scorePointsByComponent([polygon], [[121.505, 25.005]]),
+    [1],
+  );
+});
+
+test("shelter land-use contribution is explicit and allocated once", () => {
+  assert.equal(model.getShelterLanduseScore("公園用地"), 1);
+  assert.equal(model.getShelterLanduseScore("綠地用地"), 0.75);
+  assert.equal(model.getShelterLanduseScore("第三種住宅區"), 0);
+  const componentScores = model.distributeFeatureScore(1, [0.25, 0.75]);
+  assert.deepEqual(componentScores, [0.25, 0.75]);
+  assert.equal(componentScores.reduce((sum, score) => sum + score, 0), 1);
 });
 
 test("ground and underground propagation are combined per factor", () => {
@@ -187,10 +233,10 @@ test("underground artifact keeps sewer and stormwater networks separate", () => 
 });
 
 test("final scores are clamped to the inclusive zero-to-one range", () => {
-  for (let mask = 0; mask < 8; mask += 1) {
+  for (let mask = 0; mask < 16; mask += 1) {
     const score = model.calculateFinalScore({
       mask,
-      local: local(-1, 2, 4),
+      local: local(-1, 2, 4, 3),
       ground: { citizen: 5, government: -2 },
       underground: { citizen: 3, government: 7 },
       groundEnabled: true,
@@ -200,13 +246,28 @@ test("final scores are clamped to the inclusive zero-to-one range", () => {
   }
 });
 
-test("L1-L4 thresholds remain unchanged", () => {
-  assert.equal(model.getRiskLevel(0.75), "L1");
-  assert.equal(model.getRiskLevel(0.749), "L2");
-  assert.equal(model.getRiskLevel(0.5), "L2");
-  assert.equal(model.getRiskLevel(0.499), "L3");
-  assert.equal(model.getRiskLevel(0.25), "L3");
-  assert.equal(model.getRiskLevel(0.249), "L4");
+test("positive weighted scores are min-max remapped", () => {
+  const remapped = model.remapPositiveScores([0, 2, 6, 10]);
+  assert.equal(remapped.minimum, 2);
+  assert.equal(remapped.maximum, 10);
+  assert.equal(remapped.scores[0], 0);
+  assert.equal(remapped.scores[1], model.MIN_CLASSIFIED_SCORE);
+  assert.equal(remapped.scores[2], 0.5);
+  assert.equal(remapped.scores[3], 1);
+
+  const equal = model.remapPositiveScores([0, 4, 4]);
+  assert.deepEqual(equal.scores, [0, 0.5, 0.5]);
+});
+
+test("remapped scores use five equal-width levels", () => {
+  assert.equal(model.getRiskLevel(0.8), "L1");
+  assert.equal(model.getRiskLevel(0.799), "L2");
+  assert.equal(model.getRiskLevel(0.6), "L2");
+  assert.equal(model.getRiskLevel(0.599), "L3");
+  assert.equal(model.getRiskLevel(0.4), "L3");
+  assert.equal(model.getRiskLevel(0.399), "L4");
+  assert.equal(model.getRiskLevel(0.2), "L4");
+  assert.equal(model.getRiskLevel(0.199), "L5");
   assert.equal(model.getRiskLevel(0), "unclassified");
 });
 

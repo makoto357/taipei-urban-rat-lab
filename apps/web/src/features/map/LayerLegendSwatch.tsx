@@ -21,6 +21,18 @@ export function LayerLegendSwatch({
     );
   }
 
+  if (layer.shape === "triangle") {
+    return (
+      <span
+        aria-hidden="true"
+        className="inline-flex h-[24px] w-[24px] flex-none items-center justify-center text-[25px] leading-none [-webkit-text-stroke:1px_#000]"
+        style={{ color: layer.color }}
+      >
+        ▲
+      </span>
+    );
+  }
+
   if (layer.shape === "pipe" || layer.shape === "dashed-pipe") {
     return (
       <span
