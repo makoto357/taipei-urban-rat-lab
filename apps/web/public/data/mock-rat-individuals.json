@@ -1,0 +1,2931 @@
+{
+  "collection": "ratIndividuals",
+  "provenance": "synthetic_mock",
+  "generatedAt": "2026-10-23T00:00:00+08:00",
+  "schemaVersion": 1,
+  "coordinateReferenceSystem": "OGC:CRS84",
+  "notes": [
+    "All operational, capture, specimen and analysis contents are synthetic.",
+    "Locations inherit validated interior points from mock-official-observations.json.",
+    "The source object is fixture metadata and must not be written into Firestore document data.",
+    "Every firstCapture reference resolves to a first_capture encounter.",
+    "2026-10-23 appended 50 deterministic Daan genetic-sampling records: 38 captured individuals and 12 environmental samples, including five compact three-site family clusters.",
+    "2026-10-23 deterministic spatial revision uses EPSG:3826 calculations and retains synthetic_mock provenance."
+  ],
+  "documents": [
+    {
+      "id": "mock-rat-001",
+      "source": {
+        "sampleRecordId": "mock-sample-record-001",
+        "sampleEventId": "mock-sample-record-001-event-checked",
+        "officialObservationId": "mock-official-observation-055"
+      },
+      "data": {
+        "markCode": "MR001",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-01-22T09:18:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-001",
+          "sampleEventId": "mock-sample-record-001-event-checked"
+        },
+        "createdAt": "2026-01-22T10:18:00.000+08:00",
+        "updatedAt": "2026-01-24T09:18:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-001"
+      }
+    },
+    {
+      "id": "mock-rat-002",
+      "source": {
+        "sampleRecordId": "mock-sample-record-001",
+        "sampleEventId": "mock-sample-record-001-event-checked",
+        "officialObservationId": "mock-official-observation-055"
+      },
+      "data": {
+        "markCode": "MR002",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-01-22T09:18:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-001",
+          "sampleEventId": "mock-sample-record-001-event-checked"
+        },
+        "createdAt": "2026-01-22T10:18:00.000+08:00",
+        "updatedAt": "2026-01-24T09:18:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-002"
+      }
+    },
+    {
+      "id": "mock-rat-003",
+      "source": {
+        "sampleRecordId": "mock-sample-record-002",
+        "sampleEventId": "mock-sample-record-002-event-checked",
+        "officialObservationId": "mock-official-observation-058"
+      },
+      "data": {
+        "markCode": "MR003",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-01-25T12:39:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-002",
+          "sampleEventId": "mock-sample-record-002-event-checked"
+        },
+        "createdAt": "2026-01-25T13:39:00.000+08:00",
+        "updatedAt": "2026-01-27T12:39:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-003"
+      }
+    },
+    {
+      "id": "mock-rat-004",
+      "source": {
+        "sampleRecordId": "mock-sample-record-002",
+        "sampleEventId": "mock-sample-record-002-event-checked",
+        "officialObservationId": "mock-official-observation-058"
+      },
+      "data": {
+        "markCode": "MR004",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-01-25T12:39:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-002",
+          "sampleEventId": "mock-sample-record-002-event-checked"
+        },
+        "createdAt": "2026-01-25T13:39:00.000+08:00",
+        "updatedAt": "2026-01-27T12:39:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-004"
+      }
+    },
+    {
+      "id": "mock-rat-005",
+      "source": {
+        "sampleRecordId": "mock-sample-record-003",
+        "sampleEventId": "mock-sample-record-003-event-checked",
+        "officialObservationId": "mock-official-observation-062"
+      },
+      "data": {
+        "markCode": "MR005",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-01-29T16:07:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-003",
+          "sampleEventId": "mock-sample-record-003-event-checked"
+        },
+        "createdAt": "2026-01-29T17:07:00.000+08:00",
+        "updatedAt": "2026-01-31T16:07:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-005"
+      }
+    },
+    {
+      "id": "mock-rat-006",
+      "source": {
+        "sampleRecordId": "mock-sample-record-003",
+        "sampleEventId": "mock-sample-record-003-event-checked",
+        "officialObservationId": "mock-official-observation-062"
+      },
+      "data": {
+        "markCode": "MR006",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-01-29T16:07:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-003",
+          "sampleEventId": "mock-sample-record-003-event-checked"
+        },
+        "createdAt": "2026-01-29T17:07:00.000+08:00",
+        "updatedAt": "2026-01-31T16:07:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-006"
+      }
+    },
+    {
+      "id": "mock-rat-007",
+      "source": {
+        "sampleRecordId": "mock-sample-record-004",
+        "sampleEventId": "mock-sample-record-004-event-checked",
+        "officialObservationId": "mock-official-observation-066"
+      },
+      "data": {
+        "markCode": "MR007",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-02-02T11:35:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-004",
+          "sampleEventId": "mock-sample-record-004-event-checked"
+        },
+        "createdAt": "2026-02-02T12:35:00.000+08:00",
+        "updatedAt": "2026-02-04T11:35:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-007"
+      }
+    },
+    {
+      "id": "mock-rat-008",
+      "source": {
+        "sampleRecordId": "mock-sample-record-004",
+        "sampleEventId": "mock-sample-record-004-event-checked",
+        "officialObservationId": "mock-official-observation-066"
+      },
+      "data": {
+        "markCode": "MR008",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-02-02T11:35:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-004",
+          "sampleEventId": "mock-sample-record-004-event-checked"
+        },
+        "createdAt": "2026-02-02T12:35:00.000+08:00",
+        "updatedAt": "2026-02-04T11:35:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-008"
+      }
+    },
+    {
+      "id": "mock-rat-009",
+      "source": {
+        "sampleRecordId": "mock-sample-record-005",
+        "sampleEventId": "mock-sample-record-005-event-checked",
+        "officialObservationId": "mock-official-observation-071"
+      },
+      "data": {
+        "markCode": "MR009",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-02-07T16:10:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-005",
+          "sampleEventId": "mock-sample-record-005-event-checked"
+        },
+        "createdAt": "2026-02-07T17:10:00.000+08:00",
+        "updatedAt": "2026-02-09T16:10:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-009"
+      }
+    },
+    {
+      "id": "mock-rat-010",
+      "source": {
+        "sampleRecordId": "mock-sample-record-005",
+        "sampleEventId": "mock-sample-record-005-event-checked",
+        "officialObservationId": "mock-official-observation-071"
+      },
+      "data": {
+        "markCode": "MR010",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-02-07T16:10:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-005",
+          "sampleEventId": "mock-sample-record-005-event-checked"
+        },
+        "createdAt": "2026-02-07T17:10:00.000+08:00",
+        "updatedAt": "2026-02-09T16:10:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-010"
+      }
+    },
+    {
+      "id": "mock-rat-011",
+      "source": {
+        "sampleRecordId": "mock-sample-record-006",
+        "sampleEventId": "mock-sample-record-006-event-checked",
+        "officialObservationId": "mock-official-observation-074"
+      },
+      "data": {
+        "markCode": "MR011",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-02-10T10:31:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-006",
+          "sampleEventId": "mock-sample-record-006-event-checked"
+        },
+        "createdAt": "2026-02-10T11:31:00.000+08:00",
+        "updatedAt": "2026-02-12T10:31:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-011"
+      }
+    },
+    {
+      "id": "mock-rat-012",
+      "source": {
+        "sampleRecordId": "mock-sample-record-006",
+        "sampleEventId": "mock-sample-record-006-event-checked",
+        "officialObservationId": "mock-official-observation-074"
+      },
+      "data": {
+        "markCode": "MR012",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-02-10T10:31:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-006",
+          "sampleEventId": "mock-sample-record-006-event-checked"
+        },
+        "createdAt": "2026-02-10T11:31:00.000+08:00",
+        "updatedAt": "2026-02-12T10:31:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-012"
+      }
+    },
+    {
+      "id": "mock-rat-013",
+      "source": {
+        "sampleRecordId": "mock-sample-record-007",
+        "sampleEventId": "mock-sample-record-007-event-checked",
+        "officialObservationId": "mock-official-observation-078"
+      },
+      "data": {
+        "markCode": "MR013",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-02-14T14:59:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-007",
+          "sampleEventId": "mock-sample-record-007-event-checked"
+        },
+        "createdAt": "2026-02-14T15:59:00.000+08:00",
+        "updatedAt": "2026-02-16T14:59:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-013"
+      }
+    },
+    {
+      "id": "mock-rat-014",
+      "source": {
+        "sampleRecordId": "mock-sample-record-007",
+        "sampleEventId": "mock-sample-record-007-event-checked",
+        "officialObservationId": "mock-official-observation-078"
+      },
+      "data": {
+        "markCode": "MR014",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-02-14T14:59:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-007",
+          "sampleEventId": "mock-sample-record-007-event-checked"
+        },
+        "createdAt": "2026-02-14T15:59:00.000+08:00",
+        "updatedAt": "2026-02-16T14:59:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-014"
+      }
+    },
+    {
+      "id": "mock-rat-015",
+      "source": {
+        "sampleRecordId": "mock-sample-record-008",
+        "sampleEventId": "mock-sample-record-008-event-checked",
+        "officialObservationId": "mock-official-observation-082"
+      },
+      "data": {
+        "markCode": "MR015",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-02-18T09:27:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-008",
+          "sampleEventId": "mock-sample-record-008-event-checked"
+        },
+        "createdAt": "2026-02-18T10:27:00.000+08:00",
+        "updatedAt": "2026-02-20T09:27:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-015"
+      }
+    },
+    {
+      "id": "mock-rat-016",
+      "source": {
+        "sampleRecordId": "mock-sample-record-008",
+        "sampleEventId": "mock-sample-record-008-event-checked",
+        "officialObservationId": "mock-official-observation-082"
+      },
+      "data": {
+        "markCode": "MR016",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-02-18T09:27:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-008",
+          "sampleEventId": "mock-sample-record-008-event-checked"
+        },
+        "createdAt": "2026-02-18T10:27:00.000+08:00",
+        "updatedAt": "2026-02-20T09:27:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-016"
+      }
+    },
+    {
+      "id": "mock-rat-017",
+      "source": {
+        "sampleRecordId": "mock-sample-record-009",
+        "sampleEventId": "mock-sample-record-009-event-checked",
+        "officialObservationId": "mock-official-observation-087"
+      },
+      "data": {
+        "markCode": "MR017",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-02-23T14:02:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-009",
+          "sampleEventId": "mock-sample-record-009-event-checked"
+        },
+        "createdAt": "2026-02-23T15:02:00.000+08:00",
+        "updatedAt": "2026-02-25T14:02:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-017"
+      }
+    },
+    {
+      "id": "mock-rat-018",
+      "source": {
+        "sampleRecordId": "mock-sample-record-009",
+        "sampleEventId": "mock-sample-record-009-event-checked",
+        "officialObservationId": "mock-official-observation-087"
+      },
+      "data": {
+        "markCode": "MR018",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-02-23T14:02:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-009",
+          "sampleEventId": "mock-sample-record-009-event-checked"
+        },
+        "createdAt": "2026-02-23T15:02:00.000+08:00",
+        "updatedAt": "2026-02-25T14:02:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-018"
+      }
+    },
+    {
+      "id": "mock-rat-019",
+      "source": {
+        "sampleRecordId": "mock-sample-record-010",
+        "sampleEventId": "mock-sample-record-010-event-checked",
+        "officialObservationId": "mock-official-observation-091"
+      },
+      "data": {
+        "markCode": "MR019",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-02-27T09:30:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-010",
+          "sampleEventId": "mock-sample-record-010-event-checked"
+        },
+        "createdAt": "2026-02-27T10:30:00.000+08:00",
+        "updatedAt": "2026-03-01T09:30:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-019"
+      }
+    },
+    {
+      "id": "mock-rat-020",
+      "source": {
+        "sampleRecordId": "mock-sample-record-010",
+        "sampleEventId": "mock-sample-record-010-event-checked",
+        "officialObservationId": "mock-official-observation-091"
+      },
+      "data": {
+        "markCode": "MR020",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-02-27T09:30:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-010",
+          "sampleEventId": "mock-sample-record-010-event-checked"
+        },
+        "createdAt": "2026-02-27T10:30:00.000+08:00",
+        "updatedAt": "2026-03-01T09:30:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-020"
+      }
+    },
+    {
+      "id": "mock-rat-021",
+      "source": {
+        "sampleRecordId": "mock-sample-record-011",
+        "sampleEventId": "mock-sample-record-011-event-checked",
+        "officialObservationId": "mock-official-observation-094"
+      },
+      "data": {
+        "markCode": "MR021",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-03-02T12:51:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-011",
+          "sampleEventId": "mock-sample-record-011-event-checked"
+        },
+        "createdAt": "2026-03-02T13:51:00.000+08:00",
+        "updatedAt": "2026-03-04T12:51:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-021"
+      }
+    },
+    {
+      "id": "mock-rat-022",
+      "source": {
+        "sampleRecordId": "mock-sample-record-011",
+        "sampleEventId": "mock-sample-record-011-event-checked",
+        "officialObservationId": "mock-official-observation-094"
+      },
+      "data": {
+        "markCode": "MR022",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-03-02T12:51:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-011",
+          "sampleEventId": "mock-sample-record-011-event-checked"
+        },
+        "createdAt": "2026-03-02T13:51:00.000+08:00",
+        "updatedAt": "2026-03-04T12:51:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-022"
+      }
+    },
+    {
+      "id": "mock-rat-023",
+      "source": {
+        "sampleRecordId": "mock-sample-record-012",
+        "sampleEventId": "mock-sample-record-012-event-checked",
+        "officialObservationId": "mock-official-observation-097"
+      },
+      "data": {
+        "markCode": "MR023",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-03-05T15:12:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-012",
+          "sampleEventId": "mock-sample-record-012-event-checked"
+        },
+        "createdAt": "2026-03-05T16:12:00.000+08:00",
+        "updatedAt": "2026-03-07T15:12:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-023"
+      }
+    },
+    {
+      "id": "mock-rat-024",
+      "source": {
+        "sampleRecordId": "mock-sample-record-012",
+        "sampleEventId": "mock-sample-record-012-event-checked",
+        "officialObservationId": "mock-official-observation-097"
+      },
+      "data": {
+        "markCode": "MR024",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-03-05T15:12:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-012",
+          "sampleEventId": "mock-sample-record-012-event-checked"
+        },
+        "createdAt": "2026-03-05T16:12:00.000+08:00",
+        "updatedAt": "2026-03-07T15:12:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-024"
+      }
+    },
+    {
+      "id": "mock-rat-025",
+      "source": {
+        "sampleRecordId": "mock-sample-record-013",
+        "sampleEventId": "mock-sample-record-013-event-checked",
+        "officialObservationId": "mock-official-observation-103"
+      },
+      "data": {
+        "markCode": "MR025",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-03-11T12:54:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-013",
+          "sampleEventId": "mock-sample-record-013-event-checked"
+        },
+        "createdAt": "2026-03-11T13:54:00.000+08:00",
+        "updatedAt": "2026-03-13T12:54:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-025"
+      }
+    },
+    {
+      "id": "mock-rat-026",
+      "source": {
+        "sampleRecordId": "mock-sample-record-013",
+        "sampleEventId": "mock-sample-record-013-event-checked",
+        "officialObservationId": "mock-official-observation-103"
+      },
+      "data": {
+        "markCode": "MR026",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-03-11T12:54:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-013",
+          "sampleEventId": "mock-sample-record-013-event-checked"
+        },
+        "createdAt": "2026-03-11T13:54:00.000+08:00",
+        "updatedAt": "2026-03-13T12:54:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-026"
+      }
+    },
+    {
+      "id": "mock-rat-027",
+      "source": {
+        "sampleRecordId": "mock-sample-record-014",
+        "sampleEventId": "mock-sample-record-014-event-checked",
+        "officialObservationId": "mock-official-observation-107"
+      },
+      "data": {
+        "markCode": "MR027",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-03-15T16:22:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-014",
+          "sampleEventId": "mock-sample-record-014-event-checked"
+        },
+        "createdAt": "2026-03-15T17:22:00.000+08:00",
+        "updatedAt": "2026-03-17T16:22:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-027"
+      }
+    },
+    {
+      "id": "mock-rat-028",
+      "source": {
+        "sampleRecordId": "mock-sample-record-014",
+        "sampleEventId": "mock-sample-record-014-event-checked",
+        "officialObservationId": "mock-official-observation-107"
+      },
+      "data": {
+        "markCode": "MR028",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-03-15T16:22:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-014",
+          "sampleEventId": "mock-sample-record-014-event-checked"
+        },
+        "createdAt": "2026-03-15T17:22:00.000+08:00",
+        "updatedAt": "2026-03-17T16:22:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-028"
+      }
+    },
+    {
+      "id": "mock-rat-029",
+      "source": {
+        "sampleRecordId": "mock-sample-record-015",
+        "sampleEventId": "mock-sample-record-015-event-checked",
+        "officialObservationId": "mock-official-observation-110"
+      },
+      "data": {
+        "markCode": "MR029",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-03-18T10:43:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-015",
+          "sampleEventId": "mock-sample-record-015-event-checked"
+        },
+        "createdAt": "2026-03-18T11:43:00.000+08:00",
+        "updatedAt": "2026-03-20T10:43:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-029"
+      }
+    },
+    {
+      "id": "mock-rat-030",
+      "source": {
+        "sampleRecordId": "mock-sample-record-015",
+        "sampleEventId": "mock-sample-record-015-event-checked",
+        "officialObservationId": "mock-official-observation-110"
+      },
+      "data": {
+        "markCode": "MR030",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-03-18T10:43:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-015",
+          "sampleEventId": "mock-sample-record-015-event-checked"
+        },
+        "createdAt": "2026-03-18T11:43:00.000+08:00",
+        "updatedAt": "2026-03-20T10:43:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-030"
+      }
+    },
+    {
+      "id": "mock-rat-031",
+      "source": {
+        "sampleRecordId": "mock-sample-record-016",
+        "sampleEventId": "mock-sample-record-016-event-checked",
+        "officialObservationId": "mock-official-observation-114"
+      },
+      "data": {
+        "markCode": "MR031",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-03-22T14:11:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-016",
+          "sampleEventId": "mock-sample-record-016-event-checked"
+        },
+        "createdAt": "2026-03-22T15:11:00.000+08:00",
+        "updatedAt": "2026-03-24T14:11:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-031"
+      }
+    },
+    {
+      "id": "mock-rat-032",
+      "source": {
+        "sampleRecordId": "mock-sample-record-016",
+        "sampleEventId": "mock-sample-record-016-event-checked",
+        "officialObservationId": "mock-official-observation-114"
+      },
+      "data": {
+        "markCode": "MR032",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-03-22T14:11:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-016",
+          "sampleEventId": "mock-sample-record-016-event-checked"
+        },
+        "createdAt": "2026-03-22T15:11:00.000+08:00",
+        "updatedAt": "2026-03-24T14:11:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-032"
+      }
+    },
+    {
+      "id": "mock-rat-033",
+      "source": {
+        "sampleRecordId": "mock-sample-record-017",
+        "sampleEventId": "mock-sample-record-017-event-checked",
+        "officialObservationId": "mock-official-observation-114"
+      },
+      "data": {
+        "markCode": "MR033",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-03-29T12:00:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-017",
+          "sampleEventId": "mock-sample-record-017-event-checked"
+        },
+        "createdAt": "2026-03-29T13:00:00.000+08:00",
+        "updatedAt": "2026-03-31T12:00:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-033"
+      }
+    },
+    {
+      "id": "mock-rat-034",
+      "source": {
+        "sampleRecordId": "mock-sample-record-017",
+        "sampleEventId": "mock-sample-record-017-event-checked",
+        "officialObservationId": "mock-official-observation-114"
+      },
+      "data": {
+        "markCode": "MR034",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-03-29T12:00:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-017",
+          "sampleEventId": "mock-sample-record-017-event-checked"
+        },
+        "createdAt": "2026-03-29T13:00:00.000+08:00",
+        "updatedAt": "2026-03-31T12:00:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-034"
+      }
+    },
+    {
+      "id": "mock-rat-035",
+      "source": {
+        "sampleRecordId": "mock-sample-record-018",
+        "sampleEventId": "mock-sample-record-018-event-checked",
+        "officialObservationId": "mock-official-observation-114"
+      },
+      "data": {
+        "markCode": "MR035",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-03-31T14:14:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-018",
+          "sampleEventId": "mock-sample-record-018-event-checked"
+        },
+        "createdAt": "2026-03-31T15:14:00.000+08:00",
+        "updatedAt": "2026-04-02T14:14:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-035"
+      }
+    },
+    {
+      "id": "mock-rat-036",
+      "source": {
+        "sampleRecordId": "mock-sample-record-018",
+        "sampleEventId": "mock-sample-record-018-event-checked",
+        "officialObservationId": "mock-official-observation-114"
+      },
+      "data": {
+        "markCode": "MR036",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-03-31T14:14:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-018",
+          "sampleEventId": "mock-sample-record-018-event-checked"
+        },
+        "createdAt": "2026-03-31T15:14:00.000+08:00",
+        "updatedAt": "2026-04-02T14:14:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-036"
+      }
+    },
+    {
+      "id": "mock-rat-037",
+      "source": {
+        "sampleRecordId": "mock-sample-record-019",
+        "sampleEventId": "mock-sample-record-019-event-checked",
+        "officialObservationId": "mock-official-observation-127"
+      },
+      "data": {
+        "markCode": "MR037",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-04-04T09:42:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-019",
+          "sampleEventId": "mock-sample-record-019-event-checked"
+        },
+        "createdAt": "2026-04-04T10:42:00.000+08:00",
+        "updatedAt": "2026-04-06T09:42:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-037"
+      }
+    },
+    {
+      "id": "mock-rat-038",
+      "source": {
+        "sampleRecordId": "mock-sample-record-019",
+        "sampleEventId": "mock-sample-record-019-event-checked",
+        "officialObservationId": "mock-official-observation-127"
+      },
+      "data": {
+        "markCode": "MR038",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-04-04T09:42:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-019",
+          "sampleEventId": "mock-sample-record-019-event-checked"
+        },
+        "createdAt": "2026-04-04T10:42:00.000+08:00",
+        "updatedAt": "2026-04-06T09:42:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-038"
+      }
+    },
+    {
+      "id": "mock-rat-039",
+      "source": {
+        "sampleRecordId": "mock-sample-record-020",
+        "sampleEventId": "mock-sample-record-020-event-checked",
+        "officialObservationId": "mock-official-observation-127"
+      },
+      "data": {
+        "markCode": "MR039",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-04-07T12:03:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-020",
+          "sampleEventId": "mock-sample-record-020-event-checked"
+        },
+        "createdAt": "2026-04-07T13:03:00.000+08:00",
+        "updatedAt": "2026-04-09T12:03:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-039"
+      }
+    },
+    {
+      "id": "mock-rat-040",
+      "source": {
+        "sampleRecordId": "mock-sample-record-020",
+        "sampleEventId": "mock-sample-record-020-event-checked",
+        "officialObservationId": "mock-official-observation-127"
+      },
+      "data": {
+        "markCode": "MR040",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-04-07T12:03:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-020",
+          "sampleEventId": "mock-sample-record-020-event-checked"
+        },
+        "createdAt": "2026-04-07T13:03:00.000+08:00",
+        "updatedAt": "2026-04-09T12:03:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-040"
+      }
+    },
+    {
+      "id": "mock-rat-041",
+      "source": {
+        "sampleRecordId": "mock-sample-record-021",
+        "sampleEventId": "mock-sample-record-021-event-checked",
+        "officialObservationId": "mock-official-observation-127"
+      },
+      "data": {
+        "markCode": "MR041",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-04-14T10:52:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-021",
+          "sampleEventId": "mock-sample-record-021-event-checked"
+        },
+        "createdAt": "2026-04-14T11:52:00.000+08:00",
+        "updatedAt": "2026-04-16T10:52:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-041"
+      }
+    },
+    {
+      "id": "mock-rat-042",
+      "source": {
+        "sampleRecordId": "mock-sample-record-021",
+        "sampleEventId": "mock-sample-record-021-event-checked",
+        "officialObservationId": "mock-official-observation-127"
+      },
+      "data": {
+        "markCode": "MR042",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-04-14T10:52:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-021",
+          "sampleEventId": "mock-sample-record-021-event-checked"
+        },
+        "createdAt": "2026-04-14T11:52:00.000+08:00",
+        "updatedAt": "2026-04-16T10:52:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-042"
+      }
+    },
+    {
+      "id": "mock-rat-043",
+      "source": {
+        "sampleRecordId": "mock-sample-record-022",
+        "sampleEventId": "mock-sample-record-022-event-checked",
+        "officialObservationId": "mock-official-observation-139"
+      },
+      "data": {
+        "markCode": "MR043",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-04-16T12:06:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-022",
+          "sampleEventId": "mock-sample-record-022-event-checked"
+        },
+        "createdAt": "2026-04-16T13:06:00.000+08:00",
+        "updatedAt": "2026-04-18T12:06:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-043"
+      }
+    },
+    {
+      "id": "mock-rat-044",
+      "source": {
+        "sampleRecordId": "mock-sample-record-022",
+        "sampleEventId": "mock-sample-record-022-event-checked",
+        "officialObservationId": "mock-official-observation-139"
+      },
+      "data": {
+        "markCode": "MR044",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-04-16T12:06:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-022",
+          "sampleEventId": "mock-sample-record-022-event-checked"
+        },
+        "createdAt": "2026-04-16T13:06:00.000+08:00",
+        "updatedAt": "2026-04-18T12:06:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-044"
+      }
+    },
+    {
+      "id": "mock-rat-045",
+      "source": {
+        "sampleRecordId": "mock-sample-record-023",
+        "sampleEventId": "mock-sample-record-023-event-checked",
+        "officialObservationId": "mock-official-observation-139"
+      },
+      "data": {
+        "markCode": "MR045",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-04-20T16:34:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-023",
+          "sampleEventId": "mock-sample-record-023-event-checked"
+        },
+        "createdAt": "2026-04-20T17:34:00.000+08:00",
+        "updatedAt": "2026-04-22T16:34:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-045"
+      }
+    },
+    {
+      "id": "mock-rat-046",
+      "source": {
+        "sampleRecordId": "mock-sample-record-023",
+        "sampleEventId": "mock-sample-record-023-event-checked",
+        "officialObservationId": "mock-official-observation-139"
+      },
+      "data": {
+        "markCode": "MR046",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-04-20T16:34:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-023",
+          "sampleEventId": "mock-sample-record-023-event-checked"
+        },
+        "createdAt": "2026-04-20T17:34:00.000+08:00",
+        "updatedAt": "2026-04-22T16:34:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-046"
+      }
+    },
+    {
+      "id": "mock-rat-047",
+      "source": {
+        "sampleRecordId": "mock-sample-record-024",
+        "sampleEventId": "mock-sample-record-024-event-checked",
+        "officialObservationId": "mock-official-observation-139"
+      },
+      "data": {
+        "markCode": "MR047",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-04-23T10:55:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-024",
+          "sampleEventId": "mock-sample-record-024-event-checked"
+        },
+        "createdAt": "2026-04-23T11:55:00.000+08:00",
+        "updatedAt": "2026-04-25T10:55:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-047"
+      }
+    },
+    {
+      "id": "mock-rat-048",
+      "source": {
+        "sampleRecordId": "mock-sample-record-024",
+        "sampleEventId": "mock-sample-record-024-event-checked",
+        "officialObservationId": "mock-official-observation-139"
+      },
+      "data": {
+        "markCode": "MR048",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-04-23T10:55:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-024",
+          "sampleEventId": "mock-sample-record-024-event-checked"
+        },
+        "createdAt": "2026-04-23T11:55:00.000+08:00",
+        "updatedAt": "2026-04-25T10:55:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-048"
+      }
+    },
+    {
+      "id": "mock-rat-049",
+      "source": {
+        "sampleRecordId": "mock-sample-record-025",
+        "sampleEventId": "mock-sample-record-025-event-checked",
+        "officialObservationId": "mock-official-observation-151"
+      },
+      "data": {
+        "markCode": "MR049",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-04-28T15:30:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-025",
+          "sampleEventId": "mock-sample-record-025-event-checked"
+        },
+        "createdAt": "2026-04-28T16:30:00.000+08:00",
+        "updatedAt": "2026-04-30T15:30:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-049"
+      }
+    },
+    {
+      "id": "mock-rat-050",
+      "source": {
+        "sampleRecordId": "mock-sample-record-025",
+        "sampleEventId": "mock-sample-record-025-event-checked",
+        "officialObservationId": "mock-official-observation-151"
+      },
+      "data": {
+        "markCode": "MR050",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-04-28T15:30:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-025",
+          "sampleEventId": "mock-sample-record-025-event-checked"
+        },
+        "createdAt": "2026-04-28T16:30:00.000+08:00",
+        "updatedAt": "2026-04-30T15:30:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-050"
+      }
+    },
+    {
+      "id": "mock-rat-051",
+      "source": {
+        "sampleRecordId": "mock-sample-record-026",
+        "sampleEventId": "mock-sample-record-026-event-checked",
+        "officialObservationId": "mock-official-observation-151"
+      },
+      "data": {
+        "markCode": "MR051",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-05-02T10:58:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-026",
+          "sampleEventId": "mock-sample-record-026-event-checked"
+        },
+        "createdAt": "2026-05-02T11:58:00.000+08:00",
+        "updatedAt": "2026-05-04T10:58:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-051"
+      }
+    },
+    {
+      "id": "mock-rat-052",
+      "source": {
+        "sampleRecordId": "mock-sample-record-026",
+        "sampleEventId": "mock-sample-record-026-event-checked",
+        "officialObservationId": "mock-official-observation-151"
+      },
+      "data": {
+        "markCode": "MR052",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-05-02T10:58:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-026",
+          "sampleEventId": "mock-sample-record-026-event-checked"
+        },
+        "createdAt": "2026-05-02T11:58:00.000+08:00",
+        "updatedAt": "2026-05-04T10:58:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-052"
+      }
+    },
+    {
+      "id": "mock-rat-053",
+      "source": {
+        "sampleRecordId": "mock-sample-record-027",
+        "sampleEventId": "mock-sample-record-027-event-checked",
+        "officialObservationId": "mock-official-observation-151"
+      },
+      "data": {
+        "markCode": "MR053",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-05-05T13:19:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-027",
+          "sampleEventId": "mock-sample-record-027-event-checked"
+        },
+        "createdAt": "2026-05-05T14:19:00.000+08:00",
+        "updatedAt": "2026-05-07T13:19:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-053"
+      }
+    },
+    {
+      "id": "mock-rat-054",
+      "source": {
+        "sampleRecordId": "mock-sample-record-027",
+        "sampleEventId": "mock-sample-record-027-event-checked",
+        "officialObservationId": "mock-official-observation-151"
+      },
+      "data": {
+        "markCode": "MR054",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-05-05T13:19:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-027",
+          "sampleEventId": "mock-sample-record-027-event-checked"
+        },
+        "createdAt": "2026-05-05T14:19:00.000+08:00",
+        "updatedAt": "2026-05-07T13:19:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-054"
+      }
+    },
+    {
+      "id": "mock-rat-055",
+      "source": {
+        "sampleRecordId": "mock-sample-record-028",
+        "sampleEventId": "mock-sample-record-028-event-checked",
+        "officialObservationId": "mock-official-observation-161"
+      },
+      "data": {
+        "markCode": "MR055",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-05-08T16:40:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-028",
+          "sampleEventId": "mock-sample-record-028-event-checked"
+        },
+        "createdAt": "2026-05-08T17:40:00.000+08:00",
+        "updatedAt": "2026-05-10T16:40:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-055"
+      }
+    },
+    {
+      "id": "mock-rat-056",
+      "source": {
+        "sampleRecordId": "mock-sample-record-028",
+        "sampleEventId": "mock-sample-record-028-event-checked",
+        "officialObservationId": "mock-official-observation-161"
+      },
+      "data": {
+        "markCode": "MR056",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-05-08T16:40:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-028",
+          "sampleEventId": "mock-sample-record-028-event-checked"
+        },
+        "createdAt": "2026-05-08T17:40:00.000+08:00",
+        "updatedAt": "2026-05-10T16:40:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-056"
+      }
+    },
+    {
+      "id": "mock-rat-057",
+      "source": {
+        "sampleRecordId": "mock-sample-record-029",
+        "sampleEventId": "mock-sample-record-029-event-checked",
+        "officialObservationId": "mock-official-observation-161"
+      },
+      "data": {
+        "markCode": "MR057",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-05-12T11:08:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-029",
+          "sampleEventId": "mock-sample-record-029-event-checked"
+        },
+        "createdAt": "2026-05-12T12:08:00.000+08:00",
+        "updatedAt": "2026-05-14T11:08:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-057"
+      }
+    },
+    {
+      "id": "mock-rat-058",
+      "source": {
+        "sampleRecordId": "mock-sample-record-029",
+        "sampleEventId": "mock-sample-record-029-event-checked",
+        "officialObservationId": "mock-official-observation-161"
+      },
+      "data": {
+        "markCode": "MR058",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-05-12T11:08:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-029",
+          "sampleEventId": "mock-sample-record-029-event-checked"
+        },
+        "createdAt": "2026-05-12T12:08:00.000+08:00",
+        "updatedAt": "2026-05-14T11:08:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-058"
+      }
+    },
+    {
+      "id": "mock-rat-059",
+      "source": {
+        "sampleRecordId": "mock-sample-record-030",
+        "sampleEventId": "mock-sample-record-030-event-checked",
+        "officialObservationId": "mock-official-observation-161"
+      },
+      "data": {
+        "markCode": "MR059",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-05-16T15:36:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-030",
+          "sampleEventId": "mock-sample-record-030-event-checked"
+        },
+        "createdAt": "2026-05-16T16:36:00.000+08:00",
+        "updatedAt": "2026-05-18T15:36:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-059"
+      }
+    },
+    {
+      "id": "mock-rat-060",
+      "source": {
+        "sampleRecordId": "mock-sample-record-030",
+        "sampleEventId": "mock-sample-record-030-event-checked",
+        "officialObservationId": "mock-official-observation-161"
+      },
+      "data": {
+        "markCode": "MR060",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-05-16T15:36:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-030",
+          "sampleEventId": "mock-sample-record-030-event-checked"
+        },
+        "createdAt": "2026-05-16T16:36:00.000+08:00",
+        "updatedAt": "2026-05-18T15:36:00.000+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-060"
+      }
+    },
+    {
+      "id": "mock-rat-061",
+      "source": {
+        "sampleRecordId": "mock-sample-record-031",
+        "sampleEventId": "mock-sample-record-031-event-checked",
+        "officialObservationId": "mock-official-observation-055"
+      },
+      "data": {
+        "markCode": "MR061",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-05-21T11:11:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-031",
+          "sampleEventId": "mock-sample-record-031-event-checked"
+        },
+        "createdAt": "2026-05-21T12:11:00.000+08:00",
+        "updatedAt": "2026-05-22T11:11:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-062",
+      "source": {
+        "sampleRecordId": "mock-sample-record-032",
+        "sampleEventId": "mock-sample-record-032-event-checked",
+        "officialObservationId": "mock-official-observation-055"
+      },
+      "data": {
+        "markCode": "MR062",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-05-24T14:32:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-032",
+          "sampleEventId": "mock-sample-record-032-event-checked"
+        },
+        "createdAt": "2026-05-24T15:32:00.000+08:00",
+        "updatedAt": "2026-05-25T14:32:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-063",
+      "source": {
+        "sampleRecordId": "mock-sample-record-033",
+        "sampleEventId": "mock-sample-record-033-event-checked",
+        "officialObservationId": "mock-official-observation-058"
+      },
+      "data": {
+        "markCode": "MR063",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-05-28T09:00:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-033",
+          "sampleEventId": "mock-sample-record-033-event-checked"
+        },
+        "createdAt": "2026-05-28T10:00:00.000+08:00",
+        "updatedAt": "2026-05-29T09:00:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-064",
+      "source": {
+        "sampleRecordId": "mock-sample-record-034",
+        "sampleEventId": "mock-sample-record-034-event-checked",
+        "officialObservationId": "mock-official-observation-058"
+      },
+      "data": {
+        "markCode": "MR064",
+        "markType": "ear_tag",
+        "species": "roof_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-06-02T14:35:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-034",
+          "sampleEventId": "mock-sample-record-034-event-checked"
+        },
+        "createdAt": "2026-06-02T15:35:00.000+08:00",
+        "updatedAt": "2026-06-03T14:35:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-065",
+      "source": {
+        "sampleRecordId": "mock-sample-record-035",
+        "sampleEventId": "mock-sample-record-035-event-checked",
+        "officialObservationId": "mock-official-observation-062"
+      },
+      "data": {
+        "markCode": "MR065",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-06-06T09:03:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-035",
+          "sampleEventId": "mock-sample-record-035-event-checked"
+        },
+        "createdAt": "2026-06-06T10:03:00.000+08:00",
+        "updatedAt": "2026-06-07T09:03:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-066",
+      "source": {
+        "sampleRecordId": "mock-sample-record-036",
+        "sampleEventId": "mock-sample-record-036-event-checked",
+        "officialObservationId": "mock-official-observation-062"
+      },
+      "data": {
+        "markCode": "MR066",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-06-10T13:31:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-036",
+          "sampleEventId": "mock-sample-record-036-event-checked"
+        },
+        "createdAt": "2026-06-10T14:31:00.000+08:00",
+        "updatedAt": "2026-06-11T13:31:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-067",
+      "source": {
+        "sampleRecordId": "mock-sample-record-037",
+        "sampleEventId": "mock-sample-record-037-event-checked",
+        "officialObservationId": "mock-official-observation-066"
+      },
+      "data": {
+        "markCode": "MR067",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-06-13T16:52:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-037",
+          "sampleEventId": "mock-sample-record-037-event-checked"
+        },
+        "createdAt": "2026-06-13T17:52:00.000+08:00",
+        "updatedAt": "2026-06-14T16:52:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-068",
+      "source": {
+        "sampleRecordId": "mock-sample-record-038",
+        "sampleEventId": "mock-sample-record-038-event-checked",
+        "officialObservationId": "mock-official-observation-066"
+      },
+      "data": {
+        "markCode": "MR068",
+        "markType": "pit_tag",
+        "species": "roof_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-06-19T13:34:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-038",
+          "sampleEventId": "mock-sample-record-038-event-checked"
+        },
+        "createdAt": "2026-06-19T14:34:00.000+08:00",
+        "updatedAt": "2026-06-20T13:34:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-069",
+      "source": {
+        "sampleRecordId": "mock-sample-record-039",
+        "sampleEventId": "mock-sample-record-039-event-checked",
+        "officialObservationId": "mock-official-observation-071"
+      },
+      "data": {
+        "markCode": "MR069",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-06-22T16:55:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-039",
+          "sampleEventId": "mock-sample-record-039-event-checked"
+        },
+        "createdAt": "2026-06-22T17:55:00.000+08:00",
+        "updatedAt": "2026-06-23T16:55:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-070",
+      "source": {
+        "sampleRecordId": "mock-sample-record-040",
+        "sampleEventId": "mock-sample-record-040-event-checked",
+        "officialObservationId": "mock-official-observation-071"
+      },
+      "data": {
+        "markCode": "MR070",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-06-27T12:30:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-040",
+          "sampleEventId": "mock-sample-record-040-event-checked"
+        },
+        "createdAt": "2026-06-27T13:30:00.000+08:00",
+        "updatedAt": "2026-06-28T12:30:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-071",
+      "source": {
+        "sampleRecordId": "mock-sample-record-041",
+        "sampleEventId": "mock-sample-record-041-event-checked",
+        "officialObservationId": "mock-official-observation-074"
+      },
+      "data": {
+        "markCode": "MR071",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-06-30T15:51:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-041",
+          "sampleEventId": "mock-sample-record-041-event-checked"
+        },
+        "createdAt": "2026-06-30T16:51:00.000+08:00",
+        "updatedAt": "2026-07-01T15:51:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-072",
+      "source": {
+        "sampleRecordId": "mock-sample-record-042",
+        "sampleEventId": "mock-sample-record-042-event-checked",
+        "officialObservationId": "mock-official-observation-074"
+      },
+      "data": {
+        "markCode": "MR072",
+        "markType": "fur_mark",
+        "species": "roof_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-07-05T11:26:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-042",
+          "sampleEventId": "mock-sample-record-042-event-checked"
+        },
+        "createdAt": "2026-07-05T12:26:00.000+08:00",
+        "updatedAt": "2026-07-06T11:26:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-073",
+      "source": {
+        "sampleRecordId": "mock-sample-record-043",
+        "sampleEventId": "mock-sample-record-043-event-checked",
+        "officialObservationId": "mock-official-observation-078"
+      },
+      "data": {
+        "markCode": "MR073",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-07-08T14:47:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-043",
+          "sampleEventId": "mock-sample-record-043-event-checked"
+        },
+        "createdAt": "2026-07-08T15:47:00.000+08:00",
+        "updatedAt": "2026-07-09T14:47:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-074",
+      "source": {
+        "sampleRecordId": "mock-sample-record-044",
+        "sampleEventId": "mock-sample-record-044-event-checked",
+        "officialObservationId": "mock-official-observation-078"
+      },
+      "data": {
+        "markCode": "MR074",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-07-13T10:22:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-044",
+          "sampleEventId": "mock-sample-record-044-event-checked"
+        },
+        "createdAt": "2026-07-13T11:22:00.000+08:00",
+        "updatedAt": "2026-07-14T10:22:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-075",
+      "source": {
+        "sampleRecordId": "mock-sample-record-045",
+        "sampleEventId": "mock-sample-record-045-event-checked",
+        "officialObservationId": "mock-official-observation-082"
+      },
+      "data": {
+        "markCode": "MR075",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-07-16T13:43:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-045",
+          "sampleEventId": "mock-sample-record-045-event-checked"
+        },
+        "createdAt": "2026-07-16T14:43:00.000+08:00",
+        "updatedAt": "2026-07-17T13:43:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-076",
+      "source": {
+        "sampleRecordId": "mock-sample-record-046",
+        "sampleEventId": "mock-sample-record-046-event-checked",
+        "officialObservationId": "mock-official-observation-082"
+      },
+      "data": {
+        "markCode": "MR076",
+        "markType": "ear_tag",
+        "species": "roof_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-07-19T16:04:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-046",
+          "sampleEventId": "mock-sample-record-046-event-checked"
+        },
+        "createdAt": "2026-07-19T17:04:00.000+08:00",
+        "updatedAt": "2026-07-20T16:04:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-077",
+      "source": {
+        "sampleRecordId": "mock-sample-record-047",
+        "sampleEventId": "mock-sample-record-047-event-checked",
+        "officialObservationId": "mock-official-observation-087"
+      },
+      "data": {
+        "markCode": "MR077",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-07-24T12:39:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-047",
+          "sampleEventId": "mock-sample-record-047-event-checked"
+        },
+        "createdAt": "2026-07-24T13:39:00.000+08:00",
+        "updatedAt": "2026-07-25T12:39:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-078",
+      "source": {
+        "sampleRecordId": "mock-sample-record-048",
+        "sampleEventId": "mock-sample-record-048-event-checked",
+        "officialObservationId": "mock-official-observation-087"
+      },
+      "data": {
+        "markCode": "MR078",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-07-27T15:00:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-048",
+          "sampleEventId": "mock-sample-record-048-event-checked"
+        },
+        "createdAt": "2026-07-27T16:00:00.000+08:00",
+        "updatedAt": "2026-07-28T15:00:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-079",
+      "source": {
+        "sampleRecordId": "mock-sample-record-049",
+        "sampleEventId": "mock-sample-record-049-event-checked",
+        "officialObservationId": "mock-official-observation-091"
+      },
+      "data": {
+        "markCode": "MR079",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-08-01T11:35:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-049",
+          "sampleEventId": "mock-sample-record-049-event-checked"
+        },
+        "createdAt": "2026-08-01T12:35:00.000+08:00",
+        "updatedAt": "2026-08-02T11:35:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-080",
+      "source": {
+        "sampleRecordId": "mock-sample-record-050",
+        "sampleEventId": "mock-sample-record-050-event-checked",
+        "officialObservationId": "mock-official-observation-091"
+      },
+      "data": {
+        "markCode": "MR080",
+        "markType": "pit_tag",
+        "species": "roof_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-08-04T14:56:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-050",
+          "sampleEventId": "mock-sample-record-050-event-checked"
+        },
+        "createdAt": "2026-08-04T15:56:00.000+08:00",
+        "updatedAt": "2026-08-05T14:56:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-081",
+      "source": {
+        "sampleRecordId": "mock-sample-record-051",
+        "sampleEventId": "mock-sample-record-051-event-checked",
+        "officialObservationId": "mock-official-observation-094"
+      },
+      "data": {
+        "markCode": "MR081",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-08-28T09:00:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-051",
+          "sampleEventId": "mock-sample-record-051-event-checked"
+        },
+        "createdAt": "2026-08-28T10:00:00.000+08:00",
+        "updatedAt": "2026-08-29T09:00:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-082",
+      "source": {
+        "sampleRecordId": "mock-sample-record-052",
+        "sampleEventId": "mock-sample-record-052-event-checked",
+        "officialObservationId": "mock-official-observation-094"
+      },
+      "data": {
+        "markCode": "MR082",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-01T13:28:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-052",
+          "sampleEventId": "mock-sample-record-052-event-checked"
+        },
+        "createdAt": "2026-09-01T14:28:00.000+08:00",
+        "updatedAt": "2026-09-02T13:28:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-083",
+      "source": {
+        "sampleRecordId": "mock-sample-record-053",
+        "sampleEventId": "mock-sample-record-053-event-checked",
+        "officialObservationId": "mock-official-observation-097"
+      },
+      "data": {
+        "markCode": "MR083",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-06T09:03:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-053",
+          "sampleEventId": "mock-sample-record-053-event-checked"
+        },
+        "createdAt": "2026-09-06T10:03:00.000+08:00",
+        "updatedAt": "2026-09-07T09:03:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-084",
+      "source": {
+        "sampleRecordId": "mock-sample-record-054",
+        "sampleEventId": "mock-sample-record-054-event-checked",
+        "officialObservationId": "mock-official-observation-097"
+      },
+      "data": {
+        "markCode": "MR084",
+        "markType": "fur_mark",
+        "species": "roof_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-09-10T13:31:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-054",
+          "sampleEventId": "mock-sample-record-054-event-checked"
+        },
+        "createdAt": "2026-09-10T14:31:00.000+08:00",
+        "updatedAt": "2026-09-11T13:31:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-085",
+      "source": {
+        "sampleRecordId": "mock-sample-record-055",
+        "sampleEventId": "mock-sample-record-055-event-checked",
+        "officialObservationId": "mock-official-observation-103"
+      },
+      "data": {
+        "markCode": "MR085",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-15T09:06:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-055",
+          "sampleEventId": "mock-sample-record-055-event-checked"
+        },
+        "createdAt": "2026-09-15T10:06:00.000+08:00",
+        "updatedAt": "2026-09-16T09:06:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-086",
+      "source": {
+        "sampleRecordId": "mock-sample-record-056",
+        "sampleEventId": "mock-sample-record-056-event-checked",
+        "officialObservationId": "mock-official-observation-103"
+      },
+      "data": {
+        "markCode": "MR086",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-19T13:34:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-056",
+          "sampleEventId": "mock-sample-record-056-event-checked"
+        },
+        "createdAt": "2026-09-19T14:34:00.000+08:00",
+        "updatedAt": "2026-09-20T13:34:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-087",
+      "source": {
+        "sampleRecordId": "mock-sample-record-057",
+        "sampleEventId": "mock-sample-record-057-event-checked",
+        "officialObservationId": "mock-official-observation-107"
+      },
+      "data": {
+        "markCode": "MR087",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-09-27T12:30:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-057",
+          "sampleEventId": "mock-sample-record-057-event-checked"
+        },
+        "createdAt": "2026-09-27T13:30:00.000+08:00",
+        "updatedAt": "2026-09-28T12:30:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-088",
+      "source": {
+        "sampleRecordId": "mock-sample-record-058",
+        "sampleEventId": "mock-sample-record-058-event-checked",
+        "officialObservationId": "mock-official-observation-107"
+      },
+      "data": {
+        "markCode": "MR088",
+        "markType": "ear_tag",
+        "species": "roof_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-10-01T16:58:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-058",
+          "sampleEventId": "mock-sample-record-058-event-checked"
+        },
+        "createdAt": "2026-10-01T17:58:00.000+08:00",
+        "updatedAt": "2026-10-02T16:58:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-089",
+      "source": {
+        "sampleRecordId": "mock-sample-record-059",
+        "sampleEventId": "mock-sample-record-059-event-checked",
+        "officialObservationId": "mock-official-observation-110"
+      },
+      "data": {
+        "markCode": "MR089",
+        "markType": "pit_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-10-05T11:26:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-059",
+          "sampleEventId": "mock-sample-record-059-event-checked"
+        },
+        "createdAt": "2026-10-05T12:26:00.000+08:00",
+        "updatedAt": "2026-10-06T11:26:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-090",
+      "source": {
+        "sampleRecordId": "mock-sample-record-060",
+        "sampleEventId": "mock-sample-record-060-event-checked",
+        "officialObservationId": "mock-official-observation-110"
+      },
+      "data": {
+        "markCode": "MR090",
+        "markType": "fur_mark",
+        "species": "norway_rat",
+        "sex": "unknown",
+        "firstCapturedAt": "2026-10-13T10:22:00.000+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-060",
+          "sampleEventId": "mock-sample-record-060-event-checked"
+        },
+        "createdAt": "2026-10-13T11:22:00.000+08:00",
+        "updatedAt": "2026-10-14T10:22:00.000+08:00",
+        "schemaVersion": 1
+      }
+    },
+    {
+      "id": "mock-rat-091",
+      "source": {
+        "sampleRecordId": "mock-sample-record-061",
+        "sampleEventId": "mock-sample-record-061-event-checked",
+        "officialObservationId": "mock-official-observation-251"
+      },
+      "data": {
+        "markCode": "MR091",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-03T09:00:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-061",
+          "sampleEventId": "mock-sample-record-061-event-checked"
+        },
+        "createdAt": "2026-09-03T10:00:00+08:00",
+        "updatedAt": "2026-09-03T12:00:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-071"
+      }
+    },
+    {
+      "id": "mock-rat-092",
+      "source": {
+        "sampleRecordId": "mock-sample-record-062",
+        "sampleEventId": "mock-sample-record-062-event-checked",
+        "officialObservationId": "mock-official-observation-252"
+      },
+      "data": {
+        "markCode": "MR092",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-03T12:11:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-062",
+          "sampleEventId": "mock-sample-record-062-event-checked"
+        },
+        "createdAt": "2026-09-03T13:11:00+08:00",
+        "updatedAt": "2026-09-03T15:11:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-072"
+      }
+    },
+    {
+      "id": "mock-rat-093",
+      "source": {
+        "sampleRecordId": "mock-sample-record-063",
+        "sampleEventId": "mock-sample-record-063-event-checked",
+        "officialObservationId": "mock-official-observation-253"
+      },
+      "data": {
+        "markCode": "MR093",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-04T09:22:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-063",
+          "sampleEventId": "mock-sample-record-063-event-checked"
+        },
+        "createdAt": "2026-09-04T10:22:00+08:00",
+        "updatedAt": "2026-09-04T12:22:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-073"
+      }
+    },
+    {
+      "id": "mock-rat-094",
+      "source": {
+        "sampleRecordId": "mock-sample-record-064",
+        "sampleEventId": "mock-sample-record-064-event-checked",
+        "officialObservationId": "mock-official-observation-254"
+      },
+      "data": {
+        "markCode": "MR094",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-04T12:33:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-064",
+          "sampleEventId": "mock-sample-record-064-event-checked"
+        },
+        "createdAt": "2026-09-04T13:33:00+08:00",
+        "updatedAt": "2026-09-04T15:33:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-074"
+      }
+    },
+    {
+      "id": "mock-rat-095",
+      "source": {
+        "sampleRecordId": "mock-sample-record-065",
+        "sampleEventId": "mock-sample-record-065-event-checked",
+        "officialObservationId": "mock-official-observation-255"
+      },
+      "data": {
+        "markCode": "MR095",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-05T09:44:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-065",
+          "sampleEventId": "mock-sample-record-065-event-checked"
+        },
+        "createdAt": "2026-09-05T10:44:00+08:00",
+        "updatedAt": "2026-09-05T12:44:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-075"
+      }
+    },
+    {
+      "id": "mock-rat-096",
+      "source": {
+        "sampleRecordId": "mock-sample-record-066",
+        "sampleEventId": "mock-sample-record-066-event-checked",
+        "officialObservationId": "mock-official-observation-256"
+      },
+      "data": {
+        "markCode": "MR096",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-05T12:55:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-066",
+          "sampleEventId": "mock-sample-record-066-event-checked"
+        },
+        "createdAt": "2026-09-05T13:55:00+08:00",
+        "updatedAt": "2026-09-05T15:55:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-076"
+      }
+    },
+    {
+      "id": "mock-rat-097",
+      "source": {
+        "sampleRecordId": "mock-sample-record-067",
+        "sampleEventId": "mock-sample-record-067-event-checked",
+        "officialObservationId": "mock-official-observation-257"
+      },
+      "data": {
+        "markCode": "MR097",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-06T09:06:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-067",
+          "sampleEventId": "mock-sample-record-067-event-checked"
+        },
+        "createdAt": "2026-09-06T10:06:00+08:00",
+        "updatedAt": "2026-09-06T12:06:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-077"
+      }
+    },
+    {
+      "id": "mock-rat-098",
+      "source": {
+        "sampleRecordId": "mock-sample-record-068",
+        "sampleEventId": "mock-sample-record-068-event-checked",
+        "officialObservationId": "mock-official-observation-258"
+      },
+      "data": {
+        "markCode": "MR098",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-06T12:17:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-068",
+          "sampleEventId": "mock-sample-record-068-event-checked"
+        },
+        "createdAt": "2026-09-06T13:17:00+08:00",
+        "updatedAt": "2026-09-06T15:17:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-078"
+      }
+    },
+    {
+      "id": "mock-rat-099",
+      "source": {
+        "sampleRecordId": "mock-sample-record-069",
+        "sampleEventId": "mock-sample-record-069-event-checked",
+        "officialObservationId": "mock-official-observation-259"
+      },
+      "data": {
+        "markCode": "MR099",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-07T09:28:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-069",
+          "sampleEventId": "mock-sample-record-069-event-checked"
+        },
+        "createdAt": "2026-09-07T10:28:00+08:00",
+        "updatedAt": "2026-09-07T12:28:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-079"
+      }
+    },
+    {
+      "id": "mock-rat-100",
+      "source": {
+        "sampleRecordId": "mock-sample-record-070",
+        "sampleEventId": "mock-sample-record-070-event-checked",
+        "officialObservationId": "mock-official-observation-260"
+      },
+      "data": {
+        "markCode": "MR100",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-07T12:39:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-070",
+          "sampleEventId": "mock-sample-record-070-event-checked"
+        },
+        "createdAt": "2026-09-07T13:39:00+08:00",
+        "updatedAt": "2026-09-07T15:39:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-080"
+      }
+    },
+    {
+      "id": "mock-rat-101",
+      "source": {
+        "sampleRecordId": "mock-sample-record-071",
+        "sampleEventId": "mock-sample-record-071-event-checked",
+        "officialObservationId": "mock-official-observation-261"
+      },
+      "data": {
+        "markCode": "MR101",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-08T09:50:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-071",
+          "sampleEventId": "mock-sample-record-071-event-checked"
+        },
+        "createdAt": "2026-09-08T10:50:00+08:00",
+        "updatedAt": "2026-09-08T12:50:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-081"
+      }
+    },
+    {
+      "id": "mock-rat-102",
+      "source": {
+        "sampleRecordId": "mock-sample-record-072",
+        "sampleEventId": "mock-sample-record-072-event-checked",
+        "officialObservationId": "mock-official-observation-262"
+      },
+      "data": {
+        "markCode": "MR102",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-08T12:01:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-072",
+          "sampleEventId": "mock-sample-record-072-event-checked"
+        },
+        "createdAt": "2026-09-08T13:01:00+08:00",
+        "updatedAt": "2026-09-08T15:01:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-082"
+      }
+    },
+    {
+      "id": "mock-rat-103",
+      "source": {
+        "sampleRecordId": "mock-sample-record-073",
+        "sampleEventId": "mock-sample-record-073-event-checked",
+        "officialObservationId": "mock-official-observation-263"
+      },
+      "data": {
+        "markCode": "MR103",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-09T09:12:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-073",
+          "sampleEventId": "mock-sample-record-073-event-checked"
+        },
+        "createdAt": "2026-09-09T10:12:00+08:00",
+        "updatedAt": "2026-09-09T12:12:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-083"
+      }
+    },
+    {
+      "id": "mock-rat-104",
+      "source": {
+        "sampleRecordId": "mock-sample-record-074",
+        "sampleEventId": "mock-sample-record-074-event-checked",
+        "officialObservationId": "mock-official-observation-264"
+      },
+      "data": {
+        "markCode": "MR104",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-09T12:23:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-074",
+          "sampleEventId": "mock-sample-record-074-event-checked"
+        },
+        "createdAt": "2026-09-09T13:23:00+08:00",
+        "updatedAt": "2026-09-09T15:23:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-084"
+      }
+    },
+    {
+      "id": "mock-rat-105",
+      "source": {
+        "sampleRecordId": "mock-sample-record-075",
+        "sampleEventId": "mock-sample-record-075-event-checked",
+        "officialObservationId": "mock-official-observation-265"
+      },
+      "data": {
+        "markCode": "MR105",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-10T09:34:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-075",
+          "sampleEventId": "mock-sample-record-075-event-checked"
+        },
+        "createdAt": "2026-09-10T10:34:00+08:00",
+        "updatedAt": "2026-09-10T12:34:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-085"
+      }
+    },
+    {
+      "id": "mock-rat-106",
+      "source": {
+        "sampleRecordId": "mock-sample-record-076",
+        "sampleEventId": "mock-sample-record-076-event-checked",
+        "officialObservationId": "mock-official-observation-266"
+      },
+      "data": {
+        "markCode": "MR106",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-10T12:45:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-076",
+          "sampleEventId": "mock-sample-record-076-event-checked"
+        },
+        "createdAt": "2026-09-10T13:45:00+08:00",
+        "updatedAt": "2026-09-10T15:45:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-086"
+      }
+    },
+    {
+      "id": "mock-rat-107",
+      "source": {
+        "sampleRecordId": "mock-sample-record-077",
+        "sampleEventId": "mock-sample-record-077-event-checked",
+        "officialObservationId": "mock-official-observation-267"
+      },
+      "data": {
+        "markCode": "MR107",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-11T09:56:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-077",
+          "sampleEventId": "mock-sample-record-077-event-checked"
+        },
+        "createdAt": "2026-09-11T10:56:00+08:00",
+        "updatedAt": "2026-09-11T12:56:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-087"
+      }
+    },
+    {
+      "id": "mock-rat-108",
+      "source": {
+        "sampleRecordId": "mock-sample-record-078",
+        "sampleEventId": "mock-sample-record-078-event-checked",
+        "officialObservationId": "mock-official-observation-268"
+      },
+      "data": {
+        "markCode": "MR108",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-11T12:07:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-078",
+          "sampleEventId": "mock-sample-record-078-event-checked"
+        },
+        "createdAt": "2026-09-11T13:07:00+08:00",
+        "updatedAt": "2026-09-11T15:07:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-088"
+      }
+    },
+    {
+      "id": "mock-rat-109",
+      "source": {
+        "sampleRecordId": "mock-sample-record-079",
+        "sampleEventId": "mock-sample-record-079-event-checked",
+        "officialObservationId": "mock-official-observation-269"
+      },
+      "data": {
+        "markCode": "MR109",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-12T09:18:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-079",
+          "sampleEventId": "mock-sample-record-079-event-checked"
+        },
+        "createdAt": "2026-09-12T10:18:00+08:00",
+        "updatedAt": "2026-09-12T12:18:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-089"
+      }
+    },
+    {
+      "id": "mock-rat-110",
+      "source": {
+        "sampleRecordId": "mock-sample-record-080",
+        "sampleEventId": "mock-sample-record-080-event-checked",
+        "officialObservationId": "mock-official-observation-270"
+      },
+      "data": {
+        "markCode": "MR110",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-12T12:29:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-080",
+          "sampleEventId": "mock-sample-record-080-event-checked"
+        },
+        "createdAt": "2026-09-12T13:29:00+08:00",
+        "updatedAt": "2026-09-12T15:29:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-090"
+      }
+    },
+    {
+      "id": "mock-rat-111",
+      "source": {
+        "sampleRecordId": "mock-sample-record-081",
+        "sampleEventId": "mock-sample-record-081-event-checked",
+        "officialObservationId": "mock-official-observation-271"
+      },
+      "data": {
+        "markCode": "MR111",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-13T09:40:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-081",
+          "sampleEventId": "mock-sample-record-081-event-checked"
+        },
+        "createdAt": "2026-09-13T10:40:00+08:00",
+        "updatedAt": "2026-09-13T12:40:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-091"
+      }
+    },
+    {
+      "id": "mock-rat-112",
+      "source": {
+        "sampleRecordId": "mock-sample-record-082",
+        "sampleEventId": "mock-sample-record-082-event-checked",
+        "officialObservationId": "mock-official-observation-272"
+      },
+      "data": {
+        "markCode": "MR112",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-13T12:51:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-082",
+          "sampleEventId": "mock-sample-record-082-event-checked"
+        },
+        "createdAt": "2026-09-13T13:51:00+08:00",
+        "updatedAt": "2026-09-13T15:51:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-092"
+      }
+    },
+    {
+      "id": "mock-rat-113",
+      "source": {
+        "sampleRecordId": "mock-sample-record-083",
+        "sampleEventId": "mock-sample-record-083-event-checked",
+        "officialObservationId": "mock-official-observation-273"
+      },
+      "data": {
+        "markCode": "MR113",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-14T09:02:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-083",
+          "sampleEventId": "mock-sample-record-083-event-checked"
+        },
+        "createdAt": "2026-09-14T10:02:00+08:00",
+        "updatedAt": "2026-09-14T12:02:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-093"
+      }
+    },
+    {
+      "id": "mock-rat-114",
+      "source": {
+        "sampleRecordId": "mock-sample-record-084",
+        "sampleEventId": "mock-sample-record-084-event-checked",
+        "officialObservationId": "mock-official-observation-274"
+      },
+      "data": {
+        "markCode": "MR114",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-14T12:13:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-084",
+          "sampleEventId": "mock-sample-record-084-event-checked"
+        },
+        "createdAt": "2026-09-14T13:13:00+08:00",
+        "updatedAt": "2026-09-14T15:13:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-094"
+      }
+    },
+    {
+      "id": "mock-rat-115",
+      "source": {
+        "sampleRecordId": "mock-sample-record-085",
+        "sampleEventId": "mock-sample-record-085-event-checked",
+        "officialObservationId": "mock-official-observation-275"
+      },
+      "data": {
+        "markCode": "MR115",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-15T09:24:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-085",
+          "sampleEventId": "mock-sample-record-085-event-checked"
+        },
+        "createdAt": "2026-09-15T10:24:00+08:00",
+        "updatedAt": "2026-09-15T12:24:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-095"
+      }
+    },
+    {
+      "id": "mock-rat-116",
+      "source": {
+        "sampleRecordId": "mock-sample-record-086",
+        "sampleEventId": "mock-sample-record-086-event-checked",
+        "officialObservationId": "mock-official-observation-276"
+      },
+      "data": {
+        "markCode": "MR116",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-15T12:35:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-086",
+          "sampleEventId": "mock-sample-record-086-event-checked"
+        },
+        "createdAt": "2026-09-15T13:35:00+08:00",
+        "updatedAt": "2026-09-15T15:35:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-096"
+      }
+    },
+    {
+      "id": "mock-rat-117",
+      "source": {
+        "sampleRecordId": "mock-sample-record-087",
+        "sampleEventId": "mock-sample-record-087-event-checked",
+        "officialObservationId": "mock-official-observation-277"
+      },
+      "data": {
+        "markCode": "MR117",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-16T09:46:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-087",
+          "sampleEventId": "mock-sample-record-087-event-checked"
+        },
+        "createdAt": "2026-09-16T10:46:00+08:00",
+        "updatedAt": "2026-09-16T12:46:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-097"
+      }
+    },
+    {
+      "id": "mock-rat-118",
+      "source": {
+        "sampleRecordId": "mock-sample-record-088",
+        "sampleEventId": "mock-sample-record-088-event-checked",
+        "officialObservationId": "mock-official-observation-278"
+      },
+      "data": {
+        "markCode": "MR118",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-16T12:57:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-088",
+          "sampleEventId": "mock-sample-record-088-event-checked"
+        },
+        "createdAt": "2026-09-16T13:57:00+08:00",
+        "updatedAt": "2026-09-16T15:57:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-098"
+      }
+    },
+    {
+      "id": "mock-rat-119",
+      "source": {
+        "sampleRecordId": "mock-sample-record-089",
+        "sampleEventId": "mock-sample-record-089-event-checked",
+        "officialObservationId": "mock-official-observation-279"
+      },
+      "data": {
+        "markCode": "MR119",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-17T09:08:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-089",
+          "sampleEventId": "mock-sample-record-089-event-checked"
+        },
+        "createdAt": "2026-09-17T10:08:00+08:00",
+        "updatedAt": "2026-09-17T12:08:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-099"
+      }
+    },
+    {
+      "id": "mock-rat-120",
+      "source": {
+        "sampleRecordId": "mock-sample-record-090",
+        "sampleEventId": "mock-sample-record-090-event-checked",
+        "officialObservationId": "mock-official-observation-280"
+      },
+      "data": {
+        "markCode": "MR120",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-17T12:19:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-090",
+          "sampleEventId": "mock-sample-record-090-event-checked"
+        },
+        "createdAt": "2026-09-17T13:19:00+08:00",
+        "updatedAt": "2026-09-17T15:19:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-100"
+      }
+    },
+    {
+      "id": "mock-rat-121",
+      "source": {
+        "sampleRecordId": "mock-sample-record-091",
+        "sampleEventId": "mock-sample-record-091-event-checked",
+        "officialObservationId": "mock-official-observation-281"
+      },
+      "data": {
+        "markCode": "MR121",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-18T09:30:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-091",
+          "sampleEventId": "mock-sample-record-091-event-checked"
+        },
+        "createdAt": "2026-09-18T10:30:00+08:00",
+        "updatedAt": "2026-09-18T12:30:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-101"
+      }
+    },
+    {
+      "id": "mock-rat-122",
+      "source": {
+        "sampleRecordId": "mock-sample-record-092",
+        "sampleEventId": "mock-sample-record-092-event-checked",
+        "officialObservationId": "mock-official-observation-282"
+      },
+      "data": {
+        "markCode": "MR122",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-18T12:41:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-092",
+          "sampleEventId": "mock-sample-record-092-event-checked"
+        },
+        "createdAt": "2026-09-18T13:41:00+08:00",
+        "updatedAt": "2026-09-18T15:41:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-102"
+      }
+    },
+    {
+      "id": "mock-rat-123",
+      "source": {
+        "sampleRecordId": "mock-sample-record-093",
+        "sampleEventId": "mock-sample-record-093-event-checked",
+        "officialObservationId": "mock-official-observation-283"
+      },
+      "data": {
+        "markCode": "MR123",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-19T09:52:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-093",
+          "sampleEventId": "mock-sample-record-093-event-checked"
+        },
+        "createdAt": "2026-09-19T10:52:00+08:00",
+        "updatedAt": "2026-09-19T12:52:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-103"
+      }
+    },
+    {
+      "id": "mock-rat-124",
+      "source": {
+        "sampleRecordId": "mock-sample-record-094",
+        "sampleEventId": "mock-sample-record-094-event-checked",
+        "officialObservationId": "mock-official-observation-284"
+      },
+      "data": {
+        "markCode": "MR124",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-19T12:03:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-094",
+          "sampleEventId": "mock-sample-record-094-event-checked"
+        },
+        "createdAt": "2026-09-19T13:03:00+08:00",
+        "updatedAt": "2026-09-19T15:03:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-104"
+      }
+    },
+    {
+      "id": "mock-rat-125",
+      "source": {
+        "sampleRecordId": "mock-sample-record-095",
+        "sampleEventId": "mock-sample-record-095-event-checked",
+        "officialObservationId": "mock-official-observation-285"
+      },
+      "data": {
+        "markCode": "MR125",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-20T09:14:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-095",
+          "sampleEventId": "mock-sample-record-095-event-checked"
+        },
+        "createdAt": "2026-09-20T10:14:00+08:00",
+        "updatedAt": "2026-09-20T12:14:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-105"
+      }
+    },
+    {
+      "id": "mock-rat-126",
+      "source": {
+        "sampleRecordId": "mock-sample-record-096",
+        "sampleEventId": "mock-sample-record-096-event-checked",
+        "officialObservationId": "mock-official-observation-286"
+      },
+      "data": {
+        "markCode": "MR126",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-20T12:25:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-096",
+          "sampleEventId": "mock-sample-record-096-event-checked"
+        },
+        "createdAt": "2026-09-20T13:25:00+08:00",
+        "updatedAt": "2026-09-20T15:25:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-106"
+      }
+    },
+    {
+      "id": "mock-rat-127",
+      "source": {
+        "sampleRecordId": "mock-sample-record-097",
+        "sampleEventId": "mock-sample-record-097-event-checked",
+        "officialObservationId": "mock-official-observation-287"
+      },
+      "data": {
+        "markCode": "MR127",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "male",
+        "firstCapturedAt": "2026-09-21T09:36:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-097",
+          "sampleEventId": "mock-sample-record-097-event-checked"
+        },
+        "createdAt": "2026-09-21T10:36:00+08:00",
+        "updatedAt": "2026-09-21T12:36:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-107"
+      }
+    },
+    {
+      "id": "mock-rat-128",
+      "source": {
+        "sampleRecordId": "mock-sample-record-098",
+        "sampleEventId": "mock-sample-record-098-event-checked",
+        "officialObservationId": "mock-official-observation-288"
+      },
+      "data": {
+        "markCode": "MR128",
+        "markType": "ear_tag",
+        "species": "norway_rat",
+        "sex": "female",
+        "firstCapturedAt": "2026-09-21T12:47:00+08:00",
+        "firstCapture": {
+          "sampleRecordId": "mock-sample-record-098",
+          "sampleEventId": "mock-sample-record-098-event-checked"
+        },
+        "createdAt": "2026-09-21T13:47:00+08:00",
+        "updatedAt": "2026-09-21T15:47:00+08:00",
+        "schemaVersion": 1,
+        "geneticSampleId": "mock-genetic-sample-108"
+      }
+    }
+  ]
+}
