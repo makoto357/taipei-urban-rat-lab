@@ -118,6 +118,7 @@ interface SampleRecord {
 interface RatIndividual {
   id: string;
   markCode?: string;
+  firstCapturedAt: string;
   firstCapture: { sampleRecordId: string; sampleEventId: string };
 }
 
@@ -435,10 +436,14 @@ const parseSampleRecords = (value: unknown) =>
 const parseRatIndividuals = (value: unknown) =>
   parseDocumentList(value, "mock-rat-individuals.json", (id, data) => {
     const firstCapture = object(data.firstCapture, `${id}.firstCapture`);
-    isoDate(data.firstCapturedAt, `${id}.firstCapturedAt`);
+    const firstCapturedAt = isoDate(
+      data.firstCapturedAt,
+      `${id}.firstCapturedAt`,
+    );
     return {
       id,
       markCode: optionalString(data.markCode, `${id}.markCode`),
+      firstCapturedAt,
       firstCapture: {
         sampleRecordId: string(
           firstCapture.sampleRecordId,
@@ -701,6 +706,12 @@ export const loadMockResearchMapData = async (
         samplingEffort: effort,
         timeline: formatTimeline(record.events),
         linkedOfficialObservationId: record.linkedOfficialObservationId ?? "",
+        latestEventTime:
+          record.events.reduce(
+            (latest, event) =>
+              Date.parse(event.time) > Date.parse(latest) ? event.time : latest,
+            record.events[0]?.time ?? "",
+          ) || "",
       });
     });
 
@@ -884,6 +895,8 @@ export const loadMockResearchMapData = async (
           analysisId: relationship.analysisId,
           analysisVersion: analysis.analysisVersion,
           analysisType: analysis.analysisType,
+          fromCapturedAt: ratA.firstCapturedAt,
+          toCapturedAt: ratB.firstCapturedAt,
         },
       } satisfies Feature<LineString, Record<string, unknown>>,
     ];
@@ -908,6 +921,7 @@ export const loadMockResearchMapData = async (
           ratId,
           markCode: rat.markCode ?? "",
           relationshipCount,
+          firstCapturedAt: rat.firstCapturedAt,
         }),
       ];
     },

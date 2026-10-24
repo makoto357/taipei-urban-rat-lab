@@ -437,14 +437,7 @@ const DISTRICTS = [
   "文山區",
 ] as const;
 
-const TIME_RANGES = [
-  "最近 3 個月",
-  "最近 1 個月",
-  "最近 1 年",
-  "全部",
-] as const;
-
-export { DISTRICTS, TIME_RANGES };
+export { DISTRICTS };
 
 export function legendSwatchClass(shape: LegendShape): string {
   switch (shape) {

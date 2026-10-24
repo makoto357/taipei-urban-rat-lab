@@ -165,6 +165,7 @@ const queryPointGrid = (
 
 export interface RiskModelConfig {
   areaAdjustmentBeta?: number;
+  observedAfter?: string;
 }
 
 export const loadRatReportLanduse = async (
@@ -178,6 +179,14 @@ export const loadRatReportLanduse = async (
     requestedBeta >= 0
       ? requestedBeta
       : AREA_ADJUSTMENT_BETA;
+  const observedAfter = config.observedAfter
+    ? Date.parse(config.observedAfter)
+    : Number.NaN;
+  const isObservationInRange = (properties: Record<string, unknown>) => {
+    if (!Number.isFinite(observedAfter)) return true;
+    const observedAt = Date.parse(String(properties.observedAt ?? ""));
+    return Number.isFinite(observedAt) && observedAt >= observedAfter;
+  };
   const loadConnectivity = async (url: string) => {
     const response = await fetch(url, { signal });
     if (!response.ok) {
@@ -218,16 +227,27 @@ export const loadRatReportLanduse = async (
   ]);
 
   const ratPoints = reports.features
-    .filter((feature) => feature.properties?.reportType === "rat")
+    .filter(
+      (feature) =>
+        feature.properties?.reportType === "rat" &&
+        isObservationInRange(feature.properties),
+    )
     .map((feature) => feature.geometry.coordinates);
 
   const governmentEvidencePoints = official.features
-    .filter((feature) => feature.properties.surveyResult === "evidence_found")
+    .filter(
+      (feature) =>
+        feature.properties.surveyResult === "evidence_found" &&
+        isObservationInRange(feature.properties),
+    )
     .map((feature) => feature.geometry.coordinates);
   const shelterObservationPoints = official.features
     .filter((feature) => {
       const types = String(feature.properties.observationTypes ?? "");
-      return types.includes("clutter") || types.includes("unused_space");
+      return (
+        isObservationInRange(feature.properties) &&
+        (types.includes("clutter") || types.includes("unused_space"))
+      );
     })
     .map((feature) => feature.geometry.coordinates);
   const restaurantPoints = restaurants.features.map(
@@ -506,6 +526,7 @@ export const loadRatReportLanduse = async (
     metadata: {
       riskModel: {
         version: "weighted-remapped-five-level-v5",
+        observedAfter: config.observedAfter ?? null,
         areaAdjustmentBeta,
         factorWeights: FACTOR_WEIGHTS,
         p95References: {
