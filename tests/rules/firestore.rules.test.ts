@@ -113,6 +113,50 @@ describe('Firestore Rules smoke tests', () => {
     await expect(assertSucceeds(setDoc(doc(client, 'citizenReports', 'report-1'), citizenReport('citizen-1')))).resolves.toBeUndefined();
   });
 
+  it('denies a citizen creating a citizenReports document under another reporterId', async () => {
+    const client = testEnvironment.authenticatedContext('citizen-1', { role: 'citizen' }).firestore();
+
+    await expect(assertFails(setDoc(doc(client, 'citizenReports', 'report-1'), citizenReport('citizen-2')))).resolves.toBeDefined();
+  });
+
+  it('denies an official creating a citizenReports document (citizen form is citizen-only)', async () => {
+    await testEnvironment.withSecurityRulesDisabled(async (context) => {
+      await setDoc(doc(context.firestore(), 'memberships', 'official-1'), officialMembership);
+    });
+    const client = testEnvironment.authenticatedContext('official-1', { role: 'official' }).firestore();
+
+    await expect(assertFails(setDoc(doc(client, 'citizenReports', 'report-1'), citizenReport('official-1')))).resolves.toBeDefined();
+  });
+
+  it('denies a citizenReports document with an extra field or a client-chosen createdAt', async () => {
+    const client = testEnvironment.authenticatedContext('citizen-1', { role: 'citizen' }).firestore();
+
+    await expect(assertFails(setDoc(doc(client, 'citizenReports', 'report-1'), { ...citizenReport('citizen-1'), verified: true }))).resolves.toBeDefined();
+    await expect(assertFails(setDoc(doc(client, 'citizenReports', 'report-2'), { ...citizenReport('citizen-1'), createdAt: new Date(0) }))).resolves.toBeDefined();
+  });
+
+  it('denies a citizen creating officialObservations or baitRecords', async () => {
+    const client = testEnvironment.authenticatedContext('citizen-1', { role: 'citizen' }).firestore();
+
+    await expect(assertFails(setDoc(doc(client, 'officialObservations', 'observation-1'), {
+      reporterId: 'citizen-1',
+      organizationId: 'environmental-protection',
+      schemaVersion: 1,
+    }))).resolves.toBeDefined();
+    await expect(assertFails(setDoc(doc(client, 'baitRecords', 'bait-1'), {
+      reporterId: 'citizen-1',
+      organizationId: 'environmental-protection',
+      schemaVersion: 1,
+    }))).resolves.toBeDefined();
+  });
+
+  it('denies a signed-out visitor listing citizenReports or officialObservations', async () => {
+    const client = testEnvironment.unauthenticatedContext().firestore();
+
+    await expect(assertFails(getDoc(doc(client, 'citizenReports', 'report-1')))).resolves.toBeDefined();
+    await expect(assertFails(getDoc(doc(client, 'officialObservations', 'observation-1')))).resolves.toBeDefined();
+  });
+
   it('allows an active official to create an officialObservations document for their organization', async () => {
     await testEnvironment.withSecurityRulesDisabled(async (context) => {
       await setDoc(doc(context.firestore(), 'memberships', 'official-1'), officialMembership);

@@ -16,7 +16,7 @@ export default defineConfig({
     use: { ...devices['Desktop Chrome'] },
   }],
   webServer: {
-    command: 'pnpm --filter @taipei-rat-lab/web exec vite --host 127.0.0.1',
+    command: 'pnpm --filter @taipei-rat-lab/web run build:literature && pnpm --filter @taipei-rat-lab/web exec vite --host 127.0.0.1',
     cwd: repositoryRoot,
     url: 'http://127.0.0.1:5173',
     reuseExistingServer: !process.env.CI,
