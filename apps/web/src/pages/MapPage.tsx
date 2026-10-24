@@ -6,7 +6,11 @@ import {
   getEngineLayers,
 } from "../features/map/InteractiveMap";
 import { LayerLegendSwatch } from "../features/map/LayerLegendSwatch";
-import { DISTRICTS, MAP_TOPICS, TIME_RANGES } from "../features/map/mapTopics";
+import { DISTRICTS, MAP_TOPICS } from "../features/map/mapTopics";
+import {
+  TIME_RANGE_OPTIONS,
+  type TimeRangeKey,
+} from "../features/map/timeRange";
 
 export function MapPage() {
   const [activeTopic, setActiveTopic] = useState(0);
@@ -14,6 +18,7 @@ export function MapPage() {
     {},
   );
   const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [timeRange, setTimeRange] = useState<TimeRangeKey>("1y");
 
   const topic = MAP_TOPICS[activeTopic]!;
   const layers = useMemo(() => {
@@ -302,12 +307,16 @@ export function MapPage() {
             <label className="flex flex-col gap-2 text-base font-black">
               時間範圍
               <select
-                disabled
-                title="目前資料尚未提供時間篩選"
-                className="min-h-11 rounded-none border-[1.5px] border-muted bg-unknown px-2.5 font-body text-sm font-normal text-muted"
+                value={timeRange}
+                onChange={(event) =>
+                  setTimeRange(event.target.value as TimeRangeKey)
+                }
+                className="min-h-11 rounded-none border-[1.5px] border-ink bg-paper px-2.5 font-body text-sm font-normal focus:bg-card focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-ink"
               >
-                {TIME_RANGES.map((range) => (
-                  <option key={range}>{range}</option>
+                {TIME_RANGE_OPTIONS.map((range) => (
+                  <option key={range.value} value={range.value}>
+                    {range.label}
+                  </option>
                 ))}
               </select>
             </label>
@@ -353,6 +362,7 @@ export function MapPage() {
             <InteractiveMap
               visibleDataLayers={visibleDataLayers}
               selectedDistrict={selectedDistrict}
+              timeRange={timeRange}
             />
           </section>
         </div>

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useDataMap, type DataLayerKey } from "./engine/useDataMap";
+import type { TimeRangeKey } from "./timeRange";
 import "./interactive-map.css";
 
 const ENGINE_LAYERS_BY_UI_KEY: Record<string, DataLayerKey[]> = {
@@ -79,13 +80,15 @@ export const getEngineLayers = (uiLayerKey: string): DataLayerKey[] =>
 interface InteractiveMapProps {
   visibleDataLayers: DataLayerKey[];
   selectedDistrict: string;
+  timeRange: TimeRangeKey;
 }
 
 export function InteractiveMap({
   visibleDataLayers,
   selectedDistrict,
+  timeRange,
 }: InteractiveMapProps) {
-  const { mapContainerRef, setVisibleDataLayers, selectDistrict } =
+  const { mapContainerRef, setVisibleDataLayers, selectDistrict, setTimeRange } =
     useDataMap();
   const visibilityKey = [...visibleDataLayers].sort().join("|");
 
@@ -96,6 +99,10 @@ export function InteractiveMap({
   useEffect(() => {
     selectDistrict(selectedDistrict);
   }, [selectedDistrict]);
+
+  useEffect(() => {
+    setTimeRange(timeRange);
+  }, [timeRange]);
 
   return (
     <div

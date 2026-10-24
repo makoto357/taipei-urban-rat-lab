@@ -3,6 +3,8 @@ import * as maplibregl from "maplibre-gl";
 import maplibreWorkerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?url";
 import type {
   ExpressionSpecification,
+  FilterSpecification,
+  GeoJSONSource,
   Map as MapLibreMap,
   MapLayerMouseEvent,
 } from "maplibre-gl";
@@ -33,6 +35,11 @@ import { loadMockResearchMapData } from "./mockResearchData";
 import { loadOfficialObservations } from "./officialObservations";
 import { loadRatReportLanduse } from "./ratLanduse";
 import { getRiskLevel } from "./riskModel";
+import {
+  getTimeRangeCutoff,
+  getTimeRangeCutoffDate,
+  type TimeRangeKey,
+} from "../timeRange";
 
 maplibregl.setWorkerUrl(maplibreWorkerUrl);
 
@@ -182,6 +189,147 @@ const createRiskColorExpression = (
   0.8,
   "#9E352F",
 ];
+
+const includesPropertyText = (
+  property: string,
+  text: string,
+): ExpressionSpecification =>
+  [
+    ">=",
+    ["index-of", text, ["coalesce", ["get", property], ""]],
+    0,
+  ];
+
+const applyTimeRangeFilters = (
+  map: MapLibreMap,
+  range: TimeRangeKey,
+) => {
+  const cutoff = getTimeRangeCutoffDate(range);
+  const dateFilter = (field: string): FilterSpecification =>
+    [">=", ["get", field], cutoff ?? ""] as FilterSpecification;
+  const combine = (
+    base: FilterSpecification | null,
+    ...dateFields: string[]
+  ): FilterSpecification | null => {
+    if (!cutoff) return base;
+    const filters = [
+      ...(base ? [base] : []),
+      ...dateFields.map(dateFilter),
+    ];
+    return filters.length === 1
+      ? filters[0]!
+      : (["all", ...filters] as FilterSpecification);
+  };
+  const setFilter = (
+    layerId: string,
+    base: FilterSpecification | null,
+    ...dateFields: string[]
+  ) => {
+    if (map.getLayer(layerId)) {
+      map.setFilter(layerId, combine(base, ...dateFields));
+    }
+  };
+
+  setFilter(
+    "citizen-reports-rat-circle",
+    ["==", ["get", "reportType"], "rat"],
+    "observedAt",
+  );
+  setFilter(
+    "citizen-reports-bait-circle",
+    ["==", ["get", "reportType"], "bait"],
+    "observedAt",
+  );
+  setFilter(
+    officialEvidenceLayerId,
+    ["==", ["get", "surveyResult"], "evidence_found"],
+    "observedAt",
+  );
+  setFilter(
+    officialNoEvidenceLayerId,
+    ["==", ["get", "surveyResult"], "no_evidence_found"],
+    "observedAt",
+  );
+  setFilter(
+    vacantSpaceLayerId,
+    [
+      "any",
+      includesPropertyText("observationTypes", "clutter"),
+      includesPropertyText("observationTypes", "unused_space"),
+    ] as FilterSpecification,
+    "observedAt",
+  );
+
+  for (const [layerId, category] of [
+    ["control-records-contraceptive-circle", "contraceptive"],
+    ["control-records-rodenticide-square", "rodenticide"],
+    ["control-records-unknown-circle", "unknown"],
+  ] as const) {
+    setFilter(
+      layerId,
+      ["==", ["get", "productCategory"], category],
+      "latestEventTime",
+    );
+  }
+  setFilter("sample-records-circle", null, "latestEventTime");
+  for (const [layerId, status] of [
+    ["capture-encounters-first-circle", "first_capture"],
+    ["capture-encounters-recapture-circle", "recapture"],
+    ["capture-encounters-unknown-circle", "unknown"],
+  ] as const) {
+    setFilter(
+      layerId,
+      ["==", ["get", "captureStatus"], status],
+      "capturedAt",
+    );
+  }
+  setFilter(
+    "capture-connections-line",
+    null,
+    "fromCapturedAt",
+    "toCapturedAt",
+  );
+  setFilter(
+    "capture-connections-hit-line",
+    null,
+    "fromCapturedAt",
+    "toCapturedAt",
+  );
+  setFilter("genetic-samples-circle", null, "collectedAt");
+  setFilter(
+    "genetic-relationship-nodes-circle",
+    null,
+    "firstCapturedAt",
+  );
+  const relationshipFilters: Array<[
+    "parent" | "sibling" | "other",
+    FilterSpecification,
+  ]> = [
+    [
+      "parent",
+      ["==", ["get", "relationshipType"], "parent_offspring"],
+    ],
+    [
+      "sibling",
+      [
+        "in",
+        ["get", "relationshipType"],
+        ["literal", ["full_sibling", "half_sibling"]],
+      ],
+    ],
+    ["other", ["==", ["get", "relationshipType"], "other_related"]],
+  ];
+  for (const [relationship, base] of relationshipFilters) {
+    for (const suffix of ["line", "hit-line"] as const) {
+      setFilter(
+        `genetic-relationships-${relationship}-${suffix}`,
+        base,
+        "fromCapturedAt",
+        "toCapturedAt",
+      );
+    }
+  }
+};
 
 const applyDataLayerVisibility = (
   map: MapLibreMap,
@@ -587,6 +735,8 @@ export function useDataMap() {
   const mapRef = useRef<MapLibreMap | null>(null);
   const baseLayerVisibilityRef = useRef({ ...initialBaseLayerVisibility });
   const dataLayerVisibilityRef = useRef({ ...initialDataLayerVisibility });
+  const timeRangeRef = useRef<TimeRangeKey>("all");
+  const riskReloadControllerRef = useRef<AbortController | null>(null);
   const [baseLayerVisibility, setBaseLayerVisibilityState] = useState({
     ...initialBaseLayerVisibility,
   });
@@ -770,7 +920,10 @@ export function useDataMap() {
       }
 
       try {
-        const data = await loadRatReportLanduse(deferredDataController.signal);
+        const cutoff = getTimeRangeCutoff(timeRangeRef.current);
+        const data = await loadRatReportLanduse(deferredDataController.signal, {
+          observedAfter: cutoff?.toISOString(),
+        });
         if (
           deferredDataController.signal.aborted ||
           map.getSource("ratLanduse")
@@ -814,6 +967,7 @@ export function useDataMap() {
         );
         map.on("mousemove", "rat-landuse-fill", showRatLanduseDetails);
         map.on("mouseleave", "rat-landuse-fill", hideRatLanduseDetails);
+        applyTimeRangeFilters(map, timeRangeRef.current);
       } catch (error) {
         if (!deferredDataController.signal.aborted) {
           console.error("Failed to load rat-report land-use areas:", error);
@@ -914,6 +1068,7 @@ export function useDataMap() {
           showOfficialObservationDetails,
         );
         map.on("mouseleave", vacantSpaceLayerId, hideReportDetails);
+        applyTimeRangeFilters(map, timeRangeRef.current);
       } catch (error) {
         if (!deferredDataController.signal.aborted) {
           console.error("Failed to load official observations:", error);
@@ -957,6 +1112,7 @@ export function useDataMap() {
           map.on("mouseenter", layerId, hoverHandler);
           map.on("mouseleave", layerId, hideMockDetails);
         }
+        applyTimeRangeFilters(map, timeRangeRef.current);
       } catch (error) {
         if (!deferredDataController.signal.aborted) {
           console.error("Failed to load mock research layers:", error);
@@ -969,6 +1125,7 @@ export function useDataMap() {
     };
     const applyPrimaryLayerVisibility = () => {
       applyDataLayerVisibility(map, dataLayerVisibilityRef.current);
+      applyTimeRangeFilters(map, timeRangeRef.current);
     };
     const handleMapError = (event: maplibregl.ErrorEvent) => {
       console.error("Data map error:", event.error.message);
@@ -985,6 +1142,7 @@ export function useDataMap() {
 
     return () => {
       deferredDataController.abort();
+      riskReloadControllerRef.current?.abort();
       map.off("load", loadDeferredLayersAfterPrimaryData);
       map.off("load", applyPrimaryLayerVisibility);
       map.off("idle", loadDeferredLayers);
@@ -1113,6 +1271,34 @@ export function useDataMap() {
     else map.once("load", applySelection);
   };
 
+  const setTimeRange = (range: TimeRangeKey) => {
+    timeRangeRef.current = range;
+    const map = mapRef.current;
+    if (!map) return;
+
+    applyTimeRangeFilters(map, range);
+    const source = map.getSource("ratLanduse") as GeoJSONSource | undefined;
+    if (!source) return;
+
+    riskReloadControllerRef.current?.abort();
+    const controller = new AbortController();
+    riskReloadControllerRef.current = controller;
+    const cutoff = getTimeRangeCutoff(range);
+    void loadRatReportLanduse(controller.signal, {
+      observedAfter: cutoff?.toISOString(),
+    })
+      .then((data) => {
+        if (!controller.signal.aborted && map.getSource("ratLanduse")) {
+          source.setData(data);
+        }
+      })
+      .catch((error: unknown) => {
+        if (!controller.signal.aborted) {
+          console.error("Failed to update risk model time range:", error);
+        }
+      });
+  };
+
   return {
     mapContainerRef,
     baseLayerVisibility,
@@ -1122,5 +1308,6 @@ export function useDataMap() {
     toggleDataLayer,
     setVisibleDataLayers,
     selectDistrict,
+    setTimeRange,
   };
 }
