@@ -74,6 +74,9 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
   const navigate = useNavigate();
   // 只在 dev server 預填測試帳號（值來自 gitignored 的 .env.local），production build 不會帶入。
   const prefill = import.meta.env.DEV && !isCitizen;
+  // dev 時瀏覽器常把市府測試帳號記住並自動填進市民表單，所以市民表單在 dev 關閉自動填入；
+  // production 保留，讓真正的市民可以用密碼管理員。
+  const noAutofill = import.meta.env.DEV && isCitizen;
   const [email, setEmail] = useState(prefill ? (import.meta.env.VITE_DEV_PREFILL_OFFICIAL_EMAIL ?? "") : "");
   const [password, setPassword] = useState(prefill ? (import.meta.env.VITE_DEV_PREFILL_OFFICIAL_PASSWORD ?? "") : "");
   const [error, setError] = useState<string | null>(null);
@@ -162,7 +165,7 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
           <span className="font-label text-[11px] tracking-[0.1em]">EMAIL</span>
           <input
             type="email"
-            autoComplete="email"
+            autoComplete={noAutofill ? "off" : "email"}
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -173,7 +176,7 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
           <span className="font-label text-[11px] tracking-[0.1em]">PASSWORD</span>
           <input
             type="password"
-            autoComplete="current-password"
+            autoComplete={noAutofill ? "off" : "current-password"}
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
