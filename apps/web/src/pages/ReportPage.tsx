@@ -270,7 +270,7 @@ function StepList({ step }: { step: number }) {
           </li>
         );
       })}
-      <li className="mt-6 border-l-4 border-accent bg-activity-l1 px-3.5 py-3 font-body text-xs leading-[1.7]">
+      <li className="warning-card mt-6 border-l-4 border-accent bg-activity-l1 px-3.5 py-3 font-body text-xs leading-[1.7]">
         通報需要登入，才能讓你之後查看處理狀態。
       </li>
     </ol>
@@ -393,7 +393,7 @@ function ReportForm({
               />
             </div>
           </fieldset>
-          <div role="note" className="flex items-start gap-3 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.7]">
+          <div role="note" className="warning-card flex items-start gap-3 border-[1.5px] border-accent bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.7]">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth={2} aria-hidden="true" className="mt-0.5 flex-none">
               <path d="M12 3 L22 20 H2 Z" strokeLinejoin="round" />
               <path d="M12 10v5M12 17.5v.5" />
@@ -513,12 +513,12 @@ function ReportForm({
           />
           {geocoder.busy && <p role="status" className="m-0 font-body text-[13px]">查詢地址中…</p>}
           {geocoder.error && (
-            <p role="alert" className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.6]">
+            <p role="alert" className="warning-card m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.6]">
               {geocoder.error}
             </p>
           )}
           {locationError && (
-            <p className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.6]">
+            <p className="warning-card m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.6]">
               {locationError}
             </p>
           )}
@@ -586,7 +586,7 @@ function ReportForm({
             </label>
           </div>
           {submitError && (
-            <p className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.6]">
+            <p className="warning-card m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.6]">
               {submitError}
             </p>
           )}

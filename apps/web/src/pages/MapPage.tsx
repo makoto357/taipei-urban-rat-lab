@@ -176,7 +176,7 @@ export function MapPage() {
                     active ? "bg-accent" : "bg-paper hover:bg-card"
                   }`}
                 >
-                  <span className="flex h-[30px] w-[30px] flex-none items-center justify-center border-[1.5px] border-ink bg-card font-label text-[15px] text-ink">
+                  <span className="tag flex h-[30px] w-[30px] flex-none items-center justify-center border-[1.5px] border-ink bg-card font-label text-[15px] text-ink">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <span className="flex min-w-0 flex-col items-start leading-tight">
@@ -298,7 +298,7 @@ export function MapPage() {
             </div>
 
             {topic.note && (
-              <p className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3 py-2.5 font-body text-[13px] leading-[1.6]">
+              <p className="warning-card m-0 border-[1.5px] border-ink bg-activity-l1 px-3 py-2.5 font-body text-[13px] leading-[1.6]">
                 {topic.note}
               </p>
             )}

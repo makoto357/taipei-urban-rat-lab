@@ -363,7 +363,7 @@ export function ConnectivityExample() {
         </ul>
       </section>
 
-      <aside className="mt-6 rounded-[10px] border-2 border-accent bg-activity-l1 p-5 sm:p-6">
+      <aside className="warning-card mt-6 border-2 border-accent bg-activity-l1 p-5 sm:p-6">
         <p className="m-0 font-label text-xs tracking-[0.12em] text-accent-text">
           HEURISTIC, NOT TRACKING
         </p>

@@ -32,7 +32,7 @@ export function SiteFooter() {
         </div>
         <div
           role="note"
-          className="flex max-w-[360px] items-center gap-3.5 rounded-sm border-2 border-activity-l2 bg-activity-l1 px-[22px] py-4 text-ink"
+          className="warning-card flex max-w-[360px] items-center gap-3.5 border-2 border-activity-l2 bg-activity-l1 px-[22px] py-4 text-ink"
         >
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth={2} aria-hidden="true">
             <path d="M12 3 L22 20 H2 Z" strokeLinejoin="round" />

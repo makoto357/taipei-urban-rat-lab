@@ -111,7 +111,7 @@ export function SignupPage() {
             </label>
 
             {error && (
-              <p className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.6]">
+              <p className="warning-card m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.6]">
                 {error}
               </p>
             )}

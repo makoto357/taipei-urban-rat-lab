@@ -44,7 +44,7 @@ export function LiteratureDetailPage() {
                 <header className="flex flex-col gap-3 border-b-[3px] border-ink pb-6">
                   <div className="flex flex-wrap items-center gap-2 text-[13px]">
                     <span
-                      className="border-[1.5px] border-ink px-2 py-0.5 font-bold"
+                      className="tag border-[1.5px] border-ink px-2 py-0.5 font-bold"
                       style={{ background: TYPE_COLORS[item.resourceType] }}
                     >
                       {TYPE_LABELS[item.resourceType]}
@@ -58,7 +58,7 @@ export function LiteratureDetailPage() {
                   <p className="m-0 font-body text-sm">{item.authorsText}　{item.publicationText}</p>
                   <ul className="m-0 flex list-none flex-wrap gap-1.5 p-0">
                     {item.tags.map((tag) => (
-                      <li key={tag} className="border border-ink px-2 py-0.5 text-xs">{tag}</li>
+                      <li key={tag} className="tag border border-ink px-2 py-0.5 text-xs">{tag}</li>
                     ))}
                   </ul>
                 </header>
@@ -67,7 +67,7 @@ export function LiteratureDetailPage() {
                   <div className="literature-content" dangerouslySetInnerHTML={{ __html: item.contentHtml }} />
                 </div>
 
-                <p className="mt-8 border-accent bg-activity-l1 p-4 font-body text-sm leading-[1.8] border-l-4">
+                <p className="warning-card mt-8 border-l-4 border-accent bg-activity-l1 p-4 font-body text-sm leading-[1.8]">
                   這是人工整理的重點，不是原文全文，也可能有遺漏或詮釋上的落差。引用或做決策前，請回到原始來源確認。
                 </p>
 

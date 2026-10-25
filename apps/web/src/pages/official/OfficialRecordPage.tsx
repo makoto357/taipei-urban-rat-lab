@@ -424,7 +424,7 @@ function SurveyForm({ organizationId }: { organizationId: string | undefined }) 
           })}
         </div>
         {surveyResult === "no_evidence_found" && (
-          <p className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3 py-2.5 text-[13px]">
+          <p className="warning-card m-0 border-[1.5px] border-ink bg-activity-l1 px-3 py-2.5 text-[13px]">
             「未發現鼠跡」只代表本次調查沒有發現，不代表這裡沒有鼠患。
           </p>
         )}
@@ -487,7 +487,7 @@ function SurveyForm({ organizationId }: { organizationId: string | undefined }) 
 
       <PhotoPicker photos={photoUploads.photos} onSelect={handlePhotoSelect} onRemove={photoUploads.removePhoto} />
 
-      {error && <p className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 text-[13px]">{error}</p>}
+      {error && <p className="warning-card m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 text-[13px]">{error}</p>}
 
       <div className="flex justify-end gap-3 border-t-2 border-ink pt-4">
         <button type="submit" disabled={submitting} className="button-primary min-h-[52px] px-10 text-base">
@@ -653,7 +653,7 @@ function BaitForm({ organizationId }: { organizationId: string | undefined }) {
         </legend>
         <ChipGroup options={BAIT_ACTIONS} selected={actions} onToggle={toggleAction} />
         {actions.has("removed") && (
-          <p className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3 py-2.5 text-[13px]">
+          <p className="warning-card m-0 border-[1.5px] border-ink bg-activity-l1 px-3 py-2.5 text-[13px]">
             「移除」只記錄這次處置完成。地圖上不會顯示為安全，現場仍可能有殘餌、其他來源的藥餌或中毒鼠隻。
           </p>
         )}
@@ -705,7 +705,7 @@ function BaitForm({ organizationId }: { organizationId: string | undefined }) {
 
       <PhotoPicker photos={photoUploads.photos} onSelect={handlePhotoSelect} onRemove={photoUploads.removePhoto} />
 
-      {error && <p className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 text-[13px]">{error}</p>}
+      {error && <p className="warning-card m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 text-[13px]">{error}</p>}
 
       <div className="flex justify-end gap-3 border-t-2 border-ink pt-4">
         <button type="submit" disabled={submitting} className="button-primary min-h-[52px] px-10 text-base">
@@ -735,7 +735,7 @@ function ChipGroup<T extends string>({
             type="button"
             aria-pressed={active}
             onClick={() => onToggle(o.value)}
-            className={`min-h-11 rounded-full border-[1.5px] border-ink px-4 text-sm font-medium ${active ? "bg-accent" : "bg-paper"}`}
+            className={`tag min-h-11 border-[1.5px] border-ink px-4 text-sm font-medium ${active ? "bg-accent" : "bg-paper"}`}
           >
             {o.label}
           </button>
