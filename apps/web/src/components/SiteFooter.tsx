@@ -17,7 +17,7 @@ export function SiteFooter() {
               鼠跡通報
             </Link>
             <Link to="/literature" className="text-sm text-card no-underline">
-              知識小站
+              文獻知識
             </Link>
           </div>
           <div className="flex flex-col gap-2 border-r border-card pr-10">

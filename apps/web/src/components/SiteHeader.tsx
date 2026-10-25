@@ -2,10 +2,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../features/auth/AuthProvider";
 
 const NAV_ITEMS = [
-  { num: "01", label: "地圖", to: "/map" },
+  { num: "01", label: "地圖探索", to: "/map" },
   { num: "02", label: "風險模型", to: "/risk-model" },
-  { num: "03", label: "通報", to: "/report" },
-  { num: "04", label: "知識", to: "/literature" },
+  { num: "03", label: "鼠跡通報", to: "/report" },
+  { num: "04", label: "文獻知識", to: "/literature" },
 ] as const;
 
 /** 市府人員不使用市民通報表單（Rules 只允許 citizen 建立），改由作業平台新增紀錄。 */
