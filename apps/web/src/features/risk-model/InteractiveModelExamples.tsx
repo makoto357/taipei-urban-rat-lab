@@ -188,7 +188,7 @@ function UndergroundConnectivityDiagram({
 }) {
   const neighborLevel = getRiskLevel(connectivity);
   const neighborLabel = getLevelLabel(neighborLevel);
-  const pipeColor = system === "sewer" ? colors.ink : colors.map.water;
+  const pipeColor = system === "sewer" ? colors.map.teal : colors.map.water;
   const systemLabel = system === "sewer" ? "污水系統" : "雨水系統";
   const manholePrefix = system === "sewer" ? "S" : "SW";
 
@@ -217,8 +217,8 @@ function UndergroundConnectivityDiagram({
       <circle cx="720" cy="245" r="5" fill={pipeColor} />
       <text x="180" y="285" textAnchor="middle" fontSize="16" fontWeight="700">{manholePrefix}-01 人孔</text>
       <text x="720" y="285" textAnchor="middle" fontSize="16" fontWeight="700">{manholePrefix}-02 人孔</text>
-      <rect x="330" y="218" width="240" height="42" fill={colors.ink} />
-      <text x="450" y="246" textAnchor="middle" fontSize="17" fontWeight="700" fill={colors.card}>{systemLabel} · 管長 {pipeLength} m</text>
+      {/* <rect x="330" y="218" width="240" height="42" fill={colors.ink} /> */}
+      <text x="450" y="246" textAnchor="middle" fontSize="17" fontWeight="700" fill={colors.ink}>{systemLabel} · 管長 {pipeLength} m</text>
       <text x="450" y="327" textAnchor="middle" fontSize="16" fill={colors.muted}>兩端人孔已各自配對至 30 m 內街廓</text>
     </svg>
   );

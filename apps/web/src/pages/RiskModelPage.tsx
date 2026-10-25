@@ -12,6 +12,7 @@ import {
   MARKET_BASE_SCORE,
   MAX_PROPAGATION_HOPS,
 } from "../features/map/engine/riskModel";
+import { colors } from "@taipei-rat-lab/ui";
 
 const GITHUB_DOCS =
   "https://github.com/makoto357/taipei-urban-rat-lab/blob/main/docs";
@@ -96,23 +97,23 @@ function NetworkDiagram({ underground = false }: { underground?: boolean }) {
       {underground ? (
         <>
           <text x="25" y="31" fontSize="13" fontWeight="700">污水</text>
-          <path d="M105 52 H260 H430" fill="none" stroke="#000" strokeWidth="5" />
+          <path d="M105 52 H260 H430" fill="none" stroke={colors.map.teal} strokeWidth="5" />
           {[105, 260, 430].map((x) => (
             <g key={x}>
               <circle cx={x} cy="52" r="13" fill="#F4EEDD" stroke="#000" strokeWidth="3" />
-              <circle cx={x} cy="52" r="4" fill="#000" />
+              <circle cx={x} cy="52" r="4" fill={colors.map.teal} />
             </g>
           ))}
           <text x="105" y="83" textAnchor="middle" fontSize="12">S-01</text>
           <text x="260" y="83" textAnchor="middle" fontSize="12">S-02</text>
           <text x="430" y="83" textAnchor="middle" fontSize="12">S-03</text>
 
-          <text x="25" y="116" fontSize="13" fontWeight="700" fill="#276D75">雨水</text>
-          <path d="M105 138 H260 H430" fill="none" stroke="#69AEB6" strokeDasharray="9 7" strokeWidth="5" />
+          <text x="25" y="116" fontSize="13" fontWeight="700">雨水</text>
+          <path d="M105 138 H260 H430" fill="none" stroke={colors.map.water} strokeDasharray="9 7" strokeWidth="5" />
           {[105, 260, 430].map((x) => (
             <g key={x}>
               <circle cx={x} cy="138" r="13" fill="#F4EEDD" stroke="#000" strokeWidth="3" />
-              <circle cx={x} cy="138" r="4" fill="#69AEB6" />
+              <circle cx={x} cy="138" r="4" fill={colors.map.water} />
             </g>
           ))}
           <text x="105" y="171" textAnchor="middle" fontSize="12">SW-01</text>
