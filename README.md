@@ -1,5 +1,7 @@
 # Taipei Urban Rat Lab
 
+![Taipei Urban Rat Lab 封面：以桌機與手機展示臺北市鼠患地圖與通報介面](docs/design/assets/illustrations/cover-image.png)
+
 臺北都市鼠患觀測實驗室是一個為 2026 PUMA 臺北公民科技黑客松開發的研究型原型。專案整合民眾通報、市府調查、都市環境、防治紀錄與空間資料，讓使用者從互動地圖探索臺北市的鼠跡線索及資料之間的關係。
 
 > 本專案是研究與展演用原型，不是臺北市政府官方通報系統。地圖中的 L1–L5 是相對模型分級，不代表實際鼠口數量、感染風險或已確認的鼠群移動路徑。
@@ -122,7 +124,7 @@ final_score = (
 
 ## 開源套件與 AI 工具揭露
 
-### 主要開源套件
+### 主要開源套件與開發工具
 
 | 套件／工具 | 用途 |
 | --- | --- |
@@ -132,10 +134,13 @@ final_score = (
 | [Tailwind CSS](https://tailwindcss.com/)、PostCSS、Autoprefixer | 介面樣式與 CSS 建置 |
 | [Firebase JS SDK](https://github.com/firebase/firebase-js-sdk)、Firebase Admin SDK、Cloud Functions SDK | 驗證、Firestore、Storage 與後端函式；Firebase 雲端服務本身為外部托管服務 |
 | [Zod](https://zod.dev/)、[Sharp](https://sharp.pixelplumbing.com/) | 資料 schema 驗證與上傳圖片處理 |
-| [Vitest](https://vitest.dev/)、[Playwright](https://playwright.dev/) | 單元、整合與端對端測試 |
+| [Vitest](https://vitest.dev/)、[Playwright](https://playwright.dev/) | 單元、整合與端對端測試；Playwright 也用於擷取 demo 影片的本機 UI 畫面 |
+| [Remotion](https://www.remotion.dev/)（Remotion License） | 以 React 組版、動畫、鏡頭運動與渲染可重建的專案 demo 影片；須依使用者與組織情境確認適用條款 |
 | [GeoPandas](https://geopandas.org/)、[Shapely](https://shapely.readthedocs.io/)、[PyProj](https://pyproj4.github.io/pyproj/)、[Pyogrio](https://pyogrio.readthedocs.io/) | 離線 GIS 轉檔、投影、幾何處理與連通圖產生 |
 
 直接 JavaScript 依賴與版本以各 `package.json` 及 `pnpm-lock.yaml` 為準；間接依賴不在上表逐一列出。上述套件各自適用其授權條款，不代表本 repository 的程式碼已因此取得同樣授權；本專案目前仍未提供統一 `LICENSE`。
+
+**影片生成技術參考：**`video/` 的可重建流程主要參考 [斷鼠路](https://github.com/JoshuaWangTW/ratroute) 的開源影片工程，包括以 Playwright 擷取本機網站畫面、以 Remotion 組版與渲染，以及在頁面截圖上進行鏡頭運動。[`video/src/PageCam.tsx`](video/src/PageCam.tsx) 由其 MIT 授權的 camera helper 改寫；本專案的分鏡、文案、截圖、視覺設計與音樂則依本專案內容及各自來源產製。詳見[影片設計與授權紀錄](video/DESIGN.md)。
 
 ### AI 輔助工具
 
@@ -163,6 +168,7 @@ taipei-urban-rat-lab/
 ├── scripts/
 │   ├── gis/                 # 連通圖產生器
 │   └── mock-data/           # mock data 建立與驗證工具
+├── video/                        # Playwright 畫面擷取與 Remotion demo 影片工程
 └── docs/
     ├── data/                # 模型與資料規則
     ├── design/              # 設計系統與參考素材
@@ -274,6 +280,7 @@ python3 scripts/gis/build-underground-connectivity.py
 
 ## 相關文件
 
+- [參考資料與相關案例](docs/research/references.md)：17 筆文獻，以及「見鼠地圖」與「斷鼠路」的治理與影片生成技術參考
 - [風險模型因子積分規範](docs/data/rules.md)
 - [基因關係地圖規則](docs/data/genetic-relationship-map-rules.md)
 - [設計系統](docs/design/design-system.md)

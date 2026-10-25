@@ -27,6 +27,10 @@ interface LocationState {
  */
 export function ReportPage() {
   const { user, membership, loading } = useAuth();
+  // Video capture may display the real form UI without creating a throwaway
+  // Firebase account. This is dev-only and does not grant a user identity, so
+  // Firestore/Storage rules still prevent submission.
+  const videoPreview = import.meta.env.DEV && new URLSearchParams(window.location.search).get("video-preview") === "1";
   const isOfficial =
     membership?.status === "active" && (membership.role === "official" || membership.role === "admin");
   const navigate = useNavigate();
@@ -54,7 +58,7 @@ export function ReportPage() {
     onLocated: (picked) => setLocation({ ...picked, accuracyMeters: null }),
   });
 
-  const signedIn = Boolean(user);
+  const signedIn = Boolean(user) || videoPreview;
   const canNextStep1 = reportType !== null;
   const canNextStep2 = location !== null && addressText.trim() !== "" && district !== "";
   const canNext = step === 1 ? canNextStep1 : step === 2 ? canNextStep2 : true;
