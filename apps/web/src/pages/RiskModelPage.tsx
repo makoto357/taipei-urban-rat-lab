@@ -141,7 +141,7 @@ export function RiskModelPage() {
       <SiteHeader />
       <main className="mx-auto w-full max-w-container flex-1 px-4 pb-20 pt-8 sm:px-10">
         <section aria-labelledby="risk-model-title" className="pb-8">
-          <div className="flex flex-wrap items-end gap-x-8 gap-y-2 border-b-2 border-ink pb-5">
+          <div className="flex flex-wrap items-end gap-x-8 gap-y-2 pb-5">
             <div className="flex-none">
               <p className="m-0 mb-1.5 text-[15px] font-bold text-accent-text">
                 風險模型{" "}
@@ -180,7 +180,7 @@ export function RiskModelPage() {
 
           <nav
             aria-label="本頁章節"
-            className="mt-4 flex flex-wrap gap-x-6 gap-y-2 border-y border-ink py-4 text-sm font-bold"
+            className="mt-4 flex flex-wrap gap-x-6 gap-y-2 border-t-2 border-b border-ink py-4 text-sm font-bold"
           >
             <a href="#overview">01 模型概覽</a>
             <a href="#factors">02 基礎因子</a>
