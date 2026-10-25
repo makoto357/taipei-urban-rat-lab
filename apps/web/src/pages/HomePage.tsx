@@ -66,8 +66,8 @@ export function HomePage() {
 
 function Hero() {
   return (
-    <section className="flex flex-wrap items-center gap-10 border-b-[3px] border-ink py-12 pb-14">
-      <div className="flex min-w-0 flex-[1_1_420px] flex-col gap-5">
+    <section className="grid gap-10 border-b-[3px] border-ink py-12 pb-14 lg:grid-cols-[minmax(0,4fr)_minmax(0,5fr)] lg:items-stretch">
+      <div className="flex min-w-0 flex-col gap-5">
         <p className="m-0 text-[15px] font-bold text-accent-text">
           城市觀察 <span className="font-label font-normal tracking-[0.1em]">/ URBAN ECOLOGY</span>
         </p>
@@ -85,24 +85,29 @@ function Hero() {
         <div className="mt-2 flex flex-wrap gap-4">
           <Link
             to="/map"
-            className="inline-flex min-h-[52px] items-center gap-2.5 border-2 border-ink bg-ink px-9 text-lg font-bold text-card no-underline"
+            className="button-primary min-h-[52px] gap-2.5 px-9 text-lg"
           >
             探索鼠患地圖 <span aria-hidden="true">↗</span>
           </Link>
           <Link
             to="/report"
-            className="inline-flex min-h-[52px] items-center gap-2.5 border-2 border-ink bg-card px-9 text-lg font-bold text-ink no-underline"
+            className="button-secondary min-h-[52px] gap-2.5 px-9 text-lg"
           >
             通報鼠跡 <span aria-hidden="true">↗</span>
           </Link>
         </div>
       </div>
-      <figure className="m-0 min-w-0 flex-[1.25_1_520px]">
-        {/* TODO: 插畫來源見 docs/design/assets/illustrations/hero-rat-map.png */}
+      <figure
+        role="img"
+        aria-label="插畫：一隻黑色老鼠從人孔探出頭，背景是有淡水河與台北 101 的彩色城市地圖"
+        className="relative m-0 aspect-[1122/615] min-w-0 overflow-hidden border border-ink bg-cover bg-center lg:aspect-auto lg:h-full"
+        style={{ backgroundImage: "url('/assets/images/main-bg.png')" }}
+      >
         <img
-          src="/assets/illustrations/hero-rat-map.png"
-          alt="插畫：一隻黑色老鼠從人孔探出頭，背景是有淡水河與台北 101 的彩色城市地圖"
-          className="block aspect-[1122/521] w-full object-cover"
+          src="/assets/images/main-rat.png"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-[18%] left-[18%] w-[45%] max-w-none select-none"
         />
       </figure>
     </section>
@@ -153,7 +158,7 @@ function DataSnapshot() {
         <span className="font-label text-[13px] tracking-[0.1em]">DATA SNAPSHOT</span>
       </div>
       <dl className="m-0 grid flex-[999_1_560px] grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
-        <div className="border-[1.5px] border-ink bg-card px-[18px] py-3.5">
+        <div className="border-l border-ink px-[18px] py-3.5">
           <dt className="font-body text-[13px]">近 30 天已查核鼠跡</dt>
           <dd className="m-0 mt-1.5 text-[28px] font-black">
             {data ? (
@@ -165,13 +170,13 @@ function DataSnapshot() {
             )}
           </dd>
         </div>
-        <div className="border-[1.5px] border-ink bg-card px-[18px] py-3.5">
+        <div className="border-l border-ink px-[18px] py-3.5">
           <dt className="font-body text-[13px]">資料涵蓋期間</dt>
           <dd className="m-0 mt-1.5 text-[22px] font-black leading-[1.6]">
             {start && end ? `${formatMonth(start)} – ${formatMonth(end)}` : <span className="text-muted">{placeholder}</span>}
           </dd>
         </div>
-        <div className="border-[1.5px] border-ink bg-card px-[18px] py-3.5">
+        <div className="border-l border-ink px-[18px] py-3.5">
           <dt className="font-body text-[13px]">最後更新</dt>
           <dd className="m-0 mt-1.5 text-[22px] font-black leading-[1.6]">
             {data ? formatDay(data.updatedAt.toDate()) : <span className="text-muted">{placeholder}</span>}

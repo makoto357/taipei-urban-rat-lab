@@ -140,7 +140,7 @@ export function MapPage() {
     <>
       <SiteHeader />
       <main className="mx-auto flex w-full max-w-container flex-col gap-6 px-4 pb-14 pt-8 sm:px-10">
-        <div className="flex flex-wrap items-end gap-x-8 gap-y-2 border-b-2 border-ink pb-5">
+        <div className="flex flex-wrap items-end gap-x-8 gap-y-2 pb-5">
           <div>
             <p className="m-0 mb-1.5 text-[15px] font-bold text-accent-text">
               地圖探索{" "}
@@ -157,39 +157,40 @@ export function MapPage() {
           </p>
         </div>
 
-        <div
-          role="tablist"
-          aria-label="資料主題"
-          className="grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-0.5 border-2 border-ink bg-ink"
-        >
-          {MAP_TOPICS.map((candidate, index) => {
-            const active = index === activeTopic;
-            return (
-              <button
-                key={candidate.en}
-                type="button"
-                role="tab"
-                aria-selected={active}
-                onClick={() => setActiveTopic(index)}
-                className={`flex min-h-[60px] items-center gap-3 border-0 px-3.5 py-2 text-left font-heading transition-colors focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
-                  active ? "bg-accent" : "bg-paper hover:bg-card"
-                }`}
-              >
-                <span className="flex h-[30px] w-[30px] flex-none items-center justify-center border-[1.5px] border-ink bg-card font-label text-[15px] text-ink">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="flex min-w-0 flex-col items-start leading-tight">
-                  <span className="text-[17px] font-black">{candidate.zh}</span>
-                  <span className="font-label text-[11px] tracking-[0.1em]">
-                    {candidate.en}
+        <div className="flex flex-col">
+          <div
+            role="tablist"
+            aria-label="資料主題"
+            className="grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-0.5 border-2 border-ink bg-ink"
+          >
+            {MAP_TOPICS.map((candidate, index) => {
+              const active = index === activeTopic;
+              return (
+                <button
+                  key={candidate.en}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => setActiveTopic(index)}
+                  className={`flex min-h-[60px] items-center gap-3 border-0 px-3.5 py-2 text-left font-heading transition-colors focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
+                    active ? "bg-accent" : "bg-paper hover:bg-card"
+                  }`}
+                >
+                  <span className="flex h-[30px] w-[30px] flex-none items-center justify-center border-[1.5px] border-ink bg-card font-label text-[15px] text-ink">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
-                </span>
-              </button>
-            );
-          })}
-        </div>
+                  <span className="flex min-w-0 flex-col items-start leading-tight">
+                    <span className="text-[17px] font-black">{candidate.zh}</span>
+                    <span className="font-label text-[11px] tracking-[0.1em]">
+                      {candidate.en}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
 
-        <div className="relative h-[720px] overflow-hidden border-2 border-ink bg-card md:flex md:h-[680px]">
+          <div className="relative -mt-0.5 h-[720px] overflow-hidden border-2 border-ink bg-card md:flex md:h-[680px]">
           <aside className="absolute inset-x-0 bottom-0 z-10 flex max-h-[52%] min-h-0 flex-col gap-[22px] overflow-y-auto overscroll-contain border-t-2 border-ink bg-card px-[22px] py-5 shadow-[0_-5px_0_rgb(0_0_0_/_18%)] md:static md:h-full md:max-h-full md:w-[320px] md:max-w-[320px] md:flex-[0_0_320px] md:border-r-2 md:border-t-0 md:shadow-none">
             <div className="m-0 flex flex-col gap-1.5">
               {topic.riskLevels && (
@@ -365,6 +366,7 @@ export function MapPage() {
               timeRange={timeRange}
             />
           </section>
+          </div>
         </div>
       </main>
       <SiteFooter />

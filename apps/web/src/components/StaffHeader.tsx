@@ -35,18 +35,21 @@ function StaffNavActions() {
 
   return (
     <nav aria-label="主要頁面" className="flex flex-wrap items-center gap-x-1 gap-y-1.5 text-base font-bold">
-      <Link to="/map" className="inline-flex min-h-11 items-center gap-1.5 px-2.5 no-underline">
-        <span className="font-label text-accent-text">01</span>地圖
+      <Link to="/map" className="button-text gap-1.5 px-2.5">
+        <span className="button-text__number font-label">01</span>
+        <span className="button-text__label">地圖</span>
       </Link>
       <Link
         to="/official"
         aria-current="page"
-        className="inline-flex min-h-11 items-center gap-1.5 px-2.5 no-underline underline decoration-2 underline-offset-[6px]"
+        className="button-text gap-1.5 px-2.5"
       >
-        <span className="font-label text-accent-text">02</span>作業平台
+        <span className="button-text__number font-label">02</span>
+        <span className="button-text__label underline decoration-2 underline-offset-[6px]">作業平台</span>
       </Link>
-      <Link to="/literature" className="inline-flex min-h-11 items-center gap-1.5 px-2.5 no-underline">
-        <span className="font-label text-accent-text">03</span>知識
+      <Link to="/literature" className="button-text gap-1.5 px-2.5">
+        <span className="button-text__number font-label">03</span>
+        <span className="button-text__label">知識</span>
       </Link>
       <button
         type="button"

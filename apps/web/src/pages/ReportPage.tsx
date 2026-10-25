@@ -10,6 +10,7 @@ import { useGeocoder } from "../features/map/useGeocoder";
 import { usePhotoUploads, type PhotoUpload } from "../features/report/usePhotoUploads";
 import { photoFileError, isObservedAtReasonable } from "../features/report/validation";
 import { DISTRICTS, REPORT_STEPS, REPORT_TYPE_LABEL, SAFETY_NOTE, type ReportType } from "../features/report/steps";
+import { colors } from "@taipei-rat-lab/ui/src/tokens";
 
 interface LocationState {
   latitude: number;
@@ -169,7 +170,7 @@ export function ReportPage() {
     <>
       <SiteHeader />
       <main className="mx-auto flex w-full max-w-container flex-col gap-7 px-10 pb-16 pt-8">
-        <div className="flex flex-wrap items-end gap-x-8 gap-y-2 border-b-2 border-ink pb-5">
+        <div className="flex flex-wrap items-end gap-x-8 gap-y-2 border-b border-ink pb-5">
           <div>
             <p className="m-0 mb-1.5 text-[15px] font-bold text-accent-text">
               鼠跡通報 <span className="font-label font-normal tracking-[0.1em]">/ REPORT</span>
@@ -193,7 +194,7 @@ export function ReportPage() {
                 </p>
                 <Link
                   to="/official/record"
-                  className="inline-flex min-h-12 items-center self-start border-2 border-ink bg-ink px-6 font-bold text-card no-underline hover:text-card"
+                  className="button-primary min-h-12 self-start px-6"
                 >
                   前往作業平台新增紀錄
                 </Link>
@@ -269,7 +270,7 @@ function StepList({ step }: { step: number }) {
           </li>
         );
       })}
-      <li className="mt-6 border-[1.5px] border-ink bg-card px-3.5 py-3 font-body text-xs leading-[1.7]">
+      <li className="mt-6 border-l-4 border-accent bg-activity-l1 px-3.5 py-3 font-body text-xs leading-[1.7]">
         通報需要登入，才能讓你之後查看處理狀態。
       </li>
     </ol>
@@ -280,19 +281,19 @@ function GateCard({ onStart }: { onStart: () => void }) {
   return (
     <div className="relative flex aspect-[16/11] flex-col items-center justify-center gap-6 overflow-hidden border-2 border-ink bg-card">
       <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" className="absolute inset-0">
-        <line x1="0" y1="0" x2="100" y2="100" stroke="#000000" strokeWidth="0.25" />
-        <line x1="100" y1="0" x2="0" y2="100" stroke="#000000" strokeWidth="0.25" />
+        <line x1="0" y1="0" x2="100" y2="100" stroke={colors.unknown} strokeWidth="0.2" />
+        <line x1="100" y1="0" x2="0" y2="100" stroke={colors.unknown} strokeWidth="0.2" />
       </svg>
       <svg width="72" height="72" viewBox="0 0 90 90" fill="none" aria-hidden="true" className="relative rounded-full bg-card">
-        <path d="M55.2273 32.7273C55.2273 27.0789 50.6484 22.5 45 22.5C39.3516 22.5 34.7727 27.0789 34.7727 32.7273C34.7727 38.3756 39.3516 42.9545 45 42.9545V51.1364C34.8329 51.1364 26.5909 42.8943 26.5909 32.7273C26.5909 22.5602 34.8329 14.3182 45 14.3182C55.1671 14.3182 63.4091 22.5602 63.4091 32.7273C63.4091 42.8943 55.1671 51.1364 45 51.1364V42.9545C50.6484 42.9545 55.2273 38.3756 55.2273 32.7273Z" fill="#000000" />
-        <path d="M45 42.9545C52.6157 42.9545 59.9736 45.2997 65.3786 51.2243C70.7375 57.0985 73.6364 65.9027 73.6364 77.7273H65.4545C65.4545 67.1407 62.8589 60.6033 59.3342 56.7394C55.8555 52.9262 50.9402 51.1364 45 51.1364C39.0598 51.1364 34.1445 52.9262 30.6658 56.7394C27.1411 60.6033 24.5455 67.1407 24.5455 77.7273H16.3636C16.3636 65.9027 19.2625 57.0985 24.6214 51.2243C30.0264 45.2997 37.3843 42.9545 45 42.9545Z" fill="#000000" />
-        <path d="M81.8182 45C81.8182 24.6659 65.3341 8.18182 45 8.18182C24.6659 8.18182 8.18182 24.6659 8.18182 45C8.18182 65.3341 24.6659 81.8182 45 81.8182V90C20.1472 90 0 69.8528 0 45C0 20.1472 20.1472 0 45 0C69.8528 0 90 20.1472 90 45C90 69.8528 69.8528 90 45 90V81.8182C65.3341 81.8182 81.8182 65.3341 81.8182 45Z" fill="#000000" />
+        <path d="M55.2273 32.7273C55.2273 27.0789 50.6484 22.5 45 22.5C39.3516 22.5 34.7727 27.0789 34.7727 32.7273C34.7727 38.3756 39.3516 42.9545 45 42.9545V51.1364C34.8329 51.1364 26.5909 42.8943 26.5909 32.7273C26.5909 22.5602 34.8329 14.3182 45 14.3182C55.1671 14.3182 63.4091 22.5602 63.4091 32.7273C63.4091 42.8943 55.1671 51.1364 45 51.1364V42.9545C50.6484 42.9545 55.2273 38.3756 55.2273 32.7273Z" fill={colors.accent} />
+        <path d="M45 42.9545C52.6157 42.9545 59.9736 45.2997 65.3786 51.2243C70.7375 57.0985 73.6364 65.9027 73.6364 77.7273H65.4545C65.4545 67.1407 62.8589 60.6033 59.3342 56.7394C55.8555 52.9262 50.9402 51.1364 45 51.1364C39.0598 51.1364 34.1445 52.9262 30.6658 56.7394C27.1411 60.6033 24.5455 67.1407 24.5455 77.7273H16.3636C16.3636 65.9027 19.2625 57.0985 24.6214 51.2243C30.0264 45.2997 37.3843 42.9545 45 42.9545Z" fill={colors.accent} />
+        <path d="M81.8182 45C81.8182 24.6659 65.3341 8.18182 45 8.18182C24.6659 8.18182 8.18182 24.6659 8.18182 45C8.18182 65.3341 24.6659 81.8182 45 81.8182V90C20.1472 90 0 69.8528 0 45C0 20.1472 20.1472 0 45 0C69.8528 0 90 20.1472 90 45C90 69.8528 69.8528 90 45 90V81.8182C65.3341 81.8182 81.8182 65.3341 81.8182 45Z" fill={colors.accent} />
       </svg>
       <p className="relative m-0 bg-card px-3 text-center font-body text-[15px]">登入後即可開始填寫通報。</p>
       <button
         type="button"
         onClick={onStart}
-        className="relative min-h-12 border-2 border-ink bg-ink px-7 font-heading text-base font-bold text-card"
+        className="button-primary relative min-h-12 px-7 text-base"
       >
         登入開始填表
       </button>
@@ -466,7 +467,7 @@ function ReportForm({
                 type="button"
                 onClick={() => void geocoder.locateAddress(addressText)}
                 disabled={geocoder.busy || addressText.trim() === ""}
-                className="min-h-9 border-[1.5px] border-ink bg-card px-3 font-heading text-[13px] font-bold disabled:opacity-50"
+                className="button-secondary min-h-9 px-3 text-[13px]"
               >
                 在地圖上定位
               </button>
@@ -492,7 +493,7 @@ function ReportForm({
               type="button"
               onClick={onUseCurrentLocation}
               disabled={locating}
-              className="inline-flex min-h-11 items-center gap-2 border-[1.5px] border-ink bg-card px-4 font-heading text-[15px] font-bold disabled:opacity-60"
+              className="button-secondary min-h-11 gap-2 px-4 text-[15px]"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth={2} aria-hidden="true">
                 <circle cx="12" cy="12" r="7" />
@@ -597,7 +598,7 @@ function ReportForm({
           <button
             type="button"
             onClick={onBack}
-            className="min-h-[52px] border-2 border-ink bg-card px-7 font-heading text-base font-bold"
+            className="button-secondary min-h-[52px] px-7 text-base"
           >
             ← 上一步
           </button>
@@ -608,9 +609,7 @@ function ReportForm({
             type="button"
             onClick={onNext}
             disabled={!canNext}
-            className={`min-h-[52px] border-2 px-10 font-heading text-base font-bold ${
-              canNext ? "border-ink bg-ink text-card" : "cursor-not-allowed border-unknown bg-unknown text-muted"
-            }`}
+            className="button-primary min-h-[52px] px-10 text-base"
           >
             下一步 →
           </button>
@@ -620,9 +619,7 @@ function ReportForm({
             type="button"
             onClick={onSubmit}
             disabled={!canSubmit}
-            className={`min-h-[52px] border-2 px-10 font-heading text-base font-bold ${
-              canSubmit ? "border-ink bg-ink text-card" : "cursor-not-allowed border-unknown bg-unknown text-muted"
-            }`}
+            className="button-primary min-h-[52px] px-10 text-base"
           >
             {submitting ? "送出中…" : "送出通報"}
           </button>
@@ -744,7 +741,7 @@ function DoneCard({
         <button
           type="button"
           onClick={onRestart}
-          className="min-h-12 border-2 border-ink bg-card px-6 font-heading text-base font-bold"
+          className="button-secondary min-h-12 px-6 text-base"
         >
           再通報一筆
         </button>

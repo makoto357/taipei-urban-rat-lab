@@ -67,19 +67,19 @@ export function LiteratureDetailPage() {
                   <div className="literature-content" dangerouslySetInnerHTML={{ __html: item.contentHtml }} />
                 </div>
 
-                <p className="mt-8 border-2 border-ink bg-card p-4 font-body text-sm leading-[1.8]">
+                <p className="mt-8 border-accent bg-activity-l1 p-4 font-body text-sm leading-[1.8] border-l-4">
                   這是人工整理的重點，不是原文全文，也可能有遺漏或詮釋上的落差。引用或做決策前，請回到原始來源確認。
                 </p>
 
                 <nav aria-label="上下篇文獻" className="mt-8 flex flex-wrap justify-between gap-4">
                   {prev ? (
-                    <Link to={`/literature/${prev.resourceId}`} className="max-w-[48%] border-2 border-ink bg-card p-4 no-underline">
+                    <Link to={`/literature/${prev.resourceId}`} className="max-w-[48%] py-4 no-underline">
                       <span className="block font-label text-xs text-muted">← 上一篇</span>
                       <span className="font-bold">{prev.title}</span>
                     </Link>
                   ) : <span />}
                   {next && (
-                    <Link to={`/literature/${next.resourceId}`} className="max-w-[48%] border-2 border-ink bg-card p-4 text-right no-underline">
+                    <Link to={`/literature/${next.resourceId}`} className="max-w-[48%] py-4 text-right no-underline">
                       <span className="block font-label text-xs text-muted">下一篇 →</span>
                       <span className="font-bold">{next.title}</span>
                     </Link>

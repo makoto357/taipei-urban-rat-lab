@@ -50,8 +50,8 @@ export function SignupPage() {
       <SiteHeader />
       <main className="mx-auto flex w-full max-w-[960px] flex-1 flex-col items-center gap-6 px-5 pb-[72px] pt-14">
         <div className="flex w-full max-w-[480px] flex-col gap-4">
-          <Link to="/login" className="inline-flex min-h-11 items-center text-[15px] font-bold no-underline">
-            ← 回登入
+          <Link to="/login" className="button-text text-[15px]">
+            <span className="button-text__label">← 回登入</span>
           </Link>
           <form
             onSubmit={handleEmailSignup}
@@ -69,7 +69,7 @@ export function SignupPage() {
               type="button"
               onClick={handleGoogleSignup}
               disabled={!agreed}
-              className="flex min-h-12 items-center justify-center gap-2.5 border-[1.5px] border-ink bg-card font-heading text-base font-bold disabled:cursor-not-allowed disabled:opacity-50"
+              className="button-secondary min-h-12 gap-2.5 text-base"
             >
               <GoogleIcon />
               用 Google 註冊
@@ -119,9 +119,7 @@ export function SignupPage() {
             <button
               type="submit"
               disabled={!agreed || submitting}
-              className={`flex min-h-[50px] items-center justify-center text-[17px] font-bold ${
-                agreed && !submitting ? "bg-ink text-card" : "cursor-not-allowed bg-unknown text-muted"
-              }`}
+              className="button-primary min-h-[50px] text-[17px]"
             >
               建立帳號
             </button>

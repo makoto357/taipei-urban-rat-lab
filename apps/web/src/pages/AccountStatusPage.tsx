@@ -56,7 +56,7 @@ export function AccountStatusPage() {
                     await resendVerificationEmail();
                     setResent(true);
                   }}
-                  className="min-h-12 border-2 border-ink bg-ink px-6 font-heading text-base font-bold text-card"
+                  className="button-primary min-h-12 px-6 text-base"
                 >
                   {resent ? "已重新寄出" : "重寄驗證信"}
                 </button>
@@ -64,23 +64,23 @@ export function AccountStatusPage() {
               {status === "noAccess" && (
                 <Link
                   to="/report"
-                  className="inline-flex min-h-12 items-center border-2 border-ink bg-ink px-6 font-heading text-base font-bold text-card no-underline"
+                  className="button-primary min-h-12 px-6 text-base"
                 >
                   改用市民身分通報
                 </Link>
               )}
               <Link
                 to="/"
-                className="inline-flex min-h-12 items-center border-2 border-ink bg-card px-6 font-heading text-base font-bold no-underline"
+                className="button-secondary min-h-12 px-6 text-base"
               >
                 回首頁
               </Link>
               <button
                 type="button"
                 onClick={() => signOut()}
-                className="inline-flex min-h-12 items-center border-0 bg-transparent px-3 font-heading text-[15px] font-bold"
+                className="button-text px-3 text-[15px]"
               >
-                登出
+                <span className="button-text__label">登出</span>
               </button>
             </div>
             <p className="m-0 font-body text-xs text-[#4A463C]">需要協助？請聯絡平台管理員：[聯絡方式]</p>

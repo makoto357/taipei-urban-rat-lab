@@ -42,7 +42,7 @@ export function OfficialOverviewPage() {
             <h1 className="m-0 text-[30px] font-black">工作總覽</h1>
             <Link
               to="/official/record"
-              className="inline-flex min-h-12 w-fit items-center justify-center rounded-full bg-ink px-6 font-heading text-base font-bold text-card no-underline"
+              className="button-primary min-h-12 w-fit px-6 text-base"
             >
               + 新增紀錄
             </Link>

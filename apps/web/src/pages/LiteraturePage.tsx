@@ -28,12 +28,23 @@ export function LiteraturePage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto w-full max-w-container flex-1 px-10 pb-[72px] pt-10">
-        <span className="font-label text-[13px] tracking-[0.1em] text-accent-text">文獻知識 / 03 KNOWLEDGE</span>
-        <h1 className="m-0 mt-2 text-[40px] font-black leading-[1.25]">鼠患研究與防治知識</h1>
-        <p className="m-0 mt-3 max-w-[720px] font-body text-base leading-[1.85]">
-          整理國內外都市鼠患研究、防治手冊與台北市制度資料。內容為人工整理的重點，每篇都附原始來源連結。
-        </p>
+      <main className="mx-auto w-full max-w-container flex-1 px-4 pb-[72px] pt-8 sm:px-10">
+        <div className="flex flex-wrap items-end gap-x-8 gap-y-2 border-b-2 border-ink pb-5">
+          <div className="flex-none">
+            <p className="m-0 mb-1.5 text-[15px] font-bold text-accent-text">
+              文獻知識{" "}
+              <span className="font-label font-normal tracking-[0.1em]">
+                / KNOWLEDGE
+              </span>
+            </p>
+            <h1 className="m-0 text-[clamp(36px,5vw,46px)] font-black leading-[1.2]">
+              鼠患研究與防治知識
+            </h1>
+          </div>
+          <p className="m-0 mb-2 min-w-[280px] flex-[1_1_420px] text-[15px] leading-[1.7]">
+            整理國內外都市鼠患研究、防治手冊與台北市制度資料。
+          </p>
+        </div>
 
         {state.status === "loading" && <p className="mt-10 font-body">載入中…</p>}
         {state.status === "error" && (
@@ -42,7 +53,7 @@ export function LiteraturePage() {
 
         {state.status === "ready" && (
           <div className="mt-8 grid gap-8 lg:grid-cols-[280px_1fr]">
-            <aside aria-label="篩選文獻" className="flex flex-col gap-5 self-start border-2 border-ink bg-card p-5">
+            <aside aria-label="篩選文獻" className="flex flex-col gap-5 border-r border-ink pr-10">
               <label className="flex flex-col gap-1.5 text-sm font-bold">
                 搜尋
                 <input
@@ -105,7 +116,7 @@ export function LiteraturePage() {
                 type="button"
                 disabled={!dirty}
                 onClick={() => setFilters(EMPTY_FILTERS)}
-                className="min-h-11 border-2 border-ink bg-transparent font-heading text-[15px] font-bold disabled:opacity-40"
+                className="button-secondary min-h-11 px-4 text-[15px]"
               >
                 清除篩選
               </button>
@@ -145,7 +156,7 @@ export function LiteraturePage() {
                       <p className="m-0 flex-1 font-body text-sm leading-[1.8]">{item.excerpt}</p>
                       <Link
                         to={`/literature/${item.id}`}
-                        className="inline-flex min-h-11 items-center justify-center border-2 border-ink bg-ink px-5 font-bold text-card no-underline hover:text-card"
+                        className="button-primary min-h-11 px-5"
                       >
                         閱讀整理
                       </Link>

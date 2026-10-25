@@ -87,10 +87,12 @@ MVP 未經模型校準前，不把四階色帶標成 L1–L4 正式風險；可�
 
 - **主按鈕（Primary）**：`#000000` 背景、`#FDF9ED` 文字、`2px solid #000000` 邊框，Noto Serif TC 700。
 - **副按鈕（Secondary）**：`#FDF9ED` 背景、`#000000` 文字、`2px solid #000000` 邊框。
-- **Hover**：背景改為 `#D65B37`（accent），文字維持 `#000000`。
+- **文字／編號按鈕（Text）**：無背景與邊框；編號使用 `#D65B37`，文字使用 `#000000`，hover 時只替文字加 `2px` 底線。
+- **Hover**：主／副按鈕背景改為 `#D65B37`（accent），文字改為 `#FDF9ED`。
 - **Pressed**：背景改為 `#9E352F`，文字 `#FDF9ED`。
-- **Focus**：`#000000` 背景＋`2px solid #000000` 邊框，外加 `outline: 2px solid #000000; outline-offset: 3px`（雙層對比）。
-- **Disabled**：背景／邊框 `#D7D4CC`，文字 `#6B6658`，`disabled` 屬性，不可操作但保留可讀標籤。
+- **Focus**：`#000000` 背景＋`2px solid #000000` 邊框、淺色內框，外加 `outline: 2px solid #000000; outline-offset: 3px`（雙層對比）。
+- **Disabled**：背景／邊框 `#D7D4CC`、文字 `#FDF9ED`，使用 `disabled` 屬性，不可操作但保留可讀標籤。
+- 實作共用 class：`.button-primary`、`.button-secondary`、`.button-text`；tabs、filter chips、地圖控制與 icon-only controls 保留各自狀態語言。
 - **Inputs**：標籤恆常可見（Antonio 11px 全大寫字距 0.1em），placeholder 不取代 label。
   - Default：`#F4EEDD` 背景、`1.5px solid #6B6658` 邊框。
   - Focus：`#FDF9ED` 背景、`2px solid #000000` 邊框。

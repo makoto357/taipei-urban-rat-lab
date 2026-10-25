@@ -13,3 +13,108 @@ a {
 a:hover {
   color: #9e352f;
 }
+
+/* Project action buttons. Tabs, filter chips, map controls and icon-only controls
+   keep their own interaction styling. */
+.button-primary,
+.button-secondary {
+  box-sizing: border-box;
+  min-height: 44px;
+  border: 2px solid #000000;
+  border-radius: 0;
+  padding-inline: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Noto Serif TC", serif;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button-primary {
+  background: #000000;
+  color: #fdf9ed;
+}
+
+.button-secondary {
+  background: #fdf9ed;
+  color: #000000;
+}
+
+.button-primary:hover:not(:disabled),
+.button-secondary:hover:not(:disabled) {
+  border-color: #000000;
+  background: #d65b37;
+  color: #fdf9ed;
+}
+
+.button-primary:active:not(:disabled),
+.button-secondary:active:not(:disabled) {
+  border-color: #000000;
+  background: #9e352f;
+  color: #fdf9ed;
+}
+
+.button-primary:focus-visible,
+.button-secondary:focus-visible {
+  border-color: #000000;
+  outline: 2px solid #000000;
+  outline-offset: 3px;
+  background: #000000;
+  color: #fdf9ed;
+  box-shadow: inset 0 0 0 3px #fdf9ed;
+}
+
+.button-primary:disabled,
+.button-secondary:disabled,
+.button-primary[aria-disabled="true"],
+.button-secondary[aria-disabled="true"] {
+  border-color: #d7d4cc;
+  background: #d7d4cc;
+  color: #fdf9ed;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+.button-text {
+  min-height: 44px;
+  border: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  color: #000000;
+  font-family: "Noto Serif TC", serif;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button-text__number {
+  color: #d65b37;
+}
+
+.button-text:hover,
+.button-text:active {
+  color: #000000;
+}
+
+.button-text:hover .button-text__label,
+.button-text:active .button-text__label {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+
+.button-text:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 3px;
+}
+
+.button-text:disabled,
+.button-text[aria-disabled="true"] {
+  color: #6b6658;
+  cursor: not-allowed;
+}

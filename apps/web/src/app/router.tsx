@@ -4,6 +4,9 @@ import { RootLayout } from "./RootLayout";
 
 const HomePage = lazy(() => import("../pages/HomePage").then((m) => ({ default: m.HomePage })));
 const MapPage = lazy(() => import("../pages/MapPage").then((m) => ({ default: m.MapPage })));
+const RiskModelPage = lazy(() =>
+  import("../pages/RiskModelPage").then((m) => ({ default: m.RiskModelPage })),
+);
 const LoginPage = lazy(() => import("../pages/LoginPage").then((m) => ({ default: m.LoginPage })));
 const SignupPage = lazy(() => import("../pages/SignupPage").then((m) => ({ default: m.SignupPage })));
 const AccountStatusPage = lazy(() =>
@@ -41,6 +44,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "/", element: <Lazy><HomePage /></Lazy> },
       { path: "/map", element: <Lazy><MapPage /></Lazy> },
+      { path: "/risk-model", element: <Lazy><RiskModelPage /></Lazy> },
       { path: "/login", element: <Lazy><LoginPage /></Lazy> },
       { path: "/signup", element: <Lazy><SignupPage /></Lazy> },
       { path: "/account-status", element: <Lazy><AccountStatusPage /></Lazy> },
