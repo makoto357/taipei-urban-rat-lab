@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 export function SiteFooter() {
   return (
     <footer className="mt-auto bg-ink text-card">
-      <div className="mx-auto flex max-w-container flex-wrap items-center justify-between gap-8 px-10 py-9">
+      <div className="mx-auto flex max-w-container flex-wrap items-center justify-between gap-8 px-4 py-9 sm:px-10">
         <div className="flex gap-10">
           <div className="flex flex-col gap-2 border-r border-card pr-10">
             <span className="font-label text-sm tracking-[0.1em] text-activity-l2">EXPLORE</span>
             <Link to="/map" className="text-sm text-card no-underline">
               地圖探索
+            </Link>
+            <Link to="/risk-model" className="text-sm text-card no-underline">
+              風險模型
             </Link>
             <Link to="/report" className="text-sm text-card no-underline">
               鼠跡通報

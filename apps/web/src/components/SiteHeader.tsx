@@ -3,15 +3,17 @@ import { useAuth } from "../features/auth/AuthProvider";
 
 const NAV_ITEMS = [
   { num: "01", label: "地圖", to: "/map" },
-  { num: "02", label: "通報", to: "/report" },
-  { num: "03", label: "知識", to: "/literature" },
+  { num: "02", label: "風險模型", to: "/risk-model" },
+  { num: "03", label: "通報", to: "/report" },
+  { num: "04", label: "知識", to: "/literature" },
 ] as const;
 
 /** 市府人員不使用市民通報表單（Rules 只允許 citizen 建立），改由作業平台新增紀錄。 */
 const OFFICIAL_NAV_ITEMS = [
   NAV_ITEMS[0],
-  { num: "02", label: "作業平台", to: "/official" },
-  NAV_ITEMS[2],
+  NAV_ITEMS[1],
+  { num: "03", label: "作業平台", to: "/official" },
+  NAV_ITEMS[3],
 ] as const;
 
 export function SiteHeader() {
@@ -28,12 +30,12 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="mx-auto w-full max-w-container px-10 pt-7">
+    <header className="mx-auto w-full max-w-container px-4 pt-5 sm:px-10 sm:pt-7">
       <div className="flex flex-wrap items-center justify-between gap-4 border-b-[3px] border-ink pb-3.5">
-        <Link to="/" className="font-brand text-[38px] font-bold leading-none text-ink no-underline">
+        <Link to="/" className="font-brand text-[30px] font-bold leading-none text-ink no-underline sm:text-[38px]">
           TAIPEI RAT LAB
         </Link>
-        <nav aria-label="主要頁面" className="flex flex-wrap items-center gap-x-1 gap-y-1.5 text-base font-bold">
+        <nav aria-label="主要頁面" className="flex w-full flex-wrap items-center gap-x-1 gap-y-1.5 text-sm font-bold lg:w-auto lg:text-base">
           {navItems.map((item, i) => {
             const active = pathname === item.to || (item.to === "/official" && pathname.startsWith("/official"));
             return (
@@ -41,7 +43,7 @@ export function SiteHeader() {
                 <Link
                   to={item.to}
                   aria-current={active ? "page" : undefined}
-                  className={`inline-flex min-h-11 items-center gap-1.5 px-3 no-underline ${
+                  className={`inline-flex min-h-11 items-center gap-1.5 px-2 no-underline sm:px-3 ${
                     active ? "underline decoration-2 underline-offset-[6px]" : ""
                   }`}
                 >
