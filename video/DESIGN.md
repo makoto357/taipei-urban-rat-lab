@@ -2,6 +2,14 @@
 
 本資料夾是 Taipei Urban Rat Lab 的可重建簡報影片工程。影片使用 Remotion 組版、Playwright 擷取本機 UI，不截正式 Firebase 資料。
 
+## 技術參考與歸屬
+
+本影片工程主要參考 [斷鼠路（ratroute）](https://github.com/JoshuaWangTW/ratroute) 的可重建影片生成方式：以 Playwright 擷取本機網站畫面，再用 Remotion 組版、控制鏡頭運動與渲染成片。
+
+- [`src/PageCam.tsx`](src/PageCam.tsx) 改寫自斷鼠路 MIT 授權的 video camera helper，檔案開頭保留來源註記。
+- Taipei Urban Rat Lab 的分鏡、文案、網站截圖、視覺設計與音樂為本專案內容或依下方紀錄另行取得，沒有直接使用斷鼠路的影像或音訊素材。
+- 技術參考不代表本專案採用斷鼠路的風險分級、模型參數或政策結論。
+
 ## 產品決策
 
 | 項目 | 決定 |
