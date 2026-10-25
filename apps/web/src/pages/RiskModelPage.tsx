@@ -139,34 +139,49 @@ export function RiskModelPage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto w-full max-w-container flex-1 px-4 pb-20 pt-8 sm:px-10 sm:pt-12">
-        <section aria-labelledby="risk-model-title" className="border-b-[3px] border-ink pb-12">
-          <div className="grid items-end gap-8 lg:grid-cols-[1fr_360px]">
-            <div>
-              <p className="m-0 font-label text-[13px] tracking-[0.14em] text-accent-text">
-                MODEL EXPLAINER / 02
+      <main className="mx-auto w-full max-w-container flex-1 px-4 pb-20 pt-8 sm:px-10">
+        <section aria-labelledby="risk-model-title" className="pb-8">
+          <div className="flex flex-wrap items-end gap-x-8 gap-y-2 border-b-2 border-ink pb-5">
+            <div className="flex-none">
+              <p className="m-0 mb-1.5 text-[15px] font-bold text-accent-text">
+                風險模型{" "}
+                <span className="font-label font-normal tracking-[0.1em]">
+                  / MODEL EXPLAINER
+                </span>
               </p>
-              <h1 id="risk-model-title" className="m-0 mt-3 max-w-[820px] text-5xl font-black leading-[1.05] sm:text-7xl">
+              <h1
+                id="risk-model-title"
+                className="m-0 text-[clamp(36px,5vw,46px)] font-black leading-[1.2]"
+              >
                 城市鼠患，如何評估風險？
               </h1>
-              <p className="m-0 mt-5 max-w-[760px] font-body text-lg leading-[1.9]">
-                這套模型把鼠跡觀測與環境條件整理成街廓間可比較的相對分數，協助探索調查線索；它不是鼠口普查、感染風險預測或實際移動路徑。
-              </p>
             </div>
-            <div className="border-l-4 border-accent bg-card p-5">
-              <p className="m-0 font-label text-xs tracking-[0.12em] text-accent-text">READ FIRST</p>
-              <p className="m-0 mt-2 font-body text-sm font-bold leading-[1.8]">
-                高分代表在目前資料、選擇因子與計算規則下相對突出，不等於現場一定有更多老鼠。沒有資料，也不等於安全。
-              </p>
-              <Link
-                to="/map"
-                className="mt-5 inline-flex min-h-11 items-center justify-center bg-ink px-5 font-bold text-card no-underline hover:text-card"
-              >
-                回到地圖比較 →
-              </Link>
-            </div>
+            <p className="m-0 mb-2 min-w-[280px] flex-[1_1_420px] text-[15px] leading-[1.7]">
+              以都市鼠類研究為基礎，建立街廓鼠患風險評估模型與分級方法。
+            </p>
           </div>
-          <nav aria-label="本頁章節" className="mt-10 flex flex-wrap gap-x-5 gap-y-2 border-t border-ink pt-4 text-sm font-bold">
+
+          <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 border-l-4 border-accent bg-activity-l1 px-5 py-4">
+            <div className="min-w-[240px] flex-[1_1_680px] sm:flex sm:items-baseline sm:gap-5">
+              <p className="m-0 shrink-0 text-sm font-bold text-accent-text">
+                閱讀前提醒
+              </p>
+              <p className="m-0 mt-1 font-body text-sm font-bold leading-[1.75] sm:mt-0">
+                高分只代表在目前資料、選擇因子與計算規則下相對突出，不等於現場一定有更多老鼠；沒有資料也不等於安全。
+              </p>
+            </div>
+            <Link
+              to="/map"
+              className="inline-flex min-h-11 w-full shrink-0 items-center justify-center bg-ink px-5 font-bold text-card no-underline hover:text-card sm:w-auto"
+            >
+              回到地圖比較 →
+            </Link>
+          </div>
+
+          <nav
+            aria-label="本頁章節"
+            className="mt-4 flex flex-wrap gap-x-6 gap-y-2 border-y border-ink py-4 text-sm font-bold"
+          >
             <a href="#overview">01 模型概覽</a>
             <a href="#factors">02 基礎因子</a>
             <a href="#movement">03 空間傳遞</a>
@@ -256,15 +271,8 @@ export function RiskModelPage() {
               </ul>
             </article>
           </div>
-          <div className="mt-6 grid gap-5 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="mt-6">
             <ConnectivityExample />
-            <aside className="border-2 border-ink bg-activity-l1 p-5 sm:p-6">
-              <p className="m-0 font-label text-xs tracking-[0.12em] text-accent-text">HEURISTIC, NOT TRACKING</p>
-              <h3 className="m-0 mt-2 text-2xl font-black">這是結構化推估，不是路徑追蹤</h3>
-              <p className="m-0 mt-3 font-body text-sm leading-[1.85]">
-                連通權重只是在既定距離、道路和管網規則下，表達觀測證據可能影響鄰近街廓的相對程度。它沒有個體追蹤資料，也不能解讀為老鼠實際移動的方向、機率或路徑。
-              </p>
-            </aside>
           </div>
         </section>
 

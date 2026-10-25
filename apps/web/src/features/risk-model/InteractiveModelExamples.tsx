@@ -135,7 +135,6 @@ export function FactorWeightExample() {
 }
 
 type ConnectivityMode = "ground" | "underground";
-type UndergroundSystem = "sewer" | "stormwater";
 type RoadBarrier = (typeof ROAD_BARRIERS)[number];
 
 const getLevelLabel = (level: RiskLevel) =>
@@ -178,29 +177,24 @@ function GroundConnectivityDiagram({
 }
 
 function UndergroundConnectivityDiagram({
-  system,
   pipeLength,
   connectivity,
 }: {
-  system: UndergroundSystem;
   pipeLength: number;
   connectivity: number;
 }) {
   const neighborLevel = getRiskLevel(connectivity);
   const neighborLabel = getLevelLabel(neighborLevel);
-  const pipeColor = system === "sewer" ? colors.map.teal : colors.map.water;
-  const systemLabel = system === "sewer" ? "污水系統" : "雨水系統";
-  const manholePrefix = system === "sewer" ? "S" : "SW";
 
   return (
     <svg
       viewBox="0 0 900 360"
       role="img"
-      aria-label={`${systemLabel}單邊示意：L1 觀測來源街廓 A 經兩個人孔與 ${pipeLength} 公尺管段連接至${neighborLabel}鄰近街廓 B，啟發式權重 ${connectivity.toFixed(3)}`}
+      aria-label={`下水道單邊示意：L1 觀測來源街廓 A 經兩個人孔與 ${pipeLength} 公尺管段連接至${neighborLabel}鄰近街廓 B，啟發式權重 ${connectivity.toFixed(3)}`}
       className="h-[250px] w-full sm:h-auto"
     >
       <title>同一系統的人孔與地下管段連通示意</title>
-      <rect x="0" y="185" width="900" height="175" fill={colors.map.water} opacity="0.16" />
+      <rect x="0" y="185" width="900" height="175" fill={colors.map.teal} opacity="0.16" />
       <line x1="0" y1="185" x2="900" y2="185" stroke={colors.ink} strokeWidth="3" />
       <rect x="30" y="35" width="300" height="125" rx="4" fill={RISK_LEVEL_COLORS.L1} stroke={colors.ink} strokeWidth="3" />
       <rect x="570" y="35" width="300" height="125" rx="4" fill={RISK_LEVEL_COLORS[neighborLevel]} stroke={colors.ink} strokeWidth="3" />
@@ -210,15 +204,14 @@ function UndergroundConnectivityDiagram({
       <text x="720" y="128" textAnchor="middle" fontSize="23" fontWeight="700" fill={colors.ink}>{neighborLabel} · 鄰近街廓</text>
       <line x1="180" y1="160" x2="180" y2="245" stroke={colors.ink} strokeWidth="4" strokeDasharray="8 6" />
       <line x1="720" y1="160" x2="720" y2="245" stroke={colors.ink} strokeWidth="4" strokeDasharray="8 6" />
-      <line x1="180" y1="245" x2="720" y2="245" stroke={pipeColor} strokeWidth="12" />
+      <line x1="180" y1="245" x2="720" y2="245" stroke={colors.map.teal} strokeWidth="12" />
       <circle cx="180" cy="245" r="18" fill={colors.paper} stroke={colors.ink} strokeWidth="4" />
       <circle cx="720" cy="245" r="18" fill={colors.paper} stroke={colors.ink} strokeWidth="4" />
-      <circle cx="180" cy="245" r="5" fill={pipeColor} />
-      <circle cx="720" cy="245" r="5" fill={pipeColor} />
-      <text x="180" y="285" textAnchor="middle" fontSize="16" fontWeight="700">{manholePrefix}-01 人孔</text>
-      <text x="720" y="285" textAnchor="middle" fontSize="16" fontWeight="700">{manholePrefix}-02 人孔</text>
-      {/* <rect x="330" y="218" width="240" height="42" fill={colors.ink} /> */}
-      <text x="450" y="246" textAnchor="middle" fontSize="17" fontWeight="700" fill={colors.ink}>{systemLabel} · 管長 {pipeLength} m</text>
+      <circle cx="180" cy="245" r="5" fill={colors.map.teal} />
+      <circle cx="720" cy="245" r="5" fill={colors.map.teal} />
+      <text x="180" y="285" textAnchor="middle" fontSize="16" fontWeight="700">MH-01 人孔</text>
+      <text x="720" y="285" textAnchor="middle" fontSize="16" fontWeight="700">MH-02 人孔</text>
+      <text x="450" y="246" textAnchor="middle" fontSize="17" fontWeight="700" fill={colors.ink}>下水道管段 · {pipeLength} m</text>
       <text x="450" y="327" textAnchor="middle" fontSize="16" fill={colors.muted}>兩端人孔已各自配對至 30 m 內街廓</text>
     </svg>
   );
@@ -227,8 +220,6 @@ function UndergroundConnectivityDiagram({
 export function ConnectivityExample() {
   const [mode, setMode] = useState<ConnectivityMode>("ground");
   const [barrier, setBarrier] = useState<number>(0.6);
-  const [undergroundSystem, setUndergroundSystem] =
-    useState<UndergroundSystem>("sewer");
   const [pipeLength, setPipeLength] = useState(100);
   const selectedBarrier =
     ROAD_BARRIERS.find((option) => option.value === barrier) ?? ROAD_BARRIERS[1];
@@ -275,7 +266,6 @@ export function ConnectivityExample() {
           <GroundConnectivityDiagram barrier={selectedBarrier} connectivity={connectivity} />
         ) : (
           <UndergroundConnectivityDiagram
-            system={undergroundSystem}
             pipeLength={pipeLength}
             connectivity={connectivity}
           />
@@ -318,34 +308,7 @@ export function ConnectivityExample() {
           </fieldset>
         ) : (
           <div>
-            <fieldset className="m-0 border-0 p-0">
-              <legend className="mb-2 font-bold">選擇管網系統</legend>
-              <div className="grid grid-cols-2 border-2 border-ink">
-                {([
-                  ["sewer", "污水系統"],
-                  ["stormwater", "雨水系統"],
-                ] as const).map(([value, label]) => (
-                  <label
-                    key={value}
-                    className={`flex min-h-11 cursor-pointer items-center justify-center gap-2 px-3 font-bold first:border-r-2 first:border-ink ${
-                      undergroundSystem === value ? "bg-ink text-card" : "bg-paper text-ink"
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="underground-system"
-                      value={value}
-                      checked={undergroundSystem === value}
-                      onChange={() => setUndergroundSystem(value)}
-                      className="sr-only"
-                    />
-                    {label}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-
-            <div className="mt-5">
+            <div>
               <div className="flex items-baseline justify-between gap-4">
                 <label className="font-bold" htmlFor="pipe-length">管段長度</label>
                 <output htmlFor="pipe-length" className="font-label text-lg font-bold text-accent-text">
@@ -365,7 +328,7 @@ export function ConnectivityExample() {
             </div>
 
             <p className="m-0 mt-3 border-l-4 border-map-water pl-3 font-body text-sm leading-[1.75] text-muted">
-              管段只以同一系統內完全相符的人孔 ID 連接；污水與雨水網路分開。本圖假設兩端人孔已各自配對至 30 m 內的街廓。
+              本圖假設兩端人孔已各自配對至 30 m 內的街廓。實際模型只連接同一系統內完全相符的人孔 ID，污水與雨水網路仍分開計算；此處因公式相同而合併示意。
             </p>
           </div>
         )}
@@ -399,6 +362,18 @@ export function ConnectivityExample() {
           <li>同一路徑不混用地面與下水道邊，污水與雨水邊也不互相切換。</li>
         </ul>
       </section>
+
+      <aside className="mt-6 rounded-[10px] border-2 border-accent bg-activity-l1 p-5 sm:p-6">
+        <p className="m-0 font-label text-xs tracking-[0.12em] text-accent-text">
+          HEURISTIC, NOT TRACKING
+        </p>
+        <h4 className="m-0 mt-2 text-xl font-black">
+          這是結構化推估，不是路徑追蹤
+        </h4>
+        <p className="m-0 mt-3 font-body text-sm leading-[1.85]">
+          連通權重只是在既定距離、道路和管網規則下，表達觀測證據可能影響鄰近街廓的相對程度。它沒有個體追蹤資料，也不能解讀為老鼠實際移動的方向、機率或路徑。
+        </p>
+      </aside>
     </div>
   );
 }
