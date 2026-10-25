@@ -292,7 +292,7 @@ export function RiskModelPage() {
               ["06", "依組合重新映射", "每種因子組合以正分的最低與最高值做 min–max remap；只有一種正分時設為 0.5。"],
               ["07", "L1–L5 相對分級", "重映射後依五個等寬級距著色；分數為 0 的街廓維持未分級，不填色。"],
             ].map(([number, title, body]) => (
-              <li key={number} className="border-t-4 border-ink pt-4">
+              <li key={number} className="border-t border-ink pt-4">
                 <span className="font-label text-sm text-accent-text">{number}</span>
                 <h3 className="m-0 mt-1 text-xl font-black">{title}</h3>
                 <p className="m-0 mt-2 font-body text-sm leading-[1.8] text-muted">{body}</p>
@@ -352,19 +352,19 @@ export function RiskModelPage() {
             ))}
           </div>
 
-          <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_0.75fr]">
+          <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_0.5fr]">
             <div>
               <h3 className="m-0 text-2xl font-black">解讀時請保留這些限制</h3>
-              <ul className="mb-0 mt-4 grid gap-3 pl-5 font-body text-sm leading-[1.8] sm:grid-cols-2">
+              <ul className="mb-0 mt-4 grid list-disc gap-3 pl-5 font-body text-sm leading-[1.8] sm:grid-cols-2">
                 <li>民眾通報有可見度、人口、人流、數位使用與通報意願偏差。</li>
-                <li>政府調查受作業範圍、頻率與記錄方式影響，不是全市等密度抽樣。</li>
-                <li>食物與躲藏空間是代理變數，未經本專案證明為鼠患因果因子。</li>
+                <li>政府調查受作業範圍、頻率與記錄方式影響，非等密度抽樣。</li>
+                <li>食物與躲藏空間是代理變數，未經本案證明為鼠患因果因子。</li>
                 <li>地面與下水道連通是啟發式模型，不是個體追蹤或移動機率。</li>
                 <li>空間相關不代表因果；同時出現可能來自共同的城市條件。</li>
                 <li>資料缺漏或分數為零不代表該處沒有鼠類，也不代表安全。</li>
               </ul>
             </div>
-            <aside className="border-l-4 border-ink pl-5">
+            <aside className="border-l border-ink pl-5">
               <h3 className="m-0 text-xl font-black">繼續閱讀</h3>
               <div className="mt-4 flex flex-col gap-3 text-sm font-bold">
                 <Link to="/literature">研究文獻與防治知識 →</Link>

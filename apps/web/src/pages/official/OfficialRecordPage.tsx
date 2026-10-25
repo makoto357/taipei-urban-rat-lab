@@ -143,7 +143,7 @@ function LocationFields({
     <section className="flex flex-col gap-3">
       <h2 className="m-0 font-heading text-xl font-black">地點與時間</h2>
       <div className="flex flex-wrap gap-2.5">
-        <label className="flex min-h-11 flex-[1_1_240px] items-center gap-2.5 border-[1.5px] border-ink bg-paper px-3 font-body">
+        <label className="flex min-h-11 flex-[1_1_240px] items-center gap-2.5 border-[1.5px] border-ink bg-paper pl-3 pr-1 py-1 font-body">
           <span className="sr-only">輸入地址或地標</span>
           <input
             type="text"
@@ -162,9 +162,9 @@ function LocationFields({
             type="button"
             onClick={() => void geocoder.locateAddress(addressText)}
             disabled={geocoder.busy || addressText.trim() === ""}
-            className="button-secondary min-h-9 px-3 text-[13px]"
+            className="button-secondary min-h-9 px-3 text-[13px] tag"
           >
-            在地圖上定位
+            定位
           </button>
         </label>
         <select

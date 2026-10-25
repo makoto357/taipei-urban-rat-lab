@@ -120,6 +120,7 @@ a:hover {
 }
 
 .warning-card {
+  border-color: #d65b37;
   border-radius: 10px;
 }
 

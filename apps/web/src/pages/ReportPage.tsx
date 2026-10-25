@@ -181,7 +181,7 @@ export function ReportPage() {
         </div>
 
         <div className="flex flex-wrap items-start gap-x-12 gap-y-8">
-          <StepList step={done ? 4 : step} />
+          <StepList step={done ? 4 : step} showLoginReminder={!signedIn} />
 
           <div className="min-w-0 flex-[999_1_560px] max-w-[720px]">
             {!signedIn ? (
@@ -244,7 +244,13 @@ export function ReportPage() {
   );
 }
 
-function StepList({ step }: { step: number }) {
+function StepList({
+  step,
+  showLoginReminder,
+}: {
+  step: number;
+  showLoginReminder: boolean;
+}) {
   return (
     <ol aria-label="通報步驟" className="m-0 flex max-w-[320px] flex-1 flex-col list-none p-0" style={{ flexBasis: "240px" }}>
       {REPORT_STEPS.map((s, i) => {
@@ -270,9 +276,11 @@ function StepList({ step }: { step: number }) {
           </li>
         );
       })}
-      <li className="warning-card mt-6 border-l-4 border-accent bg-activity-l1 px-3.5 py-3 font-body text-xs leading-[1.7]">
-        通報需要登入，才能讓你之後查看處理狀態。
-      </li>
+      {showLoginReminder && (
+        <li className="warning-card mt-6 border-l-4 border-accent bg-activity-l1 px-3.5 py-3 font-body text-xs leading-[1.7]">
+          通報需要登入，才能讓你之後查看處理狀態。
+        </li>
+      )}
     </ol>
   );
 }
@@ -444,7 +452,7 @@ function ReportForm({
         <section className="flex flex-col gap-3.5">
           <h2 className="m-0 text-[26px] font-black">2. 地點</h2>
           <div className="flex flex-wrap gap-2.5">
-            <label className="flex min-h-11 flex-[1_1_280px] items-center gap-2.5 border-[1.5px] border-ink bg-paper px-3 font-body">
+            <label className="flex min-h-11 flex-[1_1_280px] items-center gap-2.5 border-[1.5px] border-ink bg-paper pl-3 pr-1 py-1 font-body">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth={2} aria-hidden="true">
                 <circle cx="11" cy="11" r="7" />
                 <path d="M16.5 16.5 L21 21" />
@@ -467,9 +475,9 @@ function ReportForm({
                 type="button"
                 onClick={() => void geocoder.locateAddress(addressText)}
                 disabled={geocoder.busy || addressText.trim() === ""}
-                className="button-secondary min-h-9 px-3 text-[13px]"
+                className="button-secondary min-h-9 px-3 text-[13px] tag"
               >
-                在地圖上定位
+                定位
               </button>
             </label>
             <label className="flex min-h-11 flex-[1_1_160px] items-center border-[1.5px] border-ink bg-paper px-3 font-body">
@@ -593,7 +601,7 @@ function ReportForm({
         </section>
       )}
 
-      <div className="flex flex-wrap justify-between gap-3 border-t-2 border-ink pt-4">
+      <div className="flex flex-wrap justify-between gap-3 border-t border-ink pt-4">
         {step > 1 && (
           <button
             type="button"
