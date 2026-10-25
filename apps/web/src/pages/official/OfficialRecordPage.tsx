@@ -162,7 +162,7 @@ function LocationFields({
             type="button"
             onClick={() => void geocoder.locateAddress(addressText)}
             disabled={geocoder.busy || addressText.trim() === ""}
-            className="min-h-9 border-[1.5px] border-ink bg-card px-3 font-heading text-[13px] font-bold disabled:opacity-50"
+            className="button-secondary min-h-9 px-3 text-[13px]"
           >
             在地圖上定位
           </button>
@@ -189,7 +189,7 @@ function LocationFields({
             onUseCurrentLocation();
           }}
           disabled={locating}
-          className="inline-flex min-h-11 items-center gap-2 border-[1.5px] border-ink bg-card px-4 font-heading text-[15px] font-bold disabled:opacity-60"
+          className="button-secondary min-h-11 gap-2 px-4 text-[15px]"
         >
           {locating ? "定位中…" : "使用目前位置"}
         </button>
@@ -490,7 +490,7 @@ function SurveyForm({ organizationId }: { organizationId: string | undefined }) 
       {error && <p className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 text-[13px]">{error}</p>}
 
       <div className="flex justify-end gap-3 border-t-2 border-ink pt-4">
-        <button type="submit" disabled={submitting} className="min-h-[52px] border-2 border-ink bg-ink px-10 font-heading text-base font-bold text-card disabled:opacity-60">
+        <button type="submit" disabled={submitting} className="button-primary min-h-[52px] px-10 text-base">
           {submitting ? "儲存中…" : "儲存調查紀錄"}
         </button>
       </div>
@@ -708,7 +708,7 @@ function BaitForm({ organizationId }: { organizationId: string | undefined }) {
       {error && <p className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 text-[13px]">{error}</p>}
 
       <div className="flex justify-end gap-3 border-t-2 border-ink pt-4">
-        <button type="submit" disabled={submitting} className="min-h-[52px] border-2 border-ink bg-ink px-10 font-heading text-base font-bold text-card disabled:opacity-60">
+        <button type="submit" disabled={submitting} className="button-primary min-h-[52px] px-10 text-base">
           {submitting ? "送出中…" : "新增投藥紀錄"}
         </button>
       </div>

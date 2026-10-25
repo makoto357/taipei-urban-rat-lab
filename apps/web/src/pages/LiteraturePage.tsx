@@ -116,7 +116,7 @@ export function LiteraturePage() {
                 type="button"
                 disabled={!dirty}
                 onClick={() => setFilters(EMPTY_FILTERS)}
-                className="min-h-11 border-2 border-ink bg-transparent font-heading text-[15px] font-bold disabled:opacity-40"
+                className="button-secondary min-h-11 px-4 text-[15px]"
               >
                 清除篩選
               </button>
@@ -156,7 +156,7 @@ export function LiteraturePage() {
                       <p className="m-0 flex-1 font-body text-sm leading-[1.8]">{item.excerpt}</p>
                       <Link
                         to={`/literature/${item.id}`}
-                        className="inline-flex min-h-11 items-center justify-center border-2 border-ink bg-ink px-5 font-bold text-card no-underline hover:text-card"
+                        className="button-primary min-h-11 px-5"
                       >
                         閱讀整理
                       </Link>

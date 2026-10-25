@@ -172,7 +172,7 @@ export function RiskModelPage() {
             </div>
             <Link
               to="/map"
-              className="inline-flex min-h-11 w-full shrink-0 items-center justify-center bg-ink px-5 font-bold text-card no-underline hover:text-card sm:w-auto"
+              className="button-primary min-h-11 w-full shrink-0 px-5 sm:w-auto"
             >
               回到地圖比較 →
             </Link>

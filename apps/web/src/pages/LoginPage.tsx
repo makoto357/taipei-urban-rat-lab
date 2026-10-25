@@ -136,9 +136,9 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
       <button
         type="button"
         onClick={onBack}
-        className="inline-flex min-h-11 items-center gap-1.5 self-start border-0 bg-transparent p-0 font-heading text-[15px] font-bold text-ink"
+        className="button-text self-start text-[15px]"
       >
-        ← 重新選擇身分
+        <span className="button-text__label">← 重新選擇身分</span>
       </button>
       <form onSubmit={handleEmailSubmit} className="box-border flex flex-col gap-4 border-2 border-ink bg-card px-9 pb-7 pt-8">
         <div className="flex flex-col gap-1">
@@ -151,7 +151,7 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
             <button
               type="button"
               onClick={handleGoogleSignIn}
-              className="flex min-h-12 items-center justify-center gap-2.5 border-[1.5px] border-ink bg-card font-heading text-base font-bold"
+              className="button-secondary min-h-12 gap-2.5 text-base"
             >
               <GoogleIcon />
               用 Google 登入
@@ -203,9 +203,7 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
         <button
           type="submit"
           disabled={submitting}
-          className={`flex min-h-[50px] items-center justify-center text-[17px] font-bold ${
-            submitting ? "cursor-not-allowed bg-unknown text-muted" : "bg-ink text-card"
-          }`}
+          className="button-primary min-h-[50px] text-[17px]"
         >
           登入
         </button>

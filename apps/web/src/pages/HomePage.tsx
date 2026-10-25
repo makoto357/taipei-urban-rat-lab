@@ -85,13 +85,13 @@ function Hero() {
         <div className="mt-2 flex flex-wrap gap-4">
           <Link
             to="/map"
-            className="inline-flex min-h-[52px] items-center gap-2.5 border-2 border-ink bg-ink px-9 text-lg font-bold text-card no-underline"
+            className="button-primary min-h-[52px] gap-2.5 px-9 text-lg"
           >
             探索鼠患地圖 <span aria-hidden="true">↗</span>
           </Link>
           <Link
             to="/report"
-            className="inline-flex min-h-[52px] items-center gap-2.5 border-2 border-ink bg-card px-9 text-lg font-bold text-ink no-underline"
+            className="button-secondary min-h-[52px] gap-2.5 px-9 text-lg"
           >
             通報鼠跡 <span aria-hidden="true">↗</span>
           </Link>

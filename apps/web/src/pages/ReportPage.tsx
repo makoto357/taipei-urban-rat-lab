@@ -193,7 +193,7 @@ export function ReportPage() {
                 </p>
                 <Link
                   to="/official/record"
-                  className="inline-flex min-h-12 items-center self-start border-2 border-ink bg-ink px-6 font-bold text-card no-underline hover:text-card"
+                  className="button-primary min-h-12 self-start px-6"
                 >
                   前往作業平台新增紀錄
                 </Link>
@@ -292,7 +292,7 @@ function GateCard({ onStart }: { onStart: () => void }) {
       <button
         type="button"
         onClick={onStart}
-        className="relative min-h-12 border-2 border-ink bg-ink px-7 font-heading text-base font-bold text-card"
+        className="button-primary relative min-h-12 px-7 text-base"
       >
         登入開始填表
       </button>
@@ -466,7 +466,7 @@ function ReportForm({
                 type="button"
                 onClick={() => void geocoder.locateAddress(addressText)}
                 disabled={geocoder.busy || addressText.trim() === ""}
-                className="min-h-9 border-[1.5px] border-ink bg-card px-3 font-heading text-[13px] font-bold disabled:opacity-50"
+                className="button-secondary min-h-9 px-3 text-[13px]"
               >
                 在地圖上定位
               </button>
@@ -492,7 +492,7 @@ function ReportForm({
               type="button"
               onClick={onUseCurrentLocation}
               disabled={locating}
-              className="inline-flex min-h-11 items-center gap-2 border-[1.5px] border-ink bg-card px-4 font-heading text-[15px] font-bold disabled:opacity-60"
+              className="button-secondary min-h-11 gap-2 px-4 text-[15px]"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth={2} aria-hidden="true">
                 <circle cx="12" cy="12" r="7" />
@@ -597,7 +597,7 @@ function ReportForm({
           <button
             type="button"
             onClick={onBack}
-            className="min-h-[52px] border-2 border-ink bg-card px-7 font-heading text-base font-bold"
+            className="button-secondary min-h-[52px] px-7 text-base"
           >
             ← 上一步
           </button>
@@ -608,9 +608,7 @@ function ReportForm({
             type="button"
             onClick={onNext}
             disabled={!canNext}
-            className={`min-h-[52px] border-2 px-10 font-heading text-base font-bold ${
-              canNext ? "border-ink bg-ink text-card" : "cursor-not-allowed border-unknown bg-unknown text-muted"
-            }`}
+            className="button-primary min-h-[52px] px-10 text-base"
           >
             下一步 →
           </button>
@@ -620,9 +618,7 @@ function ReportForm({
             type="button"
             onClick={onSubmit}
             disabled={!canSubmit}
-            className={`min-h-[52px] border-2 px-10 font-heading text-base font-bold ${
-              canSubmit ? "border-ink bg-ink text-card" : "cursor-not-allowed border-unknown bg-unknown text-muted"
-            }`}
+            className="button-primary min-h-[52px] px-10 text-base"
           >
             {submitting ? "送出中…" : "送出通報"}
           </button>
@@ -744,7 +740,7 @@ function DoneCard({
         <button
           type="button"
           onClick={onRestart}
-          className="min-h-12 border-2 border-ink bg-card px-6 font-heading text-base font-bold"
+          className="button-secondary min-h-12 px-6 text-base"
         >
           再通報一筆
         </button>

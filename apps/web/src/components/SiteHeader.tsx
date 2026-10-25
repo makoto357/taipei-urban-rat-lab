@@ -43,12 +43,16 @@ export function SiteHeader() {
                 <Link
                   to={item.to}
                   aria-current={active ? "page" : undefined}
-                  className={`inline-flex min-h-11 items-center gap-1.5 px-2 no-underline sm:px-3 ${
-                    active ? "underline decoration-2 underline-offset-[6px]" : ""
-                  }`}
+                  className="button-text gap-1.5 px-2 sm:px-3"
                 >
-                  <span className="font-label text-accent-text">{item.num}</span>
-                  {item.label}
+                  <span className="button-text__number font-label">{item.num}</span>
+                  <span
+                    className={`button-text__label ${
+                      active ? "underline decoration-2 underline-offset-[6px]" : ""
+                    }`}
+                  >
+                    {item.label}
+                  </span>
                 </Link>
                 {i < navItems.length - 1 && (
                   <span aria-hidden="true" className="text-muted">
