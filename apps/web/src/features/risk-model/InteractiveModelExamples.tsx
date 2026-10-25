@@ -159,7 +159,7 @@ function GroundConnectivityDiagram({
       viewBox="0 0 900 330"
       role="img"
       aria-label={`L1 觀測來源街廓 A 與${neighborLabel}鄰近街廓 B，中間道路寬度為${barrier.label}，啟發式權重 ${connectivity.toFixed(3)}`}
-      className="h-[230px] w-full sm:h-auto"
+      className="h-[260px] w-full sm:h-[290px]"
     >
       <title>道路寬度與觀測證據傳遞示意</title>
       <rect x="30" y="45" width={leftBlockWidth} height="220" rx="4" fill={RISK_LEVEL_COLORS.L1} stroke={colors.ink} strokeWidth="3" />
@@ -191,7 +191,7 @@ function UndergroundConnectivityDiagram({
       viewBox="0 0 900 360"
       role="img"
       aria-label={`下水道單邊示意：L1 觀測來源街廓 A 經兩個人孔與 ${pipeLength} 公尺管段連接至${neighborLabel}鄰近街廓 B，啟發式權重 ${connectivity.toFixed(3)}`}
-      className="h-[250px] w-full sm:h-auto"
+      className="h-[260px] w-full sm:h-[290px]"
     >
       <title>同一系統的人孔與地下管段連通示意</title>
       <rect x="0" y="185" width="900" height="175" fill={colors.map.teal} opacity="0.16" />
@@ -233,37 +233,47 @@ export function ConnectivityExample() {
       : `exp(−${pipeLength} / 100)`;
 
   return (
-    <div className="border-2 border-ink bg-card p-5 sm:p-6">
-      <p className="m-0 font-label text-xs tracking-[0.12em] text-accent-text">
-        單邊互動示例
-      </p>
-      <h3 className="m-0 mt-1 text-2xl font-black">空間連通性模擬器</h3>
-      <p className="m-0 mt-2 font-body text-sm leading-[1.75] text-muted">
-        切換地面與下水道模式，觀察單一連通邊的啟發式權重。這不是完整的風險分數計算。
-      </p>
-
-      <div role="group" aria-label="選擇空間連通模式" className="mt-5 grid grid-cols-2 border-2 border-ink">
-        {([
-          ["ground", "地面移動"],
-          ["underground", "下水道移動"],
-        ] as const).map(([value, label]) => (
-          <button
-            key={value}
-            type="button"
-            aria-pressed={mode === value}
-            onClick={() => setMode(value)}
-            className={`min-h-12 border-0 px-4 font-heading text-base font-bold first:border-r-2 first:border-ink ${
-              mode === value ? "bg-ink text-card" : "bg-paper text-ink"
-            }`}
-          >
-            {label}
-          </button>
-        ))}
+    <div className="border-2 border-ink bg-card p-4 sm:p-5">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="m-0 font-label text-xs tracking-[0.12em] text-accent-text">
+            INTERACTIVE DEMO
+          </p>
+          <h3 className="m-0 mt-1 text-xl font-black">空間連通性模擬器</h3>
+          <p className="m-0 mt-1 font-body text-sm leading-[1.6] text-muted">
+            觀察單一連通邊的啟發式權重，不是完整風險分數。
+          </p>
+        </div>
+        <div
+          role="group"
+          aria-label="選擇空間連通模式"
+          className="grid w-full grid-cols-2 border-2 border-ink sm:w-[280px]"
+        >
+          {([
+            ["ground", "地面移動"],
+            ["underground", "下水道移動"],
+          ] as const).map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              aria-pressed={mode === value}
+              onClick={() => setMode(value)}
+              className={`min-h-10 border-0 px-3 font-heading text-sm font-bold transition-colors first:border-r-2 first:border-ink hover:bg-accent hover:text-card active:bg-accent-text focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-card ${
+                mode === value ? "bg-ink text-card" : "bg-paper text-ink"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="mt-5 border-y-2 border-ink bg-paper">
+      <div className="mt-4 flex h-[280px] items-center border-y border-ink bg-paper sm:h-[310px]">
         {mode === "ground" ? (
-          <GroundConnectivityDiagram barrier={selectedBarrier} connectivity={connectivity} />
+          <GroundConnectivityDiagram
+            barrier={selectedBarrier}
+            connectivity={connectivity}
+          />
         ) : (
           <UndergroundConnectivityDiagram
             pipeLength={pipeLength}
@@ -272,21 +282,23 @@ export function ConnectivityExample() {
         )}
       </div>
 
-      <div className="mt-5 grid gap-5 md:grid-cols-[1fr_250px]">
+      <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_220px]">
         {mode === "ground" ? (
-          <fieldset className="m-0 border-0 p-0">
-            <legend className="mb-2 font-bold">選擇道路寬度</legend>
-            <p className="m-0 mb-3 font-body text-sm text-muted">
-              街廓間距固定為 {EXAMPLE_DISTANCE_METERS} m；保留規範中的距離衰減與道路阻隔權重。
-            </p>
-            <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-1">
+          <fieldset className="m-0 min-w-0 border-0 p-0">
+            <div className="mb-2 flex flex-wrap items-baseline justify-between gap-x-5 gap-y-1">
+              <legend className="font-bold">選擇道路寬度</legend>
+              <p className="m-0 font-body text-xs text-muted">
+                街廓間距固定為 {EXAMPLE_DISTANCE_METERS} m
+              </p>
+            </div>
+            <div className="grid border border-ink sm:grid-cols-5">
               {ROAD_BARRIERS.map((option) => {
                 const checked = barrier === option.value;
                 return (
                   <label
                     key={option.label}
-                    className={`flex min-h-11 cursor-pointer items-center gap-3 border px-3 py-2 ${
-                      checked ? "border-ink bg-ink text-card" : "border-muted bg-paper"
+                    className={`flex min-h-16 cursor-pointer items-center gap-2 border-b border-ink px-3 py-2 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0 ${
+                      checked ? "bg-accent" : "bg-paper hover:bg-card"
                     }`}
                   >
                     <input
@@ -295,11 +307,15 @@ export function ConnectivityExample() {
                       value={option.value}
                       checked={checked}
                       onChange={() => setBarrier(option.value)}
-                      className="h-5 w-5 shrink-0 accent-accent"
+                      className="h-4 w-4 shrink-0 accent-ink"
                     />
-                    <span className="font-bold">{option.label}</span>
-                    <span className={`ml-auto font-label text-sm ${checked ? "text-activity-l2" : "text-muted"}`}>
-                      {option.note}
+                    <span className="min-w-0">
+                      <span className="block text-sm font-bold leading-tight">
+                        {option.label}
+                      </span>
+                      <span className="mt-1 block font-label text-[11px] text-ink">
+                        {option.note}
+                      </span>
                     </span>
                   </label>
                 );
@@ -307,71 +323,90 @@ export function ConnectivityExample() {
             </div>
           </fieldset>
         ) : (
-          <div>
-            <div>
-              <div className="flex items-baseline justify-between gap-4">
-                <label className="font-bold" htmlFor="pipe-length">管段長度</label>
-                <output htmlFor="pipe-length" className="font-label text-lg font-bold text-accent-text">
-                  {pipeLength} m
-                </output>
-              </div>
-              <input
-                id="pipe-length"
-                type="range"
-                min="10"
-                max="300"
-                step="10"
-                value={pipeLength}
-                onChange={(event) => setPipeLength(Number(event.target.value))}
-                className="h-11 w-full accent-ink"
-              />
+          <div className="min-w-0">
+            <div className="flex items-baseline justify-between gap-4">
+              <label className="font-bold" htmlFor="pipe-length">
+                管段長度
+              </label>
+              <output
+                htmlFor="pipe-length"
+                className="font-label text-xl font-bold text-accent-text"
+              >
+                {pipeLength} m
+              </output>
             </div>
-
-            <p className="m-0 mt-3 border-l-4 border-map-water pl-3 font-body text-sm leading-[1.75] text-muted">
-              本圖假設兩端人孔已各自配對至 30 m 內的街廓。實際模型只連接同一系統內完全相符的人孔 ID，污水與雨水網路仍分開計算；此處因公式相同而合併示意。
+            <input
+              id="pipe-length"
+              type="range"
+              min="10"
+              max="300"
+              step="10"
+              value={pipeLength}
+              onChange={(event) => setPipeLength(Number(event.target.value))}
+              className="h-10 w-full accent-ink"
+            />
+            <p className="m-0 border-l-4 border-map-water pl-3 font-body text-xs leading-[1.65] text-muted">
+              假設兩端人孔已配對至 30 m 內街廓；實際模型只連接同一系統內相符的人孔 ID，污水與雨水仍分開計算。
             </p>
           </div>
         )}
 
-        <div aria-live="polite" className="flex flex-col justify-between bg-ink p-5 text-card">
-          <div>
-            <span className="font-label text-xs tracking-[0.1em] text-activity-l2">
-              啟發式相對連通權重
-            </span>
-            <output className="mt-2 block font-label text-5xl font-bold">
+        <div
+          aria-live="polite"
+          className="flex min-h-24 flex-col justify-between bg-ink px-4 pt-3 pb-5 text-card"
+        >
+          <span className="font-label text-[11px] tracking-[0.1em] text-activity-l2">
+            相對連通權重
+          </span>
+          <div className="flex items-end justify-between gap-3">
+            <p className="m-0 break-words font-label text-[11px] leading-[1.4] text-card">
+              {formula}
+            </p>
+            <output className="font-label text-4xl font-bold leading-none">
               {connectivity.toFixed(3)}
             </output>
           </div>
-          <p className="m-0 mt-6 break-words font-label text-sm leading-[1.7] text-card">
-            {formula}
-            <br />= {connectivity.toFixed(3)}
-          </p>
         </div>
       </div>
 
-      <p className="m-0 mt-5 border-l-4 border-accent pl-3 font-body text-sm leading-[1.75] text-muted">
-        這是單一連通邊的教育示例。權重是探索性的結構化假設，不是實際鼠群移動路徑或穿越機率。
-      </p>
-
-      <section aria-labelledby="movement-combination-title" className="mt-6 border-t-2 border-ink pt-5">
-        <h4 id="movement-combination-title" className="m-0 text-lg font-black">兩種移動模式如何一起作用？</h4>
-        <ul className="mb-0 mt-3 grid gap-x-8 gap-y-2 pl-5 font-body text-sm leading-[1.75] sm:grid-cols-2">
-          <li>只有民眾通報與政府調查會傳遞；食物來源與躲藏空間留在原街廓。</li>
-          <li>地面、污水與雨水網路各自最多傳遞 2 跳。</li>
-          <li>地面與下水道同時啟用時，對每個觀測因子分別取兩者最大值，絕不相加。</li>
-          <li>同一路徑不混用地面與下水道邊，污水與雨水邊也不互相切換。</li>
-        </ul>
+      <section
+        aria-labelledby="movement-combination-title"
+        className="mt-4 border-t border-ink pt-4"
+      >
+        <h4
+          id="movement-combination-title"
+          className="m-0 text-base font-black"
+        >
+          兩種模式如何一起作用？
+        </h4>
+        <ol className="m-0 mt-3 grid list-none gap-3 p-0 font-body text-xs leading-[1.65] sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            "只有民眾通報與政府調查會傳遞；環境因子留在原街廓。",
+            "地面、污水與雨水網路各自最多傳遞 2 跳。",
+            "兩種模式同時啟用時，對每個觀測因子分別取最大值。",
+            "同一路徑不混用地面、污水或雨水連通邊。",
+          ].map((rule, index) => (
+            <li key={rule} className="border-t border-ink pt-2">
+              <span className="mr-2 font-label text-accent-text">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              {rule}
+            </li>
+          ))}
+        </ol>
       </section>
 
-      <aside className="warning-card mt-6 border-l-4 border-accent bg-activity-l1 p-5 sm:p-6">
-        <p className="m-0 font-label text-xs tracking-[0.12em] text-accent-text">
-          HEURISTIC, NOT TRACKING
-        </p>
-        <h4 className="m-0 mt-2 text-xl font-black">
-          這是結構化推估，不是路徑追蹤
-        </h4>
-        <p className="m-0 mt-3 font-body text-sm leading-[1.85]">
-          連通權重只是在既定距離、道路和管網規則下，表達觀測證據可能影響鄰近街廓的相對程度。它沒有個體追蹤資料，也不能解讀為老鼠實際移動的方向、機率或路徑。
+      <aside className="warning-card mt-4 grid gap-2 border-l-4 border-accent bg-activity-l1 p-4 sm:grid-cols-[220px_1fr] sm:items-start">
+        <div>
+          <p className="m-0 font-label text-[11px] tracking-[0.12em] text-accent-text">
+            HEURISTIC, NOT TRACKING
+          </p>
+          <h4 className="m-0 mt-1 text-base font-black">
+            結構化推估，不是路徑追蹤
+          </h4>
+        </div>
+        <p className="m-0 font-body text-xs leading-[1.7]">
+          權重只表達既定距離、道路和管網規則下的相對影響程度，不能解讀為老鼠實際移動的方向、機率或路徑。
         </p>
       </aside>
     </div>

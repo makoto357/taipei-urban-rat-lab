@@ -29,6 +29,7 @@ export interface MapLayer {
 }
 
 export interface MapTopic {
+  slug: MapTopicSlug;
   zh: string;
   en: string;
   note?: string;
@@ -54,12 +55,21 @@ export interface MapTopic {
   layers: MapLayer[];
 }
 
+export type MapTopicSlug =
+  | "risk"
+  | "observations"
+  | "bait"
+  | "environment"
+  | "distribution"
+  | "comparison";
+
 /**
  * 資料主題與圖例遵循 docs/design/design-system.md §6；名稱只描述目前
  * 實際載入的資料；尚未校準的模型會明確標示為實驗性試算。
  */
 const TOPICS: MapTopic[] = [
   {
+    slug: "observations",
     zh: "鼠跡分佈",
     en: "OBSERVATIONS",
     layers: [
@@ -94,6 +104,7 @@ const TOPICS: MapTopic[] = [
     ],
   },
   {
+    slug: "bait",
     zh: "投藥紀錄",
     en: "BAIT MANAGEMENT",
     note: "「已移除」不代表完全安全：現場仍可能有殘餌、非市府投藥或中毒鼠隻。",
@@ -137,6 +148,7 @@ const TOPICS: MapTopic[] = [
     ],
   },
   {
+    slug: "environment",
     zh: "環境因子",
     en: "ENVIRONMENT",
     layers: [
@@ -231,6 +243,7 @@ const TOPICS: MapTopic[] = [
     ],
   },
   {
+    slug: "distribution",
     zh: "鼠群研究",
     en: "DISTRIBUTION",
     layers: [
@@ -276,6 +289,7 @@ const TOPICS: MapTopic[] = [
     ],
   },
   {
+    slug: "risk",
     zh: "風險模型",
     en: "RISK MODEL",
     layerHeading: "風險模型",
@@ -353,6 +367,7 @@ const TOPICS: MapTopic[] = [
     ],
   },
   {
+    slug: "comparison",
     zh: "綜合比較",
     en: "COMPARISON",
     supplementalSections: [
@@ -420,6 +435,11 @@ export const MAP_TOPICS: MapTopic[] = [
   TOPICS[3]!,
   TOPICS[5]!,
 ];
+
+export function mapTopicIndexFromSlug(slug: string | null): number {
+  const index = MAP_TOPICS.findIndex((topic) => topic.slug === slug);
+  return index >= 0 ? index : 0;
+}
 
 const DISTRICTS = [
   "全部行政區",

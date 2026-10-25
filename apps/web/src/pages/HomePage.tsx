@@ -205,7 +205,7 @@ function PublicDesk() {
           <Link
             key={item.to}
             to={item.to}
-            className="flex flex-col gap-3.5 border-r-2 border-t-2 border-ink bg-paper px-[26px] pb-[26px] pt-[22px] text-ink no-underline"
+            className="flex flex-col gap-3.5 border-r-2 border-t border-ink bg-paper px-[26px] pb-[26px] pt-[22px] text-ink no-underline"
           >
             <div className="flex items-start justify-between">
               <span className="font-label text-base text-accent-text">{item.num}</span>

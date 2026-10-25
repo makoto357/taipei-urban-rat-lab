@@ -374,6 +374,40 @@ export function RiskModelPage() {
               </div>
             </aside>
           </div>
+
+          <article className="mt-10 grid border-y-2 border-ink py-6 lg:grid-cols-[1fr_auto] lg:items-stretch">
+            <div className="grid gap-5 lg:grid-cols-[240px_1fr] lg:gap-8 lg:pr-8">
+              <div>
+                <p className="m-0 font-label text-xs tracking-[0.12em] text-accent-text">
+                  LONG-TERM VALIDATION
+                </p>
+                <h3 className="m-0 mt-1 text-2xl font-black leading-tight">
+                  長期驗證與
+                  <br className="hidden lg:block" />
+                  校準方向
+                </h3>
+              </div>
+              <div className="font-body text-sm leading-[1.85]">
+                <p className="m-0">
+                  CMR 透過重複捕捉、標記並再次辨識同一個體，估計未被直接觀察到的族群參數；基因個體辨識則可協助辨別重複樣本與親緣關係。
+                </p>
+                <p className="m-0 mt-3">
+                  未來若能建立跨季節、固定樣區的長期資料，可用於估計偵測率、相對族群密度與族群連通性，並檢驗目前觀測、環境與空間傳遞規則。
+                </p>
+                <p className="m-0 mt-3 font-bold">
+                  這些資料將作為模型校準與外部驗證依據，不直接視為單一風險因子，也不代表個體實際移動路徑。
+                </p>
+              </div>
+            </div>
+            <div className="mt-6 flex items-center border-t border-ink pt-6 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+              <Link
+                to="/map?topic=distribution"
+                className="button-primary inline-flex min-h-11 items-center whitespace-nowrap px-5"
+              >
+                查看鼠群研究 →
+              </Link>
+            </div>
+          </article>
         </section>
       </main>
       <SiteFooter />
