@@ -50,7 +50,7 @@ export function OfficialOverviewPage() {
 
           {state.status === "loading" && <p className="m-0 font-body">載入中…</p>}
           {state.status === "error" && (
-            <p role="alert" className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-sm">
+            <p role="alert" className="warning-card m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-sm">
               資料暫時無法載入，請稍後重新整理。
             </p>
           )}

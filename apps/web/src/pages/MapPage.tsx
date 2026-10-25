@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
 import {
@@ -6,14 +7,19 @@ import {
   getEngineLayers,
 } from "../features/map/InteractiveMap";
 import { LayerLegendSwatch } from "../features/map/LayerLegendSwatch";
-import { DISTRICTS, MAP_TOPICS } from "../features/map/mapTopics";
+import {
+  DISTRICTS,
+  MAP_TOPICS,
+  mapTopicIndexFromSlug,
+} from "../features/map/mapTopics";
 import {
   TIME_RANGE_OPTIONS,
   type TimeRangeKey,
 } from "../features/map/timeRange";
 
 export function MapPage() {
-  const [activeTopic, setActiveTopic] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTopic = mapTopicIndexFromSlug(searchParams.get("topic"));
   const [layerOverrides, setLayerOverrides] = useState<Record<string, boolean>>(
     {},
   );
@@ -109,6 +115,15 @@ export function MapPage() {
     }));
   }
 
+  function selectTopic(index: number) {
+    const selectedTopic = MAP_TOPICS[index];
+    if (!selectedTopic) return;
+
+    const nextSearchParams = new URLSearchParams(searchParams);
+    nextSearchParams.set("topic", selectedTopic.slug);
+    setSearchParams(nextSearchParams);
+  }
+
   function renderLayerControl(layer: (typeof layers)[number]) {
     return (
       <label
@@ -171,12 +186,12 @@ export function MapPage() {
                   type="button"
                   role="tab"
                   aria-selected={active}
-                  onClick={() => setActiveTopic(index)}
+                  onClick={() => selectTopic(index)}
                   className={`flex min-h-[60px] items-center gap-3 border-0 px-3.5 py-2 text-left font-heading transition-colors focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
                     active ? "bg-accent" : "bg-paper hover:bg-card"
                   }`}
                 >
-                  <span className="flex h-[30px] w-[30px] flex-none items-center justify-center border-[1.5px] border-ink bg-card font-label text-[15px] text-ink">
+                  <span className="tag flex h-[30px] w-[30px] flex-none items-center justify-center border-[1.5px] border-ink bg-card font-label text-[15px] text-ink">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <span className="flex min-w-0 flex-col items-start leading-tight">
@@ -298,7 +313,7 @@ export function MapPage() {
             </div>
 
             {topic.note && (
-              <p className="m-0 border-[1.5px] border-ink bg-activity-l1 px-3 py-2.5 font-body text-[13px] leading-[1.6]">
+              <p className="warning-card m-0 border-[1.5px] border-ink bg-activity-l1 px-3 py-2.5 font-body text-[13px] leading-[1.6]">
                 {topic.note}
               </p>
             )}

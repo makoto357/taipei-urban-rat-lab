@@ -93,12 +93,12 @@ export function InteractiveMap({
   const visibilityKey = [...visibleDataLayers].sort().join("|");
 
   useEffect(() => {
-    setVisibleDataLayers(visibleDataLayers);
-  }, [visibilityKey]);
-
-  useEffect(() => {
     selectDistrict(selectedDistrict);
   }, [selectedDistrict]);
+
+  useEffect(() => {
+    setVisibleDataLayers(visibleDataLayers);
+  }, [visibilityKey]);
 
   useEffect(() => {
     setTimeRange(timeRange);

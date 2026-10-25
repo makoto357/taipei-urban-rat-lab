@@ -101,7 +101,7 @@ export function LiteraturePage() {
                           type="button"
                           aria-pressed={on}
                           onClick={() => toggleTag(tag)}
-                          className={`min-h-9 border-[1.5px] border-ink px-2.5 font-heading text-[13px] ${
+                          className={`tag min-h-9 border-[1.5px] border-ink px-2.5 font-heading text-[13px] ${
                             on ? "bg-ink text-card" : "bg-transparent"
                           }`}
                         >
@@ -136,21 +136,21 @@ export function LiteraturePage() {
                     <li key={item.id} className="flex flex-col gap-3 border-2 border-ink bg-card p-5">
                       <div className="flex flex-wrap items-center gap-2 text-[13px]">
                         <span
-                          className="border-[1.5px] border-ink px-2 py-0.5 font-bold"
+                          className="tag border-[1.5px] border-ink px-2 py-0.5 font-bold"
                           style={{ background: TYPE_COLORS[item.resourceType] }}
                         >
                           {TYPE_LABELS[item.resourceType]}
                         </span>
                         <span className="font-label">{item.year ?? "無年份"}</span>
                         {item.resourceType === "policy_data_inventory" && (
-                          <span className="border-[1.5px] border-accent-text px-2 py-0.5 font-bold text-accent-text">待查證</span>
+                          <span className="tag border-[1.5px] border-accent-text px-2 py-0.5 font-bold text-accent-text">待查證</span>
                         )}
                       </div>
                       <h2 className="m-0 text-[20px] font-black leading-[1.4]">{item.title}</h2>
                       <p className="m-0 font-body text-sm text-muted">{item.authorsText}</p>
                       <ul className="m-0 flex list-none flex-wrap gap-1.5 p-0">
                         {item.tags.map((tag) => (
-                          <li key={tag} className="border border-ink px-2 py-0.5 text-xs">{tag}</li>
+                          <li key={tag} className="tag border border-ink px-2 py-0.5 text-xs">{tag}</li>
                         ))}
                       </ul>
                       <p className="m-0 flex-1 font-body text-sm leading-[1.8]">{item.excerpt}</p>

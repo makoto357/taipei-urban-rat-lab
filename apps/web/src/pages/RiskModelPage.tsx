@@ -161,7 +161,7 @@ export function RiskModelPage() {
             </p>
           </div>
 
-          <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 border-l-4 border-accent bg-activity-l1 px-5 py-4">
+          <div className="warning-card mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 border-l-4 border-accent bg-activity-l1 px-5 py-4">
             <div className="min-w-[240px] flex-[1_1_680px] sm:flex sm:items-baseline sm:gap-5">
               <p className="m-0 shrink-0 text-sm font-bold text-accent-text">
                 閱讀前提醒
@@ -292,7 +292,7 @@ export function RiskModelPage() {
               ["06", "依組合重新映射", "每種因子組合以正分的最低與最高值做 min–max remap；只有一種正分時設為 0.5。"],
               ["07", "L1–L5 相對分級", "重映射後依五個等寬級距著色；分數為 0 的街廓維持未分級，不填色。"],
             ].map(([number, title, body]) => (
-              <li key={number} className="border-t-4 border-ink pt-4">
+              <li key={number} className="border-t border-ink pt-4">
                 <span className="font-label text-sm text-accent-text">{number}</span>
                 <h3 className="m-0 mt-1 text-xl font-black">{title}</h3>
                 <p className="m-0 mt-2 font-body text-sm leading-[1.8] text-muted">{body}</p>
@@ -352,19 +352,19 @@ export function RiskModelPage() {
             ))}
           </div>
 
-          <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_0.75fr]">
+          <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_0.5fr]">
             <div>
               <h3 className="m-0 text-2xl font-black">解讀時請保留這些限制</h3>
-              <ul className="mb-0 mt-4 grid gap-3 pl-5 font-body text-sm leading-[1.8] sm:grid-cols-2">
+              <ul className="mb-0 mt-4 grid list-disc gap-3 pl-5 font-body text-sm leading-[1.8] sm:grid-cols-2">
                 <li>民眾通報有可見度、人口、人流、數位使用與通報意願偏差。</li>
-                <li>政府調查受作業範圍、頻率與記錄方式影響，不是全市等密度抽樣。</li>
-                <li>食物與躲藏空間是代理變數，未經本專案證明為鼠患因果因子。</li>
+                <li>政府調查受作業範圍、頻率與記錄方式影響，非等密度抽樣。</li>
+                <li>食物與躲藏空間是代理變數，未經本案證明為鼠患因果因子。</li>
                 <li>地面與下水道連通是啟發式模型，不是個體追蹤或移動機率。</li>
                 <li>空間相關不代表因果；同時出現可能來自共同的城市條件。</li>
                 <li>資料缺漏或分數為零不代表該處沒有鼠類，也不代表安全。</li>
               </ul>
             </div>
-            <aside className="border-l-4 border-ink pl-5">
+            <aside className="border-l border-ink pl-5">
               <h3 className="m-0 text-xl font-black">繼續閱讀</h3>
               <div className="mt-4 flex flex-col gap-3 text-sm font-bold">
                 <Link to="/literature">研究文獻與防治知識 →</Link>
@@ -374,6 +374,40 @@ export function RiskModelPage() {
               </div>
             </aside>
           </div>
+
+          <article className="mt-10 grid border-y-2 border-ink py-6 lg:grid-cols-[1fr_auto] lg:items-stretch">
+            <div className="grid gap-5 lg:grid-cols-[240px_1fr] lg:gap-8 lg:pr-8">
+              <div>
+                <p className="m-0 font-label text-xs tracking-[0.12em] text-accent-text">
+                  LONG-TERM VALIDATION
+                </p>
+                <h3 className="m-0 mt-1 text-2xl font-black leading-tight">
+                  長期驗證與
+                  <br className="hidden lg:block" />
+                  校準方向
+                </h3>
+              </div>
+              <div className="font-body text-sm leading-[1.85]">
+                <p className="m-0">
+                  CMR 透過重複捕捉、標記並再次辨識同一個體，估計未被直接觀察到的族群參數；基因個體辨識則可協助辨別重複樣本與親緣關係。
+                </p>
+                <p className="m-0 mt-3">
+                  未來若能建立跨季節、固定樣區的長期資料，可用於估計偵測率、相對族群密度與族群連通性，並檢驗目前觀測、環境與空間傳遞規則。
+                </p>
+                <p className="m-0 mt-3 font-bold">
+                  這些資料將作為模型校準與外部驗證依據，不直接視為單一風險因子，也不代表個體實際移動路徑。
+                </p>
+              </div>
+            </div>
+            <div className="mt-6 flex items-center border-t border-ink pt-6 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+              <Link
+                to="/map?topic=distribution"
+                className="button-primary inline-flex min-h-11 items-center whitespace-nowrap px-5"
+              >
+                查看鼠群研究 →
+              </Link>
+            </div>
+          </article>
         </section>
       </main>
       <SiteFooter />

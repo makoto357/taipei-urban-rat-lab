@@ -118,3 +118,12 @@ a:hover {
   color: #6b6658;
   cursor: not-allowed;
 }
+
+.warning-card {
+  border-color: #d65b37;
+  border-radius: 10px;
+}
+
+.tag {
+  border-radius: 4px;
+}
