@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
+import { PageHeading } from "../components/PageHeading";
 import {
   InteractiveMap,
   getEngineLayers,
@@ -20,6 +21,7 @@ import {
 export function MapPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTopic = mapTopicIndexFromSlug(searchParams.get("topic"));
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [layerOverrides, setLayerOverrides] = useState<Record<string, boolean>>(
     {},
   );
@@ -154,29 +156,19 @@ export function MapPage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-container flex-col gap-6 px-4 pb-14 pt-8 sm:px-10">
-        <div className="flex flex-wrap items-end gap-x-8 gap-y-2 pb-5">
-          <div>
-            <p className="m-0 mb-1.5 text-[15px] font-bold text-accent-text">
-              地圖探索{" "}
-              <span className="font-label font-normal tracking-[0.1em]">
-                / INTERACTIVE MAP
-              </span>
-            </p>
-            <h1 className="m-0 text-[clamp(36px,5vw,46px)] font-black leading-[1.2]">
-              老鼠都在哪裡？
-            </h1>
-          </div>
-          <p className="m-0 mb-2 text-[15px] leading-[1.7]">
-            整合不同來源的數據與環境資料，一起探索台北市的鼠患線索。
-          </p>
-        </div>
+      <main className="mx-auto flex w-full max-w-container flex-col gap-6 px-4 pb-14 sm:px-10">
+        <PageHeading
+          label="地圖探索"
+          englishLabel="INTERACTIVE MAP"
+          title="老鼠都在哪裡？"
+          description="整合不同來源的數據與環境資料，一起探索台北市的鼠患線索。"
+        />
 
         <div className="flex flex-col">
           <div
             role="tablist"
             aria-label="資料主題"
-            className="grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-0.5 border-2 border-ink bg-ink"
+            className="grid grid-cols-3 gap-0.5 border-2 border-ink bg-ink lg:grid-cols-6"
           >
             {MAP_TOPICS.map((candidate, index) => {
               const active = index === activeTopic;
@@ -186,17 +178,23 @@ export function MapPage() {
                   type="button"
                   role="tab"
                   aria-selected={active}
+                  aria-label={`${String(index + 1).padStart(2, "0")} ${candidate.zh} ${candidate.en}`}
                   onClick={() => selectTopic(index)}
-                  className={`flex min-h-[60px] items-center gap-3 border-0 px-3.5 py-2 text-left font-heading transition-colors focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
+                  className={`flex min-h-11 items-center justify-start gap-2 border-0 px-2 py-1.5 text-left font-heading transition-colors focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:min-h-[60px] sm:gap-3 sm:px-3.5 sm:py-2 lg:min-h-11 lg:gap-2 lg:px-2 lg:py-1.5 xl:min-h-[60px] xl:gap-3 xl:px-3.5 xl:py-2 ${
                     active ? "bg-accent" : "bg-paper hover:bg-card"
                   }`}
                 >
-                  <span className="tag flex h-[30px] w-[30px] flex-none items-center justify-center border-[1.5px] border-ink bg-card font-label text-[15px] text-ink">
+                  <span className="tag flex h-6 w-6 flex-none items-center justify-center border border-ink bg-card font-label text-xs text-ink sm:h-[30px] sm:w-[30px] sm:border-[1.5px] sm:text-[15px] lg:h-6 lg:w-6 lg:border lg:text-xs xl:h-[30px] xl:w-[30px] xl:border-[1.5px] xl:text-[15px]">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <span className="flex min-w-0 flex-col items-start leading-tight">
-                    <span className="text-[17px] font-black">{candidate.zh}</span>
-                    <span className="font-label text-[11px] tracking-[0.1em]">
+                    <span className="text-sm font-black sm:hidden lg:inline xl:hidden">
+                      {candidate.zh.slice(0, 2)}
+                    </span>
+                    <span className="hidden text-[17px] font-black sm:inline lg:hidden xl:inline">
+                      {candidate.zh}
+                    </span>
+                    <span className="hidden font-label text-[11px] tracking-[0.1em] sm:inline lg:hidden xl:inline">
                       {candidate.en}
                     </span>
                   </span>
@@ -206,7 +204,22 @@ export function MapPage() {
           </div>
 
           <div className="relative -mt-0.5 h-[720px] overflow-hidden border-2 border-ink bg-card md:flex md:h-[680px]">
-          <aside className="absolute inset-x-0 bottom-0 z-10 flex max-h-[52%] min-h-0 flex-col gap-[22px] overflow-y-auto overscroll-contain border-t-2 border-ink bg-card px-[22px] py-5 shadow-[0_-5px_0_rgb(0_0_0_/_18%)] md:static md:h-full md:max-h-full md:w-[320px] md:max-w-[320px] md:flex-[0_0_320px] md:border-r-2 md:border-t-0 md:shadow-none">
+          {sidebarOpen ? (
+          <aside
+            id="map-sidebar"
+            className="absolute inset-x-0 bottom-0 z-10 flex max-h-[52%] min-h-0 flex-col gap-[22px] overflow-y-auto overscroll-contain border-t-2 border-ink bg-card px-[22px] py-5 shadow-[0_-5px_0_rgb(0_0_0_/_18%)] md:static md:h-full md:max-h-full md:w-[320px] md:max-w-[320px] md:flex-[0_0_320px] md:border-r-2 md:border-t-0 md:shadow-none"
+          >
+            <div className="flex items-center justify-end border-b border-ink pb-2">
+              <button
+                type="button"
+                aria-controls="map-sidebar"
+                aria-expanded="true"
+                onClick={() => setSidebarOpen(false)}
+                className="inline-flex min-h-9 items-center gap-2 border-0 bg-transparent px-1 font-body text-xs font-bold text-ink hover:text-accent-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+              >
+                收合 <span aria-hidden="true">−</span>
+              </button>
+            </div>
             <div className="m-0 flex flex-col gap-1.5">
               {topic.riskLevels && (
                 <div className="mb-5 flex flex-col gap-2.5">
@@ -370,6 +383,38 @@ export function MapPage() {
               RESEARCH PROTOTYPE · MOCK DATA 標示於圖層與詳情
             </p>
           </aside>
+          ) : (
+            <>
+            <div
+              id="map-sidebar"
+              className="absolute inset-x-0 bottom-0 z-20 border-t-2 border-ink bg-card px-[22px] py-4 shadow-[0_-5px_0_rgb(0_0_0_/_18%)] md:hidden"
+            >
+              <div className="flex min-h-11 items-center justify-between">
+                <span className="font-label text-xs tracking-[0.08em]">
+                  圖層與篩選
+                </span>
+                <button
+                  type="button"
+                  aria-controls="map-sidebar"
+                  aria-expanded="false"
+                  onClick={() => setSidebarOpen(true)}
+                  className="inline-flex min-h-9 items-center gap-2 border-0 bg-transparent px-1 font-body text-xs font-bold text-ink hover:text-accent-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                >
+                  展開 <span aria-hidden="true">＋</span>
+                </button>
+              </div>
+            </div>
+            <button
+              type="button"
+              aria-controls="map-sidebar"
+              aria-expanded="false"
+              onClick={() => setSidebarOpen(true)}
+              className="absolute left-3 top-3 z-20 hidden min-h-11 items-center gap-2 border-2 border-ink bg-card px-4 font-heading text-sm font-bold text-ink hover:bg-accent hover:text-card active:bg-accent-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink md:inline-flex"
+            >
+              圖層與篩選 <span aria-hidden="true">＋</span>
+            </button>
+            </>
+          )}
 
           <section
             className="absolute inset-0 overflow-hidden bg-[#E4E2DC] md:relative md:inset-auto md:h-full md:min-h-0 md:min-w-0 md:flex-1"

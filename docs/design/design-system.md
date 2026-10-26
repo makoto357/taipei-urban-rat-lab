@@ -118,7 +118,9 @@ MVP 未經模型校準前，不把四階色帶標成 L1–L4 正式風險；可�
 
 ## 7. Components（依 Artifact 實作）
 
-- **Header / Nav**：Logo（Imbue 700, 38px）靠左，右側導覽（Antonio 編號「01/02/03」+ Noto Serif TC 連結文字）＋黑底圓角（pill）登入按鈕；底部雙線（`3px` + `1px`）。
+- **Header / Nav**：Logo（Imbue 700, 38px）靠左，右側導覽（Antonio 編號「01/02/03/04」+ Noto Serif TC 連結文字）＋黑底圓角（pill）登入按鈕；底部雙線（`3px` + `1px`）。主站與市府作業平台共用 `SiteHeader`；市府人員與管理員將第三項「鼠跡通報」替換為「作業平台」，其餘項目、樣式及 RWD 相同。
+  - 手機與平板（小於 `1280px`）改為 Logo＋漢堡按鈕。選單靠右對齊標頭雙線，使用 `card` 背景、`2px` 黑框、直向中文連結；隱藏編號與斜線，登入／登出置於橫線下方。桌面維持橫向導覽。選擇連結、點外側、按 Escape、焦點離開標頭或切換至桌面寬度時收合；Escape 將焦點還給選單按鈕，短螢幕允許選單內捲動。
+- **Page heading**：地圖、風險模型、鼠跡通報、文獻知識共用 `apps/web/src/components/PageHeading.tsx`。元件統一管理中英文標籤、H1 字級（`clamp(36px,5vw,46px)`）、說明文字、上方間距（手機 `24px`、`sm` 以上 `32px`）與換行排版。各頁只傳入文案、必要的語意換行及標題 ID；通報與文獻頁以 `divider` 啟用 `2px` 內容分隔線。調整此區設計時修改共用元件，勿在頁面重複樣式或額外加上方 padding。
 - **Hero**：左側文案（eyebrow 標籤 + H1 + 說明段落 + 主/副 CTA 按鈕），右側 1:1 ~ 2:1 插畫圖片（`object-fit: cover`，需提供完整 alt 文字）。
 - **Public Desk card**：直角卡片，`border-top` + `border-right` 各 `2px solid #000000`，內含編號（Antonio，accent-text 色）+ 箭頭 icon（hover 可位移）+ 60px 雙色 SVG 圖示 + H3 標題 + 說明文字。
 - **About section**：左側標題（H2 + Antonio 英文副標），右側長文說明段落（`line-height: 1.9`）。

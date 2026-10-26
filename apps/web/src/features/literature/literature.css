@@ -1,20 +1,27 @@
 /* 文獻內文：contentHtml 已在 build 時 sanitize，這裡只負責排版。 */
-.literature-content { font-family: var(--font-body, inherit); font-size: 16px; line-height: 1.9; }
+.literature-content { min-width: 0; overflow-wrap: anywhere; font-family: var(--font-body, inherit); font-size: 16px; line-height: 1.9; }
 .literature-content section { margin: 0 0 40px; scroll-margin-top: 24px; }
 .literature-content h2 { font-size: 24px; font-weight: 900; line-height: 1.4; margin: 0 0 16px; padding-bottom: 8px; border-bottom: 2px solid #000; }
 .literature-content h3 { font-size: 18px; font-weight: 800; margin: 24px 0 8px; }
 .literature-content h4 { font-size: 16px; font-weight: 800; margin: 16px 0 6px; }
 .literature-content p { margin: 0 0 14px; }
 .literature-content ul, .literature-content ol { margin: 0 0 14px; padding-left: 1.5em; }
+.literature-content ul { list-style-type: disc; }
+.literature-content ol { list-style-type: decimal; }
 .literature-content li { margin-bottom: 6px; }
 .literature-content a { color: #B4472A; text-decoration: underline; text-underline-offset: 3px; }
 .literature-content blockquote { margin: 0 0 14px; padding: 8px 16px; border-left: 4px solid #D65B37; background: #FDF9ED; }
-.literature-content figure { margin: 20px 0; padding: 16px; border: 2px solid #000; background: #FDF9ED; }
-.literature-content figure svg { display: block; width: 100%; height: auto; }
+.literature-content figure { max-width: 100%; margin: 20px 0; padding: 12px; border: 2px solid #000; background: #FDF9ED; overflow-x: auto; overscroll-behavior-x: contain; }
+.literature-content figure svg { display: block; width: 100%; min-width: 560px; max-width: none; height: auto; }
+.literature-content img { display: block; max-width: 100%; height: auto; }
 .literature-content figcaption { margin-top: 10px; font-size: 14px; color: #6B6658; }
-.literature-content table { width: 100%; border-collapse: collapse; margin: 0 0 16px; font-size: 14px; display: block; overflow-x: auto; }
-.literature-content th, .literature-content td { border: 1px solid #000; padding: 8px 10px; text-align: left; vertical-align: top; }
+.literature-content table { max-width: 100%; width: 100%; border-collapse: collapse; margin: 0 0 16px; font-size: 14px; display: block; overflow-x: auto; overscroll-behavior-x: contain; }
+.literature-content th, .literature-content td { min-width: 8rem; border: 1px solid #000; padding: 8px 10px; text-align: left; vertical-align: top; }
 .literature-content th { background: #F2CC67; }
 .literature-content dl { margin: 0 0 14px; }
 .literature-content dt { font-weight: 800; }
 .literature-content dd { margin: 0 0 8px; }
+
+@media (min-width: 640px) {
+  .literature-content figure { padding: 16px; }
+}

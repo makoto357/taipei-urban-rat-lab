@@ -53,7 +53,7 @@ export function HomePage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto w-full max-w-container px-10">
+      <main className="mx-auto w-full max-w-container px-4 sm:px-10">
         <Hero />
         <DataSnapshot />
         <PublicDesk />
@@ -82,16 +82,16 @@ function Hero() {
         <p className="m-0 max-w-[34em] font-body text-[13px] leading-[1.7] text-[#4A463C]">
           本站呈現的是已登錄的觀測紀錄與資料涵蓋範圍，不是即時的鼠患風險預測。
         </p>
-        <div className="mt-2 flex flex-wrap gap-4">
+        <div className="mt-2 grid grid-cols-1 gap-4 min-[400px]:grid-cols-2 sm:flex sm:flex-wrap">
           <Link
             to="/map"
-            className="button-primary min-h-[52px] gap-2.5 px-9 text-lg"
+            className="button-primary min-h-[52px] w-full gap-2.5 px-9 text-lg sm:w-auto"
           >
-            探索鼠患地圖 <span aria-hidden="true">↗</span>
+            探索地圖 <span aria-hidden="true">↗</span>
           </Link>
           <Link
             to="/report"
-            className="button-secondary min-h-[52px] gap-2.5 px-9 text-lg"
+            className="button-secondary min-h-[52px] w-full gap-2.5 px-9 text-lg sm:w-auto"
           >
             通報鼠跡 <span aria-hidden="true">↗</span>
           </Link>
@@ -149,16 +149,16 @@ function DataSnapshot() {
   return (
     <section
       aria-labelledby="snapshot"
-      className="flex flex-wrap items-center gap-x-12 gap-y-5 border-b-2 border-ink py-8"
+      className="grid items-center gap-x-12 gap-y-5 border-b-2 border-ink py-8 lg:grid-cols-[220px_minmax(0,1fr)]"
     >
-      <div className="flex flex-[0_1_220px] flex-col gap-1">
+      <div className="flex flex-col gap-1">
         <h2 id="snapshot" className="m-0 text-[28px] font-black">
           即時摘要
         </h2>
         <span className="font-label text-[13px] tracking-[0.1em]">DATA SNAPSHOT</span>
       </div>
-      <dl className="m-0 grid flex-[999_1_560px] grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
-        <div className="border-l border-ink px-[18px] py-3.5">
+      <dl className="m-0 grid grid-cols-1 md:grid-cols-3">
+        <div className="border-t border-ink px-[18px] py-3.5 md:border-r md:border-t-0">
           <dt className="font-body text-[13px]">近 30 天已查核鼠跡</dt>
           <dd className="m-0 mt-1.5 text-[28px] font-black">
             {data ? (
@@ -170,20 +170,20 @@ function DataSnapshot() {
             )}
           </dd>
         </div>
-        <div className="border-l border-ink px-[18px] py-3.5">
+        <div className="border-t border-ink px-[18px] py-3.5 md:border-r md:border-t-0">
           <dt className="font-body text-[13px]">資料涵蓋期間</dt>
           <dd className="m-0 mt-1.5 text-[22px] font-black leading-[1.6]">
             {start && end ? `${formatMonth(start)} – ${formatMonth(end)}` : <span className="text-muted">{placeholder}</span>}
           </dd>
         </div>
-        <div className="border-l border-ink px-[18px] py-3.5">
+        <div className="border-t border-ink px-[18px] py-3.5 md:border-t-0">
           <dt className="font-body text-[13px]">最後更新</dt>
           <dd className="m-0 mt-1.5 text-[22px] font-black leading-[1.6]">
             {data ? formatDay(data.updatedAt.toDate()) : <span className="text-muted">{placeholder}</span>}
           </dd>
         </div>
       </dl>
-      <p className="m-0 flex-[1_1_100%] font-body text-xs text-[#4A463C]">
+      <p className="m-0 font-body text-xs text-[#4A463C] lg:col-span-2">
         「已查核」指經市府人員現場確認的鼠跡。數字是目前已登錄的筆數，不代表全市實際狀況。
         {empty && "目前還沒有可公開的查核資料。"}
       </p>
@@ -200,7 +200,7 @@ function PublicDesk() {
         </h2>
         <span className="font-label text-sm tracking-[0.1em]">PUBLIC DESK</span>
       </div>
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-5">
+      <div className="grid grid-cols-1 gap-5 min-[900px]:grid-cols-3">
         {DESK_ITEMS.map((item) => (
           <Link
             key={item.to}

@@ -56,8 +56,11 @@ export function LocationPicker({
     map.on("click", (event) => {
       onChangeRef.current({ latitude: event.lngLat.lat, longitude: event.lngLat.lng });
     });
+    const resizeObserver = new ResizeObserver(() => map.resize());
+    resizeObserver.observe(containerRef.current);
     mapRef.current = map;
     return () => {
+      resizeObserver.disconnect();
       markerRef.current?.remove();
       markerRef.current = null;
       map.remove();
@@ -91,7 +94,7 @@ export function LocationPicker({
     <div className={className ?? "relative h-[300px] border-[1.5px] border-ink"}>
       <div ref={containerRef} className="h-full w-full" role="application" aria-label="選擇地點的地圖，點擊或拖曳標記調整位置" />
       {!value && (
-        <p className="pointer-events-none absolute left-3 top-3 m-0 border-[1.5px] border-ink bg-card px-2.5 py-1.5 font-body text-xs">
+        <p className="pointer-events-none absolute left-3 right-3 top-3 m-0 w-fit max-w-[calc(100%-1.5rem)] border-[1.5px] border-ink bg-card px-2.5 py-1.5 font-body text-xs">
           點擊地圖選擇地點，或使用「使用目前位置」
         </p>
       )}
