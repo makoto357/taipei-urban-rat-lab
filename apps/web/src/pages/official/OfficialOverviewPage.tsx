@@ -35,14 +35,14 @@ export function OfficialOverviewPage() {
   return (
     <>
       <StaffHeader />
-      <main className="mx-auto flex w-full max-w-container flex-wrap items-start gap-x-12 gap-y-8 px-10 pb-16 pt-8">
+      <main className="mx-auto grid w-full max-w-container grid-cols-1 gap-6 px-4 pb-12 pt-6 sm:px-10 sm:pb-16 sm:pt-8 lg:grid-cols-[180px_minmax(0,1fr)] lg:gap-12">
         <StaffSidebar />
-        <div className="flex min-w-0 flex-[999_1_560px] flex-col gap-7">
-          <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex min-w-0 flex-col gap-6 sm:gap-7">
+          <div className="flex min-w-0 flex-col items-start gap-3 min-[360px]:flex-row min-[360px]:items-center min-[360px]:justify-between">
             <h1 className="m-0 text-[30px] font-black">工作總覽</h1>
             <Link
               to="/official/record"
-              className="button-primary min-h-12 w-fit px-6 text-base"
+              className="button-primary !min-h-12 w-full px-6 text-base min-[360px]:w-auto"
             >
               + 新增紀錄
             </Link>
@@ -50,7 +50,7 @@ export function OfficialOverviewPage() {
 
           {state.status === "loading" && <p className="m-0 font-body">載入中…</p>}
           {state.status === "error" && (
-            <p role="alert" className="warning-card m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-sm">
+            <p role="alert" className="warning-card m-0 min-w-0 break-words border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-sm">
               資料暫時無法載入，請稍後重新整理。
             </p>
           )}
@@ -74,9 +74,9 @@ function Overview({ data }: { data: OverviewData }) {
 
   return (
     <>
-      <dl className="m-0 grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4">
+      <dl aria-label="工作統計" className="m-0 grid min-w-0 grid-cols-1 gap-4 min-[360px]:grid-cols-2 xl:grid-cols-4">
         {cards.map((card) => (
-          <div key={card.title} className="border-[1.5px] border-ink bg-card px-[18px] py-3.5">
+          <div key={card.title} className="min-w-0 border-t border-r-2 border-ink px-4 py-3.5 sm:px-[18px]">
             <dt className="font-body text-[13px]">{card.title}</dt>
             <dd className="m-0 mt-1.5 text-[30px] font-black">
               {card.value}
@@ -86,7 +86,7 @@ function Overview({ data }: { data: OverviewData }) {
         ))}
       </dl>
       {stats.truncated && (
-        <p className="m-0 font-body text-xs text-[#4A463C]">
+        <p className="m-0 min-w-0 break-words font-body text-xs leading-[1.7] text-[#4A463C]">
           資料量超過 {FETCH_LIMIT} 筆，統計只計入最近的 {FETCH_LIMIT} 筆，實際數字可能更高。
         </p>
       )}
@@ -132,16 +132,16 @@ function Overview({ data }: { data: OverviewData }) {
 
 function Section({ title, empty, isEmpty, children }: { title: string; empty: string; isEmpty: boolean; children: React.ReactNode }) {
   return (
-    <section className="flex flex-col gap-2.5" aria-label={title}>
-      <h2 className="m-0 border-b-2 border-ink pb-2 text-xl font-black">{title}</h2>
-      {isEmpty ? <p className="m-0 font-body text-sm text-[#4A463C]">{empty}</p> : <ul className="m-0 flex list-none flex-col gap-2 p-0">{children}</ul>}
+    <section className="flex min-w-0 flex-col gap-2.5" aria-label={title}>
+      <h2 className="m-0 border-b border-ink pb-2 text-xl font-black">{title}</h2>
+      {isEmpty ? <p className="m-0 font-body text-sm text-[#4A463C]">{empty}</p> : <ul className="m-0 flex min-w-0 list-none flex-col gap-2 p-0">{children}</ul>}
     </section>
   );
 }
 
 function Row({ title, meta, body }: { title: string; meta: string; body?: string | undefined }) {
   return (
-    <li className="flex flex-col gap-1 border-[1.5px] border-ink bg-card px-4 py-3 font-body">
+    <li className="flex min-w-0 flex-col gap-1 border-[1.5px] border-ink bg-card px-4 py-3 font-body [overflow-wrap:anywhere]">
       <span className="text-[15px] font-bold">{title}</span>
       <span className="text-[13px] text-[#4A463C]">{meta}</span>
       {body && <span className="text-sm leading-[1.7]">{body}</span>}

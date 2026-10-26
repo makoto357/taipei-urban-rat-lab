@@ -20,7 +20,7 @@ export function StaffSidebar() {
   return (
     <nav
       aria-label="作業平台"
-      className="flex max-w-[220px] flex-[1_1_180px] flex-col self-stretch border-r-2 border-ink pr-6 text-lg font-black"
+      className="grid min-w-0 w-full grid-cols-2 gap-3 self-stretch border-b border-ink pb-3 text-base font-black lg:flex lg:max-w-[220px] lg:flex-[1_1_180px] lg:flex-col lg:gap-0 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-6 lg:text-lg"
     >
       {SIDEBAR_ITEMS.map((item) => {
         const active = pathname === item.to;
@@ -29,9 +29,8 @@ export function StaffSidebar() {
             key={item.to}
             to={item.to}
             aria-current={active ? "page" : undefined}
-            className={`flex min-h-12 items-center no-underline ${
-              active ? "underline decoration-2 underline-offset-[7px]" : ""
-            }`}
+            className={`flex min-h-12 min-w-0 items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${active ? "underline decoration-2 underline-offset-[7px]" : "no-underline"
+              }`}
           >
             {item.label}
           </Link>
