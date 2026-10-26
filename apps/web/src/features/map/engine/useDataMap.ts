@@ -756,11 +756,25 @@ export function useDataMap() {
       zoom: 11.3,
       minZoom: 9,
       attributionControl: false,
+      locale: {
+        "GeolocateControl.FindMyLocation": "目前位置",
+        "GeolocateControl.LocationNotAvailable": "無法取得目前位置，請確認定位權限",
+      },
     });
     const resizeObserver = new ResizeObserver(() => map.resize());
     resizeObserver.observe(mapContainerRef.current);
 
-    map.addControl(new maplibregl.NavigationControl(), "top-right");
+    map.addControl(
+      new maplibregl.NavigationControl(),
+      "top-right",
+    );
+    map.addControl(
+      new maplibregl.GeolocateControl({
+        positionOptions: { enableHighAccuracy: true, timeout: 10000 },
+        trackUserLocation: false,
+      }),
+      "top-right",
+    );
     map.addControl(
       new maplibregl.AttributionControl({ compact: true }),
       "bottom-right",
