@@ -18,7 +18,7 @@ export function LoginPage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-[960px] flex-1 flex-col items-center gap-8 px-5 pb-[72px] pt-14">
+      <main className="mx-auto flex w-full max-w-[960px] flex-1 flex-col items-center gap-6 px-4 pb-12 pt-8 sm:gap-8 sm:px-10 sm:pb-[72px] sm:pt-14">
         {role === null ? <RoleChoice onPick={setRole} /> : <LoginForm role={role} onBack={() => setRole(null)} />}
       </main>
       <SiteFooter />
@@ -26,40 +26,44 @@ export function LoginPage() {
   );
 }
 
-function RoleChoice({ onPick }: { onPick: (role: Role) => void }) {
+function RoleChoice({ onPick }: { onPick: (role: Role) => void; }) {
   return (
-    <div className="flex w-full flex-col items-center gap-8">
-      <div className="flex flex-col items-center gap-2 text-center">
+    <div className="flex min-w-0 w-full flex-col items-center gap-6 sm:gap-8">
+      <div className="flex min-w-0 flex-col items-center gap-2 text-center">
         <p className="m-0 font-label text-sm tracking-[0.1em] text-accent-text">SIGN IN</p>
-        <h1 className="m-0 text-[40px] font-black">你是哪一種使用者？</h1>
+        <h1 className="m-0 text-[36px] font-black leading-[1.25] sm:text-[40px]">
+          <span className="inline-block">你是哪一種</span><wbr /><span className="inline-block">使用者？</span>
+        </h1>
         <p className="m-0 font-body text-[15px] text-[#4A463C]">瀏覽地圖與知識不需要登入;通報鼠跡與工作紀錄才需要。</p>
       </div>
-      <div className="grid w-full grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6">
+      <div className="grid min-w-0 w-full grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] gap-4 sm:gap-6">
         <button
           type="button"
           onClick={() => onPick("citizen")}
-          className="flex flex-col items-start gap-4 border-2 border-ink bg-card px-7 pb-6 pt-7 text-left font-heading text-ink"
+          className="flex min-w-0 flex-col items-start gap-4 border-2 border-ink bg-card p-5 text-left font-heading text-ink hover:bg-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink sm:px-7 sm:pb-6 sm:pt-7"
         >
           <CitizenRoleIcon />
           <span className="font-label text-[13px] tracking-[0.1em] text-accent-text">CITIZEN</span>
           <span className="text-[28px] font-black">我是市民</span>
           <span className="font-body text-[15px] leading-[1.7]">通報你看到的鼠跡，並查看自己的通報處理狀態。</span>
           <span className="font-body text-[13px] text-[#4A463C]">Google 或 Email 登入</span>
-          <span className="mt-1 flex w-full justify-end border-t-[1.5px] border-ink pt-3.5 text-base font-bold">
+          <span className="mt-auto flex w-full justify-end border-t-[1.5px] border-ink pt-3.5 text-base font-bold">
             選擇 →
           </span>
         </button>
         <button
           type="button"
           onClick={() => onPick("official")}
-          className="flex flex-col items-start gap-4 border-2 border-ink bg-card px-7 pb-6 pt-7 text-left font-heading text-ink"
+          className="flex min-w-0 flex-col items-start gap-4 border-2 border-ink bg-card p-5 text-left font-heading text-ink hover:bg-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink sm:px-7 sm:pb-6 sm:pt-7"
         >
           <OfficialRoleIcon />
           <span className="font-label text-[13px] tracking-[0.1em] text-accent-text">STAFF</span>
-          <span className="text-[28px] font-black">我是市府／合作單位人員</span>
+          <span className="text-[28px] font-black">
+            <span className="inline-block">我是市府／</span><wbr /><span className="inline-block">合作單位人員</span>
+          </span>
           <span className="font-body text-[15px] leading-[1.7]">建立鼠跡調查與防治紀錄，審核市民通報。</span>
           <span className="font-body text-[13px] text-[#4A463C]">Email 登入；帳號由管理員邀請建立，需完成信箱驗證</span>
-          <span className="mt-1 flex w-full justify-end border-t-[1.5px] border-ink pt-3.5 text-base font-bold">
+          <span className="mt-auto flex w-full justify-end border-t-[1.5px] border-ink pt-3.5 text-base font-bold">
             選擇 →
           </span>
         </button>
@@ -68,7 +72,7 @@ function RoleChoice({ onPick }: { onPick: (role: Role) => void }) {
   );
 }
 
-function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
+function LoginForm({ role, onBack }: { role: Role; onBack: () => void; }) {
   const isCitizen = role === "citizen";
   const { signInWithEmail, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
@@ -132,7 +136,7 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
   }
 
   return (
-    <div className="flex w-full max-w-[440px] flex-col gap-4">
+    <div className="flex min-w-0 w-full max-w-[440px] flex-col gap-4">
       <button
         type="button"
         onClick={onBack}
@@ -140,10 +144,12 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
       >
         <span className="button-text__label">← 重新選擇身分</span>
       </button>
-      <form onSubmit={handleEmailSubmit} className="box-border flex flex-col gap-4 border-2 border-ink bg-card px-9 pb-7 pt-8">
+      <form onSubmit={handleEmailSubmit} className="box-border flex min-w-0 flex-col gap-4 border-2 border-ink bg-card px-4 py-6 sm:px-9 sm:pb-7 sm:pt-8">
         <div className="flex flex-col gap-1">
           <span className="font-label text-[13px] tracking-[0.1em] text-accent-text">{isCitizen ? "CITIZEN" : "STAFF"}</span>
-          <h1 className="m-0 text-[28px] font-black">{isCitizen ? "市民登入" : "市府／合作單位登入"}</h1>
+          <h1 className="m-0 text-[28px] font-black leading-[1.3]">
+            {isCitizen ? "市民登入" : <><span className="inline-block">市府／</span><wbr /><span className="inline-block">合作單位登入</span></>}
+          </h1>
         </div>
 
         {isCitizen ? (
@@ -151,9 +157,9 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
             <button
               type="button"
               onClick={handleGoogleSignIn}
-              className="button-secondary min-h-12 gap-2.5 text-base"
+              className="button-secondary !min-h-12 min-w-0 w-full gap-2.5 !px-4 text-base sm:!px-8"
             >
-              <GoogleIcon />
+              <span className="shrink-0"><GoogleIcon /></span>
               用 Google 登入
             </button>
             <p className="m-0 text-center font-body text-[13px] text-[#4A463C]">或使用 Email</p>
@@ -164,7 +170,7 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
           </p>
         )}
 
-        <label className="flex flex-col gap-0.5 border-[1.5px] border-ink bg-paper px-3 py-1.5 font-body">
+        <label className="flex min-w-0 flex-col gap-0.5 border-[1.5px] border-ink bg-paper px-3 py-1.5 font-body">
           <span className="font-label text-[11px] tracking-[0.1em]">EMAIL</span>
           <input
             type="email"
@@ -174,10 +180,10 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="border-0 bg-transparent py-0.5 text-[15px] outline-none"
+            className="min-h-8 min-w-0 w-full border-0 bg-transparent py-0.5 text-base outline-none"
           />
         </label>
-        <label className="flex flex-col gap-0.5 border-[1.5px] border-ink bg-paper px-3 py-1.5 font-body">
+        <label className="flex min-w-0 flex-col gap-0.5 border-[1.5px] border-ink bg-paper px-3 py-1.5 font-body">
           <span className="font-label text-[11px] tracking-[0.1em]">PASSWORD</span>
           <input
             type="password"
@@ -187,15 +193,15 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="border-0 bg-transparent py-0.5 text-[15px] outline-none"
+            className="min-h-8 min-w-0 w-full border-0 bg-transparent py-0.5 text-base outline-none"
           />
         </label>
-        <a href="#" className="self-end font-body text-[13px]">
+        <a href="#" className="flex min-h-11 items-center self-end font-body text-[13px]">
           忘記密碼？
         </a>
 
         {error && (
-          <p className="warning-card m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.6]">
+          <p role="alert" className="warning-card m-0 min-w-0 break-words border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 font-body text-[13px] leading-[1.6]">
             {error}
           </p>
         )}
@@ -203,7 +209,7 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
         <button
           type="submit"
           disabled={submitting}
-          className="button-primary min-h-[50px] text-[17px]"
+          className="button-primary !min-h-[50px] w-full text-[17px]"
         >
           登入
         </button>
@@ -211,7 +217,7 @@ function LoginForm({ role, onBack }: { role: Role; onBack: () => void }) {
         <p className="m-0 mt-1 text-center font-body text-[13px]">
           {isCitizen ? (
             <>
-              還沒有帳號？<Link to="/signup" className="font-medium">建立帳號</Link>
+              還沒有帳號？<Link to="/signup" className="inline-flex min-h-11 items-center font-medium">建立帳號</Link>
             </>
           ) : (
             "帳號由管理員邀請建立。"
