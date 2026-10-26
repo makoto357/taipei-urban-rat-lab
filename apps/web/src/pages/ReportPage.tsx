@@ -135,7 +135,7 @@ export function ReportPage() {
       });
       setSubmittedReportId(reference.id);
     } catch (error) {
-      const code = (error as { code?: string }).code;
+      const code = (error as { code?: string; }).code;
       setSubmitError(
         code === "permission-denied"
           ? "這個帳號沒有送出通報的權限。請確認已用一般市民帳號登入並完成信箱驗證。"
@@ -169,32 +169,34 @@ export function ReportPage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-container flex-col gap-7 px-10 pb-16 pt-8">
+      <main className="mx-auto flex w-full max-w-container flex-col gap-6 px-4 pb-12 pt-6 sm:gap-7 sm:px-10 sm:pb-16 sm:pt-8">
         <div className="flex flex-wrap items-end gap-x-8 gap-y-2 border-b border-ink pb-5">
-          <div>
+          <div className="min-w-0">
             <p className="m-0 mb-1.5 text-[15px] font-bold text-accent-text">
               鼠跡通報 <span className="font-label font-normal tracking-[0.1em]">/ REPORT</span>
             </p>
-            <h1 className="m-0 text-[46px] font-black leading-[1.2]">發現鼠跡？告訴我們。</h1>
+            <h1 className="m-0 text-[clamp(36px,5vw,46px)] font-black leading-[1.2]">
+              <span className="inline-block">發現鼠跡？</span><wbr /><span className="inline-block">告訴我們。</span>
+            </h1>
           </div>
-          <p className="m-0 mb-2 text-[15px] leading-[1.7]">三個步驟完成通報。你的觀察可以幫助我們掌握都市環境的鼠跡狀況。</p>
+          <p className="m-0 mb-2 min-w-0 flex-[1_1_360px] text-[15px] leading-[1.7]">三個步驟完成通報。你的觀察可以幫助我們掌握都市環境的鼠跡狀況。</p>
         </div>
 
-        <div className="flex flex-wrap items-start gap-x-12 gap-y-8">
+        <div className="grid min-w-0 items-start gap-6 lg:grid-cols-[240px_minmax(0,720px)] lg:gap-12">
           <StepList step={done ? 4 : step} showLoginReminder={!signedIn} />
 
-          <div className="min-w-0 flex-[999_1_560px] max-w-[720px]">
+          <div className="min-w-0">
             {!signedIn ? (
               <GateCard onStart={() => navigate("/login")} />
             ) : isOfficial ? (
-              <div className="flex flex-col gap-4 border-2 border-ink bg-card px-8 py-7">
+              <div className="flex min-w-0 flex-col gap-4 border-2 border-ink bg-card px-4 py-5 sm:px-8 sm:py-7">
                 <h2 className="m-0 text-[26px] font-black">市府人員請使用作業平台</h2>
                 <p className="m-0 font-body text-[15px] leading-[1.85]">
                   這個表單是給一般市民通報用的，市府人員帳號無法送出。請到作業平台新增調查或投藥紀錄。
                 </p>
                 <Link
                   to="/official/record"
-                  className="button-primary min-h-12 self-start px-6"
+                  className="button-primary min-h-12 w-full px-4 sm:w-auto sm:self-start sm:px-6"
                 >
                   前往作業平台新增紀錄
                 </Link>
@@ -252,7 +254,7 @@ function StepList({
   showLoginReminder: boolean;
 }) {
   return (
-    <ol aria-label="通報步驟" className="m-0 flex max-w-[320px] flex-1 flex-col list-none p-0" style={{ flexBasis: "240px" }}>
+    <ol aria-label="通報步驟" className="m-0 grid min-w-0 grid-cols-3 gap-x-3 gap-y-4 list-none p-0 lg:flex lg:flex-col lg:gap-0">
       {REPORT_STEPS.map((s, i) => {
         const n = i + 1;
         const isDone = n < step;
@@ -260,24 +262,27 @@ function StepList({
         const bg = active ? "bg-accent" : isDone ? "bg-ink" : "bg-card";
         const fg = isDone ? "text-card" : "text-ink";
         return (
-          <li key={s.title} aria-current={active ? "step" : undefined} className="flex gap-3.5">
-            <div className="flex flex-col items-center">
+          <li key={s.title} aria-current={active ? "step" : undefined} className="relative flex min-w-0 flex-col gap-2 lg:flex-row lg:gap-3.5">
+            <div className="flex shrink-0 flex-col items-start lg:items-center">
               <span
                 className={`inline-flex h-9 w-9 items-center justify-center rounded-full border-[1.5px] border-ink font-label text-[15px] ${bg} ${fg}`}
               >
                 {String(n).padStart(2, "0")}
               </span>
-              {i < REPORT_STEPS.length - 1 && <span aria-hidden="true" className="h-[30px] w-[1.5px] bg-ink" />}
+              {i < REPORT_STEPS.length - 1 && <span aria-hidden="true" className="absolute left-11 right-0 top-[18px] h-px bg-ink lg:static lg:h-[30px] lg:w-[1.5px]" />}
             </div>
-            <div className="pt-1.5">
-              <p className="m-0 text-[17px] font-black">{s.title}</p>
-              <p className="m-0 mt-0.5 font-body text-xs text-[#4A463C]">{s.desc}</p>
+            <div className="min-w-0 lg:pt-1.5">
+              <p className="m-0 text-sm font-black sm:text-[17px]">
+                <span className="sm:hidden">{s.title.replace("通報", "")}</span>
+                <span className="hidden sm:inline">{s.title}</span>
+              </p>
+              <p className="m-0 mt-0.5 hidden font-body text-xs text-[#4A463C] sm:block">{s.desc}</p>
             </div>
           </li>
         );
       })}
       {showLoginReminder && (
-        <li className="warning-card mt-6 border-l-4 border-accent bg-activity-l1 px-3.5 py-3 font-body text-xs leading-[1.7]">
+        <li className="warning-card col-span-3 border-l-4 border-accent bg-activity-l1 px-3.5 py-3 font-body text-xs leading-[1.7] lg:mt-6">
           通報需要登入，才能讓你之後查看處理狀態。
         </li>
       )}
@@ -285,9 +290,9 @@ function StepList({
   );
 }
 
-function GateCard({ onStart }: { onStart: () => void }) {
+function GateCard({ onStart }: { onStart: () => void; }) {
   return (
-    <div className="relative flex aspect-[16/11] flex-col items-center justify-center gap-6 overflow-hidden border-2 border-ink bg-card">
+    <div className="relative flex min-h-[280px] flex-col items-center justify-center gap-5 overflow-hidden border-2 border-ink bg-card px-4 py-8 sm:aspect-[16/11] sm:gap-6">
       <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" aria-hidden="true" className="absolute inset-0">
         <line x1="0" y1="0" x2="100" y2="100" stroke={colors.unknown} strokeWidth="0.2" />
         <line x1="100" y1="0" x2="0" y2="100" stroke={colors.unknown} strokeWidth="0.2" />
@@ -380,13 +385,13 @@ function ReportForm({
   const canSubmit = agreed && allPhotosSettled && !submitting;
 
   return (
-    <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-6 border-2 border-ink bg-card px-8 py-7">
+    <form onSubmit={(e) => e.preventDefault()} className="flex min-w-0 flex-col gap-6 border-2 border-ink bg-card px-4 py-5 sm:px-8 sm:py-7">
       {step === 1 && (
         <section className="flex flex-col gap-[18px]">
           <h2 className="m-0 text-[26px] font-black">1. 通報類型與照片</h2>
           <fieldset className="m-0 flex min-w-0 flex-col gap-2.5 border-0 p-0">
             <legend className="mb-2.5 p-0 text-base font-bold">你看到的是什麼？</legend>
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-3 font-body">
+            <div className="grid grid-cols-1 gap-3 font-body sm:grid-cols-2">
               <ReportTypeCard
                 active={reportType === "rat"}
                 title="看到老鼠／鼠跡"
@@ -412,12 +417,12 @@ function ReportForm({
             <p className="m-0 text-base font-bold">
               照片 <span className="font-body text-[13px] font-normal text-[#4A463C]">（選填，最多 3 張；JPEG／PNG／WebP，每張 8 MB 以內）</span>
             </p>
-            <div className="grid grid-cols-3 gap-3 font-body">
+            <div className="grid grid-cols-2 gap-3 font-body sm:grid-cols-3">
               {photos.map((photo) => (
                 <PhotoTile key={photo.mediaId} photo={photo} onRemove={() => onRemovePhoto(photo.mediaId)} />
               ))}
               {photos.length < 3 && (
-                <label className="relative flex aspect-square cursor-pointer flex-col items-center justify-center gap-1.5 border-2 border-dashed border-ink bg-paper text-center">
+                <label className="relative flex aspect-square cursor-pointer flex-col items-center justify-center gap-1.5 border-2 border-dashed border-ink bg-paper p-2 text-center focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ink">
                   <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth={1.8} aria-hidden="true">
                     <rect x="3" y="6" width="18" height="14" rx="1" />
                     <circle cx="12" cy="13" r="3.5" />
@@ -442,7 +447,7 @@ function ReportForm({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="例如：晚上在巷口垃圾集中處看到一隻老鼠跑進水溝"
-              className="rounded-none border-[1.5px] border-ink bg-paper px-3 py-2.5 font-body text-[15px] font-normal leading-[1.6]"
+              className="min-w-0 rounded-none border-[1.5px] border-ink bg-paper px-3 py-2.5 font-body text-base font-normal leading-[1.6]"
             />
           </label>
         </section>
@@ -451,9 +456,9 @@ function ReportForm({
       {step === 2 && (
         <section className="flex flex-col gap-3.5">
           <h2 className="m-0 text-[26px] font-black">2. 地點</h2>
-          <div className="flex flex-wrap gap-2.5">
-            <label className="flex min-h-11 flex-[1_1_280px] items-center gap-2.5 border-[1.5px] border-ink bg-paper pl-3 pr-1 py-1 font-body">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth={2} aria-hidden="true">
+          <div className="grid min-w-0 grid-cols-1 gap-2.5 sm:grid-cols-2">
+            <label className="flex min-h-11 min-w-0 items-center gap-2.5 border-[1.5px] border-ink bg-paper pl-3 pr-1 py-1 font-body sm:col-span-2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth={2} aria-hidden="true" className="shrink-0">
                 <circle cx="11" cy="11" r="7" />
                 <path d="M16.5 16.5 L21 21" />
               </svg>
@@ -469,25 +474,26 @@ function ReportForm({
                   }
                 }}
                 placeholder="輸入地址或地標"
-                className="min-w-0 flex-1 border-0 bg-transparent text-[15px] outline-none"
+                className="min-w-0 flex-1 border-0 bg-transparent text-base outline-none"
               />
               <button
                 type="button"
                 onClick={() => void geocoder.locateAddress(addressText)}
                 disabled={geocoder.busy || addressText.trim() === ""}
-                className="button-secondary min-h-9 px-3 text-[13px] tag"
+                className="button-secondary shrink-0 !px-3 text-[13px] tag"
               >
                 定位
               </button>
             </label>
-            <label className="flex min-h-11 flex-[1_1_160px] items-center border-[1.5px] border-ink bg-paper px-3 font-body">
+            <label className="flex min-h-11 min-w-0 items-center border-[1.5px] border-ink bg-paper px-3 font-body">
               <select
                 value={district}
                 onChange={(e) => {
                   setDistrict(e.target.value);
                   setFocusDistrict(e.target.value);
                 }}
-                className="w-full border-0 bg-transparent text-[15px] outline-none"
+                aria-label="行政區"
+                className="min-h-11 min-w-0 w-full border-0 bg-transparent text-base outline-none"
               >
                 <option value="">選擇行政區</option>
                 {DISTRICTS.map((d) => (
@@ -512,6 +518,7 @@ function ReportForm({
             </button>
           </div>
           <LocationPicker
+            className="relative h-[280px] min-w-0 border-[1.5px] border-ink sm:h-[340px]"
             value={location}
             focusDistrict={focusDistrict}
             onChange={(picked) => {
@@ -531,7 +538,7 @@ function ReportForm({
             </p>
           )}
           <div className="flex flex-wrap justify-between gap-x-4 gap-y-1.5 font-body text-[13px]">
-            <p className="m-0">
+            <p className="m-0 min-w-0 break-words">
               <strong className="font-medium">地址：</strong>
               {addressText || "尚未輸入"}・{district || "尚未選擇行政區"}
             </p>
@@ -549,34 +556,34 @@ function ReportForm({
       {step === 3 && (
         <section className="flex flex-col gap-[18px]">
           <h2 className="m-0 text-[26px] font-black">3. 日期與確認</h2>
-          <div className="flex flex-wrap gap-3 font-body">
-            <label className="flex flex-[1_1_160px] flex-col gap-1.5 text-[13px]">
+          <div className="grid grid-cols-1 gap-3 font-body min-[400px]:grid-cols-2">
+            <label className="flex min-w-0 flex-col gap-1.5 text-[13px]">
               觀察日期
               <input
                 type="date"
                 value={observedDate}
                 max={new Date().toISOString().slice(0, 10)}
                 onChange={(e) => setObservedDate(e.target.value)}
-                className="min-h-11 border-[1.5px] border-ink bg-paper px-2.5 text-[15px]"
+                className="min-h-11 min-w-0 w-full border-[1.5px] border-ink bg-paper px-2.5 text-base"
               />
             </label>
-            <label className="flex flex-[1_1_140px] flex-col gap-1.5 text-[13px]">
+            <label className="flex min-w-0 flex-col gap-1.5 text-[13px]">
               大約時間
               <input
                 type="time"
                 value={observedTime}
                 onChange={(e) => setObservedTime(e.target.value)}
-                className="min-h-11 border-[1.5px] border-ink bg-paper px-2.5 text-[15px]"
+                className="min-h-11 min-w-0 w-full border-[1.5px] border-ink bg-paper px-2.5 text-base"
               />
             </label>
           </div>
-          <dl className="m-0 grid grid-cols-[96px_1fr] gap-x-4 gap-y-2.5 border-[1.5px] border-ink bg-paper px-[18px] py-4 font-body text-sm">
+          <dl className="m-0 grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-2.5 border-[1.5px] border-ink bg-paper px-3 py-4 font-body text-sm sm:grid-cols-[96px_minmax(0,1fr)] sm:px-[18px]">
             <dt className="font-medium">類型</dt>
             <dd className="m-0">{typeLabel}</dd>
             <dt className="font-medium">照片</dt>
             <dd className="m-0">{photos.length > 0 ? `${photos.length} 張` : "無"}</dd>
             <dt className="font-medium">地點</dt>
-            <dd className="m-0">
+            <dd className="m-0 break-words">
               {addressText}・{district}
             </dd>
           </dl>
@@ -601,23 +608,23 @@ function ReportForm({
         </section>
       )}
 
-      <div className="flex flex-wrap justify-between gap-3 border-t border-ink pt-4">
+      <div className="grid grid-cols-2 gap-3 border-t border-ink pt-4 sm:flex sm:justify-between">
         {step > 1 && (
           <button
             type="button"
             onClick={onBack}
-            className="button-secondary min-h-[52px] px-7 text-base"
+            className="button-secondary min-h-[52px] !px-3 text-base sm:!px-7"
           >
             ← 上一步
           </button>
         )}
-        <span className="flex-1" />
+        <span aria-hidden="true" className="hidden sm:block sm:flex-1" />
         {step < 3 && (
           <button
             type="button"
             onClick={onNext}
             disabled={!canNext}
-            className="button-primary min-h-[52px] px-10 text-base"
+            className={`button-primary min-h-[52px] !px-3 text-base sm:!px-10 ${step === 1 ? "col-span-2" : ""}`}
           >
             下一步 →
           </button>
@@ -627,7 +634,7 @@ function ReportForm({
             type="button"
             onClick={onSubmit}
             disabled={!canSubmit}
-            className="button-primary min-h-[52px] px-10 text-base"
+            className="button-primary min-h-[52px] !px-3 text-base sm:!px-10"
           >
             {submitting ? "送出中…" : "送出通報"}
           </button>
@@ -637,7 +644,7 @@ function ReportForm({
   );
 }
 
-function PhotoTile({ photo, onRemove }: { photo: PhotoUpload; onRemove: () => void }) {
+function PhotoTile({ photo, onRemove }: { photo: PhotoUpload; onRemove: () => void; }) {
   const label =
     photo.status === "uploading"
       ? `上傳中 ${photo.progress}%`
@@ -650,20 +657,18 @@ function PhotoTile({ photo, onRemove }: { photo: PhotoUpload; onRemove: () => vo
             : "上傳失敗";
 
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex min-w-0 flex-col gap-1.5">
       <div
-        className={`relative flex aspect-square flex-col items-center justify-center gap-2 border-[1.5px] p-2 text-center ${
-          photo.status === "rejected" || photo.status === "upload_error"
+        className={`relative flex aspect-square flex-col items-center justify-center gap-2 border-[1.5px] p-2 text-center ${photo.status === "rejected" || photo.status === "upload_error"
             ? "border-accent-text bg-paper"
             : "border-ink bg-unknown"
-        }`}
+          }`}
       >
         <img
           src={photo.previewUrl}
           alt={`已選擇的照片：${photo.fileName}`}
-          className={`absolute inset-0 h-full w-full object-cover ${
-            photo.status === "rejected" || photo.status === "upload_error" ? "opacity-40" : ""
-          }`}
+          className={`absolute inset-0 h-full w-full object-cover ${photo.status === "rejected" || photo.status === "upload_error" ? "opacity-40" : ""
+            }`}
         />
         {photo.status === "uploading" && (
           <div
@@ -683,11 +688,11 @@ function PhotoTile({ photo, onRemove }: { photo: PhotoUpload; onRemove: () => vo
         {(photo.status === "rejected" || photo.status === "upload_error") && (
           <span className="relative bg-card px-2 py-0.5 text-[13px] font-bold text-accent-text">{label}</span>
         )}
-                <button
+        <button
           type="button"
           onClick={onRemove}
           aria-label={`移除 ${photo.fileName}`}
-          className="absolute right-1.5 top-1.5 z-10 flex h-8 w-8 items-center justify-center rounded-full border-[1.5px] border-ink bg-card text-lg leading-none"
+          className="absolute right-1 top-1 z-10 flex h-11 w-11 items-center justify-center rounded-full border-[1.5px] border-ink bg-card text-lg leading-none"
         >
           ×
         </button>
@@ -709,9 +714,9 @@ function ReportTypeCard({
   onSelect: () => void;
 }) {
   return (
-    <label className={`flex items-start gap-3 border-2 border-ink p-4 ${active ? "bg-activity-l1" : "bg-paper"}`}>
+    <label className={`flex min-w-0 cursor-pointer items-start gap-3 border-2 border-ink p-3 sm:p-4 ${active ? "bg-activity-l1" : "bg-paper"}`}>
       <input type="radio" name="reportType" checked={active} onChange={onSelect} className="mt-0.5 h-5 w-5 flex-none accent-ink" />
-      <span className="flex flex-col gap-1">
+      <span className="flex min-w-0 flex-col gap-1">
         <span className="font-heading text-lg font-black">{title}</span>
         <span className="text-[13px] leading-[1.6] text-[#4A463C]">{description}</span>
       </span>
@@ -729,14 +734,14 @@ function DoneCard({
   onRestart: () => void;
 }) {
   return (
-    <div className="flex flex-col gap-[18px] border-2 border-ink bg-card px-9 py-10">
+    <div className="flex min-w-0 flex-col gap-[18px] border-2 border-ink bg-card px-4 py-6 sm:px-9 sm:py-10">
       <p className="m-0 font-label text-[14px] tracking-[0.1em] text-accent-text">REPORT RECEIVED</p>
-      <h2 className="m-0 text-[32px] font-black">已收到你的通報，謝謝。</h2>
-      <dl className="m-0 grid grid-cols-[96px_1fr] gap-x-4 gap-y-2.5 font-body text-[15px]">
+      <h2 className="m-0 text-[26px] font-black sm:text-[32px]">已收到你的通報，謝謝。</h2>
+      <dl className="m-0 grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-2.5 font-body text-[15px] sm:grid-cols-[96px_minmax(0,1fr)]">
         <dt className="font-medium">通報類型</dt>
         <dd className="m-0">{reportType ? REPORT_TYPE_LABEL[reportType] : REPORT_TYPE_LABEL.rat}</dd>
         <dt className="font-medium">通報編號</dt>
-        <dd className="m-0 font-label text-lg tracking-[0.06em]">{reportId ?? "—"}</dd>
+        <dd className="m-0 break-all font-label text-lg tracking-[0.06em]">{reportId ?? "—"}</dd>
         <dt className="font-medium">目前狀態</dt>
         <dd className="m-0">
           <span className="border-[1.5px] border-ink bg-activity-l1 px-2.5 py-0.5 text-[13px]">待審核</span>
@@ -749,7 +754,7 @@ function DoneCard({
         <button
           type="button"
           onClick={onRestart}
-          className="button-secondary min-h-12 px-6 text-base"
+          className="button-secondary min-h-12 w-full px-6 text-base sm:w-auto"
         >
           再通報一筆
         </button>
