@@ -757,6 +757,8 @@ export function useDataMap() {
       minZoom: 9,
       attributionControl: false,
     });
+    const resizeObserver = new ResizeObserver(() => map.resize());
+    resizeObserver.observe(mapContainerRef.current);
 
     map.addControl(new maplibregl.NavigationControl(), "top-right");
     map.addControl(
@@ -1141,6 +1143,7 @@ export function useDataMap() {
     mapRef.current = map;
 
     return () => {
+      resizeObserver.disconnect();
       deferredDataController.abort();
       riskReloadControllerRef.current?.abort();
       map.off("load", loadDeferredLayersAfterPrimaryData);
