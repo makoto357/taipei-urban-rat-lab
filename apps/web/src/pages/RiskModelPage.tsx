@@ -139,10 +139,10 @@ export function RiskModelPage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto w-full max-w-container flex-1 px-4 pb-20 pt-8 sm:px-10">
+      <main className="mx-auto w-full max-w-container flex-1 px-4 pb-14 pt-6 sm:px-10 sm:pb-20 sm:pt-8">
         <section aria-labelledby="risk-model-title" className="pb-8">
           <div className="flex flex-wrap items-end gap-x-8 gap-y-2 pb-5">
-            <div className="flex-none">
+            <div className="min-w-0">
               <p className="m-0 mb-1.5 text-[15px] font-bold text-accent-text">
                 風險模型{" "}
                 <span className="font-label font-normal tracking-[0.1em]">
@@ -153,16 +153,16 @@ export function RiskModelPage() {
                 id="risk-model-title"
                 className="m-0 text-[clamp(36px,5vw,46px)] font-black leading-[1.2]"
               >
-                城市鼠患，如何評估風險？
+                城市鼠患，<br className="sm:hidden" />如何評估風險？
               </h1>
             </div>
-            <p className="m-0 mb-2 min-w-[280px] flex-[1_1_420px] text-[15px] leading-[1.7]">
+            <p className="m-0 mb-2 min-w-0 flex-[1_1_420px] text-[15px] leading-[1.7]">
               以都市鼠類研究為基礎，建立街廓鼠患風險評估模型與分級方法。
             </p>
           </div>
 
           <div className="warning-card mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 border-l-4 border-accent bg-activity-l1 px-5 py-4">
-            <div className="min-w-[240px] flex-[1_1_680px] sm:flex sm:items-baseline sm:gap-5">
+            <div className="min-w-0 flex-[1_1_680px] sm:flex sm:items-baseline sm:gap-5">
               <p className="m-0 shrink-0 text-sm font-bold text-accent-text">
                 閱讀前提醒
               </p>
@@ -190,7 +190,7 @@ export function RiskModelPage() {
           </nav>
         </section>
 
-        <section id="overview" className="scroll-mt-6 border-b-2 border-ink py-14">
+        <section id="overview" className="scroll-mt-6 border-b-2 border-ink py-10 sm:py-14">
           <SectionHeading
             number="01 — OVERVIEW"
             title="模型概覽"
@@ -198,11 +198,24 @@ export function RiskModelPage() {
           />
           <ol className="m-0 mt-8 grid list-none gap-2 p-0 lg:grid-cols-5">
             {WORKFLOW.map((step, index) => (
-              <li key={step} className="relative flex min-h-24 items-center border-2 border-ink bg-card p-4 pr-9 font-bold">
+              <li key={step} className="relative flex min-h-20 items-center border-2 border-ink bg-card p-4 pb-8 font-bold sm:min-h-24 sm:pb-9 lg:pb-4 lg:pr-9">
                 <span className="mr-3 font-label text-accent-text">{String(index + 1).padStart(2, "0")}</span>
                 {step}
                 {index < WORKFLOW.length - 1 && (
-                  <span aria-hidden="true" className="absolute -right-3 z-10 bg-ink px-1.5 py-1 text-card">→</span>
+                  <>
+                    <span
+                      aria-hidden="true"
+                      className="absolute -bottom-3 left-1/2 z-10 -translate-x-1/2 bg-ink px-1.5 py-1 text-card lg:hidden"
+                    >
+                      ↓
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="absolute -right-3 top-1/2 z-10 hidden -translate-y-1/2 bg-ink px-1.5 py-1 text-card lg:inline"
+                    >
+                      →
+                    </span>
+                  </>
                 )}
               </li>
             ))}
@@ -214,7 +227,7 @@ export function RiskModelPage() {
           </div>
         </section>
 
-        <section id="factors" className="scroll-mt-6 border-b-2 border-ink py-14">
+        <section id="factors" className="scroll-mt-6 border-b-2 border-ink py-10 sm:py-14">
           <SectionHeading
             number="02 — FACTORS"
             title="四項基礎因子"
@@ -222,7 +235,7 @@ export function RiskModelPage() {
           />
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {FACTOR_CARDS.map((factor) => (
-              <article key={factor.title} className="border-2 border-ink bg-card p-5 sm:p-6">
+              <article key={factor.title} className="border-2 border-ink bg-card p-4 sm:p-6">
                 <div className="flex items-start justify-between gap-4 border-b border-ink pb-4">
                   <div>
                     <p className="m-0 font-label text-xs text-accent-text">{factor.number} / {factor.kind}</p>
@@ -241,14 +254,14 @@ export function RiskModelPage() {
           <div className="mt-6"><FactorWeightExample /></div>
         </section>
 
-        <section id="movement" className="scroll-mt-6 border-b-2 border-ink py-14">
+        <section id="movement" className="scroll-mt-6 border-b-2 border-ink py-10 sm:py-14">
           <SectionHeading
             number="03 — PROPAGATION"
             title="空間傳遞模型"
             intro="只有民眾通報與政府調查會傳遞。食物與躲藏條件留在原街廓；地面與下水道各走自己的連通圖，不會在同一路徑中混用。"
           />
           <div className="mt-8 grid gap-5 lg:grid-cols-2">
-            <article className="border-2 border-ink bg-card p-5 sm:p-6">
+            <article className="border-2 border-ink bg-card p-4 sm:p-6">
               <p className="m-0 font-label text-xs text-accent-text">GROUND NETWORK</p>
               <h3 className="m-0 mt-1 text-2xl font-black">地面移動</h3>
               <NetworkDiagram />
@@ -259,7 +272,7 @@ export function RiskModelPage() {
                 <li>最多 {MAX_PROPAGATION_HOPS} 跳；同一來源與目標保留最強路徑。</li>
               </ul>
             </article>
-            <article className="border-2 border-ink bg-card p-5 sm:p-6">
+            <article className="border-2 border-ink bg-card p-4 sm:p-6">
               <p className="m-0 font-label text-xs text-accent-text">UNDERGROUND NETWORK</p>
               <h3 className="m-0 mt-1 text-2xl font-black">下水道移動</h3>
               <NetworkDiagram underground />
@@ -276,7 +289,7 @@ export function RiskModelPage() {
           </div>
         </section>
 
-        <section id="calculation" className="scroll-mt-6 border-b-2 border-ink py-14">
+        <section id="calculation" className="scroll-mt-6 border-b-2 border-ink py-10 sm:py-14">
           <SectionHeading
             number="04 — SCORING"
             title="分數計算與風險分級"
@@ -302,7 +315,7 @@ export function RiskModelPage() {
 
           <div className="mt-10 border-2 border-ink bg-card p-5 sm:p-6">
             <h3 className="m-0 text-2xl font-black">相對分級</h3>
-            <div className="mt-5 grid gap-2 sm:grid-cols-3 lg:grid-cols-6">
+            <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
               {LEVELS.map((item) => (
                 <div key={item.level} className="border border-ink p-3" style={{ backgroundColor: item.color }}>
                   <strong className="font-label text-xl">{item.level}</strong>
@@ -319,9 +332,9 @@ export function RiskModelPage() {
             </p>
           </div>
 
-          <details className="mt-5 border-2 border-ink bg-card p-5">
+          <details className="mt-5 overflow-hidden border-2 border-ink bg-card p-5">
             <summary className="cursor-pointer font-bold">查看技術公式</summary>
-            <div className="mt-4 space-y-3 font-body text-sm leading-[1.8]">
+            <div className="mt-4 space-y-3 overflow-x-auto font-body text-sm leading-[1.8]">
               <p className="m-0"><code>areaAdjusted = rawScore / area_ha^β</code></p>
               <p className="m-0"><code>normalized = min(1, areaAdjusted / P95)</code></p>
               <p className="m-0"><code>groundEdge = exp(-max(distance, 1) / 50) × roadBarrier</code></p>
@@ -332,7 +345,7 @@ export function RiskModelPage() {
           </details>
         </section>
 
-        <section id="limitations" className="scroll-mt-6 py-14">
+        <section id="limitations" className="scroll-mt-6 py-10 sm:py-14">
           <SectionHeading
             number="05 — DATA & LIMITS"
             title="資料來源與限制"
@@ -364,7 +377,7 @@ export function RiskModelPage() {
                 <li>資料缺漏或分數為零不代表該處沒有鼠類，也不代表安全。</li>
               </ul>
             </div>
-            <aside className="border-l border-ink pl-5">
+            <aside className="border-t border-ink pt-5 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
               <h3 className="m-0 text-xl font-black">繼續閱讀</h3>
               <div className="mt-4 flex flex-col gap-3 text-sm font-bold">
                 <Link to="/literature">研究文獻與防治知識 →</Link>
@@ -402,7 +415,7 @@ export function RiskModelPage() {
             <div className="mt-6 flex items-center border-t border-ink pt-6 lg:mt-0 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
               <Link
                 to="/map?topic=distribution"
-                className="button-primary inline-flex min-h-11 items-center whitespace-nowrap px-5"
+                className="button-primary inline-flex min-h-11 w-full items-center whitespace-nowrap px-5 sm:w-auto"
               >
                 查看鼠群研究 →
               </Link>

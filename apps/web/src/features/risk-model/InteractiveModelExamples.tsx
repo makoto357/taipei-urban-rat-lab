@@ -159,7 +159,7 @@ function GroundConnectivityDiagram({
       viewBox="0 0 900 330"
       role="img"
       aria-label={`L1 觀測來源街廓 A 與${neighborLabel}鄰近街廓 B，中間道路寬度為${barrier.label}，啟發式權重 ${connectivity.toFixed(3)}`}
-      className="h-[260px] w-full sm:h-[290px]"
+      className="h-[160px] w-full sm:h-[230px] lg:h-[290px]"
     >
       <title>道路寬度與觀測證據傳遞示意</title>
       <rect x="30" y="45" width={leftBlockWidth} height="220" rx="4" fill={RISK_LEVEL_COLORS.L1} stroke={colors.ink} strokeWidth="3" />
@@ -191,7 +191,7 @@ function UndergroundConnectivityDiagram({
       viewBox="0 0 900 360"
       role="img"
       aria-label={`下水道單邊示意：L1 觀測來源街廓 A 經兩個人孔與 ${pipeLength} 公尺管段連接至${neighborLabel}鄰近街廓 B，啟發式權重 ${connectivity.toFixed(3)}`}
-      className="h-[260px] w-full sm:h-[290px]"
+      className="h-[160px] w-full sm:h-[230px] lg:h-[290px]"
     >
       <title>同一系統的人孔與地下管段連通示意</title>
       <rect x="0" y="185" width="900" height="175" fill={colors.map.teal} opacity="0.16" />
@@ -268,7 +268,7 @@ export function ConnectivityExample() {
         </div>
       </div>
 
-      <div className="mt-4 flex h-[280px] items-center border-y border-ink bg-paper sm:h-[310px]">
+      <div className="mt-4 flex h-[180px] items-center border-y border-ink bg-paper sm:h-[250px] lg:h-[310px]">
         {mode === "ground" ? (
           <GroundConnectivityDiagram
             barrier={selectedBarrier}
@@ -291,13 +291,13 @@ export function ConnectivityExample() {
                 街廓間距固定為 {EXAMPLE_DISTANCE_METERS} m
               </p>
             </div>
-            <div className="grid border border-ink sm:grid-cols-5">
+            <div className="grid grid-cols-2 gap-px border border-ink bg-ink sm:grid-cols-5">
               {ROAD_BARRIERS.map((option) => {
                 const checked = barrier === option.value;
                 return (
                   <label
                     key={option.label}
-                    className={`flex min-h-16 cursor-pointer items-center gap-2 border-b border-ink px-3 py-2 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0 ${
+                    className={`flex min-h-16 cursor-pointer items-center gap-2 px-3 py-2 last:col-span-2 sm:last:col-span-1 ${
                       checked ? "bg-accent" : "bg-paper hover:bg-card"
                     }`}
                   >
