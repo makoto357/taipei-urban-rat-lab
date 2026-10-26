@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import type { ResourceType } from "@taipei-rat-lab/contracts";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
+import { PageHeading } from "../components/PageHeading";
 import { TYPE_COLORS, TYPE_LABELS, useLiteratureIndex } from "../features/literature/data";
 import { EMPTY_FILTERS, ERA_OPTIONS, filterLiterature, type Era, type Filters } from "../features/literature/filters";
 
@@ -28,23 +29,14 @@ export function LiteraturePage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto w-full max-w-container flex-1 px-4 pb-[72px] pt-8 sm:px-10">
-        <div className="flex flex-wrap items-end gap-x-8 gap-y-2 border-b-2 border-ink pb-5">
-          <div className="flex-none">
-            <p className="m-0 mb-1.5 text-[15px] font-bold text-accent-text">
-              文獻知識{" "}
-              <span className="font-label font-normal tracking-[0.1em]">
-                / KNOWLEDGE
-              </span>
-            </p>
-            <h1 className="m-0 text-[clamp(36px,5vw,46px)] font-black leading-[1.2]">
-              鼠患研究與防治知識
-            </h1>
-          </div>
-          <p className="m-0 mb-2 min-w-[280px] flex-[1_1_420px] text-[15px] leading-[1.7]">
-            整理國內外都市鼠患研究、防治手冊與台北市制度資料。
-          </p>
-        </div>
+      <main className="mx-auto w-full max-w-container flex-1 px-4 pb-[72px] sm:px-10">
+        <PageHeading
+          label="文獻知識"
+          englishLabel="KNOWLEDGE"
+          title="鼠患研究與防治知識"
+          description="整理國內外都市鼠患研究、防治手冊與台北市制度資料。"
+          divider
+        />
 
         {state.status === "loading" && <p className="mt-10 font-body">載入中…</p>}
         {state.status === "error" && (

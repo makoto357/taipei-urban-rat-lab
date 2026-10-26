@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
+import { PageHeading } from "../components/PageHeading";
 import {
   InteractiveMap,
   getEngineLayers,
@@ -155,23 +156,13 @@ export function MapPage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-container flex-col gap-6 px-4 pb-14 pt-8 sm:px-10">
-        <div className="flex flex-wrap items-end gap-x-8 gap-y-2 pb-5">
-          <div>
-            <p className="m-0 mb-1.5 text-[15px] font-bold text-accent-text">
-              地圖探索{" "}
-              <span className="font-label font-normal tracking-[0.1em]">
-                / INTERACTIVE MAP
-              </span>
-            </p>
-            <h1 className="m-0 text-[clamp(36px,5vw,46px)] font-black leading-[1.2]">
-              老鼠都在哪裡？
-            </h1>
-          </div>
-          <p className="m-0 mb-2 text-[15px] leading-[1.7]">
-            整合不同來源的數據與環境資料，一起探索台北市的鼠患線索。
-          </p>
-        </div>
+      <main className="mx-auto flex w-full max-w-container flex-col gap-6 px-4 pb-14 sm:px-10">
+        <PageHeading
+          label="地圖探索"
+          englishLabel="INTERACTIVE MAP"
+          title="老鼠都在哪裡？"
+          description="整合不同來源的數據與環境資料，一起探索台北市的鼠患線索。"
+        />
 
         <div className="flex flex-col">
           <div

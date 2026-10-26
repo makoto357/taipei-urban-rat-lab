@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { addDoc, collection, serverTimestamp, Timestamp } from "firebase/firestore";
 import { SiteHeader } from "../components/SiteHeader";
 import { SiteFooter } from "../components/SiteFooter";
+import { PageHeading } from "../components/PageHeading";
 import { useAuth } from "../features/auth/AuthProvider";
 import { db } from "../lib/firebase";
 import { LocationPicker } from "../features/map/LocationPicker";
@@ -169,18 +170,14 @@ export function ReportPage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto flex w-full max-w-container flex-col gap-6 px-4 pb-12 pt-6 sm:gap-7 sm:px-10 sm:pb-16 sm:pt-8">
-        <div className="flex flex-wrap items-end gap-x-8 gap-y-2 border-b border-ink pb-5">
-          <div className="min-w-0">
-            <p className="m-0 mb-1.5 text-[15px] font-bold text-accent-text">
-              鼠跡通報 <span className="font-label font-normal tracking-[0.1em]">/ REPORT</span>
-            </p>
-            <h1 className="m-0 text-[clamp(36px,5vw,46px)] font-black leading-[1.2]">
-              <span className="inline-block">發現鼠跡？</span><wbr /><span className="inline-block">告訴我們。</span>
-            </h1>
-          </div>
-          <p className="m-0 mb-2 min-w-0 flex-[1_1_360px] text-[15px] leading-[1.7]">三個步驟完成通報。你的觀察可以幫助我們掌握都市環境的鼠跡狀況。</p>
-        </div>
+      <main className="mx-auto flex w-full max-w-container flex-col gap-6 px-4 pb-12 sm:gap-7 sm:px-10 sm:pb-16">
+        <PageHeading
+          label="鼠跡通報"
+          englishLabel="REPORT"
+          title={<><span className="inline-block">發現鼠跡？</span><wbr /><span className="inline-block">告訴我們。</span></>}
+          description="三個步驟完成通報。你的觀察可以幫助我們掌握都市環境的鼠跡狀況。"
+          divider
+        />
 
         <div className="grid min-w-0 items-start gap-6 lg:grid-cols-[240px_minmax(0,720px)] lg:gap-12">
           <StepList step={done ? 4 : step} showLoginReminder={!signedIn} />

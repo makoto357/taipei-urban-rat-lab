@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { SiteFooter } from "../components/SiteFooter";
 import { SiteHeader } from "../components/SiteHeader";
+import { PageHeading } from "../components/PageHeading";
 import {
   ConnectivityExample,
   FactorWeightExample,
@@ -139,27 +140,15 @@ export function RiskModelPage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto w-full max-w-container flex-1 px-4 pb-14 pt-6 sm:px-10 sm:pb-20 sm:pt-8">
+      <main className="mx-auto w-full max-w-container flex-1 px-4 pb-14 sm:px-10 sm:pb-20">
         <section aria-labelledby="risk-model-title" className="pb-8">
-          <div className="flex flex-wrap items-end gap-x-8 gap-y-2 pb-5">
-            <div className="min-w-0">
-              <p className="m-0 mb-1.5 text-[15px] font-bold text-accent-text">
-                風險模型{" "}
-                <span className="font-label font-normal tracking-[0.1em]">
-                  / MODEL EXPLAINER
-                </span>
-              </p>
-              <h1
-                id="risk-model-title"
-                className="m-0 text-[clamp(36px,5vw,46px)] font-black leading-[1.2]"
-              >
-                城市鼠患，<br className="sm:hidden" />如何評估風險？
-              </h1>
-            </div>
-            <p className="m-0 mb-2 min-w-0 flex-[1_1_420px] text-[15px] leading-[1.7]">
-              以都市鼠類研究為基礎，建立街廓鼠患風險評估模型與分級方法。
-            </p>
-          </div>
+          <PageHeading
+            label="風險模型"
+            englishLabel="MODEL EXPLAINER"
+            titleId="risk-model-title"
+            title={<>城市鼠患，<br className="sm:hidden" />如何評估風險？</>}
+            description="以都市鼠類研究為基礎，建立街廓鼠患風險評估模型與分級方法。"
+          />
 
           <div className="warning-card mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 border-l-4 border-accent bg-activity-l1 px-5 py-4">
             <div className="min-w-0 flex-[1_1_680px] sm:flex sm:items-baseline sm:gap-5">
