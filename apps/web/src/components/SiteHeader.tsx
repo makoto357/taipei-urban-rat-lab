@@ -121,7 +121,7 @@ export function SiteHeader() {
                       </span>
                     </Link>
                     {i < navItems.length - 1 && (
-                      <span aria-hidden="true" className="hidden text-muted xl:inline">
+                      <span aria-hidden="true" className="hidden text-muted xl:inline mx-2">
                         /
                       </span>
                     )}
