@@ -51,15 +51,15 @@ export function OfficialRecordPage() {
   return (
     <>
       <StaffHeader />
-      <main className="mx-auto flex w-full max-w-container flex-wrap items-start gap-x-12 gap-y-8 px-10 pb-16 pt-8">
+      <main className="mx-auto grid w-full max-w-container grid-cols-1 gap-6 px-4 pb-12 pt-6 sm:px-10 sm:pb-16 sm:pt-8 lg:grid-cols-[180px_minmax(0,1fr)] lg:gap-12">
         <StaffSidebar />
-        <div className="min-w-0 max-w-[820px] flex-[999_1_560px] flex flex-col gap-5">
+        <div className="flex min-w-0 w-full max-w-[820px] flex-col gap-5">
           <h1 className="m-0 text-[30px] font-black">新增紀錄</h1>
 
-          <div role="tablist" aria-label="紀錄類型" className="grid grid-cols-3 gap-0.5 border-2 border-ink bg-ink">
+          <div role="tablist" aria-label="紀錄類型" className="grid min-w-0 grid-cols-3 gap-0.5 border-2 border-ink bg-ink">
             <TabButton active={tab === "survey"} onClick={() => setTab("survey")} label="鼠跡調查" />
             <TabButton active={tab === "bait"} onClick={() => setTab("bait")} label="投藥紀錄" />
-            <TabButton active={false} onClick={() => {}} label="採樣紀錄" disabled note="研究治理核准前不啟用" />
+            <TabButton active={false} onClick={() => { }} label="採樣紀錄" disabled note="研究治理核准前不啟用" />
           </div>
 
           {tab === "survey" && <SurveyForm organizationId={gate.organizationId} />}
@@ -92,13 +92,41 @@ function TabButton({
       onClick={onClick}
       disabled={disabled}
       title={note}
-      className={`flex min-h-14 flex-col items-center justify-center gap-0.5 border-0 font-heading text-lg font-black ${
-        disabled ? "cursor-not-allowed bg-unknown text-muted" : active ? "bg-accent" : "bg-paper"
-      }`}
+      className={`flex min-h-16 min-w-0 flex-col items-center justify-center gap-0.5 border-0 px-2 py-2 font-heading text-sm font-black focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:min-h-14 sm:text-lg ${disabled ? "cursor-not-allowed bg-unknown text-muted" : active ? "bg-accent" : "bg-paper hover:bg-card"
+        }`}
     >
       {label}
-      {note && <span className="font-body text-[11px] font-normal">{note}</span>}
+      {note && <span className="max-w-full font-body text-[10px] font-normal leading-[1.4] sm:text-[11px]">{note}</span>}
     </button>
+  );
+}
+
+function DateTimeFields({
+  dateLabel,
+  date,
+  time,
+  onDateChange,
+  onTimeChange,
+}: {
+  dateLabel: string;
+  date: string;
+  time: string;
+  onDateChange: (value: string) => void;
+  onTimeChange: (value: string) => void;
+}) {
+  const control = "min-h-11 min-w-0 w-full border-[1.5px] border-ink bg-paper px-2.5 text-base";
+
+  return (
+    <div className="grid min-w-0 grid-cols-1 gap-3 min-[400px]:grid-cols-2">
+      <label className="flex min-w-0 flex-col gap-1.5 text-[13px]">
+        {dateLabel}
+        <input type="date" value={date} max={new Date().toISOString().slice(0, 10)} onChange={(event) => onDateChange(event.target.value)} className={control} />
+      </label>
+      <label className="flex min-w-0 flex-col gap-1.5 text-[13px]">
+        時間
+        <input type="time" value={time} onChange={(event) => onTimeChange(event.target.value)} className={control} />
+      </label>
+    </div>
   );
 }
 
@@ -140,10 +168,10 @@ function LocationFields({
     void geocoder.lookupAddress(location.latitude, location.longitude);
   }, [location, geocoder.lookupAddress]);
   return (
-    <section className="flex flex-col gap-3">
+    <section className="flex min-w-0 flex-col gap-3">
       <h2 className="m-0 font-heading text-xl font-black">地點與時間</h2>
-      <div className="flex flex-wrap gap-2.5">
-        <label className="flex min-h-11 flex-[1_1_240px] items-center gap-2.5 border-[1.5px] border-ink bg-paper pl-3 pr-1 py-1 font-body">
+      <div className="grid min-w-0 grid-cols-1 gap-2.5 min-[400px]:grid-cols-2">
+        <label className="flex min-h-11 min-w-0 items-center gap-2.5 border-[1.5px] border-ink bg-paper pl-3 pr-1 py-1 font-body min-[400px]:col-span-2">
           <span className="sr-only">輸入地址或地標</span>
           <input
             type="text"
@@ -156,24 +184,25 @@ function LocationFields({
               }
             }}
             placeholder="輸入地址或地標"
-            className="min-w-0 flex-1 border-0 bg-transparent text-[15px] outline-none"
+            className="min-w-0 flex-1 border-0 bg-transparent text-base outline-none"
           />
           <button
             type="button"
             onClick={() => void geocoder.locateAddress(addressText)}
             disabled={geocoder.busy || addressText.trim() === ""}
-            className="button-secondary min-h-9 px-3 text-[13px] tag"
+            className="button-secondary shrink-0 !px-3 text-[13px] tag"
           >
             定位
           </button>
         </label>
         <select
+          aria-label="行政區"
           value={district}
           onChange={(e) => {
             setDistrict(e.target.value);
             setFocusDistrict(e.target.value);
           }}
-          className="min-h-11 border-[1.5px] border-ink bg-paper px-2.5 font-body text-[15px]"
+          className="min-h-11 min-w-0 w-full border-[1.5px] border-ink bg-paper px-2.5 font-body text-base"
         >
           <option value="">選擇行政區</option>
           {DISTRICTS.map((d) => (
@@ -189,7 +218,7 @@ function LocationFields({
             onUseCurrentLocation();
           }}
           disabled={locating}
-          className="button-secondary min-h-11 gap-2 px-4 text-[15px]"
+          className="button-secondary min-h-11 min-w-0 gap-2 !px-3 text-[15px] sm:!px-4"
         >
           {locating ? "定位中…" : "使用目前位置"}
         </button>
@@ -201,7 +230,7 @@ function LocationFields({
           onPick(picked);
           void geocoder.lookupAddress(picked.latitude, picked.longitude);
         }}
-        className="relative h-[240px] border-[1.5px] border-ink"
+        className="relative h-[260px] min-w-0 border-[1.5px] border-ink sm:h-[300px]"
       />
       {geocoder.busy && <p role="status" className="m-0 font-body text-xs">查詢地址中…</p>}
       {geocoder.error && <p role="alert" className="m-0 font-body text-xs text-accent-text">{geocoder.error}</p>}
@@ -249,20 +278,22 @@ function PhotoPicker({ photos, onSelect, onRemove }: {
   onRemove: (mediaId: string) => void;
 }) {
   return (
-    <section className="flex flex-col gap-2.5">
+    <section className="flex min-w-0 flex-col gap-2.5">
       <h2 className="m-0 font-heading text-xl font-black">
         事件照片 <span className="font-body text-[13px] font-normal text-[#4A463C]">（選填，最多 3 張）</span>
       </h2>
       {photos.length > 0 && (
-        <ul className="m-0 flex list-none flex-col gap-1.5 p-0 font-body text-[13px]">
+        <ul className="m-0 flex min-w-0 list-none flex-col gap-1.5 p-0 font-body text-[13px]">
           {photos.map((p) => (
-            <li key={p.mediaId} className="flex items-center justify-between gap-3 border-[1.5px] border-ink bg-paper px-3 py-1.5">
-              <img src={p.previewUrl} alt={`已選擇的照片：${p.fileName}`} className="h-14 w-14 shrink-0 border border-ink object-cover" />
-              <span className="min-w-0 flex-1 break-words">
-                {p.fileName} —{" "}
-                {p.status === "uploading" ? `上傳中 ${p.progress}%` : p.status === "processing" ? "處理中" : p.status === "clean" ? "完成" : "失敗"}
+            <li key={p.mediaId} className="flex min-w-0 items-center justify-between gap-2 border-[1.5px] border-ink bg-paper px-2 py-1.5 sm:gap-3 sm:px-3">
+              <img src={p.previewUrl} alt={`已選擇的照片：${p.fileName}`} className="h-12 w-12 shrink-0 border border-ink object-cover sm:h-14 sm:w-14" />
+              <span className="min-w-0 flex-1">
+                <span title={p.fileName} className="line-clamp-2 [overflow-wrap:anywhere]">{p.fileName}</span>
+                <span className="mt-1 block text-muted">
+                  {p.status === "uploading" ? `上傳中 ${p.progress}%` : p.status === "processing" ? "處理中" : p.status === "clean" ? "完成" : "失敗"}
+                </span>
               </span>
-              <button type="button" onClick={() => onRemove(p.mediaId)} className="border-0 bg-transparent font-bold text-accent-text">
+              <button type="button" onClick={() => onRemove(p.mediaId)} aria-label={`移除 ${p.fileName}`} className="min-h-11 min-w-11 shrink-0 border-0 bg-transparent px-2 font-bold text-accent-text">
                 移除
               </button>
             </li>
@@ -270,7 +301,7 @@ function PhotoPicker({ photos, onSelect, onRemove }: {
         </ul>
       )}
       {photos.length < 3 && (
-        <label className="relative flex min-h-[88px] cursor-pointer items-center justify-center gap-2.5 border-2 border-dashed border-ink bg-paper font-body text-[15px] font-medium">
+        <label className="relative flex min-h-[88px] min-w-0 cursor-pointer items-center justify-center gap-2.5 border-2 border-dashed border-ink bg-paper p-3 text-center font-body text-base font-medium focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ink">
           拍照或選擇照片
           <input type="file" accept="image/jpeg,image/png,image/webp" onChange={onSelect} className="absolute h-px w-px opacity-0" />
         </label>
@@ -370,7 +401,7 @@ function SurveyForm({ organizationId }: { organizationId: string | undefined }) 
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-7 border-2 border-ink bg-card px-8 py-7 font-body">
+    <form onSubmit={handleSubmit} className="flex min-w-0 flex-col gap-6 border-2 border-ink bg-card px-4 py-5 font-body sm:gap-7 sm:px-8 sm:py-7">
       <LocationFields
         addressText={addressText}
         setAddressText={setAddressText}
@@ -382,32 +413,23 @@ function SurveyForm({ organizationId }: { organizationId: string | undefined }) 
         onUseCurrentLocation={loc.useCurrentLocation}
         onPick={loc.setLocation}
       />
-      <div className="flex flex-wrap gap-3">
-        <label className="flex flex-[1_1_160px] flex-col gap-1.5 text-[13px]">
-          調查日期
-          <input type="date" value={observedDate} max={new Date().toISOString().slice(0, 10)} onChange={(e) => setObservedDate(e.target.value)} className="min-h-11 border-[1.5px] border-ink bg-paper px-2.5 text-[15px]" />
-        </label>
-        <label className="flex flex-[1_1_140px] flex-col gap-1.5 text-[13px]">
-          時間
-          <input type="time" value={observedTime} onChange={(e) => setObservedTime(e.target.value)} className="min-h-11 border-[1.5px] border-ink bg-paper px-2.5 text-[15px]" />
-        </label>
-      </div>
+      <DateTimeFields dateLabel="調查日期" date={observedDate} time={observedTime} onDateChange={setObservedDate} onTimeChange={setObservedTime} />
 
-      <fieldset className="m-0 flex flex-col gap-2.5 border-0 p-0">
+      <fieldset className="m-0 flex min-w-0 flex-col gap-2.5 border-0 p-0">
         <legend className="mb-1 p-0 font-heading text-xl font-black">調查方式</legend>
         <div className="flex flex-wrap gap-x-5 gap-y-2 text-[15px]">
           {SURVEY_METHODS.map((m) => (
             <label key={m.value} className="flex min-h-11 cursor-pointer items-center gap-2">
-              <input type="radio" name="surveyMethod" checked={surveyMethod === m.value} onChange={() => setSurveyMethod(m.value)} className="m-0 h-[18px] w-[18px] accent-ink" />
+              <input type="radio" name="surveyMethod" checked={surveyMethod === m.value} onChange={() => setSurveyMethod(m.value)} className="m-0 h-[18px] w-[18px] shrink-0 accent-ink" />
               {m.label}
             </label>
           ))}
         </div>
       </fieldset>
 
-      <fieldset className="m-0 flex flex-col gap-2.5 border-0 p-0">
+      <fieldset className="m-0 flex min-w-0 flex-col gap-2.5 border-0 p-0">
         <legend className="mb-1 p-0 font-heading text-xl font-black">調查結果</legend>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-2.5">
+        <div className="grid min-w-0 grid-cols-1 gap-2.5 min-[360px]:grid-cols-3">
           {SURVEY_RESULTS.map((r) => {
             const active = surveyResult === r.value;
             return (
@@ -416,7 +438,7 @@ function SurveyForm({ organizationId }: { organizationId: string | undefined }) 
                 type="button"
                 aria-pressed={active}
                 onClick={() => setSurveyResult(r.value)}
-                className={`min-h-12 border-[1.5px] border-ink font-heading text-base font-bold ${active ? "bg-accent" : "bg-card"}`}
+                className={`min-h-12 min-w-0 border-[1.5px] border-ink px-2 py-2 font-heading text-sm font-bold sm:text-base ${active ? "bg-accent" : "bg-card"}`}
               >
                 {r.label}
               </button>
@@ -430,7 +452,7 @@ function SurveyForm({ organizationId }: { organizationId: string | undefined }) 
         )}
       </fieldset>
 
-      <fieldset className="m-0 flex flex-col gap-2.5 border-0 p-0">
+      <fieldset className="m-0 flex min-w-0 flex-col gap-2.5 border-0 p-0">
         <legend className="mb-1 p-0 font-heading text-xl font-black">
           觀察類型 <span className="font-body text-[13px] font-normal text-[#4A463C]">（可複選）</span>
         </legend>
@@ -440,10 +462,10 @@ function SurveyForm({ organizationId }: { organizationId: string | undefined }) 
         <ChipGroup options={ENVIRONMENT_OBSERVATION_TYPES} selected={observationTypes} onToggle={toggleObservationType} />
       </fieldset>
 
-      <div className="flex flex-wrap gap-4">
-        <label className="flex flex-[1_1_220px] flex-col gap-1.5 font-heading text-base font-black">
+      <div className="grid min-w-0 grid-cols-1 gap-4 sm:grid-cols-2">
+        <label className="flex min-w-0 flex-col gap-1.5 font-heading text-base font-black">
           疑似鼠種
-          <select value={suspectedSpecies} onChange={(e) => setSuspectedSpecies(e.target.value as SuspectedSpecies)} className="min-h-11 border-[1.5px] border-ink bg-paper px-2.5 font-body text-[15px] font-normal">
+          <select value={suspectedSpecies} onChange={(e) => setSuspectedSpecies(e.target.value as SuspectedSpecies)} className="min-h-11 min-w-0 w-full border-[1.5px] border-ink bg-paper px-2.5 font-body text-base font-normal">
             {SUSPECTED_SPECIES.map((s) => (
               <option key={s.value} value={s.value}>
                 {s.label}
@@ -451,7 +473,7 @@ function SurveyForm({ organizationId }: { organizationId: string | undefined }) 
             ))}
           </select>
         </label>
-        <fieldset className="m-0 flex flex-[1_1_220px] flex-col gap-1.5 border-0 p-0 font-heading text-base font-black">
+        <fieldset className="m-0 flex min-w-0 flex-col gap-1.5 border-0 p-0 font-heading text-base font-black">
           <legend className="mb-0.5 p-0">鼠種判斷信心</legend>
           <div className="grid grid-cols-3 border-[1.5px] border-ink">
             {SPECIES_CONFIDENCE.map((c) => {
@@ -474,23 +496,23 @@ function SurveyForm({ organizationId }: { organizationId: string | undefined }) 
 
       <label className="flex flex-col gap-1.5 font-heading text-base font-black">
         連結市民通報 <span className="font-body text-[13px] font-normal text-[#4A463C]">（選填）</span>
-        <input type="text" value={linkedCitizenReportId} onChange={(e) => setLinkedCitizenReportId(e.target.value)} placeholder="通報文件 ID" className="min-h-11 border-[1.5px] border-ink bg-paper px-3 font-label text-base tracking-[0.06em]" />
+        <input type="text" value={linkedCitizenReportId} onChange={(e) => setLinkedCitizenReportId(e.target.value)} placeholder="通報文件 ID" className="min-h-11 min-w-0 w-full border-[1.5px] border-ink bg-paper px-3 font-label text-base tracking-[0.06em]" />
       </label>
       <label className="flex flex-col gap-1.5 font-heading text-base font-black">
         現場描述 <span className="font-body text-[13px] font-normal text-[#4A463C]">（選填）</span>
-        <textarea rows={3} value={description} onChange={(e) => setDescription(e.target.value)} className="border-[1.5px] border-ink bg-paper px-3 py-2.5 font-body text-[15px] font-normal" />
+        <textarea rows={3} value={description} onChange={(e) => setDescription(e.target.value)} className="min-w-0 w-full border-[1.5px] border-ink bg-paper px-3 py-2.5 font-body text-base font-normal" />
       </label>
       <label className="flex flex-col gap-1.5 font-heading text-base font-black">
         建議行動 <span className="font-body text-[13px] font-normal text-[#4A463C]">（選填）</span>
-        <textarea rows={2} value={recommendedActions} onChange={(e) => setRecommendedActions(e.target.value)} placeholder="例如：建議兩週內設置餌站並複查" className="border-[1.5px] border-ink bg-paper px-3 py-2.5 font-body text-[15px] font-normal" />
+        <textarea rows={2} value={recommendedActions} onChange={(e) => setRecommendedActions(e.target.value)} placeholder="例如：建議兩週內設置餌站並複查" className="min-w-0 w-full border-[1.5px] border-ink bg-paper px-3 py-2.5 font-body text-base font-normal" />
       </label>
 
       <PhotoPicker photos={photoUploads.photos} onSelect={handlePhotoSelect} onRemove={photoUploads.removePhoto} />
 
-      {error && <p className="warning-card m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 text-[13px]">{error}</p>}
+      {error && <p role="alert" className="warning-card m-0 min-w-0 break-words border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 text-[13px] leading-[1.7]">{error}</p>}
 
       <div className="flex justify-end gap-3 border-t-2 border-ink pt-4">
-        <button type="submit" disabled={submitting} className="button-primary min-h-[52px] px-10 text-base">
+        <button type="submit" disabled={submitting} className="button-primary !min-h-[52px] w-full !px-4 text-base sm:w-auto sm:!px-10">
           {submitting ? "儲存中…" : "儲存調查紀錄"}
         </button>
       </div>
@@ -593,13 +615,13 @@ function BaitForm({ organizationId }: { organizationId: string | undefined }) {
         ...(notes.trim() ? { notes: notes.trim() } : {}),
         ...(needsProduct
           ? {
-              product: {
-                productName: productName.trim(),
-                productType,
-                ...(activeIngredient.trim() ? { activeIngredient: activeIngredient.trim() } : {}),
-                ...(registrationNumber.trim() ? { registrationNumber: registrationNumber.trim() } : {}),
-              },
-            }
+            product: {
+              productName: productName.trim(),
+              productType,
+              ...(activeIngredient.trim() ? { activeIngredient: activeIngredient.trim() } : {}),
+              ...(registrationNumber.trim() ? { registrationNumber: registrationNumber.trim() } : {}),
+            },
+          }
           : {}),
       });
 
@@ -612,7 +634,7 @@ function BaitForm({ organizationId }: { organizationId: string | undefined }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-7 border-2 border-ink bg-card px-8 py-7 font-body">
+    <form onSubmit={handleSubmit} className="flex min-w-0 flex-col gap-6 border-2 border-ink bg-card px-4 py-5 font-body sm:gap-7 sm:px-8 sm:py-7">
       <LocationFields
         addressText={addressText}
         setAddressText={setAddressText}
@@ -624,30 +646,21 @@ function BaitForm({ organizationId }: { organizationId: string | undefined }) {
         onUseCurrentLocation={loc.useCurrentLocation}
         onPick={loc.setLocation}
       />
-      <div className="flex flex-wrap gap-3">
-        <label className="flex flex-[1_1_160px] flex-col gap-1.5 text-[13px]">
-          處置日期
-          <input type="date" value={observedDate} max={new Date().toISOString().slice(0, 10)} onChange={(e) => setObservedDate(e.target.value)} className="min-h-11 border-[1.5px] border-ink bg-paper px-2.5 text-[15px]" />
-        </label>
-        <label className="flex flex-[1_1_140px] flex-col gap-1.5 text-[13px]">
-          時間
-          <input type="time" value={observedTime} onChange={(e) => setObservedTime(e.target.value)} className="min-h-11 border-[1.5px] border-ink bg-paper px-2.5 text-[15px]" />
-        </label>
-      </div>
+      <DateTimeFields dateLabel="處置日期" date={observedDate} time={observedTime} onDateChange={setObservedDate} onTimeChange={setObservedTime} />
 
-      <fieldset className="m-0 flex flex-col gap-2.5 border-0 p-0">
+      <fieldset className="m-0 flex min-w-0 flex-col gap-2.5 border-0 p-0">
         <legend className="mb-1 p-0 font-heading text-xl font-black">場所類型</legend>
         <div className="flex flex-wrap gap-x-5 gap-y-2 text-[15px]">
           {PLACE_TYPES.map((p) => (
             <label key={p.value} className="flex min-h-11 cursor-pointer items-center gap-2">
-              <input type="radio" name="placeType" checked={placeType === p.value} onChange={() => setPlaceType(p.value)} className="m-0 h-[18px] w-[18px] accent-ink" />
+              <input type="radio" name="placeType" checked={placeType === p.value} onChange={() => setPlaceType(p.value)} className="m-0 h-[18px] w-[18px] shrink-0 accent-ink" />
               {p.label}
             </label>
           ))}
         </div>
       </fieldset>
 
-      <fieldset className="m-0 flex flex-col gap-2.5 border-0 p-0">
+      <fieldset className="m-0 flex min-w-0 flex-col gap-2.5 border-0 p-0">
         <legend className="mb-1 p-0 font-heading text-xl font-black">
           本次行動 <span className="font-body text-[13px] font-normal text-[#4A463C]">（可複選，同一次到場做的事都勾選）</span>
         </legend>
@@ -660,31 +673,31 @@ function BaitForm({ organizationId }: { organizationId: string | undefined }) {
       </fieldset>
 
       {needsProduct && (
-        <fieldset className="m-0 flex flex-col gap-3 border-[1.5px] border-ink bg-paper px-5 py-[18px]">
-          <legend className="px-1.5 font-heading text-lg font-black">
+        <fieldset className="m-0 flex min-w-0 flex-col gap-3 border-[1.5px] border-ink bg-paper px-3 py-[18px] sm:px-5">
+          <legend className="max-w-full px-1.5 font-heading text-base font-black sm:text-lg">
             藥劑資訊 <span className="font-body text-[13px] font-normal text-[#4A463C]">（投放餌劑時必填）</span>
           </legend>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-3">
-            <label className="flex flex-col gap-1.5 text-[13px]">
+          <div className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2">
+            <label className="flex min-w-0 flex-col gap-1.5 text-[13px]">
               產品名稱
-              <input type="text" value={productName} onChange={(e) => setProductName(e.target.value)} className="min-h-11 border-[1.5px] border-ink bg-card px-2.5 text-[15px]" />
+              <input type="text" value={productName} onChange={(e) => setProductName(e.target.value)} className="min-h-11 min-w-0 w-full border-[1.5px] border-ink bg-card px-2.5 text-base" />
             </label>
-            <label className="flex flex-col gap-1.5 text-[13px]">
+            <label className="flex min-w-0 flex-col gap-1.5 text-[13px]">
               藥劑種類（必填）
-              <select value={productType} onChange={(e) => setProductType(e.target.value as typeof productType)} className="min-h-11 border-[1.5px] border-ink bg-card px-2.5 text-[15px]">
+              <select value={productType} onChange={(e) => setProductType(e.target.value as typeof productType)} className="min-h-11 min-w-0 w-full border-[1.5px] border-ink bg-card px-2.5 text-base">
                 <option value="">請選擇</option>
                 <option value="rodenticide">殺鼠劑</option>
                 <option value="contraceptive">生育控制</option>
                 <option value="other">其他</option>
               </select>
             </label>
-            <label className="flex flex-col gap-1.5 text-[13px]">
+            <label className="flex min-w-0 flex-col gap-1.5 text-[13px]">
               有效成分
-              <input type="text" value={activeIngredient} onChange={(e) => setActiveIngredient(e.target.value)} className="min-h-11 border-[1.5px] border-ink bg-card px-2.5 text-[15px]" />
+              <input type="text" value={activeIngredient} onChange={(e) => setActiveIngredient(e.target.value)} className="min-h-11 min-w-0 w-full border-[1.5px] border-ink bg-card px-2.5 text-base" />
             </label>
-            <label className="flex flex-col gap-1.5 text-[13px]">
+            <label className="flex min-w-0 flex-col gap-1.5 text-[13px]">
               許可證字號
-              <input type="text" value={registrationNumber} onChange={(e) => setRegistrationNumber(e.target.value)} className="min-h-11 border-[1.5px] border-ink bg-card px-2.5 text-[15px]" />
+              <input type="text" value={registrationNumber} onChange={(e) => setRegistrationNumber(e.target.value)} className="min-h-11 min-w-0 w-full border-[1.5px] border-ink bg-card px-2.5 text-base" />
             </label>
           </div>
         </fieldset>
@@ -692,23 +705,23 @@ function BaitForm({ organizationId }: { organizationId: string | undefined }) {
 
       <label className="flex flex-col gap-1.5 font-heading text-base font-black">
         連結鼠跡調查 <span className="font-body text-[13px] font-normal text-[#4A463C]">（選填）</span>
-        <input type="text" value={linkedOfficialObservationId} onChange={(e) => setLinkedOfficialObservationId(e.target.value)} placeholder="調查文件 ID" className="min-h-11 border-[1.5px] border-ink bg-paper px-3 font-label text-base tracking-[0.06em]" />
+        <input type="text" value={linkedOfficialObservationId} onChange={(e) => setLinkedOfficialObservationId(e.target.value)} placeholder="調查文件 ID" className="min-h-11 min-w-0 w-full border-[1.5px] border-ink bg-paper px-3 font-label text-base tracking-[0.06em]" />
       </label>
       <label className="flex flex-col gap-1.5 font-heading text-base font-black">
         連結市民通報 <span className="font-body text-[13px] font-normal text-[#4A463C]">（選填）</span>
-        <input type="text" value={linkedCitizenReportId} onChange={(e) => setLinkedCitizenReportId(e.target.value)} placeholder="通報文件 ID" className="min-h-11 border-[1.5px] border-ink bg-paper px-3 font-label text-base tracking-[0.06em]" />
+        <input type="text" value={linkedCitizenReportId} onChange={(e) => setLinkedCitizenReportId(e.target.value)} placeholder="通報文件 ID" className="min-h-11 min-w-0 w-full border-[1.5px] border-ink bg-paper px-3 font-label text-base tracking-[0.06em]" />
       </label>
       <label className="flex flex-col gap-1.5 font-heading text-base font-black">
         備註 <span className="font-body text-[13px] font-normal text-[#4A463C]">（選填）</span>
-        <textarea rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="例如：餌站已上鎖，外側補貼警示。" className="border-[1.5px] border-ink bg-paper px-3 py-2.5 font-body text-[15px] font-normal" />
+        <textarea rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="例如：餌站已上鎖，外側補貼警示。" className="min-w-0 w-full border-[1.5px] border-ink bg-paper px-3 py-2.5 font-body text-base font-normal" />
       </label>
 
       <PhotoPicker photos={photoUploads.photos} onSelect={handlePhotoSelect} onRemove={photoUploads.removePhoto} />
 
-      {error && <p className="warning-card m-0 border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 text-[13px]">{error}</p>}
+      {error && <p role="alert" className="warning-card m-0 min-w-0 break-words border-[1.5px] border-ink bg-activity-l1 px-3.5 py-3 text-[13px] leading-[1.7]">{error}</p>}
 
       <div className="flex justify-end gap-3 border-t-2 border-ink pt-4">
-        <button type="submit" disabled={submitting} className="button-primary min-h-[52px] px-10 text-base">
+        <button type="submit" disabled={submitting} className="button-primary !min-h-[52px] w-full !px-4 text-base sm:w-auto sm:!px-10">
           {submitting ? "送出中…" : "新增投藥紀錄"}
         </button>
       </div>
@@ -726,7 +739,7 @@ function ChipGroup<T extends string>({
   onToggle: (value: T) => void;
 }) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex min-w-0 flex-wrap gap-2">
       {options.map((o) => {
         const active = selected.has(o.value);
         return (
@@ -735,7 +748,7 @@ function ChipGroup<T extends string>({
             type="button"
             aria-pressed={active}
             onClick={() => onToggle(o.value)}
-            className={`tag min-h-11 border-[1.5px] border-ink px-4 text-sm font-medium ${active ? "bg-accent" : "bg-paper"}`}
+            className={`tag min-h-11 max-w-full break-words border-[1.5px] border-ink px-3 py-2 text-sm font-medium sm:px-4 ${active ? "bg-accent" : "bg-paper"}`}
           >
             {o.label}
           </button>
