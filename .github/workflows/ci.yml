@@ -1,0 +1,136 @@
+name: CI and deploy dev
+
+# PR：跑全部檢查（main 只能經由 PR 合併，且 check／e2e 必須通過）。
+# push 到 main（= PR 合併後）：檢查通過才部署到 dev。
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# 同一個 ref 一次只跑一個。PR 有新 commit 時取消舊的檢查；部署則排隊，不中途取消。
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4 # 版本取自 package.json 的 packageManager
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/setup-java@v4 # Firestore emulator（Rules 測試）需要 Java
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test:unit
+      - run: pnpm test:rules
+      # 確認 web 與 functions 都能 build；這裡的 Firebase 設定是佔位值，只驗證建置，不會部署。
+      - run: pnpm --filter @taipei-rat-lab/web build
+        env:
+          VITE_FIREBASE_API_KEY: ci-placeholder
+          VITE_FIREBASE_AUTH_DOMAIN: ci-placeholder
+          VITE_FIREBASE_PROJECT_ID: ci-placeholder
+          VITE_FIREBASE_STORAGE_BUCKET: ci-placeholder
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ci-placeholder
+          VITE_FIREBASE_APP_ID: ci-placeholder
+      - run: pnpm --filter @taipei-rat-lab/functions build
+
+  e2e:
+    name: e2e
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
+        env:
+          CI: "true"
+          VITE_FIREBASE_API_KEY: ci-placeholder
+          VITE_FIREBASE_AUTH_DOMAIN: ci-placeholder
+          VITE_FIREBASE_PROJECT_ID: ci-placeholder
+          VITE_FIREBASE_STORAGE_BUCKET: ci-placeholder
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ci-placeholder
+          VITE_FIREBASE_APP_ID: ci-placeholder
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-results
+          path: test-results/
+
+  deploy:
+    name: deploy dev
+    needs: [check, e2e]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: dev
+    permissions:
+      contents: read
+      id-token: write # Workload Identity Federation：換取短期 Google 憑證，不存金鑰檔
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      # 只部署有變動的部分：Rules 寫錯會立刻影響 dev 資料存取，沒改就不碰；Functions 同理。
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            functions:
+              - 'apps/functions/**'
+              - 'packages/contracts/**'
+            rules:
+              - 'firebase/firestore.rules'
+              - 'firebase/storage.rules'
+              - 'firebase/firestore.indexes.json'
+
+      # Firebase client 設定是公開值，放在 GitHub Variables（不是 Secrets）。
+      # 不要在這裡設定 VITE_DEV_PREFILL_*（那是本機測試帳密）。
+      - name: Build web
+        run: pnpm --filter @taipei-rat-lab/web build
+        env:
+          VITE_FIREBASE_API_KEY: ${{ vars.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ vars.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID: ${{ vars.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ vars.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ vars.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ vars.VITE_FIREBASE_APP_ID }}
+
+      - name: Build functions
+        if: steps.changes.outputs.functions == 'true'
+        run: pnpm --filter @taipei-rat-lab/functions build
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOY_SERVICE_ACCOUNT }}
+
+      - name: Deploy to dev
+        env:
+          DEPLOY_FUNCTIONS: ${{ steps.changes.outputs.functions }}
+          DEPLOY_RULES: ${{ steps.changes.outputs.rules }}
+        run: |
+          targets="hosting"
+          [ "$DEPLOY_RULES" = "true" ] && targets="$targets,firestore:rules,storage"
+          [ "$DEPLOY_FUNCTIONS" = "true" ] && targets="$targets,functions"
+          echo "Deploying: $targets"
+          pnpm exec firebase deploy --only "$targets" --project taipei-urban-rat-lab-dev --non-interactive
