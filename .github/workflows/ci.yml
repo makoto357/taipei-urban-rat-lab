@@ -18,7 +18,8 @@ permissions:
 jobs:
   check:
     name: check
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4 # 版本取自 package.json 的 packageManager
@@ -26,7 +27,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - uses: actions/setup-java@v4 # Firestore emulator（Rules 測試）需要 Java
+      - uses: actions/setup-java@v5 # Firestore emulator（Rules 測試）需要 Java
         with:
           distribution: temurin
           java-version: 21
@@ -47,7 +48,8 @@ jobs:
 
   e2e:
     name: e2e
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -74,9 +76,10 @@ jobs:
 
   deploy:
     name: deploy dev
+    timeout-minutes: 20
     needs: [check, e2e]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment: dev
     permissions:
       contents: read
