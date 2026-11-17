@@ -58,11 +58,7 @@ export const EnglishVideo: React.FC<EnglishVideoProps> = ({ music }) => (
     ))}
     <Progress />
     {music && (
-      <Sequence
-        durationInFrames={BGM_END_FRAME}
-        layout="none"
-        name="Music / bar 62"
-      >
+      <Sequence durationInFrames={BGM_END_FRAME} layout="none" name="Music">
         <Audio
           src={staticFile("audio/bgm.mp3")}
           trimBefore={BGM_OFFSET_FRAMES}

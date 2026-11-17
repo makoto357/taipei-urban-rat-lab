@@ -21,7 +21,7 @@ The English entry point is `src/en-2min/index.tsx`. The original remains `src/in
 | `TaipeiRatLabEnglish2MinNoBgm`     | Silent   | `out/en-2min/taipei-rat-lab-english-nobgm.mp4`      |
 | `TaipeiRatLabEnglish2MinMusicOnly` | BGM only | `out/en-2min/taipei-rat-lab-english-music-only.mp4` |
 
-All three are 1920×1080, 30 fps, 3,543 frames / 118.10 seconds. Product screenshot windows are 14:9. Maps remain static within each capture. Only form contents scroll. Native Chinese product UI is explained by English titles and scene cards; this does not implement product localization. The film uses music with fade-in/out, without bottom captions or spoken narration. Essential model limitations, survey caveats, and simulated-data disclosures remain in the scene cards.
+All three are 1920×1080, 30 fps, 3,429 frames / 114.30 seconds. Product screenshot windows are 14:9. Maps remain static within each capture. Only form contents scroll. Native Chinese product UI is explained by English titles and scene cards; this does not implement product localization. The film uses music with fade-in/out, without bottom captions or spoken narration. Essential model limitations, survey caveats, and simulated-data disclosures remain in the scene cards.
 
 ## Where to edit
 
@@ -46,7 +46,7 @@ The dedicated `/risk-model` page is distinct from the risk-model map tab. Its sc
 
 The previous 20 ms analysis implied 125 BPM. A new 10 ms onset analysis fits a continuous tempo/phase grid over the first **125 seconds**, yielding **126 BPM**, offset **0.20 seconds**. This is a pulse-grid estimate; the analysis does not automatically identify musical downbeats.
 
-The English track trims the first 6 audio frames. All scene boundaries are rounded from absolute bar positions, avoiding accumulated rounding drift. Sixty-two bars produce 118.10 seconds at 30 fps. Observed energy changes in the source guide the edit:
+The English track trims the first 6 audio frames. All scene boundaries are rounded from absolute bar positions, avoiding accumulated rounding drift. Sixty bars produce 114.30 seconds at 30 fps. Observed energy changes in the source guide the edit:
 
 | Source time | Energy change | Editorial use                                              |
 | ----------- | ------------- | ---------------------------------------------------------- |
@@ -55,11 +55,11 @@ The English track trims the first 6 audio frames. All scene boundaries are round
 | 61.15 s     | Rise          | Interactive model explanation and factor example           |
 | 76.39 s     | Drop          | Hold the model interpretation before the research overview |
 | 91.63 s     | Return        | Research evidence builds toward long-term validation       |
-| 122.10 s    | Drop          | Original 64-bar endpoint; music now ends earlier at bar 62  |
+| 122.10 s    | Drop          | Original 64-bar endpoint; music now ends earlier at bar 60  |
 
 Music attribution remains **Fun Time — Nikita Kondrashev (leberch), Pixabay asset 355594**; see `public/AUDIO.md` and `DESIGN.md`. The English composition reuses the same BGM file read-only. Music fades in/out; the default export contains no speech.
 
-Music ends at **bar 62 (frame 3,543 / 118.10 seconds)**, with a one-second fade ending there. Adjust `BGM_END_FRAME` and `BGM_FADE_OUT_FRAMES` in `src/en-2min/timing.ts` to change this. The picture duration follows the final scene in `content.json`, currently also ending at bar 62.
+Music ends at **bar 60 (frame 3,429 / 114.30 seconds)**, with a one-second fade ending there. Adjust `BGM_END_FRAME` and `BGM_FADE_OUT_FRAMES` in `src/en-2min/timing.ts` to change this. The picture duration follows the final scene in `content.json`, currently also ending at bar 60.
 
 ## Story and data boundaries
 
@@ -77,7 +77,7 @@ Music ends at **bar 62 (frame 3,543 / 118.10 seconds)**, with a one-second fade 
 | 44–48 | Short field-research overview: sampling, recapture, genetics    |
 | 48–52 | Proposed long-term research cycle                               |
 | 52–56 | Literature list → research detail, after the research programme |
-| 56–62 | Taipei Rat Lab — redesigned closing and data disclosure         |
+| 56–60 | Taipei Rat Lab — redesigned closing and data disclosure         |
 
 The film has 13 scenes. Field research is a **7.62-second overview**, shortened from 13.33 seconds. It keeps the three method names, their role in long-term validation, and the simulation/route caveat. The freed time goes to the interactive model-page walkthrough. Individual IDs, trapping counts, dates, and specimen identifiers do not appear in the presentation. Detailed synthetic fixtures remain available for future editing.
 

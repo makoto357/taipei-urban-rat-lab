@@ -10,14 +10,15 @@ const scenes = read("src/en-2min/content.json").scenes;
 const analysis = read("analysis/fun-time.en-2min.analysis.json");
 const frame = (bar) => Math.round(((bar * 240) / analysis.grid.bpm) * 30);
 assert.equal(scenes[0].fromBar, 0);
-assert.equal(scenes.at(-1).toBar, 62);
+const endBar = scenes.at(-1).toBar;
+assert.ok(Number.isFinite(endBar) && endBar > 0);
 assert.ok(
-  analysis.analyzedSeconds >= 120,
+  analysis.analyzedSeconds >= (endBar * 240) / analysis.grid.bpm,
   "Music analysis must cover the edit",
 );
 assert.ok(
   analysis.durationSeconds >
-    (62 * 240) / analysis.grid.bpm + analysis.grid.offsetSeconds,
+    (endBar * 240) / analysis.grid.bpm + analysis.grid.offsetSeconds,
 );
 const ids = new Set();
 for (const [index, scene] of scenes.entries()) {
