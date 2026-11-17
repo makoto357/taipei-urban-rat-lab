@@ -1,0 +1,67 @@
+{
+  "source": "/risk-model",
+  "capturedAt": "2026-11-13T15:51:22.388Z",
+  "kind": "real_ui_frame_capture",
+  "fps": 30,
+  "frames": 629,
+  "durationSeconds": 20.966666666666665,
+  "viewport": [
+    1344,
+    864
+  ],
+  "audio": false,
+  "privateCloudRequests": "blocked",
+  "pointer": "capture-only visual feedback",
+  "phases": {
+    "example": 174,
+    "simulator": 244,
+    "limits": 435
+  },
+  "scrolls": [
+    {
+      "start": 24,
+      "end": 90,
+      "from": 0,
+      "to": 904.75
+    },
+    {
+      "start": 126,
+      "end": 174,
+      "from": 904.75,
+      "to": 1672
+    },
+    {
+      "start": 244,
+      "end": 318,
+      "from": 1672,
+      "to": 2749.953125
+    },
+    {
+      "start": 435,
+      "end": 510,
+      "from": 2749.953125,
+      "to": 4674.84375
+    }
+  ],
+  "events": [
+    {
+      "frame": 198,
+      "kind": "checkbox",
+      "target": "food source",
+      "before": "0.57",
+      "after": "0.56"
+    },
+    {
+      "frame": 360,
+      "kind": "button",
+      "target": "underground mode",
+      "pressed": true
+    },
+    {
+      "frame": 408,
+      "kind": "button",
+      "target": "ground mode",
+      "pressed": true
+    }
+  ]
+}

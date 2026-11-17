@@ -1,0 +1,164 @@
+{
+  "capturedAt": "2026-11-13T15:24:35.828Z",
+  "assets": [
+    {
+      "name": "observations",
+      "source": "/map?topic=observations",
+      "viewport": [
+        1680,
+        1080
+      ],
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "environment",
+      "source": "/map?topic=environment",
+      "viewport": [
+        1680,
+        1080
+      ],
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "research",
+      "source": "/map?topic=distribution",
+      "viewport": [
+        1680,
+        1080
+      ],
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "research-daan",
+      "source": "/map?topic=distribution; Daan district selected",
+      "viewport": [
+        1680,
+        1080
+      ],
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "genetics-daan",
+      "source": "/map?topic=distribution; Daan district; genetic layers only",
+      "viewport": [
+        1680,
+        1080
+      ],
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "comparison",
+      "source": "/map?topic=comparison",
+      "viewport": [
+        1680,
+        1080
+      ],
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "model",
+      "source": "/map?topic=risk",
+      "viewport": [
+        1680,
+        1080
+      ],
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "model-local",
+      "source": "/map?topic=risk; surface and underground off",
+      "viewport": [
+        1680,
+        1080
+      ],
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "literature",
+      "source": "/literature",
+      "viewport": [
+        1680,
+        1080
+      ],
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "literature-detail",
+      "source": "/literature/7357eac4-ac74-4efb-afd2-36a414762130",
+      "viewport": [
+        1680,
+        1080
+      ],
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "literature-methods",
+      "source": "/literature/7357eac4-ac74-4efb-afd2-36a414762130; article body",
+      "viewport": [
+        1680,
+        1080
+      ],
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "home",
+      "source": "/; updated homepage, top of page",
+      "viewport": [
+        1344,
+        864
+      ],
+      "capturedAt": "2026-11-13T14:58:55.367Z",
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "risk-model-overview",
+      "source": "/risk-model",
+      "viewport": [
+        1344,
+        864
+      ],
+      "capturedAt": "2026-11-13T15:24:34.321Z",
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "risk-model-factors",
+      "source": "/risk-model#factors",
+      "viewport": [
+        1344,
+        864
+      ],
+      "capturedAt": "2026-11-13T15:24:34.694Z",
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "risk-model-example",
+      "source": "/risk-model#factors; interactive example, all factors selected",
+      "viewport": [
+        1344,
+        864
+      ],
+      "capturedAt": "2026-11-13T15:24:35.050Z",
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "risk-model-example-changed",
+      "source": "/risk-model#factors; illustrative food factor deselected",
+      "viewport": [
+        1344,
+        864
+      ],
+      "capturedAt": "2026-11-13T15:24:35.484Z",
+      "privateCloudRequests": "blocked"
+    },
+    {
+      "name": "risk-model-limits",
+      "source": "/risk-model#limitations",
+      "viewport": [
+        1344,
+        864
+      ],
+      "capturedAt": "2026-11-13T15:24:35.827Z",
+      "privateCloudRequests": "blocked"
+    }
+  ]
+}
