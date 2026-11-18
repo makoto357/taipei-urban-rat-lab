@@ -19,7 +19,8 @@ for (const width of [375, 1024]) {
     await expect(navigation.getByRole('link', { name: '鼠跡通報', exact: true })).toBeVisible();
     await expect(navigation.getByRole('link', { name: '登入', exact: true })).toBeVisible();
     await expect(navigation.locator('.button-text__number').first()).toBeHidden();
-    expect((await title.boundingBox())!.y).toBe(originalTop);
+    // 不得有明顯的版面位移；字型在 Linux CI 與 macOS 的次像素排版會差約 1px，所以容許 1px。
+    expect(Math.abs((await title.boundingBox())!.y - originalTop)).toBeLessThanOrEqual(1);
     const bounds = (await navigation.boundingBox())!;
     expect(bounds.x).toBeGreaterThan(0);
     expect(bounds.x + bounds.width).toBeLessThanOrEqual(width);
