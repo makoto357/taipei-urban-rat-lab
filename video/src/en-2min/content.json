@@ -1,0 +1,108 @@
+{
+  "scenes": [
+    {
+      "id": "question",
+      "fromBar": 0,
+      "toBar": 4,
+      "chapter": "THE QUESTION",
+      "title": "Where should\nwe investigate\nnext?",
+      "description": "Sightings reveal where to start.\nField evidence helps decide\nwhat comes next."
+    },
+    {
+      "id": "brand",
+      "fromBar": 4,
+      "toBar": 8,
+      "chapter": "TAIPEI, TAIWAN",
+      "title": "Taipei\nRat Lab",
+      "description": "Community observations. Field evidence. Spatial research."
+    },
+    {
+      "id": "citizen",
+      "fromBar": 8,
+      "toBar": 12,
+      "chapter": "01 / COMMUNITY OBSERVATIONS",
+      "title": "Every observation\ncan contribute.",
+      "description": "Record the type, location, and optional photos. Review happens before public display."
+    },
+    {
+      "id": "survey",
+      "fromBar": 12,
+      "toBar": 16,
+      "chapter": "02 / FIELD EVIDENCE",
+      "title": "Make field records\ncomparable.",
+      "description": "Date → method → findings → supporting evidence"
+    },
+    {
+      "id": "observations",
+      "fromBar": 16,
+      "toBar": 20,
+      "chapter": "03 / OBSERVATIONS",
+      "title": "See where each\nrecord comes from.",
+      "description": "Distinguish reports from field findings; inspect sources, dates, and evidence."
+    },
+    {
+      "id": "environment",
+      "fromBar": 20,
+      "toBar": 24,
+      "chapter": "04 / ENVIRONMENT",
+      "title": "Add the\nurban context.",
+      "description": "Potential food sources, shelter, and drainage infrastructure."
+    },
+    {
+      "id": "connectivity",
+      "fromBar": 24,
+      "toBar": 28,
+      "chapter": "05 / SPATIAL CONNECTIVITY",
+      "title": "Nearby blocks connect\nin different ways.",
+      "description": "A conceptual graph of association, not measured rat density."
+    },
+    {
+      "id": "modelExplainer",
+      "fromBar": 28,
+      "toBar": 38,
+      "chapter": "06 / MODEL EXPLAINER",
+      "title": "Understand\nhow it works.",
+      "description": "Sources, scoring rules, assumptions, and limits."
+    },
+    {
+      "id": "model",
+      "fromBar": 38,
+      "toBar": 44,
+      "chapter": "07 / INVESTIGATION PRIORITIES",
+      "title": "Set priorities,\nthen investigate.",
+      "description": "Selected factors → spatial connections → relative L1–L5 ranking"
+    },
+    {
+      "id": "researchOverview",
+      "fromBar": 44,
+      "toBar": 48,
+      "chapter": "08 / FIELD RESEARCH",
+      "title": "Beyond a\nsingle sighting.",
+      "description": "Evidence for long-term validation."
+    },
+    {
+      "id": "longTerm",
+      "fromBar": 48,
+      "toBar": 52,
+      "chapter": "09 / LONG-TERM RESEARCH",
+      "title": "Repeat. Compare.\nRefine.",
+      "description": "A proposed research cycle for testing and calibrating assumptions."
+    },
+    {
+      "id": "literature",
+      "fromBar": 52,
+      "toBar": 56,
+      "chapter": "10 / RESEARCH LITERATURE",
+      "title": "Keep the reasoning\ntraceable.",
+      "description": "Methods → findings → limitations → original sources"
+    },
+    {
+      "id": "outro",
+      "fromBar": 56,
+      "toBar": 60,
+      "chapter": "THE NEXT INVESTIGATION",
+      "title": "Taipei Rat Lab",
+      "description": "More informed investigation."
+    }
+  ]
+}

@@ -1,0 +1,453 @@
+{
+  "source": "public/audio/bgm.mp3",
+  "durationSeconds": 140.0424375,
+  "analyzedSeconds": 125,
+  "method": "10 ms energy onset, continuous 115–135 BPM phase fit across first 125 seconds",
+  "grid": {
+    "bpm": 126,
+    "beatSeconds": 0.47619047619048444,
+    "offsetSeconds": 0.2
+  },
+  "note": "Pulse-grid fit, not an automatic determination of musical downbeats. Energy changes guide editorial cuts.",
+  "candidates": [
+    {
+      "bpm": 126,
+      "score": 0.04853002550584382,
+      "offset": 0.20000000000000004
+    },
+    {
+      "bpm": 126.02,
+      "score": 0.04684666210670608,
+      "offset": 0.21000000000000005
+    },
+    {
+      "bpm": 125.98,
+      "score": 0.043501925538977845,
+      "offset": 0.19000000000000003
+    },
+    {
+      "bpm": 126.04,
+      "score": 0.04059729264845839,
+      "offset": 0.22000000000000006
+    },
+    {
+      "bpm": 125.96,
+      "score": 0.035855425151335545,
+      "offset": 0.18000000000000002
+    }
+  ],
+  "changes": [
+    {
+      "bar": 3,
+      "time": 5.9143,
+      "ratio": 1.732
+    },
+    {
+      "bar": 16,
+      "time": 30.6762,
+      "ratio": 0.467
+    },
+    {
+      "bar": 19,
+      "time": 36.3905,
+      "ratio": 1.721
+    },
+    {
+      "bar": 32,
+      "time": 61.1524,
+      "ratio": 1.576
+    },
+    {
+      "bar": 40,
+      "time": 76.3905,
+      "ratio": 0.42
+    },
+    {
+      "bar": 48,
+      "time": 91.6286,
+      "ratio": 1.711
+    },
+    {
+      "bar": 64,
+      "time": 122.1048,
+      "ratio": 0.269
+    },
+    {
+      "bar": 65,
+      "time": 124.0095,
+      "ratio": 0.621
+    }
+  ],
+  "bars": [
+    {
+      "index": 0,
+      "startSeconds": 0.2,
+      "meanRms": 0.02823
+    },
+    {
+      "index": 1,
+      "startSeconds": 2.1048,
+      "meanRms": 0.04106
+    },
+    {
+      "index": 2,
+      "startSeconds": 4.0095,
+      "meanRms": 0.03617
+    },
+    {
+      "index": 3,
+      "startSeconds": 5.9143,
+      "meanRms": 0.06689
+    },
+    {
+      "index": 4,
+      "startSeconds": 7.819,
+      "meanRms": 0.04685
+    },
+    {
+      "index": 5,
+      "startSeconds": 9.7238,
+      "meanRms": 0.05194
+    },
+    {
+      "index": 6,
+      "startSeconds": 11.6286,
+      "meanRms": 0.04561
+    },
+    {
+      "index": 7,
+      "startSeconds": 13.5333,
+      "meanRms": 0.0675
+    },
+    {
+      "index": 8,
+      "startSeconds": 15.4381,
+      "meanRms": 0.05718
+    },
+    {
+      "index": 9,
+      "startSeconds": 17.3429,
+      "meanRms": 0.063
+    },
+    {
+      "index": 10,
+      "startSeconds": 19.2476,
+      "meanRms": 0.05763
+    },
+    {
+      "index": 11,
+      "startSeconds": 21.1524,
+      "meanRms": 0.0777
+    },
+    {
+      "index": 12,
+      "startSeconds": 23.0571,
+      "meanRms": 0.07079
+    },
+    {
+      "index": 13,
+      "startSeconds": 24.9619,
+      "meanRms": 0.0702
+    },
+    {
+      "index": 14,
+      "startSeconds": 26.8667,
+      "meanRms": 0.06735
+    },
+    {
+      "index": 15,
+      "startSeconds": 28.7714,
+      "meanRms": 0.07368
+    },
+    {
+      "index": 16,
+      "startSeconds": 30.6762,
+      "meanRms": 0.0329
+    },
+    {
+      "index": 17,
+      "startSeconds": 32.581,
+      "meanRms": 0.04317
+    },
+    {
+      "index": 18,
+      "startSeconds": 34.4857,
+      "meanRms": 0.03502
+    },
+    {
+      "index": 19,
+      "startSeconds": 36.3905,
+      "meanRms": 0.06729
+    },
+    {
+      "index": 20,
+      "startSeconds": 38.2952,
+      "meanRms": 0.04456
+    },
+    {
+      "index": 21,
+      "startSeconds": 40.2,
+      "meanRms": 0.0537
+    },
+    {
+      "index": 22,
+      "startSeconds": 42.1048,
+      "meanRms": 0.04691
+    },
+    {
+      "index": 23,
+      "startSeconds": 44.0095,
+      "meanRms": 0.06808
+    },
+    {
+      "index": 24,
+      "startSeconds": 45.9143,
+      "meanRms": 0.0813
+    },
+    {
+      "index": 25,
+      "startSeconds": 47.819,
+      "meanRms": 0.06013
+    },
+    {
+      "index": 26,
+      "startSeconds": 49.7238,
+      "meanRms": 0.08288
+    },
+    {
+      "index": 27,
+      "startSeconds": 51.6286,
+      "meanRms": 0.08919
+    },
+    {
+      "index": 28,
+      "startSeconds": 53.5333,
+      "meanRms": 0.08159
+    },
+    {
+      "index": 29,
+      "startSeconds": 55.4381,
+      "meanRms": 0.08302
+    },
+    {
+      "index": 30,
+      "startSeconds": 57.3429,
+      "meanRms": 0.08263
+    },
+    {
+      "index": 31,
+      "startSeconds": 59.2476,
+      "meanRms": 0.0813
+    },
+    {
+      "index": 32,
+      "startSeconds": 61.1524,
+      "meanRms": 0.12918
+    },
+    {
+      "index": 33,
+      "startSeconds": 63.0571,
+      "meanRms": 0.09007
+    },
+    {
+      "index": 34,
+      "startSeconds": 64.9619,
+      "meanRms": 0.11069
+    },
+    {
+      "index": 35,
+      "startSeconds": 66.8667,
+      "meanRms": 0.10009
+    },
+    {
+      "index": 36,
+      "startSeconds": 68.7714,
+      "meanRms": 0.10038
+    },
+    {
+      "index": 37,
+      "startSeconds": 70.6762,
+      "meanRms": 0.10153
+    },
+    {
+      "index": 38,
+      "startSeconds": 72.581,
+      "meanRms": 0.11832
+    },
+    {
+      "index": 39,
+      "startSeconds": 74.4857,
+      "meanRms": 0.0834
+    },
+    {
+      "index": 40,
+      "startSeconds": 76.3905,
+      "meanRms": 0.04233
+    },
+    {
+      "index": 41,
+      "startSeconds": 78.2952,
+      "meanRms": 0.06025
+    },
+    {
+      "index": 42,
+      "startSeconds": 80.2,
+      "meanRms": 0.04714
+    },
+    {
+      "index": 43,
+      "startSeconds": 82.1048,
+      "meanRms": 0.07984
+    },
+    {
+      "index": 44,
+      "startSeconds": 84.0095,
+      "meanRms": 0.05599
+    },
+    {
+      "index": 45,
+      "startSeconds": 85.9143,
+      "meanRms": 0.07249
+    },
+    {
+      "index": 46,
+      "startSeconds": 87.819,
+      "meanRms": 0.05813
+    },
+    {
+      "index": 47,
+      "startSeconds": 89.7238,
+      "meanRms": 0.08509
+    },
+    {
+      "index": 48,
+      "startSeconds": 91.6286,
+      "meanRms": 0.12252
+    },
+    {
+      "index": 49,
+      "startSeconds": 93.5333,
+      "meanRms": 0.09497
+    },
+    {
+      "index": 50,
+      "startSeconds": 95.4381,
+      "meanRms": 0.09721
+    },
+    {
+      "index": 51,
+      "startSeconds": 97.3429,
+      "meanRms": 0.10766
+    },
+    {
+      "index": 52,
+      "startSeconds": 99.2476,
+      "meanRms": 0.10825
+    },
+    {
+      "index": 53,
+      "startSeconds": 101.1524,
+      "meanRms": 0.11239
+    },
+    {
+      "index": 54,
+      "startSeconds": 103.0571,
+      "meanRms": 0.12197
+    },
+    {
+      "index": 55,
+      "startSeconds": 104.9619,
+      "meanRms": 0.11414
+    },
+    {
+      "index": 56,
+      "startSeconds": 106.8667,
+      "meanRms": 0.14507
+    },
+    {
+      "index": 57,
+      "startSeconds": 108.7714,
+      "meanRms": 0.089
+    },
+    {
+      "index": 58,
+      "startSeconds": 110.6762,
+      "meanRms": 0.12084
+    },
+    {
+      "index": 59,
+      "startSeconds": 112.581,
+      "meanRms": 0.11673
+    },
+    {
+      "index": 60,
+      "startSeconds": 114.4857,
+      "meanRms": 0.10837
+    },
+    {
+      "index": 61,
+      "startSeconds": 116.3905,
+      "meanRms": 0.12037
+    },
+    {
+      "index": 62,
+      "startSeconds": 118.2952,
+      "meanRms": 0.1296
+    },
+    {
+      "index": 63,
+      "startSeconds": 120.2,
+      "meanRms": 0.10468
+    },
+    {
+      "index": 64,
+      "startSeconds": 122.1048,
+      "meanRms": 0.03151
+    },
+    {
+      "index": 65,
+      "startSeconds": 124.0095,
+      "meanRms": 0.04231
+    },
+    {
+      "index": 66,
+      "startSeconds": 125.9143,
+      "meanRms": 0.03633
+    },
+    {
+      "index": 67,
+      "startSeconds": 127.819,
+      "meanRms": 0.06729
+    },
+    {
+      "index": 68,
+      "startSeconds": 129.7238,
+      "meanRms": 0.04404
+    },
+    {
+      "index": 69,
+      "startSeconds": 131.6286,
+      "meanRms": 0.05207
+    },
+    {
+      "index": 70,
+      "startSeconds": 133.5333,
+      "meanRms": 0.04571
+    },
+    {
+      "index": 71,
+      "startSeconds": 135.4381,
+      "meanRms": 0.06524
+    },
+    {
+      "index": 72,
+      "startSeconds": 137.3429,
+      "meanRms": 0.00505
+    },
+    {
+      "index": 73,
+      "startSeconds": 139.2476,
+      "meanRms": 0.00009
+    }
+  ]
+}

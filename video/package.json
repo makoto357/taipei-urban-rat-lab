@@ -10,7 +10,20 @@
     "render": "remotion render src/index.ts TaipeiRatLabPromo out/taipei-rat-lab-promo.mp4",
     "render:nobgm": "remotion render src/index.ts TaipeiRatLabPromoNoBgm out/taipei-rat-lab-promo-nobgm.mp4 --muted",
     "still": "remotion still src/index.ts TaipeiRatLabPromo out/preview.png --frame=900",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dev:en": "remotion studio src/en-2min/index.tsx",
+    "capture:en": "node capture/capture-english.mjs",
+    "capture:en:home": "node capture/capture-english.mjs homepage",
+    "capture:en:model": "node capture/capture-english.mjs risk-model",
+    "capture:en:model:motion": "node capture/capture-model-motion.mjs",
+    "analyze:en": "node analysis/analyze-english.mjs",
+    "prepare:en": "node analysis/prepare-english.mjs",
+    "verify:en": "node analysis/verify-english.mjs",
+    "preview:en": "node analysis/preview-english.mjs",
+    "render:en": "remotion render src/en-2min/index.tsx TaipeiRatLabEnglish2Min out/en-2min/taipei-rat-lab-english.mp4",
+    "render:en:nobgm": "remotion render src/en-2min/index.tsx TaipeiRatLabEnglish2MinNoBgm out/en-2min/taipei-rat-lab-english-nobgm.mp4",
+    "render:en:music": "remotion render src/en-2min/index.tsx TaipeiRatLabEnglish2MinMusicOnly out/en-2min/taipei-rat-lab-english-music-only.mp4",
+    "still:en": "remotion still src/en-2min/index.tsx TaipeiRatLabEnglish2Min out/en-2min/preview.png --frame=2500"
   },
   "dependencies": {
     "@remotion/cli": "4.0.484",

@@ -1,0 +1,43 @@
+{
+  "provenance": "synthetic_mock",
+  "individualId": "mock-rat-017",
+  "markCode": "MR017",
+  "sampleRecordId": "mock-sample-record-009",
+  "method": "live_trapping",
+  "effort": {
+    "trapCount": 7,
+    "durationHours": 24
+  },
+  "specimen": {
+    "id": "mock-genetic-sample-017",
+    "type": "tissue",
+    "collectedAt": "2026-02-23T14:02:00.000+08:00",
+    "analysisStatus": "completed"
+  },
+  "encounters": [
+    {
+      "recordId": "mock-sample-record-009",
+      "eventId": "mock-sample-record-009-event-checked",
+      "at": "2026-02-23T14:02:00.000+08:00",
+      "status": "first_capture",
+      "weightG": 277,
+      "markCode": "MR017",
+      "samplingEffort": {
+        "trapCount": 7,
+        "durationHours": 24
+      }
+    },
+    {
+      "recordId": "mock-sample-record-047",
+      "eventId": "mock-sample-record-047-event-checked",
+      "at": "2026-07-24T12:39:00.000+08:00",
+      "status": "recapture",
+      "weightG": 301,
+      "markCode": "MR017",
+      "samplingEffort": {
+        "trapCount": 5,
+        "durationHours": 24
+      }
+    }
+  ]
+}
